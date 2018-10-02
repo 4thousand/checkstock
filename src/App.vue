@@ -182,6 +182,10 @@
 </script>
 
 <style lang="scss" scoped>
+.md-avatar img {
+      width: 108%;
+    height: 108%;
+}
 
   span,
   label,

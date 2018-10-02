@@ -14,10 +14,11 @@
       <div class="col-12 showhover"  style="cursor: pointer;margin-bottom:10px">
       <md-toolbar class="md-transparent" style="min-width:251px;display:block;padding-top:5px;">
       <div class="md-layout md-gutter md-alignment-center">
-      <div class="md-layout-item  md-large-size-5 md-xsmall-size-15 md-small-size-10 md-medium-size-5">
+      <div class="md-layout-item md-xlarge-size-5 md-large-size-5 md-xsmall-size-15 md-small-size-10 md-medium-size-5">
        <md-avatar class="md-avatar-icon md-primary" :class="'active'+val.head" style="margin:0;">{{ val.head }}</md-avatar>
-       </div>
-       <div class="md-layout-item  md-large-size-95 md-xsmall-size-85 md-small-size-90 md-medium-size-95">
+       </div>   
+       
+       <div class="md-layout-item md-xlarge-size-95  md-large-size-95 md-xsmall-size-85 md-small-size-90 md-medium-size-95">
        <div class="row">
          <div class="col-12">
             <span class="md-title">{{ val.topic}}</span>
