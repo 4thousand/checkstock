@@ -1,0 +1,119 @@
+.abright{
+    position: absolute; right: 30px; top: 50%; transform: translateY(-50%);
+  }
+    .md-table-head:nth-child(1) {
+      width: 15% !important;
+    }
+    
+    .md-table-head:nth-child(2) {
+      width: 40% !important;
+    }
+    
+    .md-table-head:nth-child(3) {
+      width: 5% !important;
+    }
+    
+    .md-table-head:nth-child(4) {
+      width: 5% !important;
+    }
+    
+    .md-table-head:nth-child(5) {
+      width: 5% !important;
+    }
+    
+    .md-table-head:nth-child(6) {
+      width: 5% !important;
+    }
+    
+    .md-table-head:nth-child(7) {
+      width: 10% !important;
+    }
+    
+    .md-table-head:nth-child(8) {
+      width: 10% !important;
+    }
+    
+    .md-table-cell:nth-child(1) {
+      width: 10% !important;
+    }
+    
+    .md-table-cell:nth-child(2) {
+      width: 25% !important;
+    }
+    
+    .md-table-cell:nth-child(3) {
+      width: 12% !important;
+      text-align: center;
+    }
+    
+    .md-table-cell:nth-child(4) {
+      width: 9% !important;
+    }
+    
+    .md-table-cell:nth-child(5) {
+      width: 6% !important;
+    }
+    
+    .md-table-cell:nth-child(6) {
+      width: 11% !important;
+      text-align: center;
+    }
+    
+    .md-table-cell:nth-child(7) {
+      width: 5% !important;
+    }
+    
+    .md-table-cell:nth-child(8) {
+      text-align: center;
+    }
+    
+    .md-table-head-container {
+      text-align: center !important;
+    }
+    
+    .md-datepicker-dialog {
+      top: 25% !important;
+      max-height: 400px;
+    }
+    
+    .md-button {
+      margin: 0;
+    }
+    
+    /* .md-steppers-wrapper {
+      height: auto !important;
+    }
+     */
+    span.sub {
+      font-size: 0.875rem;
+      color: #5f6368;
+      position: relative;
+      top: 13px;
+    }
+    
+    .subnotop {
+      font-size: 0.875rem !important;
+      color: #5f6368;
+      position: relative;
+      min-width: 100px;
+    }
+    
+    .md-title {
+      font-weight: 700;
+      font-size: 1.075rem;
+    }
+    
+    span,
+    label,
+    input {
+      font-family: "Kanit", sans-serif !important;
+    }
+    .md-layout-item{
+      position: relative;
+    }
+    .buttonemp{
+      position: absolute !important;
+      transform: translateY(-50%);
+      right: 15px;
+      top: 44%;
+    }
