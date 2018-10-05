@@ -16,4 +16,13 @@ export default {
             error(response)
           })
       },
+    showdocall (payload, success, error) {
+      Vue.axios.post(URL + ':8081/sales/v1/sale/doc/search', payload).then(
+        (response) => {
+          success(response.data)
+        },
+        (response) => {
+          error(response)
+        })
+    },
 }

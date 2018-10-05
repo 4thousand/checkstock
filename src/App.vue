@@ -101,6 +101,12 @@
                 </div>
               </md-list-item>
               <md-list-item>
+                <md-icon style="margin-right: 15px !important;" class="md-primary">code</md-icon>
+                <div class="md-list-item-text">
+                  <span>{{sale_code}}</span>
+                </div>
+              </md-list-item>
+              <md-list-item>
   
                 <md-button to="/" style="position: relative; left: 28px;" class="md-raised md-accent">Logout</md-button>
   
@@ -147,7 +153,8 @@
       name:'',
       role:'',
       branchname:'',
-      pic_path:''
+      pic_path:'',
+      sale_code:''
     }),
     methods: {
       toggleMenu() {
@@ -161,18 +168,18 @@
         this.$router.push(val);
       },
         username () {
-  			//console.log(localStorage.DataUser)
+  			// console.log(localStorage.DataUser)
         var Datauser = JSON.parse(localStorage.Datauser)
            this.name = Datauser.username
            this.role = Datauser.rolename
            this.branchname = Datauser.branch_name
            this.pic_path = Datauser.pic_path
-           console.log(this.branchname)
+           this.sale_code = Datauser.sale_code
+          //  console.log(this.branchname)
         // localStorage.rolename = Datauser.rolename
   	}
     },
     mounted() {
-     
     setInterval(function () {
   		this.username()
     }.bind(this),1000)
@@ -198,7 +205,7 @@
     min-height: 100vh;
     overflow: hidden;
     position: relative;
-    border: 1px solid rgba(#000, 0.12);
+    // border: 1px solid rgba(#000, 0.12);
   }
   
   // Demo purposes only

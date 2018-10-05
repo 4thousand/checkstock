@@ -117,3 +117,21 @@
       right: 15px;
       top: 44%;
     }
+
+    .vdp-datepicker {
+      position: relative;
+      text-align: left;
+      top: 24px;
+      float: left
+  }
+  
+  .vdp-datepicker__calendar .cell.selected{
+    background: rgb(68, 138, 255,0.5) !important;
+    transition: all 0.5s;
+  }
+  .vdp-datepicker~input{
+    text-align: center !important;
+  }
+  .tc{
+    text-align: center;
+  }
