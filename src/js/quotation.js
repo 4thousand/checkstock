@@ -10,6 +10,7 @@ const toLower = text => {
   };
   import Datepicker from 'vuejs-datepicker';
   import * as lang from "vuejs-datepicker/src/locale";
+  import api from "../service/service.js"
 
   export default {
     name: "quotation",
@@ -141,6 +142,10 @@ const toLower = text => {
       secondStepError: null,
       language: "th",
       languages: lang,
+      searchcus:'',
+      detailcus:'',
+      showDialogcus: false,
+      detailcusall:[]
     }),
     methods: {
       test1234() {
@@ -162,6 +167,37 @@ const toLower = text => {
           this.active = index
         }
         document.getElementsByClassName("md-content")[0].scrollTop = 0
+      },
+      fsearchcus(){
+        var payload = {
+          keyword: this.searchcus
+        }
+        
+        api.Customerall(payload,
+          (result) => {
+          console.log(JSON.stringify(result.data))
+          console.log(result.data.length)
+
+          if(result.data.length == 1){
+          this.detailcus = result.data[0].name
+          this.searchcus = result.data[0].code
+          }else if(result.data.length > 1){
+            this.detailcusall = result.data
+            this.showDialogcus = true
+          }
+          },
+          (error) => {
+             console.log(JSON.stringify(error))
+             //Customerall
+             alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
+            //  alertify.success('Error login');
+            // this.cload()
+          })
+      },
+      C_customer(val){
+        this.searchcus = val.code
+        this.detailcus = val.name 
+        this.showDialogcus = false
       }
     },
     created() {

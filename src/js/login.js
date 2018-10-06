@@ -61,7 +61,10 @@ import facebookLogin from 'facebook-login-vuejs';
       },
       onLogout(val){
         console.log(val)
-      }
+      },
+      focuspass(){
+        this.$refs.pass.$el.focus()
+      },
 
     },
     mounted() {

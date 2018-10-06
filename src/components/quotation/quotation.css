@@ -135,3 +135,12 @@
   .tc{
     text-align: center;
   }
+  .md-tabs-indicator{
+    display: none;
+  }
+  .md-dialog-title{
+    margin-bottom: 0px;
+  }
+  .md-tabs-navigation{
+    display: none;
+  }

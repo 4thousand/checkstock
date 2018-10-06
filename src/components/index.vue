@@ -61,12 +61,12 @@
                   </div>
                   <div class="col-12">
                     <span style="position: relative;left: 8px;font-size: .875rem;color: #5f6368;" class="md-subheading">
-               {{ 'รหัสลูกค้า : '+val.ar_code + ' ชื่อลูกค้า :' + val.ar_name + ' พนักงานขาย :' +val.sale_name +' รวมมูลค่าสินค้าทั้งหมด : '+val.total_amount +" บาท"}}
-              </span>
-                    <div @click="val.is_confirm = !val.is_confirm" v-show="val.is_confirm" style="float:right;z-index:99" class=" starhover">
+                    {{ 'รหัสลูกค้า : '+val.ar_code + ' ชื่อลูกค้า :' + val.ar_name + ' พนักงานขาย :' +val.sale_name +' รวมมูลค่าสินค้าทั้งหมด : '+val.total_amount +" บาท"}}
+                    </span>
+                    <div @click="val.total_amount = !val.total_amount" v-show="val.total_amount" style="float:right;z-index:99" class=" starhover">
                       <md-icon>star_border</md-icon>
                     </div>
-                    <div class="starhover" @click="val.is_confirm = !val.is_confirm" v-show="val.is_confirm == false" style="float:right;color:red;z-index:99;">
+                    <div class="starhover" @click="val.total_amount = !val.total_amount" v-show="val.total_amount == false" style="float:right;color:red;z-index:99;">
                       <md-icon>star</md-icon>
                     </div>
                   </div>

@@ -248,7 +248,7 @@
   .md-table-cell-container,
   p,
   strong,
-  .md-button-content {
+  .md-button-content,tr td,tr th {
     font-family: "Kanit", sans-serif !important;
   }
   

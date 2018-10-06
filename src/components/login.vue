@@ -10,12 +10,12 @@
         <div class="form">
           <md-field>
             <label>Username</label>
-            <md-input v-model="login.id" autofocus></md-input>
+            <md-input @keyup.enter="focuspass" v-model="login.id" autofocus></md-input>
           </md-field>
   
           <md-field md-has-password>
             <label>Password</label>
-            <md-input @keyup.enter="auth" v-model="login.password" type="password"></md-input>
+            <md-input ref="pass" @keyup.enter="auth" v-model="login.password" type="password"></md-input>
           </md-field>
         </div>
   

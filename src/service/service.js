@@ -25,4 +25,13 @@ export default {
           error(response)
         })
     },
+    Customerall (payload, success, error) {
+      Vue.axios.post(URL + ':8081/customer/v1/search/keyword', payload).then(
+        (response) => {
+          success(response.data)
+        },
+        (response) => {
+          error(response)
+        })
+    },
 }
