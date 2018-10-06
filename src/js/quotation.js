@@ -24,12 +24,14 @@ const toLower = text => {
       search: [],
       search: null,
       test:localStorage.test,
-      users: [{
+      dproducts: [
+        {
           id: "0000290",
           name: "พาเวอร์ปลั๊ก ตัวเมีย 3 ขา 16 A ต่อตรงกลาง HT-213 / PT-213",
           count: "อัน/อัน",
           amount: 1.0,
           price: 80.0,
+          price2:81.0,
           discount: "443",
           allprice: 289751.0,
           because: "รับเอง"
@@ -40,6 +42,7 @@ const toLower = text => {
           count: "แผ่น/แผ่น",
           amount: 51.0,
           price: 280.0,
+          price2:281.0,
           discount: "334",
           allprice: 14280.0,
           because: "ส่งให้"
@@ -50,6 +53,7 @@ const toLower = text => {
           count: "แผ่น/แผ่น",
           amount: 51.0,
           price: 280.0,
+          price2:281.0,
           discount: "33",
           allprice: 49280.0,
           because: "รับเอง"
@@ -60,6 +64,7 @@ const toLower = text => {
           count: "แผ่น/แผ่น",
           amount: 16.0,
           price: 310.0,
+          price2:315.0,
           discount: "33",
           allprice: 4960.0,
           because: "รับเอง"
@@ -70,6 +75,7 @@ const toLower = text => {
           count: "กล่อง/กล่อง",
           amount: 2.0,
           price: 290.0,
+          price2:300.0,
           discount: "33",
           allprice: 580.0,
           because: "รับเอง"
@@ -80,6 +86,7 @@ const toLower = text => {
           count: "ม้วน/ม้วน",
           amount: 4.0,
           price: 350.0,
+          price2:360.0,
           discount: "",
           allprice: 1400.0,
           because: "รับเอง"
@@ -90,6 +97,7 @@ const toLower = text => {
           count: "ม้วน/ม้วน",
           amount: 4.0,
           price: 350.0,
+          price2:360.0,
           discount: "",
           allprice: 1400.0,
           because: "รับเอง"
@@ -100,6 +108,7 @@ const toLower = text => {
           count: "ม้วน/ม้วน",
           amount: 4.0,
           price: 350.0,
+          price2:360.0,
           discount: "",
           allprice: 1400.0,
           because: "รับเอง"
@@ -110,6 +119,7 @@ const toLower = text => {
           count: "ม้วน/ม้วน",
           amount: 4.0,
           price: 350.0,
+          price2:360.0,
           discount: "",
           allprice: 1400.0,
           because: "รับเอง"
@@ -120,6 +130,7 @@ const toLower = text => {
           count: "ม้วน/ม้วน",
           amount: 4.0,
           price: 350.0,
+          price2:360.0,
           discount: "",
           allprice: 1400.0,
           because: "รับเอง"
@@ -130,6 +141,7 @@ const toLower = text => {
           count: "ม้วน/ม้วน",
           amount: 4.0,
           price: 350.0,
+          price2:360.0,
           discount: "",
           allprice: 1400.0,
           because: "รับเอง"
@@ -145,7 +157,13 @@ const toLower = text => {
       searchcus:'',
       detailcus:'',
       showDialogcus: false,
-      detailcusall:[]
+      detailcusall:[],
+      tablecode:'',
+      billtype:'',
+      docno:'ไม่มีข้อมูล',
+      keywordproduct:'',
+      showDialogproduct:false,
+      dataproductDialog:[]
     }),
     methods: {
       test1234() {
@@ -155,7 +173,7 @@ const toLower = text => {
         window.alert("Noop");
       },
       searchOnTable() {
-        this.searched = searchByName(this.users, this.search);
+        this.searched = searchByName(this.dproducts, this.search);
       },
       tests() {
         alert("ค้นหาข้อมูล Waiting ...");
@@ -176,8 +194,12 @@ const toLower = text => {
         api.Customerall(payload,
           (result) => {
           console.log(JSON.stringify(result.data))
-          console.log(result.data.length)
-
+         // console.log(result.data.length)
+          
+          if(result.data.length == 0){
+            alertify.error('ไม่มีข้อมูลลูกค้านี้');
+            return
+          }
           if(result.data.length == 1){
           this.detailcus = result.data[0].name
           this.searchcus = result.data[0].code
@@ -198,10 +220,75 @@ const toLower = text => {
         this.searchcus = val.code
         this.detailcus = val.name 
         this.showDialogcus = false
+      },
+      addproduct(){
+        if(!this.keywordproduct){
+          return
+        }
+        let payload = {
+          keyword : this.keywordproduct
+        }
+        api.searchbykeyword(payload,
+          (result) => {
+            console.log(result.data)
+            console.log(result.data.length)
+            this.showDialogproduct = true
+            this.dataproductDialog = result.data
+            console.log('billtype : '+this.billtype)
+          },
+          (error) => {
+             console.log(JSON.stringify(error))
+             alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
+          })
+      },
+      showdocno(){
+        if(!this.tablecode || !this.billtype){
+          return
+        }
+        let payload = {
+          branch_id:1,
+          table_code:this.tablecode,
+          bill_type:parseInt(this.billtype)
+        }
+        console.log(payload)
+        api.showdocno(payload,
+          (result) => {
+          if(result.error){
+            // alertify.error('ไม่มีข้อมูล');
+            this.docno = 'ไม่มีข้อมูล'
+            return
+          }
+            this.docno = result
+          },
+          (error) => {
+             console.log(JSON.stringify(error))
+             //Customerall
+             alertify.error('ข้อมูล ประเภทเสนอราคาเกิดข้อผิดพลาด');
+            //  alertify.success('Error login');
+            // this.cload()
+          })
+        
+      },
+      showdetail(val){
+        console.log(JSON.stringify(val))
+      var datashow = {
+        id: val.id,
+        name: val.item_name,
+        count: val.unit_code,
+        amount: 1,
+        price: val.sale_price_1,
+        price2: val.sale_price_2,
+        discount: 0,
+        allprice: 0,
+        because: "ไม่มี"
+       }
+       this.dproducts.push(datashow)
+       //console.log(datashow)
+
       }
     },
     created() {
-      this.searched = this.users;
+      this.searched = this.dproducts;
     },
     computed: {
       firstDayOfAWeek: {
@@ -214,7 +301,9 @@ const toLower = text => {
       }
     },
     mounted() {
+    
         // data:('3')
+        // this.showdocno()
       console.log(localStorage.test)
     console.log(this.test)
       // this.$refs.testDiv.scrollTop = 0;

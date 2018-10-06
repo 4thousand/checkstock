@@ -34,4 +34,23 @@ export default {
           error(response)
         })
     },
+    showdocno (payload, success, error) {
+      console.log(JSON.stringify(payload))
+      Vue.axios.post(URL + ':8081/gendocno/v1/gen', JSON.stringify(payload)).then(
+        (response) => {
+          success(response.data)
+        },
+        (response) => {
+          error(response)
+        })
+    },
+    searchbykeyword(payload, success, error) {
+      Vue.axios.post(URL + ':8081/product/v1/search/keyword', JSON.stringify(payload)).then(
+        (response) => {
+          success(response.data)
+        },
+        (response) => {
+          error(response)
+        })
+    },
 }

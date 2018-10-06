@@ -144,3 +144,19 @@
   .md-tabs-navigation{
     display: none;
   }
+  #md-input-ly5smkz4{
+    min-width: 200px !important;
+  }
+  .productadd{
+    float:left;position: relative; top: 11px; left: 11px;
+  }
+  .hoverzoom{
+    transition: all 0.5s ease-in-out;
+  }
+  .hoverzoom:hover{
+   width: 150px !important;
+   height: 150px !important;
+  }
+  .table-hover tbody tr:hover{
+    background: rgb(231, 231, 231);
+  }
