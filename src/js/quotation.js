@@ -25,138 +25,138 @@ export default {
     search: null,
     test: localStorage.test,
     dproducts: [
-      {
-        id: "1",
-        barcode: "0000290",
-        name: "พาเวอร์ปลั๊ก ตัวเมีย 3 ขา 16 A ต่อตรงกลาง HT-213 / PT-213",
-        count: "อัน/อัน",
-        amount: 0,
-        price: 80.0,
-        price2: 81.0,
-        discount: 0,
-        allprice: 0,
-        because: "รับเอง"
-      },
-      {
-        id: "2",
-        barcode: "8852439012978",
-        name: "คอบสันโค้งเซรามิค FLATO สีศิลเวอร์เกรย์",
-        count: "แผ่น/แผ่น",
-        amount: 0,
-        price: 280.0,
-        price2: 281.0,
-        discount: 0,
-        allprice: 0,
-        because: "ส่งให้"
-      },
-      {
-        id: "8852439013296",
-        barcode: "8852439013296",
-        name: "ครอบตะเข้ส้นเซรามิค FLATO สีซิลเวอร์เกรย์",
-        count: "แผ่น/แผ่น",
-        amount: 0,
-        price: 280.0,
-        price2: 281.0,
-        discount: 0,
-        allprice: 0,
-        because: "รับเอง"
-      },
-      {
-        id: "8852439013012",
-        barcode: "8852439013012",
-        name: "ครอบปิดปลายตะเข้สันเซรามิค FLATO สีซิลเวอร์เกรย์",
-        count: "แผ่น/แผ่น",
-        amount: 0,
-        price: 310.0,
-        price2: 315.0,
-        discount: 0,
-        allprice: 0,
-        because: "รับเอง"
-      },
-      {
-        id: "8852439007677",
-        barcode: "8852439007677",
-        name: "การเส้น EXCELLA",
-        count: "กล่อง/กล่อง",
-        amount: 0,
-        price: 290.0,
-        price2: 300.0,
-        discount: 0,
-        allprice: 0,
-        because: "รับเอง"
-      },
-      {
-        id: "88524390153597",
-        barcode: "88524390153597",
-        name: "แผ่นรองเชิงชายตราช้าง / Excella",
-        count: "ม้วน/ม้วน",
-        amount: 0,
-        price: 350.0,
-        price2: 360.0,
-        discount: 0,
-        allprice: 0,
-        because: "รับเอง"
-      },
-      {
-        id: "88524390155397",
-        barcode: "88524390155397",
-        name: "แผ่นรองเชิงชายตราช้าง / Excella",
-        count: "ม้วน/ม้วน",
-        amount: 0,
-        price: 350.0,
-        price2: 360.0,
-        discount: 0,
-        allprice: 0,
-        because: "รับเอง"
-      },
-      {
-        id: "8852439015597",
-        barcode: "8852439015597",
-        name: "แผ่นรองเชิงชายตราช้าง / Excella",
-        count: "ม้วน/ม้วน",
-        amount: 0,
-        price: 350.0,
-        price2: 360.0,
-        discount: 0,
-        allprice: 0,
-        because: "รับเอง"
-      },
-      {
-        id: "88524390154597",
-        barcode: "88524390154597",
-        name: "แผ่นรองเชิงชายตราช้าง / Excella",
-        count: "ม้วน/ม้วน",
-        amount: 0,
-        price: 350.0,
-        price2: 360.0,
-        discount: 0,
-        allprice: 0,
-        because: "รับเอง"
-      },
-      {
-        id: "88524390155597",
-        barcode: "88524390155597",
-        name: "แผ่นรองเชิงชายตราช้าง / Excella",
-        count: "ม้วน/ม้วน",
-        amount: 0,
-        price: 350.0,
-        price2: 360.0,
-        discount: 0,
-        allprice: 0,
-        because: "รับเอง"
-      },
-      {
-        id: "88524390115597",
-        barcode: "88524390115597",
-        name: "แผ่นรองเชิงชายตราช้าง / Excella",
-        count: "ม้วน/ม้วน",
-        amount: 0,
-        price: 350.0,
-        price2: 360.0,
-        discount: 0,
-        allprice: 0,
-        because: "รับเอง"
-      }
+      // {
+      //   id: "1",
+      //   barcode: "0000290",
+      //   name: "พาเวอร์ปลั๊ก ตัวเมีย 3 ขา 16 A ต่อตรงกลาง HT-213 / PT-213",
+      //   count: "อัน/อัน",
+      //   amount: 0,
+      //   price: 80.0,
+      //   price2: 81.0,
+      //   discount: 0,
+      //   allprice: 0,
+      //   because: "รับเอง"
+      // },
+      // {
+      //   id: "2",
+      //   barcode: "8852439012978",
+      //   name: "คอบสันโค้งเซรามิค FLATO สีศิลเวอร์เกรย์",
+      //   count: "แผ่น/แผ่น",
+      //   amount: 0,
+      //   price: 280.0,
+      //   price2: 281.0,
+      //   discount: 0,
+      //   allprice: 0,
+      //   because: "ส่งให้"
+      // },
+      // {
+      //   id: "8852439013296",
+      //   barcode: "8852439013296",
+      //   name: "ครอบตะเข้ส้นเซรามิค FLATO สีซิลเวอร์เกรย์",
+      //   count: "แผ่น/แผ่น",
+      //   amount: 0,
+      //   price: 280.0,
+      //   price2: 281.0,
+      //   discount: 0,
+      //   allprice: 0,
+      //   because: "รับเอง"
+      // },
+      // {
+      //   id: "8852439013012",
+      //   barcode: "8852439013012",
+      //   name: "ครอบปิดปลายตะเข้สันเซรามิค FLATO สีซิลเวอร์เกรย์",
+      //   count: "แผ่น/แผ่น",
+      //   amount: 0,
+      //   price: 310.0,
+      //   price2: 315.0,
+      //   discount: 0,
+      //   allprice: 0,
+      //   because: "รับเอง"
+      // },
+      // {
+      //   id: "8852439007677",
+      //   barcode: "8852439007677",
+      //   name: "การเส้น EXCELLA",
+      //   count: "กล่อง/กล่อง",
+      //   amount: 0,
+      //   price: 290.0,
+      //   price2: 300.0,
+      //   discount: 0,
+      //   allprice: 0,
+      //   because: "รับเอง"
+      // },
+      // {
+      //   id: "88524390153597",
+      //   barcode: "88524390153597",
+      //   name: "แผ่นรองเชิงชายตราช้าง / Excella",
+      //   count: "ม้วน/ม้วน",
+      //   amount: 0,
+      //   price: 350.0,
+      //   price2: 360.0,
+      //   discount: 0,
+      //   allprice: 0,
+      //   because: "รับเอง"
+      // },
+      // {
+      //   id: "88524390155397",
+      //   barcode: "88524390155397",
+      //   name: "แผ่นรองเชิงชายตราช้าง / Excella",
+      //   count: "ม้วน/ม้วน",
+      //   amount: 0,
+      //   price: 350.0,
+      //   price2: 360.0,
+      //   discount: 0,
+      //   allprice: 0,
+      //   because: "รับเอง"
+      // },
+      // {
+      //   id: "8852439015597",
+      //   barcode: "8852439015597",
+      //   name: "แผ่นรองเชิงชายตราช้าง / Excella",
+      //   count: "ม้วน/ม้วน",
+      //   amount: 0,
+      //   price: 350.0,
+      //   price2: 360.0,
+      //   discount: 0,
+      //   allprice: 0,
+      //   because: "รับเอง"
+      // },
+      // {
+      //   id: "88524390154597",
+      //   barcode: "88524390154597",
+      //   name: "แผ่นรองเชิงชายตราช้าง / Excella",
+      //   count: "ม้วน/ม้วน",
+      //   amount: 0,
+      //   price: 350.0,
+      //   price2: 360.0,
+      //   discount: 0,
+      //   allprice: 0,
+      //   because: "รับเอง"
+      // },
+      // {
+      //   id: "88524390155597",
+      //   barcode: "88524390155597",
+      //   name: "แผ่นรองเชิงชายตราช้าง / Excella",
+      //   count: "ม้วน/ม้วน",
+      //   amount: 0,
+      //   price: 350.0,
+      //   price2: 360.0,
+      //   discount: 0,
+      //   allprice: 0,
+      //   because: "รับเอง"
+      // },
+      // {
+      //   id: "88524390115597",
+      //   barcode: "88524390115597",
+      //   name: "แผ่นรองเชิงชายตราช้าง / Excella",
+      //   count: "ม้วน/ม้วน",
+      //   amount: 0,
+      //   price: 350.0,
+      //   price2: 360.0,
+      //   discount: 0,
+      //   allprice: 0,
+      //   because: "รับเอง"
+      // }
     ],
     active: 'first',
     first: false,
@@ -175,14 +175,19 @@ export default {
     keywordproduct: '',
     showDialogproduct: false,
     dataproductDialog: [],
-    disablebilltype: false
+    disablebilltype: false,
+    datenow_datepicker:Date.now(),
+    attention:''
   }),
   methods: {
+    testcall(){
+      console.log(this.datenow_datepicker)
+    },
     test1234() {
       alert("12313");
     },
     newUser() {
-      window.alert("Noop");
+      this.$refs.addproduct.$el.focus()
     },
     searchOnTable() {
       this.searched = searchByName(this.dproducts, this.search);
@@ -233,6 +238,17 @@ export default {
       this.showDialogcus = false
     },
     addproduct() {
+      if(this.billtype == ''){
+        if(this.attention == 'wobble-hor-bottom'){
+          this.attention = 'wobble-hor-bottom2'
+        }else{
+          this.attention = 'wobble-hor-bottom'
+        }
+        this.$refs.focustype.$el.focus()
+        // console.log(this.attention)
+        return
+      }
+
       if (!this.keywordproduct) {
         return
       }
@@ -257,7 +273,9 @@ export default {
       if (!this.tablecode || !this.billtype) {
         return
       }
-
+      if(this.billtype){
+        this.disablebilltype = true
+      }
       let payload = {
         branch_id: 1,
         table_code: this.tablecode,
@@ -271,7 +289,7 @@ export default {
             return
           }
           this.docno = result
-          this.disablebilltype = true
+       
         },
         (error) => {
           console.log(JSON.stringify(error))
@@ -330,7 +348,7 @@ export default {
       }
     },
     convertmoney(val){
-      console.log(val)
+      // console.log(val)
       var number = numeral(val).format('0,0.00');
       return number
     }

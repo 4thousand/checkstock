@@ -23,11 +23,11 @@
                     </md-field>
                   </div>
   
-                  <div class="md-layout-item md-size-25 md-xsmall-size-100">
-                    <span :class="disablebilltype+'0'" class="md-title sub">
+                  <div :class="attention" class="md-layout-item md-size-25 md-xsmall-size-100">
+                    <span ref="focustype" :class="disablebilltype+'0'" class="md-title sub">
                               ประเภทเสนอราคา
-                            </span>
-                    <md-field>
+                            </span> <md-icon v-show="disablebilltype" style="position:relative;top:10px;color:black">lock</md-icon>
+                    <md-field  >
                       <md-select @input="showdocno"  :disabled="disablebilltype" v-model="billtype" name="country" id="country" placeholder="กรุณาเลือก">
                         <md-option value="0">ขายสินค้าเงินสด</md-option>
                         <md-option value="1">ขายสินค้าเงินเชื่อ</md-option>
@@ -70,7 +70,7 @@
                             </span>
                     <div style="position:relative;height:100%;">
                       <md-icon style="float:left;position:relative;top:28px;margin-right:5px;">calendar_today</md-icon>
-                      <datepicker input-class="form-control tc" style="position:relative;top:15px;" :language="languages[language]" format="d MMMM yyyy"></datepicker>
+                      <datepicker @input="testcall" v-model="datenow_datepicker" input-class="form-control tc" style="position:relative;top:15px;" :language="languages[language]" format="d MMMM yyyy"></datepicker>
                     </div>
                   </div>
                   <!--  -->
@@ -109,13 +109,13 @@
 
                           <div style="float:left;width:200px">
                           <md-field>
-                            <label>เพิ่มสินค้า</label>
-                            <md-input v-model="keywordproduct" @keyup.enter="addproduct"></md-input>
+                            <label>ค้นหาสินค้า</label>
+                            <md-input ref="addproduct" v-model="keywordproduct" @keyup.enter="addproduct"></md-input>
                           </md-field>
                           </div>
                           <!-- <md-input style="float:left" required @keyup.enter="fsearchcus" v-model="searchcus"></md-input>
                     -->
-                          <md-button class="md-icon-button md-raised md productadd">
+                          <md-button @click="addproduct" class="md-icon-button md-raised md productadd">
                             <md-icon>add</md-icon>
                           </md-button>
                         </div>
@@ -131,14 +131,14 @@
                     </md-table-empty-state>
   
                     <md-table-row  slot="md-table-row" slot-scope="{ item }">
-                      <md-table-cell md-label="รหัสบาร์โค้ด" md-sort-by="id" md-numeric><input type="text" style="width:100%" disabled v-model="item.barcode"></md-table-cell>
-                      <md-table-cell md-label="ชื่อสินค้า" md-sort-by="name"><input type="text" style="width:100%" disabled  v-model="item.name"></md-table-cell>
-                      <md-table-cell md-label="หน่วยนับ" md-sort-by="count"><input type="text" style="width:100%"  v-model="item.count"></md-table-cell>
-                      <md-table-cell md-label="จำนวน" md-sort-by="amount"><input type="text" style="width:100%" @keyup="calculatedata(item)"   v-model.number="item.amount"></md-table-cell>
-                      <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 0" md-sort-by="price"><input type="text"  @keyup="calculatedata(item)"   style="width:100%"  v-model="item.price"></md-table-cell>
-                      <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 1" md-sort-by="price2"><input type="text"  @keyup="calculatedata(item)"   style="width:100%"  v-model="item.price2"></md-table-cell>
-                      <md-table-cell md-label="ส่วนลด" md-sort-by="discount"><input type="text"  style="width:100%" @keyup="calculatedata(item)"  v-model="item.discount"></md-table-cell>
-                      <md-table-cell md-label="จำนวนเงิน" md-sort-by="allprice"><input type="text" disabled   style="width:100%;text-align:right;" v-model="item.allprice"></md-table-cell>
+                      <md-table-cell md-label="รหัสบาร์โค้ด" md-sort-by="id" md-numeric><input type="text"  class="datatable" disabled v-model="item.barcode"></md-table-cell>
+                      <md-table-cell md-label="ชื่อสินค้า" md-sort-by="name"><input type="text"  class="datatable" disabled  v-model="item.name"></md-table-cell>
+                      <md-table-cell md-label="หน่วยนับ" md-sort-by="count"><input type="text"  class="datatable"  v-model="item.count"></md-table-cell>
+                      <md-table-cell md-label="จำนวน" md-sort-by="amount"><input type="text"  class="datatable" @keyup="calculatedata(item)"   v-model.number="item.amount"></md-table-cell>
+                      <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 0" md-sort-by="price"><input type="text" class="datatable"  @keyup="calculatedata(item)"   style="width:100%"  v-model.number="item.price"></md-table-cell>
+                      <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 1" md-sort-by="price2"><input type="text" class="datatable"  @keyup="calculatedata(item)"   style="width:100%"  v-model.number="item.price2"></md-table-cell>
+                      <md-table-cell md-label="ส่วนลด" md-sort-by="discount"><input type="text"  class="datatable"  @keyup="calculatedata(item)"  v-model.number="item.discount"></md-table-cell>
+                      <md-table-cell md-label="จำนวนเงิน" md-sort-by="allprice"><input type="text" disabled class="datatable" v-model.number="item.allprice"></md-table-cell>
                       <!-- <md-table-cell md-label="เงื่อนไขการขนส่ง" md-sort-by="because">{{ item.because }}</md-table-cell> -->
                     </md-table-row>
                   </md-table>
