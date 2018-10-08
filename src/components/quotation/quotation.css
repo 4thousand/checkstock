@@ -1,66 +1,97 @@
+.md-table-cell-container{
+  padding: 6px 5px 6px 5px;
+}
 .abright{
     position: absolute; right: 30px; top: 50%; transform: translateY(-50%);
   }
     .md-table-head:nth-child(1) {
-      width: 15% !important;
+      width: 13% !important;
+      min-width: 137px;
+      max-width: 137px;
     }
     
     .md-table-head:nth-child(2) {
-      width: 40% !important;
+      width: 25% !important;
+      max-width: 345px;
+      min-width: 345px;
     }
     
     .md-table-head:nth-child(3) {
-      width: 5% !important;
+      width: 12% !important;
+      max-width: 165px;
+      min-width: 165px;
     }
     
     .md-table-head:nth-child(4) {
-      width: 5% !important;
+      width: 9% !important;
+      max-width: 82px;
+      min-width: 82px;
     }
     
     .md-table-head:nth-child(5) {
-      width: 5% !important;
+      width: 6% !important;
+      max-width: 82px;
+      min-width: 82px;
     }
     
     .md-table-head:nth-child(6) {
-      width: 5% !important;
+      width: 11% !important;
+      max-width: 68px;
+      min-width: 68px;
     }
     
     .md-table-head:nth-child(7) {
-      width: 10% !important;
+      width: 5% !important;
+      max-width: 153px;
+      min-width: 153px;
     }
     
-    .md-table-head:nth-child(8) {
+    /* .md-table-head:nth-child(8) {
       width: 10% !important;
-    }
+    } */
     
     .md-table-cell:nth-child(1) {
       width: 10% !important;
+      min-width: 137px;
+      max-width: 137px;
     }
     
     .md-table-cell:nth-child(2) {
       width: 25% !important;
+      max-width: 345px;
+      min-width: 345px;
     }
     
     .md-table-cell:nth-child(3) {
       width: 12% !important;
+      max-width: 165px;
+      min-width: 165px;
       text-align: center;
     }
     
     .md-table-cell:nth-child(4) {
-      width: 9% !important;
+      width: 6% !important;
+      max-width: 82px;
+      min-width: 82px;
     }
     
     .md-table-cell:nth-child(5) {
       width: 6% !important;
+      max-width: 82px;
+      min-width: 82px;
     }
     
     .md-table-cell:nth-child(6) {
-      width: 11% !important;
+      width: 5% !important;
+      max-width: 68px;
+      min-width: 68px;
       text-align: center;
     }
     
     .md-table-cell:nth-child(7) {
-      width: 5% !important;
+      width: 11% !important;
+      max-width: 153px;
+      min-width: 153px;
     }
     
     .md-table-cell:nth-child(8) {
@@ -159,4 +190,11 @@
   }
   .table-hover tbody tr:hover{
     background: rgb(231, 231, 231);
+  }
+
+  .true0{
+    color: rgba(243, 107, 53, 0.986) !important;
+  }
+  .true1{
+    color: rgba(243, 107, 53, 0.986);
   }

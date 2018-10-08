@@ -45,7 +45,7 @@
       <!-- payloadreal -->
       <div v-for="val in dataall">
         <div class="col-12 showhover" style="cursor: pointer;margin-bottom:10px">
-          <md-toolbar class="md-transparent hoverdiv" style="min-width:251px;display:block;padding-top:5px;">
+          <md-toolbar class="md-transparent hoverdiv" style="min-width:251px;display:block;padding-top:5px;overflow:hidden">
             <div class="md-layout md-gutter md-alignment-center">
               <div class="md-layout-item md-xlarge-size-5 md-large-size-5 md-xsmall-size-15 md-small-size-10 md-medium-size-5">
                 <md-avatar class="md-avatar-icon md-primary" :class="'active'+val.module.substring(0, 1)" style="margin:0;">{{ val.module.substring(0, 1) }}</md-avatar>
@@ -63,10 +63,10 @@
                     <span style="position: relative;left: 8px;font-size: .875rem;color: #5f6368;" class="md-subheading">
                     {{ 'รหัสลูกค้า : '+val.ar_code + ' ชื่อลูกค้า :' + val.ar_name + ' พนักงานขาย :' +val.sale_name +' รวมมูลค่าสินค้าทั้งหมด : '+val.total_amount +" บาท"}}
                     </span>
-                    <div @click="val.total_amount = !val.total_amount" v-show="val.total_amount" style="float:right;z-index:99" class=" starhover">
+                    <div @click="val.total_amount = !val.total_amount" v-show="val.total_amount" style="float:right;" class=" starhover">
                       <md-icon>star_border</md-icon>
                     </div>
-                    <div class="starhover" @click="val.total_amount = !val.total_amount" v-show="val.total_amount == false" style="float:right;color:red;z-index:99;">
+                    <div class="starhover" @click="val.total_amount = !val.total_amount" v-show="val.total_amount == false" style="float:right;color:red;">
                       <md-icon>star</md-icon>
                     </div>
                   </div>

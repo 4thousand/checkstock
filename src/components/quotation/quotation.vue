@@ -23,16 +23,12 @@
                     </md-field>
                   </div>
   
-  
-                  <!--  -->
-  
-  
                   <div class="md-layout-item md-size-25 md-xsmall-size-100">
-                    <span class="md-title sub">
+                    <span :class="disablebilltype+'0'" class="md-title sub">
                               ประเภทเสนอราคา
                             </span>
                     <md-field>
-                      <md-select @input="showdocno" v-model="billtype" name="country" id="country" placeholder="กรุณาเลือก">
+                      <md-select @input="showdocno"  :disabled="disablebilltype" v-model="billtype" name="country" id="country" placeholder="กรุณาเลือก">
                         <md-option value="0">ขายสินค้าเงินสด</md-option>
                         <md-option value="1">ขายสินค้าเงินเชื่อ</md-option>
                       </md-select>
@@ -118,13 +114,11 @@
                           </md-field>
                           </div>
                           <!-- <md-input style="float:left" required @keyup.enter="fsearchcus" v-model="searchcus"></md-input>
-                   
                     -->
                           <md-button class="md-icon-button md-raised md productadd">
                             <md-icon>add</md-icon>
                           </md-button>
                         </div>
-  
                       </div>
   
                       <md-field md-clearable class="md-toolbar-section-end">
@@ -132,19 +126,19 @@
                       </md-field>
                     </md-table-toolbar>
   
-                    <md-table-empty-state md-label="ไม่พบสินค้า" :md-description="`ไม่มีสินค้า  '${search}' ในระบบกรุณาตรวจสอบใหม่อีกครั้ง`">
+                    <md-table-empty-state style="width:100% !important;" md-label="ไม่พบสินค้า" :md-description="`ไม่มีสินค้า  '${search}' ในระบบกรุณาตรวจสอบใหม่อีกครั้ง`">
                       <md-button class="md-primary md-raised" @click="newUser">เพิ่มข้อมูลสินค้า</md-button>
                     </md-table-empty-state>
   
-                    <md-table-row slot="md-table-row" slot-scope="{ item }">
-                      <md-table-cell md-label="รหัสสินค้า" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
-                      <md-table-cell md-label="ชื่อสินค้า" md-sort-by="name">{{ item.name }}</md-table-cell>
-                      <md-table-cell md-label="หน่วยนับ" md-sort-by="count">{{ item.count }}</md-table-cell>
-                      <md-table-cell md-label="จำนวน" md-sort-by="amount">{{ item.amount }}</md-table-cell>
-                      <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 0" md-sort-by="price">{{ item.price }}</md-table-cell>
-                      <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 1" md-sort-by="price2">{{ item.price2 }}</md-table-cell>
-                      <md-table-cell md-label="ส่วนลด" md-sort-by="discount">{{ item.discount }}</md-table-cell>
-                      <md-table-cell md-label="จำนวนเงิน" md-sort-by="allprice">{{ item.allprice }}</md-table-cell>
+                    <md-table-row  slot="md-table-row" slot-scope="{ item }">
+                      <md-table-cell md-label="รหัสบาร์โค้ด" md-sort-by="id" md-numeric><input type="text" style="width:100%" disabled v-model="item.barcode"></md-table-cell>
+                      <md-table-cell md-label="ชื่อสินค้า" md-sort-by="name"><input type="text" style="width:100%" disabled  v-model="item.name"></md-table-cell>
+                      <md-table-cell md-label="หน่วยนับ" md-sort-by="count"><input type="text" style="width:100%"  v-model="item.count"></md-table-cell>
+                      <md-table-cell md-label="จำนวน" md-sort-by="amount"><input type="text" style="width:100%" @keyup="calculatedata(item)"   v-model.number="item.amount"></md-table-cell>
+                      <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 0" md-sort-by="price"><input type="text"  @keyup="calculatedata(item)"   style="width:100%"  v-model="item.price"></md-table-cell>
+                      <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 1" md-sort-by="price2"><input type="text"  @keyup="calculatedata(item)"   style="width:100%"  v-model="item.price2"></md-table-cell>
+                      <md-table-cell md-label="ส่วนลด" md-sort-by="discount"><input type="text"  style="width:100%" @keyup="calculatedata(item)"  v-model="item.discount"></md-table-cell>
+                      <md-table-cell md-label="จำนวนเงิน" md-sort-by="allprice"><input type="text" disabled   style="width:100%;text-align:right;" v-model="item.allprice"></md-table-cell>
                       <!-- <md-table-cell md-label="เงื่อนไขการขนส่ง" md-sort-by="because">{{ item.because }}</md-table-cell> -->
                     </md-table-row>
                   </md-table>
@@ -162,7 +156,7 @@
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:right;">
   
                     <span class="md-title subnotop">
-                              451,726.00
+                              {{ convertmoney(totalprice) }}
                             </span>
   
   
@@ -229,7 +223,7 @@
   
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
-                             29,552.17
+                            {{ convertmoney(totalprice - ((totalprice*100)/107)) }}
                             </span>
                   </div>
   
@@ -250,7 +244,7 @@
   
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
-                             451,726.00
+                             {{ convertmoney(totalprice) }}
                             </span>
                   </div>
   
@@ -271,7 +265,7 @@
   
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
-                             451,726.00
+                             {{ convertmoney(totalprice) }}
                             </span>
                   </div>
   
@@ -541,10 +535,6 @@
                   </md-card>
                 </form>
               </div>
-  
-   <!--  -->
-  
-             
               <md-button style="float:right;margin-top:10px" class="md-raised md-primary" @click="setDone('second', 'third')">บันทึก</md-button>
             </md-step>
   
