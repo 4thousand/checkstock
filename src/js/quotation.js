@@ -23,7 +23,7 @@ export default {
     date: "",
     search: [],
     search: null,
-    test: localStorage.test,
+    objuser: JSON.parse(localStorage.Datauser),
     dproducts: [
       // {
       //   id: "1",
@@ -176,11 +176,19 @@ export default {
     showDialogproduct: false,
     dataproductDialog: [],
     disablebilltype: false,
-    datenow_datepicker:Date.now(),
-    attention:''
+    datenow_datepicker: Date.now(),
+    attention: '',
+    percal: false, //true == % , false == บาท
+    caldiscount: 0,
+    salecode:'',
   }),
   methods: {
-    testcall(){
+    calbathordiscount() {
+      // alert('dsad')
+      console.log(this.percal)
+      this.percal = !this.percal
+    },
+    testcall() {
       console.log(this.datenow_datepicker)
     },
     test1234() {
@@ -238,10 +246,10 @@ export default {
       this.showDialogcus = false
     },
     addproduct() {
-      if(this.billtype == ''){
-        if(this.attention == 'wobble-hor-bottom'){
+      if (this.billtype == '') {
+        if (this.attention == 'wobble-hor-bottom') {
           this.attention = 'wobble-hor-bottom2'
-        }else{
+        } else {
           this.attention = 'wobble-hor-bottom'
         }
         this.$refs.focustype.$el.focus()
@@ -273,7 +281,7 @@ export default {
       if (!this.tablecode || !this.billtype) {
         return
       }
-      if(this.billtype){
+      if (this.billtype) {
         this.disablebilltype = true
       }
       let payload = {
@@ -289,7 +297,7 @@ export default {
             return
           }
           this.docno = result
-       
+
         },
         (error) => {
           console.log(JSON.stringify(error))
@@ -347,20 +355,45 @@ export default {
         val.allprice = (val.amount * val.price2) - val.discount
       }
     },
-    convertmoney(val){
+    convertmoney(val) {
       // console.log(val)
       var number = numeral(val).format('0,0.00');
       return number
-    }
+    },
+    showcontent_step2(){
+      this.salecode = this.objuser.sale_code
+    },
   },
   created() {
     this.searched = this.dproducts;
   },
   computed: {
-    totalprice () {
-      return this.dproducts.reduce(function(sum, item) {
+    totalprice() {
+      return this.dproducts.reduce(function (sum, item) {
         return (sum + item.allprice)
       }, 0)
+    },
+    dif_fee() {
+      if (!this.percal) 
+       {
+        return (this.totalprice-this.caldiscount) - (((this.totalprice-this.caldiscount) * 100) / 107)
+         
+       }else if(this.percal) 
+       {
+         let percent = this.totalprice - (this.totalprice * this.caldiscount/100)
+         console.log(percent)
+        return percent - ((percent * 100) / 107)
+       }
+    },
+    cal_totalprice(){
+      if (!this.percal) 
+       {
+        return this.totalprice-this.caldiscount
+       }
+       if (this.percal) 
+       {
+        return this.totalprice - (this.totalprice * this.caldiscount/100)
+       }
     },
     firstDayOfAWeek: {
       get() {
@@ -372,11 +405,13 @@ export default {
     }
   },
   mounted() {
-
+    this.showcontent_step2()
+    console.log(this.objuser)
     // data:('3')
     // this.showdocno()
-    console.log(localStorage.test)
-    console.log(this.test)
+    // console.log(localStorage.test)
+    // console.log(this.salecode)
+    // console.log(JSON.stringify(this.test.sale_code))
     // this.$refs.testDiv.scrollTop = 0;
     // console.log(this.loading)
   }

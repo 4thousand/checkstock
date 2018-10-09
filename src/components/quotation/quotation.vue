@@ -146,7 +146,7 @@
                 <!-- table  -->
   
                 <div style="margin-top:15px" class="md-layout md-gutter">
-                  <div class="md-layout-item md-size-85 md-xsmall-size-100" style="text-align:right;">
+                  <div class="md-layout-item md-size-80 md-xsmall-size-100" style="text-align:right;">
   
                     <span class="md-title subnotop">
                               รวมมูลค่าสินค้า
@@ -161,7 +161,7 @@
   
   
                   </div>
-                  <div class="md-layout-item md-size-5 md-xsmall-size-100">
+                  <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:center;">
   
                     <span class="md-title subnotop">
                               บาท 
@@ -173,7 +173,7 @@
                 </div>
                 <div class="md-layout md-gutter">
   
-                  <div class="md-layout-item md-size-85 md-xsmall-size-100" style="text-align:right;">
+                  <div class="md-layout-item md-size-80 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
                               มูลค่าสินค้ายกเว้นภาษี
                             </span>
@@ -185,7 +185,7 @@
                             </span>
   
                   </div>
-                  <div class="md-layout-item md-size-5 md-xsmall-size-100">
+                  <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:center;">
                     <span class="md-title subnotop">
                               บาท 
                             </span>
@@ -194,28 +194,28 @@
   
                 <div class="md-layout md-gutter">
   
-                  <div class="md-layout-item md-size-85 md-xsmall-size-100" style="text-align:right;">
+                  <div class="md-layout-item md-size-80 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
-                              ส่วนลด %,บาท
-                            </span>
+                              ส่วนลด
+                    </span>
+                      
                   </div>
   
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
-                             0
-                            </span>
+                             <input ref="discount"  v-model="caldiscount" style="width:100%;text-align:right;" type="text">
+                      </span>
                   </div>
   
-                  <div class="md-layout-item md-size-5 md-xsmall-size-100">
-                    <span class="md-title subnotop">
-                              บาท 
-                            </span>
+                  <div class="md-layout-item md-size-10 md-xsmall-size-100">
+                      <md-button style="width:5% !important" @click="calbathordiscount" v-show="percal" class="md-raised md-primary">%</md-button>
+                        <md-button style="width:5% !important" @click="calbathordiscount" v-show="!percal" class="md-raised md-primary">บาท</md-button>
                   </div>
                 </div>
   
                 <div class="md-layout md-gutter">
   
-                  <div class="md-layout-item md-size-85 md-xsmall-size-100" style="text-align:right;">
+                  <div class="md-layout-item md-size-80 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
                               ภาษีมูลค่าเพิ่ม
                             </span>
@@ -223,11 +223,11 @@
   
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
-                            {{ convertmoney(totalprice - ((totalprice*100)/107)) }}
+                            {{ convertmoney(dif_fee) }}
                             </span>
                   </div>
   
-                  <div class="md-layout-item md-size-5 md-xsmall-size-100">
+                  <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:center;">
                     <span class="md-title subnotop">
                               บาท 
                             </span>
@@ -236,7 +236,7 @@
   
                 <div class="md-layout md-gutter">
   
-                  <div class="md-layout-item md-size-85 md-xsmall-size-100" style="text-align:right;">
+                  <div class="md-layout-item md-size-80 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
                               มูลค่ารวมภาษี
                             </span>
@@ -244,11 +244,11 @@
   
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
-                             {{ convertmoney(totalprice) }}
+                             {{ convertmoney(cal_totalprice) }}
                             </span>
                   </div>
   
-                  <div class="md-layout-item md-size-5 md-xsmall-size-100">
+                  <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:center;">
                     <span class="md-title subnotop">
                               บาท 
                             </span>
@@ -257,7 +257,7 @@
   
                 <div class="md-layout md-gutter">
   
-                  <div class="md-layout-item md-size-85 md-xsmall-size-100" style="text-align:right;">
+                  <div class="md-layout-item md-size-80 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
                               มูลค่าสุทธิ
                             </span>
@@ -265,14 +265,14 @@
   
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
-                             {{ convertmoney(totalprice) }}
+                             {{ convertmoney(cal_totalprice) }}
                             </span>
                   </div>
   
-                  <div class="md-layout-item md-size-5 md-xsmall-size-100">
+                  <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:center;">
                     <span class="md-title subnotop">
                               บาท 
-                            </span>
+                    </span>
                   </div>
   
                 </div>
@@ -295,7 +295,7 @@
                         <div class="md-layout-item md-small-size-100">
                           <md-field>
                             <label for="first-name subnotop">รหัสพนักงานขาย</label>
-                            <md-input name="first-name" id="first-name" autocomplete="given-name" />
+                            <md-input name="first-name" v-model="salecode" id="first-name" autocomplete="given-name" />
                           </md-field>
                           <md-button style="min-width: 50px;" class="buttonemp" @click="tests">
                             <md-icon>search</md-icon>
@@ -608,7 +608,7 @@
                     <tr @click="showdetail(val)" v-for="(val,index) in dataproductDialog" style="text-align:center;cursor:pointer">
                       <td>{{index+1}}</td>
                       <td v-show="val.pic_path_1"><img style="width:50px;height:50px;" class="hoverzoom" :src="val.pic_path_1" alt=""></td>
-                       <td v-show="!val.pic_path_1" ><img style="width:50px;height:50px;"  src="../../assets/No_Image_Available.png" alt=""></td>
+                       <td v-show="!val.pic_path_1" ><img style="max-width:50px;max-height:50px;"  src="../../assets/No_Image_Available.png" alt=""></td>
                       <td>{{val.bar_code}}</td>
                       <td>{{val.item_name}}</td>
                       <td>{{val.unit_code}}</td>
