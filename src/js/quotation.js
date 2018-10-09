@@ -22,7 +22,7 @@ export default {
     selectedDate: null,
     date: "",
     search: [],
-    search: null,
+    search: '',
     objuser: JSON.parse(localStorage.Datauser),
     dproducts: [
       // {
@@ -180,16 +180,46 @@ export default {
     attention: '',
     percal: false, //true == % , false == บาท
     caldiscount: 0,
-    salecode:'',
+    salecode: '',
+    // page 2
+    bill_credit: 0,
+    DueDate_cal: '',
+    Deliver_date: 0,
+    DueDate_date: '',
+    expire_date:0,
+    expiredate_cal:''
   }),
   methods: {
+    calexpire_Date(){
+      var date1 = new Date(this.expiredate_cal);
+      var date2 = new Date();
+      var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+      var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      this.expire_date = diffDays
+    },
+    calexpiredate(){
+      console.log(this.expire_date)
+      let date = new Date();
+      date.setDate(date.getDate() + parseInt(this.expire_date));
+      this.expiredate_cal = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+    },
+    calDueDate_date() {
+      var date1 = new Date(this.DueDate_date);
+      var date2 = new Date();
+      var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+      var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      this.Deliver_date = diffDays
+    },
+    calDeliverdate() {
+      let date = new Date();
+      date.setDate(date.getDate() + parseInt(this.Deliver_date));
+      this.DueDate_date = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+      console.log(this.DueDate_date)
+    },
     calbathordiscount() {
       // alert('dsad')
       console.log(this.percal)
       this.percal = !this.percal
-    },
-    testcall() {
-      console.log(this.datenow_datepicker)
     },
     test1234() {
       alert("12313");
@@ -244,6 +274,14 @@ export default {
       this.searchcus = val.code
       this.detailcus = val.name
       this.showDialogcus = false
+      //bill_credit
+      this.bill_credit = val.bill_credit
+      // 
+      var date = new Date();
+      console.log(date)
+      date.setDate(date.getDate() + this.bill_credit);
+      this.DueDate_cal = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+      console.log(this.DueDate_cal)
     },
     addproduct() {
       if (this.billtype == '') {
@@ -252,7 +290,7 @@ export default {
         } else {
           this.attention = 'wobble-hor-bottom'
         }
-        this.$refs.focustype.$el.focus()
+        // this.$refs.focustype.$el.focus()
         // console.log(this.attention)
         return
       }
@@ -360,8 +398,8 @@ export default {
       var number = numeral(val).format('0,0.00');
       return number
     },
-    showcontent_step2(){
-      this.salecode = this.objuser.sale_code
+    showcontent_step2() {
+      this.salecode = this.objuser.sale_code + ' / ' + this.objuser.username
     },
   },
   created() {
@@ -374,26 +412,22 @@ export default {
       }, 0)
     },
     dif_fee() {
-      if (!this.percal) 
-       {
-        return (this.totalprice-this.caldiscount) - (((this.totalprice-this.caldiscount) * 100) / 107)
-         
-       }else if(this.percal) 
-       {
-         let percent = this.totalprice - (this.totalprice * this.caldiscount/100)
-         console.log(percent)
+      if (!this.percal) {
+        return (this.totalprice - this.caldiscount) - (((this.totalprice - this.caldiscount) * 100) / 107)
+
+      } else if (this.percal) {
+        let percent = this.totalprice - (this.totalprice * this.caldiscount / 100)
+        console.log(percent)
         return percent - ((percent * 100) / 107)
-       }
+      }
     },
-    cal_totalprice(){
-      if (!this.percal) 
-       {
-        return this.totalprice-this.caldiscount
-       }
-       if (this.percal) 
-       {
-        return this.totalprice - (this.totalprice * this.caldiscount/100)
-       }
+    cal_totalprice() {
+      if (!this.percal) {
+        return this.totalprice - this.caldiscount
+      }
+      if (this.percal) {
+        return this.totalprice - (this.totalprice * this.caldiscount / 100)
+      }
     },
     firstDayOfAWeek: {
       get() {

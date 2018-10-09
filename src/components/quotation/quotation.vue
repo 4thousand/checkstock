@@ -70,7 +70,7 @@
                             </span>
                     <div style="position:relative;height:100%;">
                       <md-icon style="float:left;position:relative;top:28px;margin-right:5px;">calendar_today</md-icon>
-                      <datepicker @input="testcall" v-model="datenow_datepicker" input-class="form-control tc" style="position:relative;top:15px;" :language="languages[language]" format="d MMMM yyyy"></datepicker>
+                      <datepicker v-model="datenow_datepicker" input-class="form-control tc" style="position:relative;top:15px;" :language="languages[language]" format="d MMMM yyyy"></datepicker>
                     </div>
                   </div>
                   <!--  -->
@@ -414,21 +414,21 @@
                         <div class="md-layout-item md-small-size-100">
                           <md-field>
                             <label for="last-name">เอกสารหมดอายุภายใน</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name" />
+                            <md-input @keyup="calexpiredate" v-model="expire_date" name="last-name" id="last-name" autocomplete="family-name" />
                           </md-field>
                           <label class="abright" for="first-name subnotop ">วัน</label>
                         </div>
                         <div class="md-layout-item md-small-size-100">
                           <md-field>
                             <label for="last-name">ส่งมอบภายใน</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name" />
+                            <md-input name="last-name" @keyup="calDeliverdate" v-model="Deliver_date" id="last-name" autocomplete="family-name" />
                           </md-field>
                           <label class="abright" for="first-name subnotop ">วัน</label>
                         </div>
                         <div class="md-layout-item md-small-size-100">
                           <md-field>
                             <label for="last-name">เครดิต(วัน)</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name" />
+                            <md-input disabled v-model="bill_credit" name="last-name" id="last-name" autocomplete="family-name" />
                           </md-field>
                           <label class="abright" for="first-name subnotop ">วัน</label>
                         </div>
@@ -456,25 +456,37 @@
                     </md-card-header>
                     <md-card-content>
                       <div class="md-layout md-gutter">
-                        <div style="position:relative" class=" md-layout-item md-size-50 md-xsmall-size-100">
-                          <span class="md-title subnotop" style="position: relative; top: -3px;">
-                              วันที่เริ่มตามลูกค้า
+                        <div style="position:relative" class=" md-layout-item md-size-100 md-xsmall-size-100">
+                          <span class="md-title subnotop" style="position: relative; top: 20px;">
+                              วันที่หมดอายุ
                             </span>
-                          <md-datepicker style="position:absolute;top:0;width: 85%;" v-model="selectedDate" />
+                       <div style="position:relative;">
+                      <md-icon style="float:left;position:relative;top:28px;margin-right:5px;">calendar_today</md-icon>
+                      <datepicker @input="calexpire_Date"  v-model="expiredate_cal" input-class="form-control" style="position:relative;top:15px;width: 80%;" :language="languages[language]" format="d MMMM yyyy"></datepicker>
+                    </div>
                         </div>
-                        <div style="position:relative" class=" md-layout-item md-size-50 md-xsmall-size-100">
-                          <span class="md-title subnotop" style="position: relative; top: -3px;">
+                        <!--  -->
+                        <div style="position:relative" class=" md-layout-item md-size-100 md-xsmall-size-100">
+                             <span class="md-title subnotop" style="position: relative; top: 20px;">
                               ลงวันที่
                             </span>
-                          <md-datepicker style="position:absolute;top:0;width: 85%;" v-model="selectedDate" />
+                       <div style="position:relative;">
+                      <md-icon style="float:left;position:relative;top:28px;margin-right:5px;">calendar_today</md-icon>
+                      <datepicker @input="calDueDate_date"  v-model="DueDate_date" input-class="form-control tc" style="position:relative;top:15px;width: 80%;" :language="languages[language]" format="d MMMM yyyy"></datepicker>
+                    </div>
                         </div>
-                        <div style="position:relative;margin-top: 46px;" class=" md-layout-item md-size-50 md-xsmall-size-100">
-                          <span class="md-title subnotop" style="position: relative; top: -3px;">
+                        <!--  -->
+                        <div style="position:relative;" class=" md-layout-item md-size-100 md-xsmall-size-100">
+                          <span class="md-title subnotop" style="position: relative;top:20px">
                               วันที่ครบกำหนด
-                            </span>
-                          <md-datepicker style="position:absolute;top:0;width: 85%;" v-model="selectedDate" />
+                          </span><md-icon  style="position:relative;top:15px;color:black">lock</md-icon>
+
+                            <div style="position:relative;">
+                      <md-icon style="float:left;position:relative;top:28px;margin-right:5px;">calendar_today</md-icon>
+                      <datepicker disabled  v-model="DueDate_cal" input-class="form-control tc" style="position:relative;top:15px;width: 80%;" :language="languages[language]" format="d MMMM yyyy"></datepicker>
+                    </div>
                         </div>
-                        <div style="position:relative;margin-top: 46px;" class=" md-layout-item md-size-50 md-xsmall-size-100">
+                        <div style="position:relative;margin-top: 46px;" class=" md-layout-item md-size-100 md-xsmall-size-100">
                           <span class="md-title subnotop" style="position: relative; top: -3px;">
                               คำตอบจากลูกค้า
                             </span>

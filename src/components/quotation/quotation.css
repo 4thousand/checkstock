@@ -329,6 +329,12 @@
     width:100%;text-align:right;
   }
 
+  .vdp-datepicker__calendar{
+    top: -40px;
+  }
+  .form-control:disabled, .form-control[readonly]{
+    text-align: center !important;
+  }
   /* .md-button .md-ripple:nth-child(2){
     width: 53px;
   } */
