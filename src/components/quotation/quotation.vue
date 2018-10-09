@@ -13,8 +13,8 @@
                   </div>
                   <div class="md-layout-item md-size-20 md-xsmall-size-100">
                     <span class="md-title sub">
-                              เลขที่ใบเสนอราคา
-                            </span>
+                                เลขที่ใบเสนอราคา
+                              </span>
                     <md-field>
                       <md-select @input="showdocno" placeholder="กรุณาเลือก" v-model="tablecode" name="country" id="country">
                         <md-option value="QT">ใบเสนอราคา</md-option>
@@ -25,10 +25,11 @@
   
                   <div :class="attention" class="md-layout-item md-size-25 md-xsmall-size-100">
                     <span ref="focustype" :class="disablebilltype+'0'" class="md-title sub">
-                              ประเภทเสนอราคา
-                            </span> <md-icon v-show="disablebilltype" style="position:relative;top:10px;color:black">lock</md-icon>
-                    <md-field  >
-                      <md-select @input="showdocno"  :disabled="disablebilltype" v-model="billtype" name="country" id="country" placeholder="กรุณาเลือก">
+                                ประเภทเสนอราคา
+                              </span>
+                    <md-icon v-show="disablebilltype" style="position:relative;top:10px;color:black">lock</md-icon>
+                    <md-field>
+                      <md-select @input="showdocno" :disabled="disablebilltype" v-model="billtype" name="country" id="country" placeholder="กรุณาเลือก">
                         <md-option value="0">ขายสินค้าเงินสด</md-option>
                         <md-option value="1">ขายสินค้าเงินเชื่อ</md-option>
                       </md-select>
@@ -36,7 +37,7 @@
                   </div>
   
                   <!-- <div class="md-layout-item md-size-5 md-xsmall-size-100">
-                       </div> -->
+                         </div> -->
   
                   <div style="position: relative; top: 25px;" class="md-layout-item md-size-40 md-xsmall-size-100">
                     <md-field>
@@ -53,8 +54,8 @@
                   </div>
                   <div class="md-layout-item md-size-45 md-xsmall-size-100">
                     <span class="md-title sub">
-                              ประเภทภาษี
-                            </span>
+                                ประเภทภาษี
+                              </span>
                     <md-field>
                       <md-select name="country" id="country" placeholder="ประเภทภาษี">
                         <md-option value="ภาษีแยกนอก">ภาษีแยกนอก</md-option>
@@ -66,8 +67,8 @@
   
                   <div style="position:relative" class=" md-layout-item md-size-40 md-xsmall-size-100">
                     <span class="md-title sub">
-                              วันที่ออก
-                            </span>
+                                วันที่ออก
+                              </span>
                     <div style="position:relative;height:100%;">
                       <md-icon style="float:left;position:relative;top:28px;margin-right:5px;">calendar_today</md-icon>
                       <datepicker v-model="datenow_datepicker" input-class="form-control tc" style="position:relative;top:15px;" :language="languages[language]" format="d MMMM yyyy"></datepicker>
@@ -103,18 +104,18 @@
                   <md-table class="col-12" v-model="searched" md-sort="name" md-sort-order="asc" md-card md-fixed-header>
                     <md-table-toolbar>
                       <div class="md-toolbar-section-start">
-                        
+  
                         <div style="min-height:42px;position:relative" class="md-title">
                           <div style="float:left;position:relative;top:13px;margin-right:10px">ข้อมูลสินค้า</div>
-
+  
                           <div style="float:left;width:200px">
-                          <md-field>
-                            <label>ค้นหาสินค้า</label>
-                            <md-input ref="addproduct" v-model="keywordproduct" @keyup.enter="addproduct"></md-input>
-                          </md-field>
+                            <md-field>
+                              <label>ค้นหาสินค้า</label>
+                              <md-input ref="addproduct" v-model="keywordproduct" @keyup.enter="addproduct"></md-input>
+                            </md-field>
                           </div>
                           <!-- <md-input style="float:left" required @keyup.enter="fsearchcus" v-model="searchcus"></md-input>
-                    -->
+                      -->
                           <md-button @click="addproduct" class="md-icon-button md-raised md productadd">
                             <md-icon>add</md-icon>
                           </md-button>
@@ -130,14 +131,14 @@
                       <md-button class="md-primary md-raised" @click="newUser">เพิ่มข้อมูลสินค้า</md-button>
                     </md-table-empty-state>
   
-                    <md-table-row  slot="md-table-row" slot-scope="{ item }">
-                      <md-table-cell md-label="รหัสบาร์โค้ด" md-sort-by="id" md-numeric><input type="text"  class="datatable" disabled v-model="item.barcode"></md-table-cell>
-                      <md-table-cell md-label="ชื่อสินค้า" md-sort-by="name"><input type="text"  class="datatable" disabled  v-model="item.name"></md-table-cell>
-                      <md-table-cell md-label="หน่วยนับ" md-sort-by="count"><input type="text"  class="datatable"  v-model="item.count"></md-table-cell>
-                      <md-table-cell md-label="จำนวน" md-sort-by="amount"><input type="text"  class="datatable" @keyup="calculatedata(item)"   v-model.number="item.amount"></md-table-cell>
-                      <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 0" md-sort-by="price"><input type="text" class="datatable"  @keyup="calculatedata(item)"   style="width:100%"  v-model.number="item.price"></md-table-cell>
-                      <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 1" md-sort-by="price2"><input type="text" class="datatable"  @keyup="calculatedata(item)"   style="width:100%"  v-model.number="item.price2"></md-table-cell>
-                      <md-table-cell md-label="ส่วนลด" md-sort-by="discount"><input type="text"  class="datatable"  @keyup="calculatedata(item)"  v-model.number="item.discount"></md-table-cell>
+                    <md-table-row slot="md-table-row" slot-scope="{ item }">
+                      <md-table-cell md-label="รหัสบาร์โค้ด" md-sort-by="id" md-numeric><input type="text" class="datatable" disabled v-model="item.barcode"></md-table-cell>
+                      <md-table-cell md-label="ชื่อสินค้า" md-sort-by="name"><input type="text" class="datatable" disabled v-model="item.name"></md-table-cell>
+                      <md-table-cell md-label="หน่วยนับ" md-sort-by="count"><input type="text" class="datatable" v-model="item.count"></md-table-cell>
+                      <md-table-cell md-label="จำนวน" md-sort-by="amount"><input type="text" class="datatable" @keyup="calculatedata(item)" v-model.number="item.amount"></md-table-cell>
+                      <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 0" md-sort-by="price"><input type="text" class="datatable" @keyup="calculatedata(item)" style="width:100%" v-model.number="item.price"></md-table-cell>
+                      <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 1" md-sort-by="price2"><input type="text" class="datatable" @keyup="calculatedata(item)" style="width:100%" v-model.number="item.price2"></md-table-cell>
+                      <md-table-cell md-label="ส่วนลด" md-sort-by="discount"><input type="text" class="datatable" @keyup="calculatedata(item)" v-model.number="item.discount"></md-table-cell>
                       <md-table-cell md-label="จำนวนเงิน" md-sort-by="allprice"><input type="text" disabled class="datatable" v-model.number="item.allprice"></md-table-cell>
                       <!-- <md-table-cell md-label="เงื่อนไขการขนส่ง" md-sort-by="because">{{ item.because }}</md-table-cell> -->
                     </md-table-row>
@@ -149,23 +150,23 @@
                   <div class="md-layout-item md-size-80 md-xsmall-size-100" style="text-align:right;">
   
                     <span class="md-title subnotop">
-                              รวมมูลค่าสินค้า
-                            </span>
+                                รวมมูลค่าสินค้า
+                              </span>
                   </div>
   
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:right;">
   
                     <span class="md-title subnotop">
-                              {{ convertmoney(totalprice) }}
-                            </span>
+                                {{ convertmoney(totalprice) }}
+                              </span>
   
   
                   </div>
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:center;">
   
                     <span class="md-title subnotop">
-                              บาท 
-                            </span>
+                                บาท 
+                              </span>
   
                   </div>
   
@@ -175,20 +176,20 @@
   
                   <div class="md-layout-item md-size-80 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
-                              มูลค่าสินค้ายกเว้นภาษี
-                            </span>
+                                มูลค่าสินค้ายกเว้นภาษี
+                              </span>
                   </div>
   
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
-                             0
-                            </span>
+                               0
+                              </span>
   
                   </div>
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:center;">
                     <span class="md-title subnotop">
-                              บาท 
-                            </span>
+                                บาท 
+                              </span>
                   </div>
                 </div>
   
@@ -196,20 +197,20 @@
   
                   <div class="md-layout-item md-size-80 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
-                              ส่วนลด
-                    </span>
-                      
-                  </div>
-  
-                  <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:right;">
-                    <span class="md-title subnotop">
-                             <input ref="discount"  v-model="caldiscount" style="width:100%;text-align:right;" type="text">
+                                ส่วนลด
                       </span>
+  
+                  </div>
+  
+                  <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:right;">
+                    <span class="md-title subnotop">
+                               <input ref="discount"  v-model="caldiscount" style="width:100%;text-align:right;" type="text">
+                        </span>
                   </div>
   
                   <div class="md-layout-item md-size-10 md-xsmall-size-100">
-                      <md-button style="width:5% !important" @click="calbathordiscount" v-show="percal" class="md-raised md-primary">%</md-button>
-                        <md-button style="width:5% !important" @click="calbathordiscount" v-show="!percal" class="md-raised md-primary">บาท</md-button>
+                    <md-button style="width:5% !important" @click="calbathordiscount" v-show="percal" class="md-raised md-primary">%</md-button>
+                    <md-button style="width:5% !important" @click="calbathordiscount" v-show="!percal" class="md-raised md-primary">บาท</md-button>
                   </div>
                 </div>
   
@@ -217,20 +218,20 @@
   
                   <div class="md-layout-item md-size-80 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
-                              ภาษีมูลค่าเพิ่ม
-                            </span>
+                                ภาษีมูลค่าเพิ่ม
+                              </span>
                   </div>
   
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
-                            {{ convertmoney(dif_fee) }}
-                            </span>
+                              {{ convertmoney(dif_fee) }}
+                              </span>
                   </div>
   
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:center;">
                     <span class="md-title subnotop">
-                              บาท 
-                            </span>
+                                บาท 
+                              </span>
                   </div>
                 </div>
   
@@ -238,20 +239,20 @@
   
                   <div class="md-layout-item md-size-80 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
-                              มูลค่ารวมภาษี
-                            </span>
+                                มูลค่ารวมภาษี
+                              </span>
                   </div>
   
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
-                             {{ convertmoney(cal_totalprice) }}
-                            </span>
+                               {{ convertmoney(cal_totalprice) }}
+                              </span>
                   </div>
   
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:center;">
                     <span class="md-title subnotop">
-                              บาท 
-                            </span>
+                                บาท 
+                              </span>
                   </div>
                 </div>
   
@@ -259,20 +260,20 @@
   
                   <div class="md-layout-item md-size-80 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
-                              มูลค่าสุทธิ
-                            </span>
+                                มูลค่าสุทธิ
+                              </span>
                   </div>
   
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
-                             {{ convertmoney(cal_totalprice) }}
-                            </span>
+                               {{ convertmoney(cal_totalprice) }}
+                              </span>
                   </div>
   
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:center;">
                     <span class="md-title subnotop">
-                              บาท 
-                    </span>
+                                บาท 
+                      </span>
                   </div>
   
                 </div>
@@ -343,11 +344,13 @@
                     </md-card-actions>
                   </md-card>
   
-                  <md-card class="md-layout-item md-size-50 md-small-size-100">
+                  <md-card class="md-layout-item md-size-50 md-small-size-100" :style="{height: docheight}" style="transition:all 0.5s;">
                     <md-card-header>
-                      <div class="md-title ">กลุ่มเอกสาร</div>
+                      <div class="md-title ">กลุ่มเอกสาร
+                        <md-switch @change="isshowdoc_fuc" style="position:absolute;right:0;" v-model="isshowdocument">{{ convertshowdoc(isshowdocument) }}</md-switch>
+                      </div>
                     </md-card-header>
-                    <md-card-content>
+                    <md-card-content v-if="isshowdocument">
                       <div class="md-layout md-gutter">
                         <div class="md-layout-item md-small-size-100">
                           <md-field>
@@ -389,6 +392,8 @@
                     </md-card-content>
                     <md-card-actions>
                     </md-card-actions>
+  
+  
                   </md-card>
   
                   <md-card class="md-layout-item md-size-50 md-small-size-100">
@@ -432,17 +437,14 @@
                           </md-field>
                           <label class="abright" for="first-name subnotop ">วัน</label>
                         </div>
-                        <div style="position:relative" class=" md-layout-item md-size-50 md-xsmall-size-100">
-                          <span class="md-title subnotop" style="position: relative; top: -3px;">
-                              วันที่เริ่มตามลูกค้า
+                        <div style="position:relative;top:-30px;" class=" md-layout-item md-size-50 md-xsmall-size-100">
+                          <span class="md-title subnotop" style="position: relative; top: 20px;">
+                            วันที่เริ่มตามลูกค้า
                             </span>
-                          <md-datepicker style="position:absolute;top:0;width:85%" v-model="selectedDate" />
-                        </div>
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field class="md-layout-item md-small-size-100">
-                            <label for="last-name">Job ID</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name" />
-                          </md-field>
+                          <div style="position:relative;">
+                            <md-icon style="float:left;position:relative;top:28px;margin-right:5px;">calendar_today</md-icon>
+                            <datepicker @input="calexpire_Date" v-model="expiredate_cal" input-class="form-control" style="position:relative;top:15px;width: 80%;" :language="languages[language]" format="d MMMM yyyy"></datepicker>
+                          </div>
                         </div>
                       </div>
                     </md-card-content>
@@ -456,43 +458,44 @@
                     </md-card-header>
                     <md-card-content>
                       <div class="md-layout md-gutter">
-                        <div style="position:relative" class=" md-layout-item md-size-100 md-xsmall-size-100">
+                        <div style="position:relative;top:-30px" class=" md-layout-item md-size-100 md-xsmall-size-100">
                           <span class="md-title subnotop" style="position: relative; top: 20px;">
-                              วันที่หมดอายุ
-                            </span>
-                       <div style="position:relative;">
-                      <md-icon style="float:left;position:relative;top:28px;margin-right:5px;">calendar_today</md-icon>
-                      <datepicker @input="calexpire_Date"  v-model="expiredate_cal" input-class="form-control" style="position:relative;top:15px;width: 80%;" :language="languages[language]" format="d MMMM yyyy"></datepicker>
-                    </div>
+                                วันที่หมดอายุ
+                              </span>
+                          <div style="position:relative;">
+                            <md-icon style="float:left;position:relative;top:28px;margin-right:5px;">calendar_today</md-icon>
+                            <datepicker @input="calexpire_Date" v-model="expiredate_cal" input-class="form-control" style="position:relative;top:15px;width: 80%;" :language="languages[language]" format="d MMMM yyyy"></datepicker>
+                          </div>
                         </div>
                         <!--  -->
-                        <div style="position:relative" class=" md-layout-item md-size-100 md-xsmall-size-100">
-                             <span class="md-title subnotop" style="position: relative; top: 20px;">
-                              ลงวันที่
-                            </span>
-                       <div style="position:relative;">
-                      <md-icon style="float:left;position:relative;top:28px;margin-right:5px;">calendar_today</md-icon>
-                      <datepicker @input="calDueDate_date"  v-model="DueDate_date" input-class="form-control tc" style="position:relative;top:15px;width: 80%;" :language="languages[language]" format="d MMMM yyyy"></datepicker>
-                    </div>
+                        <div style="position:relative;top:-30px" class=" md-layout-item md-size-100 md-xsmall-size-100">
+                          <span class="md-title subnotop" style="position: relative; top: 20px;">
+                                ลงวันที่
+                              </span>
+                          <div style="position:relative;">
+                            <md-icon style="float:left;position:relative;top:28px;margin-right:5px;">calendar_today</md-icon>
+                            <datepicker @input="calDueDate_date" v-model="DueDate_date" input-class="form-control tc" style="position:relative;top:15px;width: 80%;" :language="languages[language]" format="d MMMM yyyy"></datepicker>
+                          </div>
                         </div>
                         <!--  -->
-                        <div style="position:relative;" class=" md-layout-item md-size-100 md-xsmall-size-100">
+                        <div style="position:relative;top:-30px" class=" md-layout-item md-size-100 md-xsmall-size-100">
                           <span class="md-title subnotop" style="position: relative;top:20px">
-                              วันที่ครบกำหนด
-                          </span><md-icon  style="position:relative;top:15px;color:black">lock</md-icon>
-
-                            <div style="position:relative;">
-                      <md-icon style="float:left;position:relative;top:28px;margin-right:5px;">calendar_today</md-icon>
-                      <datepicker disabled  v-model="DueDate_cal" input-class="form-control tc" style="position:relative;top:15px;width: 80%;" :language="languages[language]" format="d MMMM yyyy"></datepicker>
-                    </div>
-                        </div>
-                        <div style="position:relative;margin-top: 46px;" class=" md-layout-item md-size-100 md-xsmall-size-100">
-                          <span class="md-title subnotop" style="position: relative; top: -3px;">
-                              คำตอบจากลูกค้า
+                                วันที่ครบกำหนด
                             </span>
+                          <md-icon style="position:relative;top:15px;color:black">lock</md-icon>
+  
+                          <div style="position:relative;">
+                            <md-icon style="float:left;position:relative;top:28px;margin-right:5px;">calendar_today</md-icon>
+                            <datepicker disabled v-model="DueDate_cal" input-class="form-control tc" style="position:relative;top:15px;width: 80%;" :language="languages[language]" format="d MMMM yyyy"></datepicker>
+                          </div>
+                        </div>
+                        <div style="position:relative;margin-top: 46px;top:-30px" class=" md-layout-item md-size-100 md-xsmall-size-100">
+                          <span class="md-title subnotop" style="position: relative; top: -3px;">
+                                คำตอบจากลูกค้า
+                              </span>
                           <md-datepicker style="position:absolute;top:0;width: 85%;" v-model="selectedDate" />
                         </div>
-                        <div class="md-layout-item md-small-size-100" style="    margin-top: 41px;">
+                        <div class="md-layout-item md-small-size-100" style="margin-top: 41px;top:-30px">
                           <md-field>
                             <label for="last-name">รูปแบบการสั่งซื้อสินค้า</label>
                             <md-input name="last-name" id="last-name" autocomplete="family-name" />
@@ -594,10 +597,10 @@
             <!-- <md-button class="md-primary" @click="showDialogcus = false">Save</md-button> -->
           </md-dialog-actions>
         </md-dialog>
-        </div>
+      </div>
       <!-- showDialogcus -->
       <!-- -->
-       <div>
+      <div>
         <md-dialog :md-active.sync="showDialogproduct">
           <md-dialog-title>ค้นหาสินค้า</md-dialog-title>
           <md-tabs md-dynamic-height>
@@ -620,7 +623,7 @@
                     <tr @click="showdetail(val)" v-for="(val,index) in dataproductDialog" style="text-align:center;cursor:pointer">
                       <td>{{index+1}}</td>
                       <td v-show="val.pic_path_1"><img style="width:50px;height:50px;" class="hoverzoom" :src="val.pic_path_1" alt=""></td>
-                       <td v-show="!val.pic_path_1" ><img style="max-width:50px;max-height:50px;"  src="../../assets/No_Image_Available.png" alt=""></td>
+                      <td v-show="!val.pic_path_1"><img style="max-width:50px;max-height:50px;" src="../../assets/No_Image_Available.png" alt=""></td>
                       <td>{{val.bar_code}}</td>
                       <td>{{val.item_name}}</td>
                       <td>{{val.unit_code}}</td>
@@ -639,7 +642,7 @@
             <!-- <md-button class="md-primary" @click="showDialogcus = false">Save</md-button> -->
           </md-dialog-actions>
         </md-dialog>
-        </div>
+      </div>
       <!-- -->
     </div>
   </div>

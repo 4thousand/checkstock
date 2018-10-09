@@ -187,9 +187,20 @@ export default {
     Deliver_date: 0,
     DueDate_date: '',
     expire_date:0,
-    expiredate_cal:''
+    expiredate_cal:'',
+    isshowdocument:false,
+    docheight:'72px'
   }),
   methods: {
+    isshowdoc_fuc(){
+      if(!this.isshowdocument){
+        this.docheight = '72px'
+      }
+      if(this.isshowdocument){
+        this.docheight = 'auto'
+      }
+      
+    },
     calexpire_Date(){
       var date1 = new Date(this.expiredate_cal);
       var date2 = new Date();
@@ -220,9 +231,6 @@ export default {
       // alert('dsad')
       console.log(this.percal)
       this.percal = !this.percal
-    },
-    test1234() {
-      alert("12313");
     },
     newUser() {
       this.$refs.addproduct.$el.focus()
@@ -397,6 +405,15 @@ export default {
       // console.log(val)
       var number = numeral(val).format('0,0.00');
       return number
+    },
+    convertshowdoc(val){
+      if(val == false){
+        var comment = 'ปิด'
+        return comment
+      }else if(val == true){
+        var comment = 'เปิด'
+        return comment
+      }
     },
     showcontent_step2() {
       this.salecode = this.objuser.sale_code + ' / ' + this.objuser.username
