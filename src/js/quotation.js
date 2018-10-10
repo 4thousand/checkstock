@@ -165,12 +165,14 @@ export default {
     secondStepError: null,
     language: "th",
     languages: lang,
+    idcus:'',
     searchcus: '',
     detailcus: '',
     showDialogcus: false,
     detailcusall: [],
     tablecode: '',
     billtype: '',
+    taxtype:'',
     docno: 'ไม่มีข้อมูล',
     keywordproduct: '',
     showDialogproduct: false,
@@ -180,7 +182,7 @@ export default {
     attention: '',
     percal: false, //true == % , false == บาท
     caldiscount: 0,
-    salecode: '',
+    keywordemp: '',
     // page 2
     bill_credit: 0,
     DueDate_cal: '',
@@ -189,7 +191,15 @@ export default {
     expire_date:0,
     expiredate_cal:'',
     isshowdocument:false,
-    docheight:'72px'
+    docheight:'72px',
+    searchsale:false,
+    sale_id: JSON.parse(localStorage.userid),
+    salecode:'',
+    searchsaleobj:[],
+    validity:'',
+    is_condition_send:'',
+    my_description:'',
+    creator_by: '',
   }),
   methods: {
     isshowdoc_fuc(){
@@ -242,12 +252,109 @@ export default {
       alert("ค้นหาข้อมูล Waiting ...");
     },
     setDone(id, index) {
+      //
       this[id] = true
       this.secondStepError = null
+      //
+      if(index == 'third') { //บันทึก
+          let doc_type
+          let tax_type
+          let percent
+          let discount_amount
+
+          if(this.tablecode == 'BO'){
+            doc_type = 0 
+          }else if(this.tablecode == 'QT'){
+            doc_type = 1
+          }
+          if(this.salecode){
+            var str = this.salecode;
+            var res = str.split("/");
+            // console.log(res)
+            var sale_code = res[0]
+            var sale_name = res[1]
+          }
+          if(this.taxtype == 'ภาษีแยกนอก'){
+            tax_type = 0
+          }else if(this.taxtype == 'ภาษีรวมใน'){
+            tax_type = 1
+          }else if(this.taxtype == 'ภาษีอัตราศูนย์'){
+            tax_type = 2
+          }
+
+          if(this.percal == true){
+            percent = '%'
+            discount_amount = this.totalprice - this.cal_totalprice
+          }else{
+            percent = ''
+            discount_amount = this.caldiscount
+          }
+
+        let payload = {
+          doc_no : this.docno,
+          doc_type,
+          ar_id:this.idcus,
+          ar_code:this.searchcus,
+          ar_name:this.detailcus,
+          sale_id:this.sale_id,
+          sale_code,
+          sale_name,
+          bill_type:parseInt(this.billtype),
+          tax_type,
+          tax_rate:7,
+          depart_code:'',
+          ref_no:'',
+          is_confirm:0,
+          bill_status:0,
+          credit_day: this.bill_credit,
+          due_date: this.convermonth_y_m_d(this.DueDate_cal),
+          validity: parseInt(this.validity),
+          expire_day: parseInt(this.expire_date),
+          expire_date:this.convermonth_y_m_d(this.expiredate_cal),
+          delivery_day: parseInt(this.Deliver_date),
+          delivery_date:this.convermonth_y_m_d(this.DueDate_date),
+          assert_status:0,
+          is_condition_send:parseInt(this.is_condition_send),
+          my_description:this.my_description,
+          sum_of_item_amount:parseInt(this.totalprice),
+          discount_word:this.caldiscount+percent,
+          discount_amount,
+          // after_discount_amount:'',
+          before_tax_amount: this.totalprice - this.caldiscount,
+          project_id:0,
+          allocate_id:0,
+          is_cancel:0,
+          creator_by:this.creator_by,
+          subs:this.dproducts
+        }
+        console.log(JSON.stringify(payload))
+        api.savequotation(payload,
+          (result) => {
+            console.log(result)
+            alertify.success('บันทึกสำเร็จ ' + this.docno);
+          },
+          (error) => {
+            console.log(JSON.stringify(error))
+            //Customerall
+            alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
+            //  alertify.success('Error login');
+            // this.cload()
+          })
+        // console.log(JSON.stringify(payload))
+      }
+      //บันทึก
+
+
       if (index) {
         this.active = index
       }
       document.getElementsByClassName("md-content")[0].scrollTop = 0
+    },
+    convermonth_y_m_d(val){
+      var date = val;
+      var cut = date.split("/");
+      var result = cut[2]+'-'+cut[0]+'-'+cut[1];
+      return result;
     },
     fsearchcus() {
       var payload = {
@@ -279,6 +386,7 @@ export default {
         })
     },
     C_customer(val) {
+      this.idcus = val.id
       this.searchcus = val.code
       this.detailcus = val.name
       this.showDialogcus = false
@@ -356,18 +464,21 @@ export default {
     },
     showdetail(val) {
       console.log(JSON.stringify(val))
+
       if (this.billtype == 0) {
         var datashow = {
-          id: val.id,
-          barcode: val.bar_code,
-          name: val.item_name,
-          count: val.unit_code,
-          amount: 1,
+          item_id: val.id,
+          bar_code: val.bar_code,
+          item_name: val.item_name,
+          unit_code: val.unit_code,
+          qty: 1,
           price: val.sale_price_1,
-          price2: val.sale_price_2,
-          discount: 0,
-          allprice: val.sale_price_1 * 1,
-          because: "ไม่มี"
+          discount_word:'',
+          discount_amount: 0,
+          item_amount: val.sale_price_1 * 1,
+          item_description: "ไม่มี",
+          packing_rate_1:1,
+          is_cancel:0
         }
         this.dproducts.push(datashow)
         //close modal
@@ -375,16 +486,18 @@ export default {
         alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
       } else if (this.billtype == 1) {
         var datashow = {
-          id: val.id,
-          barcode: val.bar_code,
-          name: val.item_name,
-          count: val.unit_code,
-          amount: 1,
-          price: val.sale_price_1,
-          price2: val.sale_price_2,
-          discount: 0,
-          allprice: val.sale_price_2 * 1,
-          because: "ไม่มี"
+          item_id : val.id,
+          bar_code: val.bar_code,
+          item_name: val.item_name,
+          unit_code: val.unit_code,
+          qty: 1,
+          price: val.sale_price_2,
+          discount_word:'',
+          discount_amount: 0,
+          item_amount: val.sale_price_2 * 1,
+          item_description: "ไม่มี",
+          packing_rate_1:1,
+          is_cancel:0
         }
         this.dproducts.push(datashow)
         //close modal
@@ -396,9 +509,9 @@ export default {
     calculatedata(val) {
       console.log(JSON.stringify(val))
       if (this.billtype == 0) {
-        val.allprice = (val.amount * val.price) - val.discount
+        val.item_amount = (val.qty * val.price) - val.discount_amount
       } else if (this.billtype == 1) {
-        val.allprice = (val.amount * val.price2) - val.discount
+        val.item_amount = (val.qty * val.price) - val.discount_amount
       }
     },
     convertmoney(val) {
@@ -418,6 +531,42 @@ export default {
     showcontent_step2() {
       this.salecode = this.objuser.sale_code + ' / ' + this.objuser.username
     },
+    searchsale_step2(){
+      let payload = {
+        keyword: this.salecode
+      }
+      console.log(payload)
+      api.searchcus(payload,
+        (result) => {
+          console.log(JSON.stringify(result.data))
+          // console.log(result.data.length)
+          if (result.data.length == 0) {
+            alertify.error('ไม่มีพนักงานคนนี้');
+            return
+          }
+          if (result.data.length == 1) {
+            this.salecode = result.data[0].sale_code + ' / ' + result.data[0].sale_name
+            
+          } else if (result.data.length > 1) {
+            this.searchsale = true
+            this.searchsaleobj = result.data
+          }
+        },
+        (error) => {
+          console.log(JSON.stringify(error))
+          alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
+        })
+    },
+    selectcus_step2(val){
+      console.log(JSON.stringify(val))
+      this.sale_id = val.employee_id
+      this.salecode = val.sale_code + ' / ' + val.sale_name
+      this.searchsale = false
+    },
+    focussearchcus(){
+      this.salecode = ''
+      this.$refs.codesale.$el.focus()
+    },
   },
   created() {
     this.searched = this.dproducts;
@@ -425,10 +574,11 @@ export default {
   computed: {
     totalprice() {
       return this.dproducts.reduce(function (sum, item) {
-        return (sum + item.allprice)
+        return (sum + item.item_amount)
       }, 0)
     },
     dif_fee() {
+      if(this.taxtype == 'ภาษีแยกนอก' || this.taxtype == 'ภาษีรวมใน'){
       if (!this.percal) {
         return (this.totalprice - this.caldiscount) - (((this.totalprice - this.caldiscount) * 100) / 107)
 
@@ -437,14 +587,37 @@ export default {
         console.log(percent)
         return percent - ((percent * 100) / 107)
       }
+    }
+    if(this.taxtype == 'ภาษีอัตราศูนย์'){
+      return 0
+    }
     },
     cal_totalprice() {
+    if(this.taxtype == 'ภาษีรวมใน'){
       if (!this.percal) {
         return this.totalprice - this.caldiscount
       }
       if (this.percal) {
         return this.totalprice - (this.totalprice * this.caldiscount / 100)
       }
+    }
+    if(this.taxtype == 'ภาษีแยกนอก'){
+      if (!this.percal) {
+        return this.totalprice + this.dif_fee
+      }
+      if (this.percal) {
+        return this.totalprice + this.dif_fee
+      }
+    }
+    if(this.taxtype == 'ภาษีอัตราศูนย์'){
+      if (!this.percal) {
+        return this.totalprice
+      }
+      if (this.percal) {
+        return this.totalprice
+      }
+    }
+
     },
     firstDayOfAWeek: {
       get() {
@@ -456,6 +629,7 @@ export default {
     }
   },
   mounted() {
+     this.creator_by =  this.objuser.usercode
     this.showcontent_step2()
     console.log(this.objuser)
     // data:('3')

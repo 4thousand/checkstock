@@ -28,6 +28,9 @@ import facebookLogin from 'facebook-login-vuejs';
           if (result.status == 'success') {
                console.log(JSON.stringify(result.data))
             localStorage.Datauser = JSON.stringify(result.data)
+            // var userid = 
+            localStorage.userid = result.data.id
+            // localStorage.user = result.data.usercode
             this.loading = false;
             this.$router.push("/index");
             alertify.success('Login Success');
