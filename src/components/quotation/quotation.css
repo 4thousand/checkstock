@@ -346,6 +346,12 @@
     top: -65px;
     left: -104px;
   }
+  .md-tabs-content{
+    overflow-y: auto;
+  }
+  .md-dialog-title{
+    margin-bottom: 0px;
+  }
   /* .md-button .md-ripple:nth-child(2){
     width: 53px;
   } */

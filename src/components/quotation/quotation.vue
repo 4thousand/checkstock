@@ -626,13 +626,13 @@
                   <thead align="center">
                     <tr>
                       <!--                                <th style=''>client_id</th>-->
-                      <th>ลำดับ</th>
-                      <th>รูป</th>
-                      <th >รหัสบาร์โค้ด</th>
-                      <th>ชื่อสินค้า</th>
-                      <th>หน่วยนับ</th>
-                      <th v-show="billtype == 0">ราคา(เงินสด)</th>
-                      <th v-show="billtype == 1">ราคา(เงินเชื่อ)</th>
+                      <th  style="white-space: nowrap;">ลำดับ</th>
+                      <th  style="white-space: nowrap;">รูป</th>
+                      <th style="overflow:auto;white-space: nowrap;">รหัสบาร์โค้ด</th>
+                      <th style="white-space: nowrap;">ชื่อสินค้า</th>
+                      <th style="white-space: nowrap;" >หน่วยนับ</th>
+                      <th style="white-space: nowrap;" v-show="billtype == 0">ราคา(เงินสด)</th>
+                      <th style="white-space: nowrap;" v-show="billtype == 1">ราคา(เงินเชื่อ)</th>
                     </tr>
                   </thead>
                   <tbody id="valuetable">
