@@ -4,7 +4,7 @@ const toLower = text => {
 
 const searchByName = (items, term) => {
   if (term) {
-    return items.filter(item => toLower(item.name).includes(toLower(term)));
+    return items.filter(item => toLower(item.item_name).includes(toLower(term)));
   }
   return items;
 };
@@ -319,8 +319,8 @@ export default {
           sum_of_item_amount:parseInt(this.totalprice),
           discount_word:this.caldiscount+percent,
           discount_amount,
-          // after_discount_amount:'',
-          before_tax_amount: this.totalprice - this.caldiscount,
+          after_discount_amount: this.totalprice - this.caldiscount,
+        //  before_tax_amount: '',
           project_id:0,
           allocate_id:0,
           is_cancel:0,
@@ -337,8 +337,6 @@ export default {
             console.log(JSON.stringify(error))
             //Customerall
             alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
-            //  alertify.success('Error login');
-            // this.cload()
           })
         // console.log(JSON.stringify(payload))
       }
@@ -476,8 +474,8 @@ export default {
           discount_word:'',
           discount_amount: 0,
           item_amount: val.sale_price_1 * 1,
-          item_description: "ไม่มี",
-          packing_rate_1:1,
+          item_description: "",
+          packing_rate_1:parseInt(val.rate_1),
           is_cancel:0
         }
         this.dproducts.push(datashow)
@@ -495,10 +493,10 @@ export default {
           discount_word:'',
           discount_amount: 0,
           item_amount: val.sale_price_2 * 1,
-          item_description: "ไม่มี",
-          packing_rate_1:1,
+          item_description: "",
+          packing_rate_1:parseInt(val.rate_1),
           is_cancel:0
-        }
+        } 
         this.dproducts.push(datashow)
         //close modal
         this.showDialogproduct = false
