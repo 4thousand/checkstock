@@ -132,6 +132,7 @@
                     </md-table-empty-state>
   
                     <md-table-row slot="md-table-row" slot-scope="{ item }">
+     
                       <md-table-cell md-label="รหัสบาร์โค้ด" md-sort-by="bar_code" md-numeric><input type="text" class="datatable" disabled v-model="item.bar_code"></md-table-cell>
                       <md-table-cell md-label="ชื่อสินค้า" md-sort-by="item_name"><input type="text" class="datatable" disabled v-model="item.item_name"></md-table-cell>
                       <md-table-cell md-label="หน่วยนับ" md-sort-by="unit_code"><input type="text" class="datatable" v-model="item.unit_code"></md-table-cell>
@@ -204,7 +205,7 @@
   
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
-                               <input ref="discount"  v-model="caldiscount" style="width:100%;text-align:right;" type="text">
+                               <input ref="discount"  v-model.number="caldiscount" style="width:100%;text-align:right;" type="text">
                         </span>
                   </div>
   

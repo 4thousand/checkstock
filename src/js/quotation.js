@@ -293,7 +293,7 @@ export default {
         let payload = {
           id: 0,// 0 = insert , 1 = update
           doc_no : this.docno,
-          doc_type,
+          doc_type, 
           ar_id:this.idcus,
           ar_code:this.searchcus,
           ar_name:this.detailcus,
@@ -317,9 +317,9 @@ export default {
           assert_status:0,
           is_condition_send:parseInt(this.is_condition_send),
           my_description:this.my_description,
-          sum_of_item_amount:parseInt(this.totalprice),
+          sum_of_item_amount: this.totalprice,
           discount_word:this.caldiscount+percent,
-          discount_amount,
+          discount_amount: parseInt(discount_amount),
           after_discount_amount: this.totalprice - this.caldiscount,
         //  before_tax_amount: '',
           project_id:0,
@@ -329,16 +329,16 @@ export default {
           subs:this.dproducts
         }
         console.log(JSON.stringify(payload))
-        api.savequotation(payload,
-          (result) => {
-            console.log(result)
-            alertify.success('บันทึกสำเร็จ ' + this.docno);
-          },
-          (error) => {
-            console.log(JSON.stringify(error))
-            //Customerall
-            alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
-          })
+       // api.savequotation(payload,
+       //   (result) => {
+       //     console.log(result)
+       //     alertify.success('บันทึกสำเร็จ ' + this.docno);
+       //   },
+       //   (error) => {
+       //     console.log(JSON.stringify(error))
+       //     //Customerall
+       //     alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
+       //   })
         // console.log(JSON.stringify(payload))
       }
       //บันทึก
@@ -369,6 +369,7 @@ export default {
             return
           }
           if (result.data.length == 1) {
+            this.idcus = result.data[0].id
             this.detailcus = result.data[0].name
             this.searchcus = result.data[0].code
           } else if (result.data.length > 1) {
@@ -385,6 +386,7 @@ export default {
         })
     },
     C_customer(val) {
+      console.log(JSON.stringify(val))
       this.idcus = val.id
       this.searchcus = val.code
       this.detailcus = val.name
