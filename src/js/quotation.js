@@ -285,7 +285,6 @@ export default {
 
           if(this.percal){
             percent = '%'
-   //         console.log(this.totalprice +' ///' + this.dif_fee)
             discount_amount = this.totalprice - (this.totalprice - (this.totalprice * this.caldiscount / 100))
             alert('dsa')
           }else if(!this.percal){
@@ -333,17 +332,17 @@ export default {
           subs:this.dproducts
         }
         console.log(JSON.stringify(payload))
-        // api.savequotation(payload,
-        //   (result) => {
-        //     console.log(result)
-        //    alertify.success('บันทึกสำเร็จ ' + this.docno);
-        //  },
-        //   (error) => {
-        //     console.log(JSON.stringify(error))
-        //     //Customerall
-        //     alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
-        //  })
-        //  console.log(JSON.stringify(payload))
+         api.savequotation(payload,
+           (result) => {
+             console.log(result)
+            alertify.success('บันทึกสำเร็จ ' + this.docno);
+          },
+           (error) => {
+             console.log(JSON.stringify(error))
+             //Customerall
+             alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
+          })
+          console.log(JSON.stringify(payload))
       }
       //บันทึก
 
