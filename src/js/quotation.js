@@ -196,8 +196,8 @@ export default {
     sale_id: JSON.parse(localStorage.userid),
     salecode:'',
     searchsaleobj:[],
-    validity:'',
-    is_condition_send:'',
+    validity:0,
+    is_condition_send:0,
     my_description:'',
     creator_by: '',
     branch_id:0,
@@ -286,7 +286,7 @@ export default {
           if(this.percal){
             percent = '%'
             discount_amount = this.totalprice - (this.totalprice - (this.totalprice * this.caldiscount / 100))
-            alert('dsa')
+         //   alert('dsa')
           }else if(!this.percal){
             percent = ''
             discount_amount = this.caldiscount
@@ -332,17 +332,17 @@ export default {
           subs:this.dproducts
         }
         console.log(JSON.stringify(payload))
-         api.savequotation(payload,
-           (result) => {
-             console.log(result)
-            alertify.success('บันทึกสำเร็จ ' + this.docno);
-          },
-           (error) => {
-             console.log(JSON.stringify(error))
-             //Customerall
-             alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
-          })
-          console.log(JSON.stringify(payload))
+        // api.savequotation(payload,
+        //   (result) => {
+        //     console.log(result)
+        //    alertify.success('บันทึกสำเร็จ ' + this.docno);
+        //  },
+        //   (error) => {
+        //     console.log(JSON.stringify(error))
+        //     //Customerall
+        //     alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
+        //  })
+        //  console.log(JSON.stringify(payload))
       }
       //บันทึก
 
@@ -353,6 +353,9 @@ export default {
       document.getElementsByClassName("md-content")[0].scrollTop = 0
     },
     convermonth_y_m_d(val){
+      if(val == ''){
+        return ''
+      }
       var date = val;
       var cut = date.split("/");
       var result = cut[2]+'-'+cut[0]+'-'+cut[1];
@@ -512,6 +515,8 @@ export default {
       //console.log(datashow)
     },
     calculatedata(val) {
+    
+      val.discount_word = String(val.discount_amount)
       console.log(JSON.stringify(val))
       if (this.billtype == 0) {
         val.item_amount = (val.qty * val.price) - val.discount_amount

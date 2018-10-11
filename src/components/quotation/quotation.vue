@@ -28,7 +28,7 @@
                                 ประเภทเสนอราคา
                               </span>
                     <md-icon v-show="disablebilltype" style="position:relative;top:10px;color:black">lock</md-icon>
-                    <md-field>
+                    <md-field> 
                       <md-select @input="showdocno" :disabled="disablebilltype" v-model="billtype" name="country" id="country" placeholder="กรุณาเลือก">
                         <md-option value="0">ขายสินค้าเงินสด</md-option>
                         <md-option value="1">ขายสินค้าเงินเชื่อ</md-option>
@@ -135,11 +135,12 @@
      
                       <md-table-cell md-label="รหัสบาร์โค้ด" md-sort-by="bar_code" md-numeric><input type="text" class="datatable" disabled v-model="item.bar_code"></md-table-cell>
                       <md-table-cell md-label="ชื่อสินค้า" md-sort-by="item_name"><input type="text" class="datatable" disabled v-model="item.item_name"></md-table-cell>
-                      <md-table-cell md-label="หน่วยนับ" md-sort-by="unit_code"><input type="text" class="datatable" v-model="item.unit_code"></md-table-cell>
+                      <md-table-cell md-label="หน่วยนับ" md-sort-by="unit_code"><input type="text" class="datatable" v-model="item.unit_code.trim()"></md-table-cell>
                       <md-table-cell md-label="จำนวน" md-sort-by="qty"><input type="text" class="datatable" @keyup="calculatedata(item)" v-model.number="item.qty"></md-table-cell>
                       <md-table-cell md-label="ราคา/หน่วย" md-sort-by="price"><input type="text" class="datatable" @keyup="calculatedata(item)" style="width:100%" v-model.number="item.price"></md-table-cell>
                       <!-- <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 1" md-sort-by="price2"><input type="text" class="datatable" @keyup="calculatedata(item)" style="width:100%" v-model.number="item.price2"></md-table-cell> -->
                       <md-table-cell md-label="ส่วนลด" md-sort-by="discount_amount"><input type="text" class="datatable" @keyup="calculatedata(item)" v-model.number="item.discount_amount"></md-table-cell>
+        
                       <md-table-cell md-label="จำนวนเงิน" md-sort-by="item_amount"><input type="text" disabled class="datatable" v-model.number="item.item_amount"></md-table-cell>
                       <!-- <md-table-cell md-label="เงื่อนไขการขนส่ง" md-sort-by="because">{{ item.because }}</md-table-cell> -->
                     </md-table-row>
