@@ -101,6 +101,11 @@ export default {
     changeColor () {
       alert('sadasd')
     },
+    seedetail(val){
+        console.log(JSON.stringify(val))
+        localStorage.iddocno = val.id
+        this.$router.push("/quotation");
+    },
     showalldoc () {
         var payload = {
             sale_code : this.sale_code.sale_code,
@@ -112,7 +117,6 @@ export default {
             (result) => {
             console.log(JSON.stringify(result.data))
                this.dataall = result.data
-              
             },
             (error) => {
                console.log(JSON.stringify(error))

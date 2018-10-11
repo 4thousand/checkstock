@@ -164,6 +164,7 @@
         alert("12313");
       },
       goindex(val) {
+        localStorage.iddocno = 0
         this.showNavigation = false
         this.$router.push(val);
       },

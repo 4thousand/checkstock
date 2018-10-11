@@ -45,7 +45,7 @@
       </div> -->
       <!-- payloadreal -->
       <div v-for="val in dataall">
-        <div class="col-12 showhover" style="cursor: pointer;margin-bottom:10px">
+        <div @click="seedetail(val)" class="col-12 showhover" style="cursor: pointer;margin-bottom:10px">
           <md-toolbar class="md-transparent hoverdiv" style="min-width:251px;display:block;padding-top:5px;overflow:hidden">
             <div class="md-layout md-gutter md-alignment-center">
               <div class="md-layout-item md-xlarge-size-5 md-large-size-5 md-xsmall-size-15 md-small-size-10 md-medium-size-5">

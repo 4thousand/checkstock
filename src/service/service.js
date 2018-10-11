@@ -71,4 +71,13 @@ export default {
           error(response)
         })
     },
+    detailquoall(payload, success, error) {
+      Vue.axios.post(URL + ':8081/sales/v1/quo/search/id', JSON.stringify(payload)).then(
+        (response) => {
+          success(response.data)
+        },
+        (response) => {
+          error(response)
+        })
+    },
 }

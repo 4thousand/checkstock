@@ -14,7 +14,7 @@
                   <div class="md-layout-item md-size-20 md-xsmall-size-100">
                     <span class="md-title sub">
                                 เลขที่ใบเสนอราคา
-                              </span>
+                        </span>
                     <md-field>
                       <md-select @input="showdocno" placeholder="กรุณาเลือก" v-model="tablecode" name="country" id="country">
                         <md-option value="QT">ใบเสนอราคา</md-option>

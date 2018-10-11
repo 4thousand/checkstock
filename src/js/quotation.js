@@ -201,6 +201,7 @@ export default {
     my_description:'',
     creator_by: '',
     branch_id:0,
+    docnoid:localStorage.iddocno,
   }),
   methods: {
     isshowdoc_fuc(){
@@ -275,6 +276,7 @@ export default {
             var sale_code = res[0]
             var sale_name = res[1]
           }
+
           if(this.taxtype == 'ภาษีแยกนอก'){
             tax_type = 0
           }else if(this.taxtype == 'ภาษีรวมใน'){
@@ -293,7 +295,7 @@ export default {
           }
 
         let payload = {
-          id: 0,// 0 = insert , 1 = update
+          id: 0,// 0 แก้ไข,update ตามไอดี 
           branch_id: this.branch_id,
           doc_no : this.docno,
           doc_type, 
@@ -474,6 +476,7 @@ export default {
       if (this.billtype == 0) {
         var datashow = {
           item_id: val.id,
+          item_code: val.item_code,
           bar_code: val.bar_code,
           item_name: val.item_name,
           unit_code: val.unit_code,
@@ -493,6 +496,7 @@ export default {
       } else if (this.billtype == 1) {
         var datashow = {
           item_id : val.id,
+          item_code: val.item_code,
           bar_code: val.bar_code,
           item_name: val.item_name,
           unit_code: val.unit_code,
@@ -577,6 +581,56 @@ export default {
       this.salecode = ''
       this.$refs.codesale.$el.focus()
     },
+    showedit () {
+      if(this.docnoid == 0){
+        // alert('หนักหลัก')
+        return
+      }
+      alert('แก้ไข')
+      // แก้ไข 
+      let payload = {
+        id: parseInt(this.docnoid)
+      } 
+      console.log(payload)
+      api.detailquoall(payload,
+        (result) => {
+          console.log(JSON.stringify(result.data))
+          let doc_type
+          let tax_type
+          let percent
+          let discount_amount
+
+          if(result.data.doc_type == 0 ){
+            doc_type = 'BO'
+          }else if(result.data.doc_type == 1 ){
+            doc_type = 'QT'
+          }
+
+          if(result.data.tax_type == 0){
+            tax_type = 'ภาษีแยกนอก'
+          }else if(result.data.tax_type == 1){
+            tax_type = 'ภาษีรวมใน'
+          }else if(result.data.tax_type == 2){
+            tax_type = 'ภาษีอัตราศูนย์'
+          }
+
+          this.tablecode = doc_type
+          this.billtype = result.data.bill_type
+          this.docno = result.data.doc_no
+          this.taxtype = tax_type
+          this.datenow_datepicker = result.data.doc_date
+          this.idcus = result.data.ar_id
+          this.searchcus = result.data.ar_code
+          this.detailcus = result.data.ar_name
+          
+        },
+        (error) => {
+          console.log(JSON.stringify(error))
+          alertify.error('ข้อมูลผิดพลาด detailquoall');
+        })
+ 
+
+    },
   },
   created() {
     this.searched = this.dproducts;
@@ -641,6 +695,10 @@ export default {
   mounted() {
      this.creator_by =  this.objuser.usercode
     this.branch_id = this.objuser.branch_id
+
+    this.showedit()
+    // console.log(this.docnoid)
+
     this.showcontent_step2()
     console.log(this.objuser)
     // data:('3')
