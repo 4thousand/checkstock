@@ -443,7 +443,7 @@ export default {
         this.disablebilltype = true
       }
       let payload = {
-        branch_id: 1,
+        branch_id: this.objuser.branch_id,
         table_code: this.tablecode,
         bill_type: parseInt(this.billtype)
       }
