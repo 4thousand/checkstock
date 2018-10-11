@@ -9,6 +9,7 @@
           <md-input @keyup.enter="showalldoc" v-model="keyword_showalldoc"></md-input>
         </md-field>
       </div>
+      
       <!-- ข้อมูลใบเสนอราคา -->
       <!-- payloadtest -->
       <!-- <div v-for="val in payload">

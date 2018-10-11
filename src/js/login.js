@@ -29,6 +29,7 @@ import facebookLogin from 'facebook-login-vuejs';
                console.log(JSON.stringify(result.data))
             localStorage.Datauser = JSON.stringify(result.data)
             // var userid = 
+           // localStorage.branchid = result.data.branch_id
             localStorage.userid = result.data.id
             // localStorage.user = result.data.usercode
             this.loading = false;

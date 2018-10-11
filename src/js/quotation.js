@@ -200,6 +200,7 @@ export default {
     is_condition_send:'',
     my_description:'',
     creator_by: '',
+    branch_id:0,
   }),
   methods: {
     isshowdoc_fuc(){
@@ -282,16 +283,19 @@ export default {
             tax_type = 2
           }
 
-          if(this.percal == true){
+          if(this.percal){
             percent = '%'
-            discount_amount = this.totalprice - this.cal_totalprice
-          }else{
+   //         console.log(this.totalprice +' ///' + this.dif_fee)
+            discount_amount = this.totalprice - (this.totalprice - (this.totalprice * this.caldiscount / 100))
+            alert('dsa')
+          }else if(!this.percal){
             percent = ''
             discount_amount = this.caldiscount
           }
 
         let payload = {
           id: 0,// 0 = insert , 1 = update
+          branch_id: this.branch_id,
           doc_no : this.docno,
           doc_type, 
           ar_id:this.idcus,
@@ -329,17 +333,17 @@ export default {
           subs:this.dproducts
         }
         console.log(JSON.stringify(payload))
-       // api.savequotation(payload,
-       //   (result) => {
-       //     console.log(result)
-       //     alertify.success('บันทึกสำเร็จ ' + this.docno);
-       //   },
-       //   (error) => {
-       //     console.log(JSON.stringify(error))
-       //     //Customerall
-       //     alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
-       //   })
-        // console.log(JSON.stringify(payload))
+        // api.savequotation(payload,
+        //   (result) => {
+        //     console.log(result)
+        //    alertify.success('บันทึกสำเร็จ ' + this.docno);
+        //  },
+        //   (error) => {
+        //     console.log(JSON.stringify(error))
+        //     //Customerall
+        //     alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
+        //  })
+        //  console.log(JSON.stringify(payload))
       }
       //บันทึก
 
@@ -632,6 +636,7 @@ export default {
   },
   mounted() {
      this.creator_by =  this.objuser.usercode
+    this.branch_id = this.objuser.branch_id
     this.showcontent_step2()
     console.log(this.objuser)
     // data:('3')
