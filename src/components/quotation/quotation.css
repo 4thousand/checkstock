@@ -347,10 +347,10 @@
     left: -104px;
   }
   .md-tabs-content{
-    overflow-y: auto;
+    overflow-y: auto !important;
   }
   .md-dialog-title{
-    margin-bottom: 0px;
+    margin-bottom: 0px !important;
   }
   /* .md-button .md-ripple:nth-child(2){
     width: 53px;
