@@ -287,7 +287,7 @@
               <!--  -->
               <div style="display:inline-block">
                 <form class="md-layout" style="justify-content: center;">
-                  <md-card class="md-layout-item md-size-45 md-small-size-100">
+                  <md-card style="margin-right:8px;margin-bottom:8px;" class="md-layout-item md-size-45 md-small-size-100">
                     <md-card-header>
                       <div class="md-title ">พนักงาน</div>
                     </md-card-header>
@@ -313,15 +313,6 @@
                         </div>
                         <div class="md-layout-item md-small-size-100">
                           <md-field>
-                            <label for="last-name">โครงการ</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name" />
-                          </md-field>
-                          <md-button style="min-width: 50px;" class="buttonemp" @click="tests">
-                            <md-icon>search</md-icon>
-                          </md-button>
-                        </div>
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
                             <label for="last-name">รหัสผู้ติดต่อ</label>
                             <md-input name="last-name" id="last-name" autocomplete="family-name" />
                           </md-field>
@@ -338,13 +329,22 @@
                             <md-icon>search</md-icon>
                           </md-button>
                         </div>
+                        <div class="md-layout-item md-size-100 md-small-size-100">
+                          <md-field>
+                            <label for="last-name">โครงการ</label>
+                            <md-input name="last-name" id="last-name" autocomplete="family-name" />
+                          </md-field>
+                          <md-button style="min-width: 50px;" class="buttonemp" @click="tests">
+                            <md-icon>search</md-icon>
+                          </md-button>
+                        </div>
                       </div>
                     </md-card-content>
                     <md-card-actions>
                     </md-card-actions>
                   </md-card>
   
-                  <md-card class="md-layout-item md-size-45 md-small-size-100" :style="{height: docheight}" style="transition:all 0.5s;">
+                  <md-card class="md-layout-item md-size-45 md-small-size-100" :style="{height: docheight}" style="transition:all 0.5s;margin-bottom:8px;">
                     <md-card-header>
                       <div class="md-title ">กลุ่มเอกสาร
                         <md-switch @change="isshowdoc_fuc" style="position:absolute;right:0;" v-model="isshowdocument">{{ convertshowdoc(isshowdocument) }}</md-switch>
@@ -392,11 +392,9 @@
                     </md-card-content>
                     <md-card-actions>
                     </md-card-actions>
-  
-  
                   </md-card>
   
-                  <md-card class="md-layout-item md-size-45 md-small-size-100">
+                  <md-card style="margin-bottom:8px;margin-right:8px;" class="md-layout-item md-size-45 md-small-size-100">
                     <md-card-header>
                       <div class="md-title ">ยืนราคา</div>
                     </md-card-header>
@@ -430,20 +428,21 @@
                           </md-field>
                           <label class="abright" for="first-name subnotop ">วัน</label>
                         </div>
-                        <div class="md-layout-item md-small-size-100">
+                       <div class="md-layout-item md-size-50 md-xsmall-size-100">
                           <md-field>
                             <label for="last-name">เครดิต(วัน)</label>
                             <md-input disabled v-model="bill_credit" name="last-name" id="last-name" autocomplete="family-name" />
                           </md-field>
                           <label class="abright" for="first-name subnotop ">วัน</label>
                         </div>
+                        
                         <div style="position:relative;top:-30px;" class=" md-layout-item md-size-50 md-xsmall-size-100">
                           <span class="md-title subnotop" style="position: relative; top: 20px;">
                             วันที่เริ่มตามลูกค้า
                             </span>
                           <div style="position:relative;">
                             <md-icon style="float:left;position:relative;top:28px;margin-right:5px;">calendar_today</md-icon>
-                            <datepicker @input="calexpire_Date"  input-class="form-control" style="position:relative;top:15px;width: 80%;" :language="languages[language]" format="d MMMM yyyy"></datepicker>
+                            <datepicker calendar-class="calendarfollowcus"   input-class="form-control" style="position:relative;top:15px;width: 80%;" :language="languages[language]" format="d MMMM yyyy"></datepicker>
                           </div>
                         </div>
                           <div class="md-layout-item md-size-50 md-xsmall-size-100">
@@ -463,7 +462,7 @@
                     </md-card-actions>
                   </md-card>
   
-                  <md-card class="md-layout-item md-size-45 md-small-size-100">
+                  <md-card style="margin-bottom:8px;" class="md-layout-item md-size-45 md-small-size-100">
                     <md-card-header>
                       <div class="md-title ">วันที่หมดอายุ</div>
                     </md-card-header>
@@ -629,9 +628,9 @@
                       <!--                                <th style=''>client_id</th>-->
                       <th>ลำดับ</th>
                       <th>รูป</th>
-                      <th>รหัสบาร์โค้ด</th>
+                      <th style="white-space: nowrap;">รหัสบาร์โค้ด</th>
                       <th>ชื่อสินค้า</th>
-                      <th>หน่วยนับ</th>
+                      <th style="white-space: nowrap;">หน่วยนับ</th>
                       <th v-show="billtype == 0">ราคา(เงินสด)</th>
                       <th v-show="billtype == 1">ราคา(เงินเชื่อ)</th>
                     </tr>

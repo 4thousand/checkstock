@@ -291,6 +291,7 @@ export default {
           }
 
         let payload = {
+          id: 0,// 0 = insert , 1 = update
           doc_no : this.docno,
           doc_type,
           ar_id:this.idcus,
@@ -462,7 +463,6 @@ export default {
     },
     showdetail(val) {
       console.log(JSON.stringify(val))
-
       if (this.billtype == 0) {
         var datashow = {
           item_id: val.id,
@@ -502,6 +502,8 @@ export default {
         this.showDialogproduct = false
         alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
       }
+      this.keywordproduct = ''
+      this.$refs.addproduct.$el.focus()
       //console.log(datashow)
     },
     calculatedata(val) {

@@ -336,6 +336,16 @@
   .form-control:disabled, .form-control[readonly]{
     text-align: center !important;
   }
+  .md-table-content{
+    height: auto !important;
+    max-height: none !important;
+  }
+  
+  .calendarfollowcus{
+    position: absolute;
+    top: -65px;
+    left: -104px;
+  }
   /* .md-button .md-ripple:nth-child(2){
     width: 53px;
   } */
