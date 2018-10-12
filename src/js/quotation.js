@@ -589,7 +589,7 @@ export default {
         // alert('หนักหลัก')
         return
       }
-      alert('แก้ไข')
+      // alert('แก้ไข')
       // แก้ไข 
       let payload = {
         id: parseInt(this.docnoid)
