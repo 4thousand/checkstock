@@ -11,6 +11,7 @@
   
             <div class="md-toolbar-section-end">
               <md-button @click="showSidepanel = true">
+                  <span style="margin-right:20px">{{ company_name }}</span>
                 <md-icon class="md-size-1x" style="margin-right:10px">account_circle</md-icon>Profile</md-button>
             </div>
           </md-toolbar>
@@ -50,10 +51,11 @@
   
           <md-drawer class="md-right" :md-active.sync="showSidepanel">
             <md-toolbar class="md-transparent" md-elevation="0">
+            
               <md-icon class="md-size-1x" style="position: absolute;
          left: 20px;">account_circle</md-icon>
               <span style="position:absolute;left:43px;" class="md-title">Profile</span>
-  
+
             </md-toolbar>
   
             <md-list>
@@ -154,7 +156,8 @@
       role:'',
       branchname:'',
       pic_path:'',
-      sale_code:''
+      sale_code:'',
+      company_name:'',
     }),
     methods: {
       toggleMenu() {
@@ -173,13 +176,14 @@
         this.$router.push(val);
       },
         username () {
-  			// console.log(localStorage.DataUser)
-        var Datauser = JSON.parse(localStorage.Datauser)
+  		 	// console.log(localStorage.Datauser)
+           var Datauser = JSON.parse(localStorage.Datauser)
            this.name = Datauser.username
            this.role = Datauser.rolename
            this.branchname = Datauser.branch_name
            this.pic_path = Datauser.pic_path
            this.sale_code = Datauser.sale_code
+           this.company_name = Datauser.company_name
           //  console.log(this.branchname)
         // localStorage.rolename = Datauser.rolename
   	}

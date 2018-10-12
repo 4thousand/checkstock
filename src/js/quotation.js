@@ -293,9 +293,9 @@ export default {
             percent = ''
             discount_amount = this.caldiscount
           }
-
+        // console.log(this.docnoid)
         let payload = {
-          id: 0,// 0 แก้ไข,update ตามไอดี 
+          id: parseInt(this.docnoid),// 0 แก้ไข,update ตามไอดี 
           branch_id: this.branch_id,
           doc_no : this.docno,
           doc_type, 
@@ -304,7 +304,7 @@ export default {
           ar_name:this.detailcus,
           sale_id:this.sale_id,
           sale_code,
-          sale_name,
+          sale_name:sale_name.trim(),
           bill_type:parseInt(this.billtype),
           tax_type,
           tax_rate:7,
@@ -334,17 +334,16 @@ export default {
           subs:this.dproducts
         }
         console.log(JSON.stringify(payload))
-        // api.savequotation(payload,
-        //   (result) => {
-        //     console.log(result)
-        //    alertify.success('บันทึกสำเร็จ ' + this.docno);
-        //  },
-        //   (error) => {
-        //     console.log(JSON.stringify(error))
-        //     //Customerall
-        //     alertify.error('เกิดข้อผิดพลาด');
-        //  })
-         console.log(JSON.stringify(payload))
+        api.savequotation(payload,
+          (result) => {
+            console.log(result)
+           alertify.success('บันทึกสำเร็จ ' + this.docno);
+         },
+          (error) => {
+            console.log(JSON.stringify(error))
+            //Customerall
+            alertify.error('เกิดข้อผิดพลาด');
+         })
       }
       //บันทึก
 
@@ -529,7 +528,6 @@ export default {
       //console.log(datashow)
     },
     calculatedata(val) {
-    
       val.discount_word = String(val.discount_amount)
       console.log(JSON.stringify(val))
       if (this.billtype == 0) {
