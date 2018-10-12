@@ -321,7 +321,7 @@ export default {
           credit_day: this.bill_credit,
           due_date: this.convermonth_y_m_d(this.DueDate_cal),
           validity: parseInt(this.validity),
-          expire_day: parseInt(this.expire_date),
+          expire_credit: parseInt(this.expire_date),
           expire_date:this.convermonth_y_m_d(this.expiredate_cal),
           delivery_day: parseInt(this.Deliver_date),
           delivery_date:this.convermonth_y_m_d(this.DueDate_date),
