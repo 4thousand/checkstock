@@ -24,140 +24,7 @@ export default {
     search: [],
     search: '',
     objuser: JSON.parse(localStorage.Datauser),
-    dproducts: [
-      // {
-      //   id: "1",
-      //   barcode: "0000290",
-      //   name: "พาเวอร์ปลั๊ก ตัวเมีย 3 ขา 16 A ต่อตรงกลาง HT-213 / PT-213",
-      //   count: "อัน/อัน",
-      //   amount: 0,
-      //   price: 80.0,
-      //   price2: 81.0,
-      //   discount: 0,
-      //   allprice: 0,
-      //   because: "รับเอง"
-      // },
-      // {
-      //   id: "2",
-      //   barcode: "8852439012978",
-      //   name: "คอบสันโค้งเซรามิค FLATO สีศิลเวอร์เกรย์",
-      //   count: "แผ่น/แผ่น",
-      //   amount: 0,
-      //   price: 280.0,
-      //   price2: 281.0,
-      //   discount: 0,
-      //   allprice: 0,
-      //   because: "ส่งให้"
-      // },
-      // {
-      //   id: "8852439013296",
-      //   barcode: "8852439013296",
-      //   name: "ครอบตะเข้ส้นเซรามิค FLATO สีซิลเวอร์เกรย์",
-      //   count: "แผ่น/แผ่น",
-      //   amount: 0,
-      //   price: 280.0,
-      //   price2: 281.0,
-      //   discount: 0,
-      //   allprice: 0,
-      //   because: "รับเอง"
-      // },
-      // {
-      //   id: "8852439013012",
-      //   barcode: "8852439013012",
-      //   name: "ครอบปิดปลายตะเข้สันเซรามิค FLATO สีซิลเวอร์เกรย์",
-      //   count: "แผ่น/แผ่น",
-      //   amount: 0,
-      //   price: 310.0,
-      //   price2: 315.0,
-      //   discount: 0,
-      //   allprice: 0,
-      //   because: "รับเอง"
-      // },
-      // {
-      //   id: "8852439007677",
-      //   barcode: "8852439007677",
-      //   name: "การเส้น EXCELLA",
-      //   count: "กล่อง/กล่อง",
-      //   amount: 0,
-      //   price: 290.0,
-      //   price2: 300.0,
-      //   discount: 0,
-      //   allprice: 0,
-      //   because: "รับเอง"
-      // },
-      // {
-      //   id: "88524390153597",
-      //   barcode: "88524390153597",
-      //   name: "แผ่นรองเชิงชายตราช้าง / Excella",
-      //   count: "ม้วน/ม้วน",
-      //   amount: 0,
-      //   price: 350.0,
-      //   price2: 360.0,
-      //   discount: 0,
-      //   allprice: 0,
-      //   because: "รับเอง"
-      // },
-      // {
-      //   id: "88524390155397",
-      //   barcode: "88524390155397",
-      //   name: "แผ่นรองเชิงชายตราช้าง / Excella",
-      //   count: "ม้วน/ม้วน",
-      //   amount: 0,
-      //   price: 350.0,
-      //   price2: 360.0,
-      //   discount: 0,
-      //   allprice: 0,
-      //   because: "รับเอง"
-      // },
-      // {
-      //   id: "8852439015597",
-      //   barcode: "8852439015597",
-      //   name: "แผ่นรองเชิงชายตราช้าง / Excella",
-      //   count: "ม้วน/ม้วน",
-      //   amount: 0,
-      //   price: 350.0,
-      //   price2: 360.0,
-      //   discount: 0,
-      //   allprice: 0,
-      //   because: "รับเอง"
-      // },
-      // {
-      //   id: "88524390154597",
-      //   barcode: "88524390154597",
-      //   name: "แผ่นรองเชิงชายตราช้าง / Excella",
-      //   count: "ม้วน/ม้วน",
-      //   amount: 0,
-      //   price: 350.0,
-      //   price2: 360.0,
-      //   discount: 0,
-      //   allprice: 0,
-      //   because: "รับเอง"
-      // },
-      // {
-      //   id: "88524390155597",
-      //   barcode: "88524390155597",
-      //   name: "แผ่นรองเชิงชายตราช้าง / Excella",
-      //   count: "ม้วน/ม้วน",
-      //   amount: 0,
-      //   price: 350.0,
-      //   price2: 360.0,
-      //   discount: 0,
-      //   allprice: 0,
-      //   because: "รับเอง"
-      // },
-      // {
-      //   id: "88524390115597",
-      //   barcode: "88524390115597",
-      //   name: "แผ่นรองเชิงชายตราช้าง / Excella",
-      //   count: "ม้วน/ม้วน",
-      //   amount: 0,
-      //   price: 350.0,
-      //   price2: 360.0,
-      //   discount: 0,
-      //   allprice: 0,
-      //   because: "รับเอง"
-      // }
-    ],
+    dproducts: [],
     active: 'first',
     first: false,
     second: false,
@@ -203,6 +70,7 @@ export default {
     branch_id:0,
     docnoid:localStorage.iddocno,
     answer_cus:'',
+    company_id:localStorage.branch_id,
   }),
   methods: {
     isshowdoc_fuc(){
@@ -332,6 +200,7 @@ export default {
           discount_word:this.caldiscount+percent,
           discount_amount: parseInt(discount_amount),
           after_discount_amount: this.totalprice - this.caldiscount,
+          company_id: parseInt(this.company_id),
         //  before_tax_amount: '',
           assert_status: parseInt(this.answer_cus),
           project_id:0,
@@ -682,7 +551,6 @@ export default {
           console.log(JSON.stringify(error))
           alertify.error('ข้อมูลผิดพลาด detailquoall');
         })
- 
 
     },
   },
