@@ -502,17 +502,19 @@
                           </div>
                         </div>
                         <!--  -->
-                        <div style="position:relative;top:-30px" class=" md-layout-item md-size-100 md-xsmall-size-100">
-                          <span class="md-title subnotop" style="position: relative;top:20px">
+                          <div style="position:relative;top:-15px" class="md-layout-item md-size-50 md-xsmall-size-100">
+                    <span class="md-title sub" style="font-size: 18px;">
                                 คำตอบจากลูกค้า
-                            </span>
-                          <!--<md-icon style="position:relative;top:15px;color:black">lock</md-icon> -->
-                          <div style="position:relative;">
-                            <md-icon style="float:left;position:relative;top:28px;margin-right:5px;">calendar_today</md-icon>
-                            <datepicker disabled v-model="DueDate_cal" input-class="form-control tc" style="position:relative;top:15px;width: 80%;" :language="languages[language]" format="d MMMM yyyy"></datepicker>
-                          </div>
-                        </div>
-                        <div class="md-layout-item md-small-size-100" style="top:-10px">
+                              </span>
+                    <md-field>
+                      <md-select placeholder="กรุณาเลือก" v-model="answer_cus" name="condition_send" id="condition_send">
+                        <md-option value="0">รอตอบกลับ</md-option>
+                        <md-option value="1">ตอบกลับแล้ว</md-option>
+                        <md-option value="2">ไม่รับในราคา</md-option>
+                      </md-select>
+                    </md-field>
+                  </div>
+                        <div class="md-layout-item md-size-50 md-xsmall-size-100" style="top:16px">
                           <md-field>
                             <label for="last-name">รูปแบบการสั่งซื้อสินค้า</label>
                             <md-input name="last-name" id="last-name" autocomplete="family-name" />

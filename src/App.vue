@@ -7,12 +7,13 @@
             <md-button class="md-icon-button" @click="showNavigation = true">
               <md-icon>menu</md-icon>
             </md-button>
-            <span class="md-title">เมนูทั้งหมด</span>
+             <md-icon class="md-size-1x" style="margin-left:10px">bookmarks </md-icon> <span style="margin-left: 14px;" class="md-title">เมนูทั้งหมด</span>
   
             <div class="md-toolbar-section-end">
               <md-button @click="showSidepanel = true">
-                  <span style="margin-right:20px">{{ company_name }}</span>
-                <md-icon class="md-size-1x" style="margin-right:10px">account_circle</md-icon>Profile</md-button>
+                <md-icon class="md-size-1x" style="margin-right:10px">account_balance </md-icon> 
+                  <span style="margin-right:20px"> {{ company_name }}</span>
+                <md-icon class="md-size-1x" style="margin-right:10px">account_circle</md-icon>{{ name }}</md-button>
             </div>
           </md-toolbar>
   

@@ -202,6 +202,7 @@ export default {
     creator_by: '',
     branch_id:0,
     docnoid:localStorage.iddocno,
+    answer_cus:'',
   }),
   methods: {
     isshowdoc_fuc(){
@@ -254,10 +255,15 @@ export default {
       alert("ค้นหาข้อมูล Waiting ...");
     },
     setDone(id, index) {
+      if(id == 'third'){
+        this.$router.push("/index");
+        return
+      }
       //
       this[id] = true
       this.secondStepError = null
       //
+     
       if(index == 'third') { //บันทึก
           let doc_type
           let tax_type
@@ -327,6 +333,7 @@ export default {
           discount_amount: parseInt(discount_amount),
           after_discount_amount: this.totalprice - this.caldiscount,
         //  before_tax_amount: '',
+          assert_status: parseInt(this.answer_cus),
           project_id:0,
           allocate_id:0,
           is_cancel:0,
@@ -606,8 +613,8 @@ export default {
           console.log(result.data.bill_type)
           let doc_type
           let tax_type
-          let percent
-          let discount_amount
+          // let percent
+          // let discount_amount
 
           if(result.data.doc_type == 0 ){
             doc_type = 'BO'
@@ -653,10 +660,12 @@ export default {
            }
            this.dproducts.push(data)
           }
-          this.salecode = result.data.sale_code + ' / ' + result.data.sale_name
+          this.salecode = result.data.sale_code.trim() + ' / ' + result.data.sale_name
           this.validity = result.data.validity
           this.expire_date = result.data.expire_credit
+          this.caldiscount = result.data.discount_amount
           // console.log(this.expire_date)
+          this.answer_cus = result.data.assert_status
           this.Deliver_date = result.data.delivery_day
           this.bill_credit = result.data.credit_day
           this.is_condition_send = result.data.is_condition_send
