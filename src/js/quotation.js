@@ -334,16 +334,16 @@ export default {
           subs:this.dproducts
         }
         console.log(JSON.stringify(payload))
-        api.savequotation(payload,
-          (result) => {
-            console.log(result)
-           alertify.success('บันทึกสำเร็จ ' + this.docno);
-         },
-          (error) => {
-            console.log(JSON.stringify(error))
-            //Customerall
-            alertify.error('เกิดข้อผิดพลาด');
-         })
+        // api.savequotation(payload,
+        //   (result) => {
+        //     console.log(result)
+        //    alertify.success('บันทึกสำเร็จ ' + this.docno);
+        //  },
+        //   (error) => {
+        //     console.log(JSON.stringify(error))
+        //     //Customerall
+        //     alertify.error('เกิดข้อผิดพลาด');
+        //  })
          console.log(JSON.stringify(payload))
       }
       //บันทึก
@@ -440,7 +440,10 @@ export default {
         })
     },
     showdocno() {
-
+      if(this.docnoid != 0){
+        // alert('หน้าแก้ไข')
+        return
+      }
       if (!this.tablecode || !this.billtype) {
         return
       }
@@ -613,7 +616,8 @@ export default {
           }else if(result.data.tax_type == 2){
             tax_type = 'ภาษีอัตราศูนย์'
           }
-
+          // this.dproducts = []
+          this.disablebilltype = true
           this.tablecode = doc_type
           this.billtype = result.data.bill_type
           this.docno = result.data.doc_no
@@ -622,7 +626,29 @@ export default {
           this.idcus = result.data.ar_id
           this.searchcus = result.data.ar_code
           this.detailcus = result.data.ar_name
+          var datasubs = result.data.subs
+          console.log(datasubs.length)
+          for (let x = 0; x < datasubs.length; x++) {
+            var data = {  
+              item_id:datasubs[x].id,
+              item_code:datasubs[x].item_code,
+              bar_code: datasubs[x].bar_code,
+              item_name: datasubs[x].item_name,
+              unit_code: datasubs[x].unit_code,
+              qty: datasubs[x].qty,
+              price: datasubs[x].price,
+              discount_word: datasubs[x].discount_word,
+              discount_amount: datasubs[x].discount_amount,
+              item_amount: datasubs[x].item_amount,
+              item_description: datasubs[x].item_description,
+              packing_rate_1: datasubs[x].packing_rate_1,
+              is_cancel: datasubs[x].is_cancel
+           }
+           this.dproducts.push(data)
+          }
           
+          //  console.log(this.dproducts)
+          console.log(JSON.stringify(result.data.subs))
         },
         (error) => {
           console.log(JSON.stringify(error))
@@ -633,6 +659,7 @@ export default {
     },
   },
   created() {
+    this.showedit()
     this.searched = this.dproducts;
   },
   computed: {
@@ -696,7 +723,7 @@ export default {
      this.creator_by =  this.objuser.usercode
     this.branch_id = this.objuser.branch_id
 
-    this.showedit()
+    
     // console.log(this.docnoid)
 
     this.showcontent_step2()
