@@ -411,7 +411,7 @@
                         </div>
                         <div class="md-layout-item md-small-size-100">
                           <md-field>
-                            <label for="last-name subnotop">ลูกค้าต้องตอบรับภายใน</label>
+                            <label for="last-name subnotop">ลูกค้าต้องตอบรับภายใน /</label>
                             <md-input name="last-name" id="last-name" autocomplete="family-name" />
                           </md-field>
                           <label class="abright" for="first-name subnotop ">วัน</label>
@@ -440,7 +440,7 @@
                         
                         <div style="position:relative;top:-30px;" class=" md-layout-item md-size-50 md-xsmall-size-100">
                           <span class="md-title subnotop" style="position: relative; top: 20px;">
-                            วันที่เริ่มตามลูกค้า
+                            วันที่เริ่มตามลูกค้า /
                             </span>
                           <div style="position:relative;">
                             <md-icon style="float:left;position:relative;top:28px;margin-right:5px;">calendar_today</md-icon>
@@ -506,7 +506,7 @@
                           <span class="md-title subnotop" style="position: relative;top:20px">
                                 คำตอบจากลูกค้า
                             </span>
-                          <!-- <md-icon style="position:relative;top:15px;color:black">lock</md-icon> -->
+                          <!--<md-icon style="position:relative;top:15px;color:black">lock</md-icon> -->
                           <div style="position:relative;">
                             <md-icon style="float:left;position:relative;top:28px;margin-right:5px;">calendar_today</md-icon>
                             <datepicker disabled v-model="DueDate_cal" input-class="form-control tc" style="position:relative;top:15px;width: 80%;" :language="languages[language]" format="d MMMM yyyy"></datepicker>

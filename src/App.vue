@@ -166,6 +166,10 @@
       goindex(val) {
         localStorage.iddocno = 0
         this.showNavigation = false
+        if(val == '/quotation'){
+          this.$router.replace('/quotation')
+          return
+        }
         this.$router.push(val);
       },
         username () {

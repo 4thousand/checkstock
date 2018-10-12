@@ -363,6 +363,12 @@ export default {
       var result = cut[2]+'-'+cut[0]+'-'+cut[1];
       return result;
     },
+    convertmonth_d_m_y(val){
+      var date = val.substring(0,10);
+      var cut = date.split("-");
+      var result = cut[1]+'/'+cut[2]+'/'+cut[0];
+      return result;
+    },
     fsearchcus() {
       var payload = {
         keyword: this.searchcus
@@ -409,7 +415,8 @@ export default {
       console.log(this.DueDate_cal)
     },
     addproduct() {
-      if (this.billtype == '') {
+      // alert(this.billtype)
+      if (this.billtype === '' && this.billtype !== 0  && this.billtype !== 1) {
         if (this.attention == 'wobble-hor-bottom') {
           this.attention = 'wobble-hor-bottom2'
         } else {
@@ -598,6 +605,7 @@ export default {
       api.detailquoall(payload,
         (result) => {
           console.log(JSON.stringify(result.data))
+          console.log(result.data.bill_type)
           let doc_type
           let tax_type
           let percent
@@ -620,6 +628,7 @@ export default {
           this.disablebilltype = true
           this.tablecode = doc_type
           this.billtype = result.data.bill_type
+          console.log(this.billtype)
           this.docno = result.data.doc_no
           this.taxtype = tax_type
           this.datenow_datepicker = result.data.doc_date
@@ -646,7 +655,19 @@ export default {
            }
            this.dproducts.push(data)
           }
-          
+          this.salecode = result.data.sale_code + ' / ' + result.data.sale_name
+          this.validity = result.data.validity
+          this.expire_date = result.data.expire_credit
+          // console.log(this.expire_date)
+          this.Deliver_date = result.data.delivery_day
+          this.bill_credit = result.data.credit_day
+          this.is_condition_send = result.data.is_condition_send
+          this.expiredate_cal = this.convertmonth_d_m_y(result.data.expire_date)
+          console.log(this.expiredate_cal)
+          this.DueDate_date = this.convertmonth_d_m_y(result.data.delivery_date)
+          this.DueDate_cal = this.convertmonth_d_m_y(result.data.due_date)
+          console.log(this.DueDate_cal)
+          this.my_description = result.data.my_description
           //  console.log(this.dproducts)
           console.log(JSON.stringify(result.data.subs))
         },
