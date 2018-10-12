@@ -133,7 +133,7 @@
   
                     <md-table-row slot="md-table-row" slot-scope="{ item }">
      
-                      <md-table-cell md-label="รหัสบาร์โค้ด" md-sort-by="bar_code" md-numeric><input type="text" class="datatable" disabled v-model="item.bar_code"></md-table-cell>
+                      <md-table-cell md-label="รหัสสินค้า" md-sort-by="item_code" md-numeric><input type="text" class="datatable" disabled v-model="item.item_code"></md-table-cell>
                       <md-table-cell md-label="ชื่อสินค้า" md-sort-by="item_name"><input type="text" class="datatable" disabled v-model="item.item_name"></md-table-cell>
                       <md-table-cell md-label="หน่วยนับ" md-sort-by="unit_code"><input type="text" class="datatable" v-model="item.unit_code.trim()"></md-table-cell>
                       <md-table-cell md-label="จำนวน" md-sort-by="qty"><input type="text" class="datatable" @keyup="calculatedata(item)" v-model.number="item.qty"></md-table-cell>
