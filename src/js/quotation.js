@@ -70,7 +70,7 @@ export default {
     branch_id:0,
     docnoid:localStorage.iddocno,
     answer_cus:'',
-    company_id:localStorage.branch_id,
+    company_id:localStorage.company_id,
   }),
   methods: {
     isshowdoc_fuc(){

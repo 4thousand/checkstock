@@ -31,7 +31,7 @@ import facebookLogin from 'facebook-login-vuejs';
             // var userid = 
            // localStorage.branchid = result.data.branch_id
             localStorage.userid = result.data.id
-            localStorage.branch_id = result.data.branch_id
+            localStorage.company_id = result.data.company_id
             // localStorage.user = result.data.usercode
             this.loading = false;
             this.$router.push("/index");
