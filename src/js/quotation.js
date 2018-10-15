@@ -1,13 +1,13 @@
 const toLower = text => {
   return text.toString().toLowerCase();
-};
+}
 
 const searchByName = (items, term) => {
   if (term) {
     return items.filter(item => toLower(item.item_name).includes(toLower(term)));
   }
   return items;
-};
+}
 import Datepicker from 'vuejs-datepicker';
 import * as lang from "vuejs-datepicker/src/locale";
 import api from "../service/service.js"
@@ -210,16 +210,16 @@ export default {
           subs:this.dproducts
         }
         console.log(JSON.stringify(payload))
-        api.savequotation(payload,
-          (result) => {
-            console.log(result)
-           alertify.success('บันทึกสำเร็จ ' + this.docno);
-         },
-          (error) => {
-            console.log(JSON.stringify(error))
-            //Customerall
-            alertify.error('เกิดข้อผิดพลาด');
-         })
+      //  api.savequotation(payload,
+      //    (result) => {
+      //      console.log(result)
+      //     alertify.success('บันทึกสำเร็จ ' + this.docno);
+      //   },
+      //    (error) => {
+      //      console.log(JSON.stringify(error))
+      //      //Customerall
+      //      alertify.error('เกิดข้อผิดพลาด');
+      //   })
       }
       //บันทึก
 
@@ -616,6 +616,7 @@ export default {
     }
   },
   mounted() {
+
      this.creator_by =  this.objuser.usercode
     this.branch_id = this.objuser.branch_id
 

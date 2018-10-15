@@ -7,8 +7,16 @@
             <md-button class="md-icon-button" @click="showNavigation = true">
               <md-icon>menu</md-icon>
             </md-button>
-             <md-icon class="md-size-1x" style="margin-left:10px">bookmarks </md-icon> <span style="margin-left: 14px;" class="md-title">เมนูทั้งหมด</span>
-  
+             <md-icon  class="md-size-1x" style="margin-left:10px;margin-right:10px;">bookmarks </md-icon> <span style="margin-left: 14px;" class="md-title">เมนูทั้งหมด</span>
+            
+             <md-autocomplete style="margin-left:30px;width: 45vw;" 
+      v-model="selectedEmployee"
+      :md-options="employees"
+      md-layout="box"
+      md-dense>
+      <label>Employees</label>
+    </md-autocomplete>
+
             <div class="md-toolbar-section-end">
               <md-button @click="showSidepanel = true">
                 <md-icon class="md-size-1x" style="margin-right:10px">account_balance </md-icon> 
@@ -159,13 +167,27 @@
       pic_path:'',
       sale_code:'',
       company_name:'',
+      selectedEmployee: null,
+      employees: [
+        'Jim Halpert',
+        'Dwight Schrute',
+        'Michael Scott',
+        'Pam Beesly',
+        'Angela Martin',
+        'Kelly Kapoor',
+        'Ryan Howard',
+        'Kevin Malone',
+        'Creed Bratton',
+        'Oscar Nunez',
+        'Toby Flenderson',
+        'Stanley Hudson',
+        'Meredith Palmer',
+        'Phyllis Lapin-Vance'
+      ]
     }),
     methods: {
       toggleMenu() {
         this.menuVisible = !this.menuVisible;
-      },
-      test1234() {
-        alert("12313");
       },
       goindex(val) {
         localStorage.iddocno = 0
@@ -199,6 +221,9 @@
 </script>
 
 <style lang="scss" scoped>
+.search {
+    max-width: 500px;
+  }
 .md-avatar img {
       width: 108%;
     height: 108%;

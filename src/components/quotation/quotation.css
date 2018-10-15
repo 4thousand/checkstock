@@ -352,6 +352,22 @@
   .md-dialog-title{
     margin-bottom: 0px !important;
   }
+  .contentpadding{
+    padding:25px 0;
+  }
+  .underline{
+    width:100%;background:#448aff;height:4px;
+    border-radius: 10px
+  }
+  #bordernone thead th{
+    border-bottom:none;
+  }
+  #bordernone td, #bordernone th{
+    border-top:none;
+  }
+  .paddingright{
+    padding-right: 25px
+  }
   /* .md-button .md-ripple:nth-child(2){
     width: 53px;
   } */
