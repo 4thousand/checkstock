@@ -32,14 +32,14 @@ export default {
     secondStepError: null,
     language: "th",
     languages: lang,
-    idcus:'',
+    idcus: '',
     searchcus: '',
     detailcus: '',
     showDialogcus: false,
     detailcusall: [],
     tablecode: '',
     billtype: '',
-    taxtype:'',
+    taxtype: '',
     docno: 'ไม่มีข้อมูล',
     keywordproduct: '',
     showDialogproduct: false,
@@ -55,41 +55,41 @@ export default {
     DueDate_cal: '',
     Deliver_date: 0,
     DueDate_date: '',
-    expire_date:0,
-    expiredate_cal:'',
-    isshowdocument:false,
-    docheight:'72px',
-    searchsale:false,
+    expire_date: 0,
+    expiredate_cal: '',
+    isshowdocument: false,
+    docheight: '72px',
+    searchsale: false,
     sale_id: JSON.parse(localStorage.userid),
-    salecode:'',
-    searchsaleobj:[],
-    validity:0,
-    is_condition_send:0,
-    my_description:'',
+    salecode: '',
+    searchsaleobj: [],
+    validity: 0,
+    is_condition_send: 0,
+    my_description: '',
     creator_by: '',
-    branch_id:0,
-    docnoid:localStorage.iddocno,
-    answer_cus:'',
-    company_id:localStorage.company_id,
+    branch_id: 0,
+    docnoid: localStorage.iddocno,
+    answer_cus: '',
+    company_id: localStorage.company_id,
   }),
   methods: {
-    isshowdoc_fuc(){
-      if(!this.isshowdocument){
+    isshowdoc_fuc() {
+      if (!this.isshowdocument) {
         this.docheight = '72px'
       }
-      if(this.isshowdocument){
+      if (this.isshowdocument) {
         this.docheight = 'auto'
       }
-      
+
     },
-    calexpire_Date(){
+    calexpire_Date() {
       var date1 = new Date(this.expiredate_cal);
       var date2 = new Date();
       var timeDiff = Math.abs(date2.getTime() - date1.getTime());
       var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
       this.expire_date = diffDays
     },
-    calexpiredate(){
+    calexpiredate() {
       console.log(this.expire_date)
       let date = new Date();
       date.setDate(date.getDate() + parseInt(this.expire_date));
@@ -123,7 +123,7 @@ export default {
       alert("ค้นหาข้อมูล Waiting ...");
     },
     setDone(id, index) {
-      if(id == 'third'){
+      if (id == 'third') {
         this.$router.push("/index");
         return
       }
@@ -131,95 +131,95 @@ export default {
       this[id] = true
       this.secondStepError = null
       //
-     
-      if(index == 'third') { //บันทึก
-          let doc_type
-          let tax_type
-          let percent
-          let discount_amount
 
-          if(this.tablecode == 'BO'){
-            doc_type = 0 
-          }else if(this.tablecode == 'QT'){
-            doc_type = 1
-          }
-          if(this.salecode){
-            var str = this.salecode;
-            var res = str.split("/");
-            // console.log(res)
-            var sale_code = res[0]
-            var sale_name = res[1]
-          }
+      if (index == 'third') { //บันทึก
+        let doc_type
+        let tax_type
+        let percent
+        let discount_amount
 
-          if(this.taxtype == 'ภาษีแยกนอก'){
-            tax_type = 0
-          }else if(this.taxtype == 'ภาษีรวมใน'){
-            tax_type = 1
-          }else if(this.taxtype == 'ภาษีอัตราศูนย์'){
-            tax_type = 2
-          }
+        if (this.tablecode == 'BO') {
+          doc_type = 0
+        } else if (this.tablecode == 'QT') {
+          doc_type = 1
+        }
+        if (this.salecode) {
+          var str = this.salecode;
+          var res = str.split("/");
+          // console.log(res)
+          var sale_code = res[0]
+          var sale_name = res[1]
+        }
 
-          if(this.percal){
-            percent = '%'
-            discount_amount = this.totalprice - (this.totalprice - (this.totalprice * this.caldiscount / 100))
-         //   alert('dsa')
-          }else if(!this.percal){
-            percent = ''
-            discount_amount = this.caldiscount
-          }
+        if (this.taxtype == 'ภาษีแยกนอก') {
+          tax_type = 0
+        } else if (this.taxtype == 'ภาษีรวมใน') {
+          tax_type = 1
+        } else if (this.taxtype == 'ภาษีอัตราศูนย์') {
+          tax_type = 2
+        }
+
+        if (this.percal) {
+          percent = '%'
+          discount_amount = this.totalprice - (this.totalprice - (this.totalprice * this.caldiscount / 100))
+          //   alert('dsa')
+        } else if (!this.percal) {
+          percent = ''
+          discount_amount = this.caldiscount
+        }
         // console.log(this.docnoid)
         let payload = {
           id: parseInt(this.docnoid),// 0 แก้ไข,update ตามไอดี 
           branch_id: this.branch_id,
-          doc_no : this.docno,
-          doc_type, 
-          ar_id:this.idcus,
-          ar_code:this.searchcus,
-          ar_name:this.detailcus,
-          sale_id:this.sale_id,
+          doc_no: this.docno,
+          doc_type,
+          ar_id: this.idcus,
+          ar_code: this.searchcus,
+          ar_name: this.detailcus,
+          sale_id: this.sale_id,
           sale_code,
-          sale_name:sale_name.trim(),
-          bill_type:parseInt(this.billtype),
+          sale_name: sale_name.trim(),
+          bill_type: parseInt(this.billtype),
           tax_type,
-          tax_rate:7,
-          depart_code:'',
-          ref_no:'',
-          is_confirm:0,
-          bill_status:0,
+          tax_rate: 7,
+          depart_code: '',
+          ref_no: '',
+          is_confirm: 0,
+          bill_status: 0,
           credit_day: this.bill_credit,
           due_date: this.convermonth_y_m_d(this.DueDate_cal),
           validity: parseInt(this.validity),
           expire_credit: parseInt(this.expire_date),
-          expire_date:this.convermonth_y_m_d(this.expiredate_cal),
+          expire_date: this.convermonth_y_m_d(this.expiredate_cal),
           delivery_day: parseInt(this.Deliver_date),
-          delivery_date:this.convermonth_y_m_d(this.DueDate_date),
-          assert_status:0,
-          is_condition_send:parseInt(this.is_condition_send),
-          my_description:this.my_description,
+          delivery_date: this.convermonth_y_m_d(this.DueDate_date),
+          assert_status: 0,
+          is_condition_send: parseInt(this.is_condition_send),
+          my_description: this.my_description,
           sum_of_item_amount: this.totalprice,
-          discount_word:this.caldiscount+percent,
+          discount_word: this.caldiscount + percent,
           discount_amount: parseInt(discount_amount),
           after_discount_amount: this.totalprice - this.caldiscount,
           company_id: parseInt(this.company_id),
-        //  before_tax_amount: '',
+          //  before_tax_amount: '',
           assert_status: parseInt(this.answer_cus),
-          project_id:0,
-          allocate_id:0,
-          is_cancel:0,
-          creator_by:this.creator_by,
-          subs:this.dproducts
+          project_id: 0,
+          allocate_id: 0,
+          is_cancel: 0,
+          creator_by: this.creator_by,
+          subs: this.dproducts
         }
         console.log(JSON.stringify(payload))
-      //  api.savequotation(payload,
-      //    (result) => {
-      //      console.log(result)
-      //     alertify.success('บันทึกสำเร็จ ' + this.docno);
-      //   },
-      //    (error) => {
-      //      console.log(JSON.stringify(error))
-      //      //Customerall
-      //      alertify.error('เกิดข้อผิดพลาด');
-      //   })
+        //  api.savequotation(payload,
+        //    (result) => {
+        //      console.log(result)
+        //     alertify.success('บันทึกสำเร็จ ' + this.docno);
+        //   },
+        //    (error) => {
+        //      console.log(JSON.stringify(error))
+        //      //Customerall
+        //      alertify.error('เกิดข้อผิดพลาด');
+        //   })
       }
       //บันทึก
 
@@ -229,19 +229,19 @@ export default {
       }
       document.getElementsByClassName("md-content")[0].scrollTop = 0
     },
-    convermonth_y_m_d(val){
-      if(val == ''){
+    convermonth_y_m_d(val) {
+      if (val == '') {
         return ''
       }
       var date = val;
       var cut = date.split("/");
-      var result = cut[2]+'-'+cut[0]+'-'+cut[1];
+      var result = cut[2] + '-' + cut[0] + '-' + cut[1];
       return result;
     },
-    convertmonth_d_m_y(val){
-      var date = val.substring(0,10);
+    convertmonth_d_m_y(val) {
+      var date = val.substring(0, 10);
       var cut = date.split("-");
-      var result = cut[1]+'/'+cut[2]+'/'+cut[0];
+      var result = cut[1] + '/' + cut[2] + '/' + cut[0];
       return result;
     },
     fsearchcus() {
@@ -291,7 +291,7 @@ export default {
     },
     addproduct() {
       // alert(this.billtype)
-      if (this.billtype === '' && this.billtype !== 0  && this.billtype !== 1) {
+      if (this.billtype === '' && this.billtype !== 0 && this.billtype !== 1) {
         if (this.attention == 'wobble-hor-bottom') {
           this.attention = 'wobble-hor-bottom2'
         } else {
@@ -322,7 +322,7 @@ export default {
         })
     },
     showdocno() {
-      if(this.docnoid != 0){
+      if (this.docnoid != 0) {
         // alert('หน้าแก้ไข')
         return
       }
@@ -367,12 +367,12 @@ export default {
           unit_code: val.unit_code,
           qty: 1,
           price: val.sale_price_1,
-          discount_word:'',
+          discount_word: '',
           discount_amount: 0,
           item_amount: val.sale_price_1 * 1,
           item_description: "",
-          packing_rate_1:parseInt(val.rate_1),
-          is_cancel:0
+          packing_rate_1: parseInt(val.rate_1),
+          is_cancel: 0
         }
         this.dproducts.push(datashow)
         //close modal
@@ -380,20 +380,20 @@ export default {
         alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
       } else if (this.billtype == 1) {
         var datashow = {
-          item_id : val.id,
+          item_id: val.id,
           item_code: val.item_code,
           bar_code: val.bar_code,
           item_name: val.item_name,
           unit_code: val.unit_code,
           qty: 1,
           price: val.sale_price_2,
-          discount_word:'',
+          discount_word: '',
           discount_amount: 0,
           item_amount: val.sale_price_2 * 1,
           item_description: "",
-          packing_rate_1:parseInt(val.rate_1),
-          is_cancel:0
-        } 
+          packing_rate_1: parseInt(val.rate_1),
+          is_cancel: 0
+        }
         this.dproducts.push(datashow)
         //close modal
         this.showDialogproduct = false
@@ -417,11 +417,11 @@ export default {
       var number = numeral(val).format('0,0.00');
       return number
     },
-    convertshowdoc(val){
-      if(val == false){
+    convertshowdoc(val) {
+      if (val == false) {
         var comment = 'ปิด'
         return comment
-      }else if(val == true){
+      } else if (val == true) {
         var comment = 'เปิด'
         return comment
       }
@@ -429,7 +429,7 @@ export default {
     showcontent_step2() {
       this.salecode = this.objuser.sale_code + ' / ' + this.objuser.username
     },
-    searchsale_step2(){
+    searchsale_step2() {
       let payload = {
         keyword: this.salecode
       }
@@ -444,7 +444,7 @@ export default {
           }
           if (result.data.length == 1) {
             this.salecode = result.data[0].sale_code + ' / ' + result.data[0].sale_name
-            
+
           } else if (result.data.length > 1) {
             this.searchsale = true
             this.searchsaleobj = result.data
@@ -455,18 +455,18 @@ export default {
           alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
         })
     },
-    selectcus_step2(val){
+    selectcus_step2(val) {
       console.log(JSON.stringify(val))
       this.sale_id = val.employee_id
       this.salecode = val.sale_code + ' / ' + val.sale_name
       this.searchsale = false
     },
-    focussearchcus(){
+    focussearchcus() {
       this.salecode = ''
       this.$refs.codesale.$el.focus()
     },
-    showedit () {
-      if(this.docnoid == 0){
+    showedit() {
+      if (this.docnoid == 0) {
         // alert('หนักหลัก')
         return
       }
@@ -474,7 +474,7 @@ export default {
       // แก้ไข 
       let payload = {
         id: parseInt(this.docnoid)
-      } 
+      }
       console.log(payload)
       api.detailquoall(payload,
         (result) => {
@@ -485,17 +485,17 @@ export default {
           // let percent
           // let discount_amount
 
-          if(result.data.doc_type == 0 ){
+          if (result.data.doc_type == 0) {
             doc_type = 'BO'
-          }else if(result.data.doc_type == 1 ){
+          } else if (result.data.doc_type == 1) {
             doc_type = 'QT'
           }
 
-          if(result.data.tax_type == 0){
+          if (result.data.tax_type == 0) {
             tax_type = 'ภาษีแยกนอก'
-          }else if(result.data.tax_type == 1){
+          } else if (result.data.tax_type == 1) {
             tax_type = 'ภาษีรวมใน'
-          }else if(result.data.tax_type == 2){
+          } else if (result.data.tax_type == 2) {
             tax_type = 'ภาษีอัตราศูนย์'
           }
           // this.dproducts = []
@@ -512,9 +512,9 @@ export default {
           var datasubs = result.data.subs
           console.log(datasubs.length)
           for (let x = 0; x < datasubs.length; x++) {
-            var data = {  
-              item_id:datasubs[x].id,
-              item_code:datasubs[x].item_code,
+            var data = {
+              item_id: datasubs[x].id,
+              item_code: datasubs[x].item_code,
               bar_code: datasubs[x].bar_code,
               item_name: datasubs[x].item_name,
               unit_code: datasubs[x].unit_code,
@@ -526,8 +526,8 @@ export default {
               item_description: datasubs[x].item_description,
               packing_rate_1: datasubs[x].packing_rate_1,
               is_cancel: datasubs[x].is_cancel
-           }
-           this.dproducts.push(data)
+            }
+            this.dproducts.push(data)
           }
           this.salecode = result.data.sale_code.trim() + ' / ' + result.data.sale_name
           this.validity = result.data.validity
@@ -553,6 +553,27 @@ export default {
         })
 
     },
+    convertmonth_preview(val) {
+      console.log(val.length)
+      if (val.length == undefined) {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+          dd = '0' + dd;
+        }
+        if (mm < 10) {
+          mm = '0' + mm;
+        }
+         today = yyyy + '-' + mm + '-' + dd;
+         return today
+      } else if (val.length != undefined) {
+        return val.substring(0, 10)
+      }
+
+    }
   },
   created() {
     this.showedit()
@@ -565,45 +586,45 @@ export default {
       }, 0)
     },
     dif_fee() {
-      if(this.taxtype == 'ภาษีแยกนอก' || this.taxtype == 'ภาษีรวมใน'){
-      if (!this.percal) {
-        return (this.totalprice - this.caldiscount) - (((this.totalprice - this.caldiscount) * 100) / 107)
+      if (this.taxtype == 'ภาษีแยกนอก' || this.taxtype == 'ภาษีรวมใน') {
+        if (!this.percal) {
+          return (this.totalprice - this.caldiscount) - (((this.totalprice - this.caldiscount) * 100) / 107)
 
-      } else if (this.percal) {
-        let percent = this.totalprice - (this.totalprice * this.caldiscount / 100)
-        console.log(percent)
-        return percent - ((percent * 100) / 107)
+        } else if (this.percal) {
+          let percent = this.totalprice - (this.totalprice * this.caldiscount / 100)
+          console.log(percent)
+          return percent - ((percent * 100) / 107)
+        }
       }
-    }
-    if(this.taxtype == 'ภาษีอัตราศูนย์'){
-      return 0
-    }
+      if (this.taxtype == 'ภาษีอัตราศูนย์') {
+        return 0
+      }
     },
     cal_totalprice() {
-    if(this.taxtype == 'ภาษีรวมใน'){
-      if (!this.percal) {
-        return this.totalprice - this.caldiscount
+      if (this.taxtype == 'ภาษีรวมใน') {
+        if (!this.percal) {
+          return this.totalprice - this.caldiscount
+        }
+        if (this.percal) {
+          return this.totalprice - (this.totalprice * this.caldiscount / 100)
+        }
       }
-      if (this.percal) {
-        return this.totalprice - (this.totalprice * this.caldiscount / 100)
+      if (this.taxtype == 'ภาษีแยกนอก') {
+        if (!this.percal) {
+          return this.totalprice + this.dif_fee
+        }
+        if (this.percal) {
+          return this.totalprice + this.dif_fee
+        }
       }
-    }
-    if(this.taxtype == 'ภาษีแยกนอก'){
-      if (!this.percal) {
-        return this.totalprice + this.dif_fee
+      if (this.taxtype == 'ภาษีอัตราศูนย์') {
+        if (!this.percal) {
+          return this.totalprice
+        }
+        if (this.percal) {
+          return this.totalprice
+        }
       }
-      if (this.percal) {
-        return this.totalprice + this.dif_fee
-      }
-    }
-    if(this.taxtype == 'ภาษีอัตราศูนย์'){
-      if (!this.percal) {
-        return this.totalprice
-      }
-      if (this.percal) {
-        return this.totalprice
-      }
-    }
 
     },
     firstDayOfAWeek: {
@@ -617,10 +638,10 @@ export default {
   },
   mounted() {
 
-     this.creator_by =  this.objuser.usercode
+    this.creator_by = this.objuser.usercode
     this.branch_id = this.objuser.branch_id
 
-    
+
     // console.log(this.docnoid)
 
     this.showcontent_step2()

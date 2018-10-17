@@ -601,7 +601,7 @@
                         <span style="display:block;">Docno {{ docno }}</span> 
                         <br>
                             <span style="color:grey">Date Of Issue</span>  
-                        <span style="display:block;">Date {{ datenow_datepicker.substring(0, 10) }}</span> 
+                        <span style="display:block;">Date {{ convertmonth_preview(datenow_datepicker) }}</span> 
                   </div>
                    <div style="text-align:right" class="md-layout-item md-xlarge-size-40  md-large-size-40 md-xsmall-size-40 md-small-size-40 md-medium-size-40 contentpadding">
 
