@@ -210,16 +210,16 @@ export default {
           subs: this.dproducts
         }
         console.log(JSON.stringify(payload))
-        //  api.savequotation(payload,
-        //    (result) => {
-        //      console.log(result)
-        //     alertify.success('บันทึกสำเร็จ ' + this.docno);
-        //   },
-        //    (error) => {
-        //      console.log(JSON.stringify(error))
-        //      //Customerall
-        //      alertify.error('เกิดข้อผิดพลาด');
-        //   })
+         api.savequotation(payload,
+           (result) => {
+             console.log(result)
+            alertify.success('บันทึกสำเร็จ ' + this.docno);
+          },
+           (error) => {
+             console.log(JSON.stringify(error))
+             //Customerall
+             alertify.error('เกิดข้อผิดพลาด');
+          })
       }
       //บันทึก
 
