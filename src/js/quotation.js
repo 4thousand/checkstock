@@ -11,6 +11,9 @@ const searchByName = (items, term) => {
 import Datepicker from 'vuejs-datepicker';
 import * as lang from "vuejs-datepicker/src/locale";
 import api from "../service/service.js"
+import * as jsPDF from 'jspdf'
+import JQuery from 'jquery'
+let $ = JQuery
 
 export default {
   name: "quotation",
@@ -71,6 +74,7 @@ export default {
     docnoid: localStorage.iddocno,
     answer_cus: '',
     company_id: localStorage.company_id,
+    UI_HOST: 'http://' + document.domain,
   }),
   methods: {
     isshowdoc_fuc() {
@@ -210,16 +214,16 @@ export default {
           subs: this.dproducts
         }
         console.log(JSON.stringify(payload))
-         api.savequotation(payload,
-           (result) => {
-             console.log(result)
-            alertify.success('บันทึกสำเร็จ ' + this.docno);
-          },
-           (error) => {
-             console.log(JSON.stringify(error))
-             //Customerall
-             alertify.error('เกิดข้อผิดพลาด');
-          })
+        //  api.savequotation(payload,
+        //    (result) => {
+        //      console.log(result)
+        //     alertify.success('บันทึกสำเร็จ ' + this.docno);
+        //   },
+        //    (error) => {
+        //      console.log(JSON.stringify(error))
+        //      //Customerall
+        //      alertify.error('เกิดข้อผิดพลาด');
+        //   })
       }
       //บันทึก
 
@@ -539,10 +543,10 @@ export default {
           this.bill_credit = result.data.credit_day
           this.is_condition_send = result.data.is_condition_send
           this.expiredate_cal = this.convertmonth_d_m_y(result.data.expire_date)
-          console.log(this.expiredate_cal)
+          // console.log(this.expiredate_cal)
           this.DueDate_date = this.convertmonth_d_m_y(result.data.delivery_date)
           this.DueDate_cal = this.convertmonth_d_m_y(result.data.due_date)
-          console.log(this.DueDate_cal)
+          // console.log(this.DueDate_cal)
           this.my_description = result.data.my_description
           //  console.log(this.dproducts)
           console.log(JSON.stringify(result.data.subs))
@@ -636,22 +640,10 @@ export default {
       }
     }
   },
-  mounted() {
-
+  mounted () {
     this.creator_by = this.objuser.usercode
     this.branch_id = this.objuser.branch_id
-
-
-    // console.log(this.docnoid)
-
     this.showcontent_step2()
-    console.log(this.objuser)
-    // data:('3')
-    // this.showdocno()
-    // console.log(localStorage.test)
-    // console.log(this.salecode)
-    // console.log(JSON.stringify(this.test.sale_code))
-    // this.$refs.testDiv.scrollTop = 0;
-    // console.log(this.loading)
+    // console.log(this.objuser)
   }
 };

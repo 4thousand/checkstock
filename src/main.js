@@ -6,6 +6,7 @@ import router from './router'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css' // This line here
+import 'jspdf-customfonts/dist/jspdf.customfonts.min.js'
 
 Vue.use(VueMaterial)
 Vue.config.productionTip = false
