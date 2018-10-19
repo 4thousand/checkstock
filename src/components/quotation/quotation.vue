@@ -793,7 +793,7 @@
 	<iframe id="iframe_target" name="iframe_target" src="#" style="width:0;height:0;border:0px solid #fff;"></iframe>
 	First Name : <input type="text" name="txtFirstName"><br>
 	Last Name : <input type="text" name="txtLastName"><br>
-	<input name="btnSubmit" type="submit" value="Submit">
+	 <button type="submit">กด</button>
 	</form>
             <!-- <form id="tax_report" :action="UI_HOST + '/reportvue/report_quotation.php'" method="post" target="_blank">
 			      		<input type="hidden" name="data_tax">
