@@ -1,3 +1,7 @@
-<?php $data = json_decode($_POST['data_tax'],  true);
-  echo $data;
+<?php
+		$strFirstName = $_POST["txtFirstName"];
+		$strLastName = $_POST["txtLastName"];
+		echo "<script language=\"JavaScript\">";
+		echo "alert('Sawatdee : $strFirstName $strLastName');";
+		echo "</script>";
 ?>
