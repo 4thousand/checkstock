@@ -790,8 +790,8 @@
       <!-- search sale -->
       <!-- testprint -->
             <form id="tax_report" :action="UI_HOST + '/vue_sale/report_pdf/report_quotation.php'" method="post" target="_blank">
-			      		<input type="hidden" name="data_tax">
-                <button>กด</button>
+			      		<input type="submit" name="data_tax">
+                <button type="submit">กด</button>
 			      	</form>
       <!-- testprint -->
     </div>
