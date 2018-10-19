@@ -789,7 +789,7 @@
       </div>
       <!-- search sale -->
       <!-- testprint -->
-            <form id="tax_report" :action="UI_HOST + '/vue_sale/report_pdf/report_quotation.php'" method="post" target="_blank">
+            <form id="tax_report" :action="UI_HOST + '/sale_vue/report_pdf/report_quotation.php'" method="post" target="_blank">
 			      		<input type="hidden" name="data_tax">
                 <button>กด</button>
 			      	</form>
