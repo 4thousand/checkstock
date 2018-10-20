@@ -74,7 +74,7 @@ export default {
     docnoid: localStorage.iddocno,
     answer_cus: '',
     company_id: localStorage.company_id,
-    UI_HOST: 'http://' + document.domain,
+    php: 'http://' + document.domain,
   }),
   methods: {
     isshowdoc_fuc() {
