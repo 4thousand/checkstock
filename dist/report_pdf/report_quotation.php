@@ -2,8 +2,8 @@
 $data = json_decode($_POST['dataquotation'],  true);
 print_r($data);
 
-$deliver = $data['delivery_date'] ; 
-list($year, $month, $day) = split('-', $deliver);
+$deliver = '2018-10-12' ; 
+list($year, $month, $day) = split('-.-', $deliver);
 $year = $year + 543;
 $deliver_date = $day.'/'.$month.'/'.$year;
 
