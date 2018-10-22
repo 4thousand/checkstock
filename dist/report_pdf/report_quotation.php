@@ -1,7 +1,7 @@
 <?php
 $data = json_decode($_POST['dataquotation'],  true);
-// print_r($data);
-
+print_r($data);
+// $data['doc_date'];
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -124,12 +124,12 @@ $data = json_decode($_POST['dataquotation'],  true);
                     </div>
                     <div style="float: left;width: 60%">
                         <span style="font-size: 1.2rem; ">
-                            S01-QHV6110-0001</span>
+                        <?php echo $data['doc_no']; ?></span>
                     </div>
                 </div>
                 <div style="margin-top: 20px">
                     <div style="float: left;width: 40%;text-align: right;padding-right: 10px">
-                        <span style="font-size: 0.70rem;">เลขที่ใบเสนอราคา</span>
+                        <span style="font-size: 0.70rem;">วันที่ออกเอกสาร</span>
                     </div>
                     <div style="float: left;width: 60%">
                         <span style="font-size: 0.70rem;">01/10/2561</span>

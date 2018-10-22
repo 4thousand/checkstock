@@ -177,7 +177,7 @@ export default {
           branch_id: this.branch_id,
           doc_no: this.docno,
           //norecord
-          doc_date: this.datenow_datepicker,
+          doc_date: this.convermonth_y_m_d(this.datenow_datepicker),
           //norecord
           doc_type,
           ar_id: this.idcus,
