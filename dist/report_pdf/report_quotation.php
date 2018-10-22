@@ -1,8 +1,8 @@
 <?php
 $data = json_decode($_POST['dataquotation'],  true);
 // print_r($data);
-// echo $data['datenow_datepicker'];
-$countdatenow = count($data['datenow_datepicker']);
+echo $data['datenow_datepicker'];
+$countdatenow = strlen($data['datenow_datepicker']);
 echo $countdatenow;
 
 $delivery = $data['delivery_date'];
