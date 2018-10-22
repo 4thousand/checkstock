@@ -2,14 +2,15 @@
 $data = json_decode($_POST['dataquotation'],  true);
 // print_r($data);
 $delivery_day = $data['delivery_day']; 
-$datenow = $data['datenow'];
+$date2 = '2018-11-01';
 list($year, $month, $day) = split('-', $delivery_day);
 $year = $year + 543;
 $delivery_day1 = $day.'/'.$month.'/'.$year;
 
-list($year, $month, $day) = split('-', $datenow);
-$year = $year + 543;
-$datenow = $day.'/'.$month.'/'.$year;
+
+// list($year, $month, $day) = split('-', $date2);
+// $year = $year + 543;
+// $date2 = $day.'/'.$month.'/'.$year;
 
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -141,7 +142,7 @@ $datenow = $day.'/'.$month.'/'.$year;
                         <span style="font-size: 0.70rem;">วันที่ออกเอกสาร</span>
                     </div>
                     <div style="float: left;width: 60%">
-                        <span style="font-size: 0.70rem;"><?php echo $datenow ?></span>
+                        <span style="font-size: 0.70rem;">01/10/2561</span>
                     </div>
                 </div>
                 <div style="margin-top: 20px">
