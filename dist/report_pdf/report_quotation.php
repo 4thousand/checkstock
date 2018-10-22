@@ -2,12 +2,19 @@
 $data = json_decode($_POST['dataquotation'],  true);
 print_r($data);
 
-$delivery = "2018-10-12";
+$delivery = $data['delivery_date'];
 $date2 = explode('-', $delivery);
 $year = $date2[0]+543;
 $month   = $date2[1];
 $day  = $date2[2];
 $delivery_date = $day.'/'.$month.'/'.$year;
+
+$due = $data['due_date'];
+$data3 = explode('-', $due);
+$year = $data3[0]+543;
+$month   = $data3[1];
+$day  = $data3[2];
+$due_date = $day.'/'.$month.'/'.$year;
 // $data['doc_date'];
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -151,7 +158,7 @@ $delivery_date = $day.'/'.$month.'/'.$year;
                         <span style="font-size: 0.70rem;">เงื่อนไขการชำระเงิน</span>
                     </div>
                     <div style="float: left;width: 20%">
-                        <span style="font-size: 0.70rem;">0</span>
+                        <span style="font-size: 0.70rem;"><?php echo $data['credit_day'] ?></span>
                     </div>
                     <div style="float: left;width: 30%">
                         <span style="font-size: 0.70rem;">วัน</span>
@@ -162,7 +169,7 @@ $delivery_date = $day.'/'.$month.'/'.$year;
                         <span style="font-size: 0.70rem;">ยืนราคาถึงวันที่</span>
                     </div>
                     <div style="float: left;width: 60%">
-                        <span style="font-size: 0.70rem;">01/10/2561</span>
+                        <span style="font-size: 0.70rem;"><?php echo $due_date ?></span>
                     </div>
                 </div>
             </div>
