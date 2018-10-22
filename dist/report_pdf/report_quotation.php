@@ -6,7 +6,7 @@ ini_set('memory_limit', '-1');
 ob_start();
 
 $data = json_decode($_POST['dataquotation'],  true);
-print_r($data);
+// print_r($data);
 ?>
 <!DOCTYPE html>
 <html>
@@ -86,7 +86,7 @@ print_r($data);
                 <div style="position: absolute;right: 0" class="underline"></div>
             </div>
             <div style="margin-top: 6px">
-                <span style="font-size: 0.8rem;font-weight: 500;">RunNumber/Copy : <?php echo $detail['doc_no']; ?>/1.00 <span style="font-weight: bold">QUOTATION</span> </span>
+                <span style="font-size: 0.8rem;font-weight: 500;">RunNumber/Copy : <?php echo $data['doc_no']; ?>/1.00 <span style="font-weight: bold">QUOTATION</span> </span>
             </div>
         </div>
     </div>
