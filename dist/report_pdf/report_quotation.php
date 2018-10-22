@@ -373,7 +373,7 @@ $datenow_datepicker = $day.'/'.$month.'/'.$year;
                     <span style="position: relative;"> จำนวนภาษีมูลค่าเพิ่ม</span>
                         </div>
                    <div style="width: 50%;text-align: right;position: absolute;bottom: 0;left: 50%">
-                      <span style="position: relative;right: 5px"> <?php echo $data['dif_fee'] ?> </span>
+                      <span style="position: relative;right: 5px"> <?php echo number_format((float)$data['dif_fee'] , 2, '.', '') ?> </span>
                     </div>
                 </div>
                  <div style="width: 100%;height: 33.333%;position: relative">
