@@ -670,7 +670,7 @@
                     <!-- testprint -->
             <form id="tax_report" :action="php + '/vue_sale/report_pdf/report_quotation.php'" method="post" target="_blank">
 			      		<input type="hidden" name="dataquotation">
-                   <md-button type="submit" style="float: right; position: relative; top: -37px;" class="md-raised md-primary">ปริ้น</md-button>
+                   <md-button type="submit" style="float: right; position: relative; top: -37px;" class="md-raised md-primary">Print</md-button>
                 <!-- <button type="submit">กด</button> -->
 			      	</form>
       <!-- testprint -->

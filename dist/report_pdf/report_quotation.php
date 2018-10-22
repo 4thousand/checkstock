@@ -1,6 +1,12 @@
 <?php
 $data = json_decode($_POST['dataquotation'],  true);
-// print_r($data);
+print_r($data);
+
+$deliver = $data['delivery_date'] ; 
+list($year, $month, $day) = split('-', $deliver);
+$year = $year + 543;
+$deliver_date = $day.'/'.$month.'/'.$year;
+
 // $data['doc_date'];
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -66,7 +72,6 @@ $data = json_decode($_POST['dataquotation'],  true);
      }
     </style>
 </head>
-
 <body>
     <div style="height: 81px">
         <div style="float: left;display: inline-block">
@@ -88,12 +93,12 @@ $data = json_decode($_POST['dataquotation'],  true);
                 <span style="font-size: 0.8rem;font-weight: 500;">RunNumber/Copy : <?php echo $data['doc_no']; ?>/1.00 <span style="font-weight: bold">QUOTATION</span> </span>
             </div>
         </div>
-    </div>
+    </div> 
     <div style="width: 100%;height: 170px;margin-top: -5px;">
         <div style="float: left;width: 55%;height: 100%;border: 1px solid black;border-radius: 8px">
             <div class="settop" style="width: 95%;height: 55%">
                 <div>   
-                    <span>ชื่อลูกค้า</span> <span style="text-decoration:underline"><?php echo $data['ar_id']; ?> <?php echo $data['ar_name']; ?></span>
+                    <span>ชื่อลูกค้า</span> <span style="text-decoration:underline"><?php echo $data['ar_code']; ?> <?php echo $data['ar_name']; ?></span>
                 </div>    
                 <div style="margin-top: 20px">
                     <div style="width: 10%;float: left;position:relative;top: 6px">
@@ -106,7 +111,7 @@ $data = json_decode($_POST['dataquotation'],  true);
             </div> 
             <div class="settop" style="width: 95%;height: 35%">
                 <div> 
-                    <span>วันที่นัดส่งสินค้า <?php echo $data['delivery_date'] ?></span>
+                    <span>วันที่นัดส่งสินค้า <?php echo $deliver_date; ?></span>
                 </div>
                 <div style="margin-top:10px;font-weight: bold; ">
                     <div style="width: 4%;float: left;padding-top: 7px">
