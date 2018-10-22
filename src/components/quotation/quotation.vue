@@ -667,6 +667,13 @@
   
               </div>
               <md-button class="md-raised md-primary" @click="setDone('third')">สิ้นสุด</md-button>
+                    <!-- testprint -->
+            <form id="tax_report" :action="php + '/vue_sale/report_pdf/report_quotation.php'" method="post" target="_blank">
+			      		<input type="hidden" name="dataquotation">
+                   <md-button type="submit" style="float: right; position: relative; top: -37px;" class="md-raised md-primary">ปริ้น</md-button>
+                <!-- <button type="submit">กด</button> -->
+			      	</form>
+      <!-- testprint -->
             </md-step>
           </md-steppers>
         </div>
@@ -788,12 +795,7 @@
         </md-dialog>
       </div>
       <!-- search sale -->
-      <!-- testprint -->
-            <form id="tax_report" :action="php + '/vue_sale/report_pdf/report_quotation.php'" method="post" target="_blank">
-			      		<input type="hidden" name="dataquotation">
-                <button type="submit">กด</button>
-			      	</form>
-      <!-- testprint -->
+
     </div>
   </div>
 </template>

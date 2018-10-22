@@ -6,15 +6,13 @@ $data = json_decode($_POST['dataquotation'],  true);
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Print Test</title>
-    <style type="text/css">
+    <style type="text/css" media="print">
         @import url('https://fonts.googleapis.com/css?family=Niramit');
-
         * {
             padding: 0;
             margin: 0;
             box-sizing: border-box;
         }
-
         @page {
             size: auto;
             /* auto is the initial value */
@@ -29,6 +27,7 @@ $data = json_decode($_POST['dataquotation'],  true);
         }
 
         body {
+            display:block !important;
 /*            max-width: 714px;*/
             /*            border: solid 1px blue;*/
             margin: 4mm 5mm 5mm 4mm;
@@ -62,7 +61,7 @@ $data = json_decode($_POST['dataquotation'],  true);
     </style>
 </head>
 
-<body>
+<body style="display:none">
     <div style="height: 81px">
         <div style="float: left;display: inline-block">
             <div>
@@ -330,15 +329,15 @@ $data = json_decode($_POST['dataquotation'],  true);
                     <span style="position: relative;"> ราคาสินค้า</span>
                         </div>
                    <div style="width: 50%;text-align: right;position: absolute;bottom: 0;left: 50%">
-                      <span style="position: relative;right: 5px"> 7,607.48</span>
-                    </div>
+                      <span style="position: relative;right: 5px"> <?php echo $data['after_discount_amount'] ?> </span>
+                    </div> 
                 </div>
                  <div style="width: 100%;height: 33.333%;position: relative">
                     <div style="width: 50%;text-align: right;position: absolute;bottom: 0;">
                     <span style="position: relative;"> จำนวนภาษีมูลค่าเพิ่ม</span>
                         </div>
                    <div style="width: 50%;text-align: right;position: absolute;bottom: 0;left: 50%">
-                      <span style="position: relative;right: 5px"> 7,607.48</span>
+                      <span style="position: relative;right: 5px"> <?php echo $data['after_discount_amount'] ?> </span>
                     </div>
                 </div>
                  <div style="width: 100%;height: 33.333%;position: relative">
@@ -346,7 +345,7 @@ $data = json_decode($_POST['dataquotation'],  true);
                     <span style="position: relative;"> ราคาสินค้า</span>
                         </div>
                    <div style="width: 50%;text-align: right;position: absolute;bottom: 0;left: 50%">
-                      <span style="position: relative;right: 5px"> 7,607.48</span>
+                      <span style="position: relative;right: 5px"> <?php echo $data['after_discount_amount'] ?> </span>
                     </div>
                 </div>
             </div>
@@ -400,5 +399,10 @@ $data = json_decode($_POST['dataquotation'],  true);
             </div>
         </div>
     </div>
+    <script>
+
+    window.print();
+
+</script>
 </body>
 </html>
