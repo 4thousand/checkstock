@@ -25,7 +25,7 @@ export default new Router({
       component: login
     },
     {
-      path: '/quotation',
+      path: '/quotation/:id',
       name: 'quotation',
       component: quotation
     }

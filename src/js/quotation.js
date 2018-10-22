@@ -583,7 +583,7 @@ export default {
     }
   },
   created() {
-    this.showedit()
+
     this.searched = this.dproducts;
   },
   computed: {
@@ -644,6 +644,11 @@ export default {
     }
   },
   mounted () {
+    this.docnoid = this.$route.params.id
+    if (this.docnoid == 0) {
+
+    }
+    this.showedit()
     this.creator_by = this.objuser.usercode
     this.branch_id = this.objuser.branch_id
     this.showcontent_step2()

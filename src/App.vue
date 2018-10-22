@@ -190,16 +190,16 @@
         this.menuVisible = !this.menuVisible;
       },
       goindex(val) {
-        localStorage.iddocno = 0
+        // localStorage.iddocno = 0
         this.showNavigation = false
         if(val == '/quotation'){
-          this.$router.replace('/quotation')
+          this.$router.push({ name : 'quotation',params : { id: 0}})
           return
         }
         this.$router.push(val);
       },
         username () {
-  		 	// console.log(localStorage.Datauser)
+  		 	// console.log(localStor/age.Datauser)
            var Datauser = JSON.parse(localStorage.Datauser)
            this.name = Datauser.username
            this.role = Datauser.rolename

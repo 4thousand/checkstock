@@ -103,8 +103,8 @@ export default {
     },
     seedetail(val){
         console.log(JSON.stringify(val))
-        localStorage.iddocno = val.id
-        this.$router.push("/quotation");
+        
+        this.$router.push({ name : 'quotation', params : { id: val.id}});
     },
     showalldoc () {
         var payload = {
