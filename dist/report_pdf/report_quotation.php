@@ -2,9 +2,12 @@
 $data = json_decode($_POST['dataquotation'],  true);
 print_r($data);
 
-$date = "04/30/1973";
-list($month, $day, $year) = split('[/.-]', $date);
-echo "Month: $month; Day: $day; Year: $year<br />\n";
+$delivery = "2018-10-12";
+$date2 = explode('-', $delivery);
+$year = $date2[0]+543;
+$month   = $date2[1];
+$day  = $date2[2];
+$delivery_date = $day.'/'.$month.'/'.$year;
 // $data['doc_date'];
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -109,7 +112,7 @@ echo "Month: $month; Day: $day; Year: $year<br />\n";
             </div> 
             <div class="settop" style="width: 95%;height: 35%">
                 <div> 
-                    <span>วันที่นัดส่งสินค้า <?php echo $data['delivery_date'] ?></span>
+                    <span>วันที่นัดส่งสินค้า <?php echo $delivery_date ?></span>
                 </div>
                 <div style="margin-top:10px;font-weight: bold; ">
                     <div style="width: 4%;float: left;padding-top: 7px">
