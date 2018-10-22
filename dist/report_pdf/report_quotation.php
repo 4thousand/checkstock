@@ -1,18 +1,11 @@
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
-ini_set('max_execution_time', 300);
-ini_set("pcre.backtrack_limit", "1000000000");
-ini_set('memory_limit', '-1');
-ob_start();
-
 $data = json_decode($_POST['dataquotation'],  true);
 // print_r($data);
 ?>
-<!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <title>ข้อมูล PDF</title>
-  <style type="text/css">
+    <title>Print Test</title>
+    <style type="text/css">
         @import url('https://fonts.googleapis.com/css?family=Niramit');
 
         * {
