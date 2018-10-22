@@ -98,11 +98,12 @@ $datenow_datepicker = $day.'/'.$month.'/'.$year;
     </style>
 </head>
 <body>
-<input type="hidden" id="docno" value="<?php echo $data['doc_no']; ?>">
+<input type="hidden" id="barcodedocno" value="<?php echo $data['doc_no']; ?>">
     <div style="height: 81px">
         <div style="float: left;display: inline-block">
             <div>
-                <img src="logo.jpg" style="width: 170px;height: 60px;position: relative;left: 1px;top: 5px"> <div id="qrcodeTable"></div>
+                <img src="logo.jpg" style="width: 170px;height: 60px;position: relative;left: 1px;top: 5px">
+                <svg id="code128"></svg>
             </div>
             <span style="position: relative;left: 2.3rem;font-weight: 500">เลขประจำตัวผู้เสียภาษี 0505533000157</span>
         </div>
@@ -436,17 +437,12 @@ $datenow_datepicker = $day.'/'.$month.'/'.$year;
             </div>
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-    <script type="text/javascript" src="jquery.qrcode.js"></script>
-<script type="text/javascript" src="qrcode.js"></script>
+    <script src="JsBarcode.all.min.js"></script>
     <script>
-   var inputdocno =  document.getElementById('docno').value;
-   jQuery('#qrcodeTable').qrcode({
-		render	: "table",
-		text	: inputdocno
-	});	
-    
-window.print()
+var docno = document.getElementById('barcodedocno').value
+JsBarcode("#code128", docno);
+
+  window.print()
 
 </script>
 </body>
