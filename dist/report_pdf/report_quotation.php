@@ -357,7 +357,7 @@ $datenow_datepicker = $day.'/'.$month.'/'.$year;
                         ส่วนลด รวม
                
                 </span>
-                 <span style="position: absolute;right: 3px;top: 17px;">0.00</span>
+                 <span style="position: absolute;right: 3px;top: 17px;"><?php echo $data['discount_amount'] ?></span>
             </div>
             <div style="width:30%;float: left;height: 35%;border-bottom: 1px solid black;position: relative">
                 <div style="width: 100%;height: 33.333%;position: relative">
@@ -373,12 +373,12 @@ $datenow_datepicker = $day.'/'.$month.'/'.$year;
                     <span style="position: relative;"> จำนวนภาษีมูลค่าเพิ่ม</span>
                         </div>
                    <div style="width: 50%;text-align: right;position: absolute;bottom: 0;left: 50%">
-                      <span style="position: relative;right: 5px"> <?php echo $data['after_discount_amount'] ?> </span>
+                      <span style="position: relative;right: 5px"> <?php echo $data['dif_fee'] ?> </span>
                     </div>
                 </div>
                  <div style="width: 100%;height: 33.333%;position: relative">
                     <div style="width: 50%;text-align: right;position: absolute;bottom: 0;">
-                    <span style="position: relative;"> ราคาสินค้า</span>
+                    <span style="position: relative;">จำนวนเงินทั้งสิ้น</span>
                         </div>
                    <div style="width: 50%;text-align: right;position: absolute;bottom: 0;left: 50%">
                       <span style="position: relative;right: 5px"> <?php echo $data['after_discount_amount'] ?> </span>

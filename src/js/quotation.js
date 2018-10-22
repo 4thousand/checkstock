@@ -183,6 +183,7 @@ export default {
            ar_bill_address: this.ar_bill_address,
            ar_telephone: this.ar_telephone,
            datenow_datepicker: this.datenow_datepicker,
+           dif_fee: this.dif_fee,
           //norecord
           doc_type,
           ar_id: this.idcus,
