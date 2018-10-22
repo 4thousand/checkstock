@@ -1,6 +1,7 @@
 <?php
 $data = json_decode($_POST['dataquotation'],  true);
-print_r($data);
+// print_r($data);
+echo $data['datenow_datepicker'];
 
 $delivery = $data['delivery_date'];
 $date2 = explode('-', $delivery);
@@ -15,6 +16,14 @@ $year = $data3[0]+543;
 $month   = $data3[1];
 $day  = $data3[2];
 $due_date = $day.'/'.$month.'/'.$year;
+
+
+$printdate = $data['datenow_datepicker'];
+$data4 = explode('-',$printdate);
+$year = $data4[0]+543;
+$month   = $data4[1];
+$day  = $data4[2];
+$datenow_datepicker = $day.'/'.$month.'/'.$year;
 // $data['doc_date'];
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -150,7 +159,7 @@ $due_date = $day.'/'.$month.'/'.$year;
                         <span style="font-size: 0.70rem;">วันที่ออกเอกสาร</span>
                     </div>
                     <div style="float: left;width: 60%">
-                        <span style="font-size: 0.70rem;">01/10/2561</span>
+                        <span style="font-size: 0.70rem;"><?php echo $datenow_datepicker ?></span>
                     </div>
                 </div>
                 <div style="margin-top: 20px">

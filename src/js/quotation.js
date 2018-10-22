@@ -182,6 +182,7 @@ export default {
           //norecord
            ar_bill_address: this.ar_bill_address,
            ar_telephone: this.ar_telephone,
+           datenow_datepicker: this.datenow_datepicker,
           //norecord
           doc_type,
           ar_id: this.idcus,
