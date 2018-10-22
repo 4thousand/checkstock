@@ -17,13 +17,16 @@ $month   = $data3[1];
 $day  = $data3[2];
 $due_date = $day.'/'.$month.'/'.$year;
 
-
-$printdate = $data['datenow_datepicker'];
+if (count($data['subs']) > 10 ) {
+$cutstring = substr($data['datenow_datepicker'],0,10);   
+$printdate = $cutstring;
 $data4 = explode('-',$printdate);
 $year = $data4[0]+543;
 $month   = $data4[1];
 $day  = $data4[2];
 $datenow_datepicker = $day.'/'.$month.'/'.$year;
+}
+
 // $data['doc_date'];
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
