@@ -2,11 +2,6 @@
 $data = json_decode($_POST['dataquotation'],  true);
 // print_r($data);
 // $data['doc_date'];
-$deliverydate = $data['delivery_date']; 
-list($year, $month, $day) = split('-', $deliverydate);
-$year = $year + 543;
-$deliverydate = $day.'/'.$month.'/'.$year;
-echo $deliverydate;
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -105,8 +100,8 @@ echo $deliverydate;
                 </div>
             </div> 
             <div class="settop" style="width: 95%;height: 35%">
-                <div>
-                    <span>วันที่นัดส่งสินค้า <?php echo $deliverydate ?></span>
+                <div> 
+                    <span>วันที่นัดส่งสินค้า <?php echo $data['delivery_date'] ?></span>
                 </div>
                 <div style="margin-top:10px;font-weight: bold; ">
                     <div style="width: 4%;float: left;padding-top: 7px">
@@ -164,7 +159,7 @@ echo $deliverydate;
         <div style="float: right;width: 45%;height: 40%;border: 1px solid black;border-radius: 8px">
             <div style="font-size: 0.6rem;position: relative;left:5px;top: 5px">
                 <div style="width: 100%;height: 35px;line-height:14px">
-                    <span>พนักงานขาย</span> <span>60066 </span><span> จีราวรรณ คาถา , โทร - , มือถือ - , อีเมลล์ -</span>
+                    <span>พนักงานขาย</span> <span> <?php echo $data['sale_code'] ?> </span><span> <?php echo $data['sale_name'] ?> , โทร - , มือถือ - , อีเมลล์ -</span>
                 </div>
             </div>
             <div style="width: 100%;text-align: center;font-size: 0.55rem;color: grey">
@@ -226,29 +221,34 @@ echo $deliverydate;
             <div style="left: 86.25%;width: 13.75%;height: 100%;position: absolute">
 
             </div>
+            <?php 
+            $count = count($data['subs']);
+            $detail = $data['subs'];
+            for($i = 0; $i < $count; $i++){
 
+            ?>
             <div style="position: relative;min-height: 20px;width: 100%;float: left">
                 <div style="width: 5%;float:left;position: relative;line-height: 20px;text-align: center">
-                    <span style="font-size: 0.68rem;">1</span>
+                    <span style="font-size: 0.68rem;"><?php $line = $i + 1; echo $line; ?></span>
                 </div>
                 <div style="width: 40%;float:left;position: relative;line-height: 20px;padding-left: 5px">
-                    <span style="font-size: 0.68rem;">8852437101513 ซีเมนต์ถุงตราซูปเปอร์ซีเมนต์ 40 กก.</span>
+                    <span style="font-size: 0.68rem;"><?php echo $detail[$i]['item_code']; ?> <?php echo $detail[$i]['item_name']; ?></span>
                 </div>
                 <div style="width: 13.75%;float:left;position: relative;text-align: right;line-height: 20px">
-                    <span style="font-size: 0.68rem;margin-right: 5px">50.000</span>
+                    <span style="font-size: 0.68rem;margin-right: 5px"><?php echo $detail[$i]['qty']; ?></span>
+                </div>   
+                <div style="width: 13.75%;float:left;position: relative;text-align: right;line-height: 20px">
+                    <span style="font-size: 0.68rem;margin-right: 5px"><?php echo $detail[$i]['unit_code']; ?></span>
                 </div>
                 <div style="width: 13.75%;float:left;position: relative;text-align: right;line-height: 20px">
-                    <span style="font-size: 0.68rem;margin-right: 5px">ถุง</span>
-                </div>
+                    <span style="font-size: 0.68rem;margin-right: 5px"><?php echo $detail[$i]['price']; ?></span>
+                </div>  
                 <div style="width: 13.75%;float:left;position: relative;text-align: right;line-height: 20px">
-                    <span style="font-size: 0.68rem;margin-right: 5px">109.00</span>
-                </div>
-                <div style="width: 13.75%;float:left;position: relative;text-align: right;line-height: 20px">
-                    <span style="font-size: 0.68rem;margin-right: 5px">5,450.00</span>
+                    <span style="font-size: 0.68rem;margin-right: 5px"><?php echo $detail[$i]['item_amount']; ?></span>
                 </div>
             </div>
-
-            <div style="position: relative;min-height: 20px;width: 100%;float: left">
+    <?php  } ?>
+            <!-- <div style="position: relative;min-height: 20px;width: 100%;float: left">
                 <div style="width: 5%;float:left;position: relative;line-height: 20px;text-align: center">
                     <span style="font-size: 0.68rem;">2</span>
                 </div>
@@ -267,9 +267,9 @@ echo $deliverydate;
                 <div style="width: 13.75%;float:left;position: relative;text-align: right;line-height: 20px">
                     <span style="font-size: 0.68rem;margin-right: 5px">1,360.00</span>
                 </div>
-            </div>
+            </div> -->
 
-            <div style="position: relative;min-height: 20px;width: 100%;float: left">
+            <!-- <div style="position: relative;min-height: 20px;width: 100%;float: left">
                 <div style="width: 5%;float:left;position: relative;line-height: 20px;text-align: center">
                     <span style="font-size: 0.68rem;">3</span>
                 </div>
@@ -288,7 +288,7 @@ echo $deliverydate;
                 <div style="width: 13.75%;float:left;position: relative;text-align: right;line-height: 20px">
                     <span style="font-size: 0.68rem;margin-right: 5px">1,330.00</span>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
     <div style="height: 185px;border: 1px solid black;border-radius: 5px">
@@ -309,7 +309,7 @@ echo $deliverydate;
         <div style="display:block">
             <div style="width:17.5%;float: left;height: 35%;border-bottom: 1px solid black;border-right: 1px dashed grey;">
                 <div style="width: 100%;height: 40%;position: relative">
-                <span style="position: absolute;bottom: 0;left: 50%;transform: translateX(-50%);white-space: nowrap"> 60066 จีราวรรณ คาถา</span>
+                <span style="position: absolute;bottom: 0;left: 50%;transform: translateX(-50%);white-space: nowrap"> <?php echo $data['sale_code'] ?>  <?php echo $data['sale_name'] ?> </span>
                 </div>
                 <div style="width: 100%;height: 60%;position: relative">
                 <span style="position: absolute;bottom: 5px;left: 50%;transform: translateX(-50%);"> ผู้ทำรายการ</span>
@@ -360,7 +360,7 @@ echo $deliverydate;
             <div style="width: 65%;float: left;height: 52%;border-bottom: 1px dashed grey;position: relative">
                 <div style="width: 28%;height: 100%;border-right: 1px dashed grey;float: left">
                     <div style="height: 50%;width: 100%;text-align: center">
-                    <span style="position: relative;top: 10px"> 60066 จีราวรรณ คาถา</span>
+                    <span style="position: relative;top: 10px"> <?php echo $data['sale_code'] ?>   <?php echo $data['sale_name'] ?></span>
                     </div>
                     <div style="height: 50%;width: 100%;text-align: center;position: relative">
                         <div>
