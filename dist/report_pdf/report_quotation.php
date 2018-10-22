@@ -102,8 +102,9 @@ $datenow_datepicker = $day.'/'.$month.'/'.$year;
     <div style="height: 81px">
         <div style="float: left;display: inline-block">
             <div>
+            <div style="position: absolute; background: white; width: 173px; height: 13px; left: 171px; top: 64px; z-index: 99;"></div>
                 <img src="logo.jpg" style="width: 170px;height: 60px;position: relative;left: 1px;top: 5px">
-                <svg id="code128"></svg>
+                <svg style="position: absolute; width: 209px; height: 69px; top: 10px; left: 165px;" id="code128"></svg>
             </div>
             <span style="position: relative;left: 2.3rem;font-weight: 500">เลขประจำตัวผู้เสียภาษี 0505533000157</span>
         </div>
