@@ -176,6 +176,9 @@ export default {
           id: parseInt(this.docnoid),// 0 แก้ไข,update ตามไอดี 
           branch_id: this.branch_id,
           doc_no: this.docno,
+          //norecord
+          datenow: this.datenow_datepicker,
+          //norecord
           doc_type,
           ar_id: this.idcus,
           ar_code: this.searchcus,

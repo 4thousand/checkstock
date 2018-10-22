@@ -1,6 +1,16 @@
 <?php
 $data = json_decode($_POST['dataquotation'],  true);
 // print_r($data);
+$delivery_day = $data['delivery_day']; 
+$datenow = $data['datenow'];
+list($year, $month, $day) = split('-', $delivery_day);
+$year = $year + 543;
+$delivery_day1 = $day.'/'.$month.'/'.$year;
+
+list($year, $month, $day) = split('-', $datenow);
+$year = $year + 543;
+$datenow = $day.'/'.$month.'/'.$year;
+
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -86,9 +96,9 @@ $data = json_decode($_POST['dataquotation'],  true);
     <div style="width: 100%;height: 170px;margin-top: -5px;">
         <div style="float: left;width: 55%;height: 100%;border: 1px solid black;border-radius: 8px">
             <div class="settop" style="width: 95%;height: 55%">
-                <div>
-                    <span>ชื่อลูกค้า</span> <span style="text-decoration:underline">0816711966 คุณมีธนา สฤษดิ์นำ</span>
-                </div>
+                <div>   
+                    <span>ชื่อลูกค้า</span> <span style="text-decoration:underline"><?php echo $data['ar_id']; ?> <?php echo $data['ar_name']; ?></span>
+                </div>    
                 <div style="margin-top: 20px">
                     <div style="width: 10%;float: left;position:relative;top: 6px">
                         <span>ที่อยู่</span>
@@ -97,10 +107,10 @@ $data = json_decode($_POST['dataquotation'],  true);
                         <span style=" font-size: 0.67rem;position: relative;left: 13px;line-height: 20px">215/3 ถ.ลำพูน ต.วัดเกต อ.เมือง จ.เชียงใหม่ 50000 โทร 081-6711966</span>
                     </div>
                 </div>
-            </div>
+            </div> 
             <div class="settop" style="width: 95%;height: 35%">
                 <div>
-                    <span>วันที่นัดส่งสินค้า 31/10/2561</span>
+                    <span>วันที่นัดส่งสินค้า <?php echo $delivery_day1 ?></span>
                 </div>
                 <div style="margin-top:10px;font-weight: bold; ">
                     <div style="width: 4%;float: left;padding-top: 7px">
@@ -128,10 +138,10 @@ $data = json_decode($_POST['dataquotation'],  true);
                 </div>
                 <div style="margin-top: 20px">
                     <div style="float: left;width: 40%;text-align: right;padding-right: 10px">
-                        <span style="font-size: 0.70rem;">เลขที่ใบเสนอราคา</span>
+                        <span style="font-size: 0.70rem;">วันที่ออกเอกสาร</span>
                     </div>
                     <div style="float: left;width: 60%">
-                        <span style="font-size: 0.70rem;">01/10/2561</span>
+                        <span style="font-size: 0.70rem;"><?php echo $datenow ?></span>
                     </div>
                 </div>
                 <div style="margin-top: 20px">
