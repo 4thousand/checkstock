@@ -213,7 +213,7 @@ export default {
           creator_by: this.creator_by,
           subs: this.dproducts
         }
-        document.getElementsByName('data_tax')[0].value = JSON.stringify(
+        document.getElementsByName('dataquotation')[0].value = JSON.stringify(
           payload
         )
         console.log(JSON.stringify(payload))
