@@ -171,13 +171,14 @@ export default {
           percent = ''
           discount_amount = this.caldiscount
         }
+        // console.log(this.datenow_datepicker)
         // console.log(this.docnoid)
         let payload = {
           id: parseInt(this.docnoid),// 0 แก้ไข,update ตามไอดี 
           branch_id: this.branch_id,
           doc_no: this.docno,
           //norecord
-          doc_date: this.convermonth_y_m_d(this.datenow_datepicker),
+          // doc_date: this.convermonth_y_m_d(this.datenow_datepicker),
           //norecord
           doc_type,
           ar_id: this.idcus,

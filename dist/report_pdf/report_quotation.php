@@ -2,6 +2,11 @@
 $data = json_decode($_POST['dataquotation'],  true);
 print_r($data);
 // $data['doc_date'];
+$deliverydate = $data['delivery_date']; 
+list($year, $month, $day) = split('-', $deliverydate);
+$year = $year + 543;
+$deliverydate = $day.'/'.$month.'/'.$year;
+
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -101,7 +106,7 @@ print_r($data);
             </div> 
             <div class="settop" style="width: 95%;height: 35%">
                 <div>
-                    <span>วันที่นัดส่งสินค้า 31/10/2561</span>
+                    <span>วันที่นัดส่งสินค้า <?php echo $deliverydate ?></span>
                 </div>
                 <div style="margin-top:10px;font-weight: bold; ">
                     <div style="width: 4%;float: left;padding-top: 7px">
