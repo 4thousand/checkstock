@@ -6,6 +6,11 @@ $data = json_decode($_POST['dataquotation'],  true);
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Print Test</title>
+    <style type="text/css" media="print" >
+     body {
+        max-width: inherit;
+     }
+    </style>
     <style type="text/css">
         @import url('https://fonts.googleapis.com/css?family=Niramit');
         * {
@@ -28,7 +33,7 @@ $data = json_decode($_POST['dataquotation'],  true);
 
         body {
             /* display:block !important; */
-/*            max-width: 714px;*/
+           max-width: 714px;
             /*            border: solid 1px blue;*/
             margin: 4mm 5mm 5mm 4mm;
             font-size: 30px;
