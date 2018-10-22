@@ -94,7 +94,7 @@ $data = json_decode($_POST['dataquotation'],  true);
                         <span>ที่อยู่</span>
                     </div>
                     <div style="width: 90%;float: left;word-break:break-word;padding-right: 8px">
-                        <span style=" font-size: 0.67rem;position: relative;left: 13px;line-height: 20px">215/3 ถ.ลำพูน ต.วัดเกต อ.เมือง จ.เชียงใหม่ 50000 โทร 081-6711966</span>
+                        <span style=" font-size: 0.67rem;position: relative;left: 13px;line-height: 20px"><?php echo $data['ar_bill_address']; ?> โทร 081-6711966</span>
                     </div>
                 </div>
             </div> 

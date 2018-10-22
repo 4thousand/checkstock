@@ -75,6 +75,8 @@ export default {
     answer_cus: '',
     company_id: localStorage.company_id,
     php: 'http://' + document.domain,
+    ar_bill_address:'',
+    ar_telephone:'',
   }),
   methods: {
     isshowdoc_fuc() {
@@ -178,7 +180,8 @@ export default {
           branch_id: this.branch_id,
           doc_no: this.docno,
           //norecord
-          // doc_date: this.convermonth_y_m_d(this.datenow_datepicker),
+           ar_bill_address: this.ar_bill_address,
+           ar_telephone: this.ar_telephone,
           //norecord
           doc_type,
           ar_id: this.idcus,
@@ -514,6 +517,8 @@ export default {
           this.tablecode = doc_type
           this.billtype = result.data.bill_type
           console.log(this.billtype)
+          this.ar_bill_address = result.data.ar_bill_address
+          this.ar_telephone = result.data.ar_telephone
           this.docno = result.data.doc_no
           this.taxtype = tax_type
           this.datenow_datepicker = result.data.doc_date
