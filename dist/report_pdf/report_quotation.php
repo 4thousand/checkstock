@@ -6,7 +6,7 @@ $data = json_decode($_POST['dataquotation'],  true);
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Print Test</title>
-    <style type="text/css" media="print">
+    <style type="text/css">
         @import url('https://fonts.googleapis.com/css?family=Niramit');
         * {
             padding: 0;
@@ -27,7 +27,7 @@ $data = json_decode($_POST['dataquotation'],  true);
         }
 
         body {
-            display:block !important;
+            /* display:block !important; */
 /*            max-width: 714px;*/
             /*            border: solid 1px blue;*/
             margin: 4mm 5mm 5mm 4mm;
@@ -61,7 +61,7 @@ $data = json_decode($_POST['dataquotation'],  true);
     </style>
 </head>
 
-<body style="display:none">
+<body>
     <div style="height: 81px">
         <div style="float: left;display: inline-block">
             <div>
@@ -400,8 +400,7 @@ $data = json_decode($_POST['dataquotation'],  true);
         </div>
     </div>
     <script>
-setTimeout(function(){ window.print(); }, 2000);
-    
+window.print()
 
 </script>
 </body>
