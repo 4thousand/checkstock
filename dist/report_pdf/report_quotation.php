@@ -400,8 +400,8 @@ $data = json_decode($_POST['dataquotation'],  true);
         </div>
     </div>
     <script>
-
-    window.print();
+setTimeout(function(){ window.print(); }, 2000);
+    
 
 </script>
 </body>
