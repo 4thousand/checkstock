@@ -1,12 +1,12 @@
 <?php
 $data = json_decode($_POST['dataquotation'],  true);
-print_r($data);
+// print_r($data);
 // $data['doc_date'];
 $deliverydate = $data['delivery_date']; 
 list($year, $month, $day) = split('-', $deliverydate);
 $year = $year + 543;
 $deliverydate = $day.'/'.$month.'/'.$year;
-
+echo $deliverydate;
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
