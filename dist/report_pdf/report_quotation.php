@@ -447,7 +447,7 @@ $datenow_datepicker = $day.'/'.$month.'/'.$year;
             </div>
         </div>
     </div>
-    <script src="convertmoney.js" type="text/javascript" charset="utf-8"></script>
+    <script src="convertthaimoney.js"></script>
     <script src="JsBarcode.all.min.js"></script>
     <script>
 var totalmoney = document.getElementById('convertmoney').value  
