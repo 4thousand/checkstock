@@ -90,6 +90,9 @@ $datenow_datepicker = $day.'/'.$month.'/'.$year;
             top: 10px;
             left: 10px
         }
+        svg {
+            position: absolute !important; width: 209px !important; height: 69px !important; top: 10px !important; left: 165px !important;
+        }
     </style>
       <style type="text/css" media="print">
      body {
