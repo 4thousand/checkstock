@@ -107,7 +107,7 @@ $datenow_datepicker = $day.'/'.$month.'/'.$year;
 </head>
 <body>
 <input type="hidden" id="barcodedocno" value="<?php echo $data['doc_no']; ?>">
-<input type="hidden" id="convertmoney" value="<?php echo $data['after_discount_amount']; ?>"
+<input type="hidden" id="convertmoney" value="<?php echo $data['after_discount_amount']; ?>">
     <div style="height: 81px">
         <div style="float: left;display: inline-block">
             <div>
@@ -452,6 +452,7 @@ $datenow_datepicker = $day.'/'.$month.'/'.$year;
     <script>
 var totalmoney = document.getElementById('convertmoney').value  
 var inputthaimoney = document.getElementById('thaimoney').innerHTML
+
 inputthaimoney = dArabicNumberToText(totalmoney.toString());
 
 var docno = document.getElementById('barcodedocno').value
