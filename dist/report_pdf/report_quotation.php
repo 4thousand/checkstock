@@ -98,10 +98,14 @@ $datenow_datepicker = $day.'/'.$month.'/'.$year;
     top: 17px !important;
     left: 165px !important;
         }
+      
     </style>
       <style type="text/css" media="print">
      body {
         max-width: inherit !important;
+     }
+     .printnone{
+         display:none;
      }
     </style>
 </head>
@@ -221,16 +225,18 @@ $datenow_datepicker = $day.'/'.$month.'/'.$year;
     </div>
     <div style="height: 18px;position: relative;top: 4px">
         <span style="font-size: 0.68rem;float: left">ขอขอบพระคุณที่ท่านไว้วางใจในบริการเรา ทางบริษัทฯมีความยินดีที่จะเสนอราคาสินค้า ดังต่อไปนี้</span>
-        <span style="float: right;font-size: 0.68rem;">Page 1 of 1</span>
+        <span style="float: right;font-size: 0.68rem;">
+        <button class="printnone" style="padding: 0 20px; position: relative; top: -7px; height: 19px;" onclick="javascript:window.print()"><span>Print</span></button>
+        <select onchange="sizepage()" class="printnone" id="valuepage" style="position: relative; top: -8px;"><option value="615.77">Page 1</option>
+        <option value="1765">Page 2</option><option value="2850">Page 3</option><option value="4000">Page 4</option></select></span>
     </div>
 
-    <div style="width: 100%;border-top: 1px solid black;border-left: 1px solid black;height: 615.77px;border-right: 1px solid black;border-radius: 5px">
-        <div style="width: 100%;height: 3%;border-bottom: 1px solid black">
-            <div style="float: left;width: 5%;height: 100%;border-right: 1px dashed grey;position: relative">
+    <div id="heightproduct" style="width: 100%;border-top: 1px solid black;border-left: 1px solid black;height: 615.77px;border-right: 1px solid black;border-radius: 5px">
+        <div style="width: 100%;    height: 25px;border-bottom: 1px solid black">
+            <div style="height:100%;;float: left;width: 5%;border-right: 1px dashed grey;position: relative">
                 <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 2px">ลำดับ</span>
             </div>
             <div style="float: left;width: 40%;height: 100%;border-right: 1px dashed grey;position: relative">
-
                 <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 5px">รหัสสินค้า/รายละเอียด</span>
             </div>
 
@@ -248,7 +254,7 @@ $datenow_datepicker = $day.'/'.$month.'/'.$year;
             </div>
         </div>
 
-        <div style="width: 100%;height: 97%;border-bottom: 1px solid black;position: relative">
+        <div id="counttable" style="width: 100%;height: calc(100% - 25px);border-bottom: 1px solid black;position: relative">
 
             <div style="position: absolute;width: 5%;height: 100%;border-right: 1px dashed grey;">
             </div>
@@ -294,48 +300,8 @@ $datenow_datepicker = $day.'/'.$month.'/'.$year;
                     <span style="font-size: 0.68rem;margin-right: 5px"><?php echo $detail[$i]['item_amount']; ?></span>
                 </div>
             </div>
+            
     <?php  } ?>
-            <!-- <div style="position: relative;min-height: 20px;width: 100%;float: left">
-                <div style="width: 5%;float:left;position: relative;line-height: 20px;text-align: center">
-                    <span style="font-size: 0.68rem;">2</span>
-                </div>
-                <div style="width: 40%;float:left;position: relative;line-height: 20px;padding-left: 5px">
-                    <span style="font-size: 0.68rem;">6701217 เซี้ยมจับมุมเสา KAIZEN SK-06L สีเทา ( ขนาดใหญ่ No.2 ) ยาว 2 เมตร : 1 กล่อง บรรจุ 100เส้น</span>
-                </div>
-                <div style="width: 13.75%;float:left;position: relative;text-align: right;line-height: 20px">
-                    <span style="font-size: 0.68rem;margin-right: 5px">80.000</span>
-                </div>
-                <div style="width: 13.75%;float:left;position: relative;text-align: right;line-height: 20px">
-                    <span style="font-size: 0.68rem;margin-right: 5px">เส้น</span>
-                </div>
-                <div style="width: 13.75%;float:left;position: relative;text-align: right;line-height: 20px">
-                    <span style="font-size: 0.68rem;margin-right: 5px">17.00</span>
-                </div>
-                <div style="width: 13.75%;float:left;position: relative;text-align: right;line-height: 20px">
-                    <span style="font-size: 0.68rem;margin-right: 5px">1,360.00</span>
-                </div>
-            </div> -->
-
-            <!-- <div style="position: relative;min-height: 20px;width: 100%;float: left">
-                <div style="width: 5%;float:left;position: relative;line-height: 20px;text-align: center">
-                    <span style="font-size: 0.68rem;">3</span>
-                </div>
-                <div style="width: 40%;float:left;position: relative;line-height: 20px;padding-left: 5px">
-                    <span style="font-size: 0.68rem;">8854346002240 LANKO 110 ปูนฉาบแต่งผิวบาง ภายนอก/ภายในสีขาว (20กก.)</span>
-                </div>
-                <div style="width: 13.75%;float:left;position: relative;text-align: right;line-height: 20px">
-                    <span style="font-size: 0.68rem;margin-right: 5px">5.000</span>
-                </div>
-                <div style="width: 13.75%;float:left;position: relative;text-align: right;line-height: 20px">
-                    <span style="font-size: 0.68rem;margin-right: 5px">ถุง</span>
-                </div>
-                <div style="width: 13.75%;float:left;position: relative;text-align: right;line-height: 20px">
-                    <span style="font-size: 0.68rem;margin-right: 5px">266.00</span>
-                </div>
-                <div style="width: 13.75%;float:left;position: relative;text-align: right;line-height: 20px">
-                    <span style="font-size: 0.68rem;margin-right: 5px">1,330.00</span>
-                </div>
-            </div> -->
         </div>
     </div>
     <div style="height: 185px;border: 1px solid black;border-radius: 5px">
@@ -447,9 +413,18 @@ $datenow_datepicker = $day.'/'.$month.'/'.$year;
             </div>
         </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="convertthaimoney.js"></script>
     <script src="JsBarcode.all.min.js"></script>
     <script>
+    // alert($("#counttable div").length)
+    // alert('dasdsa')
+    var heightproduct = document.getElementById('heightproduct').clientHeight;
+    var valuepage = document.getElementById('valuepage').value
+
+    // alert(valuepage)
+    // alert(document.getElementById('heightproduct').clientHeight)
+    // document.getElementById('heightproduct').style.height = '1765'
 var totalmoney = document.getElementById('convertmoney').value;
 console.log(totalmoney);
 var inputthaimoney = document.getElementById('thaimoney');
@@ -460,8 +435,11 @@ inputthaimoney.innerHTML = thaimoney;
 var docno = document.getElementById('barcodedocno').value
 JsBarcode("#code128", docno);
 
-  window.print()
-
+//   window.print()
+function sizepage(){
+    // alert('dasda')
+    document.getElementById('heightproduct').style.height = document.getElementById('valuepage').value
+}
 </script>
 </body>
 </html>

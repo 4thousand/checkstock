@@ -11,7 +11,7 @@ const searchByName = (items, term) => {
 import Datepicker from 'vuejs-datepicker';
 import * as lang from "vuejs-datepicker/src/locale";
 import api from "../service/service.js"
-import * as jsPDF from 'jspdf'
+// import * as jsPDF from 'jspdf'
 import JQuery from 'jquery'
 let $ = JQuery
 
@@ -223,6 +223,9 @@ export default {
           subs: this.dproducts
         }
         document.getElementsByName('dataquotation')[0].value = JSON.stringify(
+          payload
+        )
+        document.getElementsByName('dataquotation')[1].value = JSON.stringify(
           payload
         )
         console.log(JSON.stringify(payload))
