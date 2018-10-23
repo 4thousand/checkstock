@@ -450,12 +450,12 @@ $datenow_datepicker = $day.'/'.$month.'/'.$year;
     <script src="convertthaimoney.js"></script>
     <script src="JsBarcode.all.min.js"></script>
     <script>
-var totalmoney = document.getElementById('convertmoney').value  
-console.log(totalmoney)
-var inputthaimoney = document.getElementById('thaimoney').innerHTML
-console.log(ArabicNumberToText(totalmoney.toString()));
+var totalmoney = document.getElementById('convertmoney').value;
+console.log(totalmoney);
+var inputthaimoney = document.getElementById('thaimoney');
+var thaimoney = ArabicNumberToText(totalmoney.toString());
 
-inputthaimoney = ArabicNumberToText(totalmoney.toString());
+inputthaimoney.innerHTML = thaimoney;
 
 var docno = document.getElementById('barcodedocno').value
 JsBarcode("#code128", docno);
