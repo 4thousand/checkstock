@@ -107,10 +107,11 @@ $datenow_datepicker = $day.'/'.$month.'/'.$year;
 </head>
 <body>
 <input type="hidden" id="barcodedocno" value="<?php echo $data['doc_no']; ?>">
+<input type="hidden" id="convertmoney" value="<?php echo $data['after_discount_amount']; ?>"
     <div style="height: 81px">
         <div style="float: left;display: inline-block">
             <div>
-            <div style="position: absolute; background: white; width: 173px; height: 18px; left: 171px; top: 73px; z-index: 20;"></div>
+            <div style="position: absolute; background: white; width: 173px; height: 12px; left: 171px; top: 70px; z-index: 20;"></div>
                 <img src="logo.jpg" style="width: 170px;height: 60px;position: relative;left: 1px;top: 5px">
                 <svg id="code128"></svg>
             </div>
@@ -399,7 +400,7 @@ $datenow_datepicker = $day.'/'.$month.'/'.$year;
         </div>
         <div style="display:block">
             <div style="width: 65%;float: left;height: 15%;border-bottom: 1px dashed grey;position: relative">
-                <span style="font-size: 0.68rem;font-weight: bold;position: absolute;top: 50%;transform: translateY(-50%);left:10px">ตัวอักษร: แปดพันหนึ่งร้อยสี่สิบบาทถ้วน</span>
+                <span style="font-size: 0.68rem;font-weight: bold;position: absolute;top: 50%;transform: translateY(-50%);left:10px">ตัวอักษร: <span id="thaimoney"></span></span>
             </div>
         </div>
         <div style="display:block">
@@ -446,8 +447,13 @@ $datenow_datepicker = $day.'/'.$month.'/'.$year;
             </div>
         </div>
     </div>
+    <script src="convertmoney.js" type="text/javascript" charset="utf-8"></script>
     <script src="JsBarcode.all.min.js"></script>
     <script>
+var totalmoney = document.getElementById('convertmoney').value  
+var inputthaimoney = document.getElementById('thaimoney').innerHTML
+inputthaimoney = dArabicNumberToText(totalmoney.toString());
+
 var docno = document.getElementById('barcodedocno').value
 JsBarcode("#code128", docno);
 
