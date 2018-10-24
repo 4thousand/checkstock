@@ -80,4 +80,32 @@ export default {
           error(response)
         })
     },
+    searchdepartment(payload, success, error) {
+      Vue.axios.post(URL + ':8081/env/v1/department/search/keyword', JSON.stringify(payload)).then(
+        (response) => {
+          success(response.data)
+        },
+        (response) => {
+          error(response)
+        })
+    },
+    searchproject(payload, success, error) {
+      Vue.axios.post(URL + ':8081/env/v1/project/search/keyword', JSON.stringify(payload)).then(
+        (response) => {
+          success(response.data)
+        },
+        (response) => {
+          error(response)
+        })
+    },
+    searchAllocate(payload, success, error) {
+      Vue.axios.post(URL + ':8081/env/v1/allocate/search/keyword', JSON.stringify(payload)).then(
+        (response) => {
+          success(response.data)
+        },
+        (response) => {
+          error(response)
+        })
+    },
+    
 }

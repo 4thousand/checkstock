@@ -77,8 +77,107 @@ export default {
     php: 'http://' + document.domain,
     ar_bill_address:'',
     ar_telephone:'',
+    department:'',
+    searchdepart:false,
+    objdepart:[],
+    project:'',
+    searchproject:false,
+    objproject:[],
+    Allocate:'',
+    searchAllocate_m:false,
+    objAllocate:[],
   }),
   methods: {
+    searchAllocate(){
+      let payload = {
+        keyword: this.Allocate
+      }
+      console.log(payload)
+      api.searchAllocate(payload,
+        (result) => {
+          console.log(JSON.stringify(result.data))
+          // console.log(result.data.length)
+          if (result.data.length == 0) {
+            alertify.error('ไม่มีการจัดสรร');
+            return
+          }
+          if (result.data.length == 1) {
+            this.Allocate = result.data[0].name
+            
+          } else if (result.data.length > 1) {
+            this.searchAllocate_m = true
+            this.objAllocate = result.data
+          }
+        },
+        (error) => {
+          console.log(JSON.stringify(error))
+          alertify.error('Data ข้อมูลการจัดสรรผิดพลาด');
+        })
+    },
+    selectAllocate_step2(val){
+      this.Allocate = val.name
+      this.searchAllocate_m = false
+    },
+    searchproject_step2(){
+      let payload = {
+        keyword: this.project
+      }
+      console.log(payload)
+      api.searchproject(payload,
+        (result) => {
+          console.log(JSON.stringify(result.data))
+          // console.log(result.data.length)
+          if (result.data.length == 0) {
+            alertify.error('ไม่มีโครงการนี้');
+            return
+          }
+          if (result.data.length == 1) {
+            this.department = result.data[0].name
+            
+          } else if (result.data.length > 1) {
+            this.searchproject = true
+            this.objproject = result.data
+          }
+        },
+        (error) => {
+          console.log(JSON.stringify(error))
+          alertify.error('Data ข้อมูลโครงการผิดพลาด');
+        })
+    },
+    selectproject_step2(val){
+       this.project =  val.name
+       this.searchproject = false
+    },
+    searchdepart_step2(){
+      let payload = {
+        keyword: this.department
+      }
+      console.log(payload)
+      api.searchdepartment(payload,
+        (result) => {
+          console.log(JSON.stringify(result.data))
+          // console.log(result.data.length)
+          if (result.data.length == 0) {
+            alertify.error('ไม่มีแผนกนี้');
+            return
+          }
+          if (result.data.length == 1) {
+            this.department = result.data[0].name
+            
+          } else if (result.data.length > 1) {
+            this.searchdepart = true
+            this.objdepart = result.data
+          }
+        },
+        (error) => {
+          console.log(JSON.stringify(error))
+          alertify.error('Data ข้อมูลแผนกผิดพลาด');
+        })
+    },
+    selectdepart_step2(val){
+      this.searchdepart = false
+      this.department = val.name
+    },
     isshowdoc_fuc() {
       if (!this.isshowdocument) {
         this.docheight = '72px'

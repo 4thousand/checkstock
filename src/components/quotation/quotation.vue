@@ -309,13 +309,13 @@
                         </div>
                         <div class="md-layout-item md-small-size-100">
                           <md-field>
-                            <label for="last-name subnotop">แผนก</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name" />
+                            <label for="last-name subnotop">แผนก No send</label>
+                            <md-input name="last-name" id="last-name" @keyup.enter="searchdepart_step2" v-model="department" autocomplete="family-name" />
                           </md-field>
                           <md-button style="min-width: 50px;" class="buttonemp" @click="tests">
                             <md-icon>search</md-icon>
                           </md-button>
-                        </div>
+                        </div> 
                         <div class="md-layout-item md-small-size-100">
                           <md-field>
                             <label for="last-name">รหัสผู้ติดต่อ</label>
@@ -327,17 +327,17 @@
                         </div>
                         <div class="md-layout-item md-small-size-100">
                           <md-field>
-                            <label for="last-name">การจัดสรร</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name" />
+                            <label for="last-name">การจัดสรร  No send</label>
+                            <md-input name="last-name" id="last-name" @keyup.enter="searchAllocate" v-model="Allocate" autocomplete="family-name" />
                           </md-field>
-                          <md-button style="min-width: 50px;" class="buttonemp" @click="tests">
+                          <!-- <md-button style="min-width: 50px;" class="buttonemp" @click="tests">
                             <md-icon>search</md-icon>
-                          </md-button>
+                          </md-button> -->
                         </div>
                         <div class="md-layout-item md-size-100 md-small-size-100">
                           <md-field>
-                            <label for="last-name">โครงการ</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name" />
+                            <label for="last-name">โครงการ No send</label>
+                            <md-input name="last-name" id="last-name" @keyup.enter="searchproject_step2" v-model="project" autocomplete="family-name" />
                           </md-field>
                           <md-button style="min-width: 50px;" class="buttonemp" @click="tests">
                             <md-icon>search</md-icon>
@@ -800,7 +800,108 @@
         </md-dialog>
       </div>
       <!-- search sale -->
-
+      <!-- search depart -->
+        <div>
+        <md-dialog :md-active.sync="searchdepart">
+          <md-dialog-title>เลือกแผนก</md-dialog-title>
+          <md-tabs md-dynamic-height>
+            <md-tab md-label="">
+              <div class="table-responsive" style="overflow-y: auto;">
+                <table class="table table-hover">
+                  <thead align="center">
+                    <tr>
+                      <th>ลำดับ</th>
+                      <th id="colorselectorder">รหัสแผนก</th>
+                      <th id="colorselectgroup">ชื่อแผนก</th>
+                    </tr>
+                  </thead>
+                  <tbody id="valuetable">
+                    <tr @click="selectdepart_step2(val)" v-for="(val,index) in objdepart" style="text-align:center;cursor:pointer">
+                      <td>{{index+1}}</td>
+                      <td>{{val.code}}</td>
+                      <td>{{val.name}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </md-tab>
+  
+          </md-tabs>
+  
+          <md-dialog-actions>
+            <md-button class="md-primary" @click="searchdepart = false">Close</md-button>
+          </md-dialog-actions>
+        </md-dialog>
+      </div>
+      <!-- search depart -->
+      <!-- search project -->
+             <div>
+        <md-dialog :md-active.sync="searchproject">
+          <md-dialog-title>เลือกโครงการ</md-dialog-title>
+          <md-tabs md-dynamic-height>
+            <md-tab md-label="">
+              <div class="table-responsive" style="overflow-y: auto;">
+                <table class="table table-hover">
+                  <thead align="center">
+                    <tr>
+                      <th>ลำดับ</th>
+                      <th id="colorselectorder">รหัสโครงการ</th>
+                      <th id="colorselectgroup">ชื่อโครงการ</th>
+                    </tr>
+                  </thead>
+                  <tbody id="valuetable">
+                    <tr @click="selectproject_step2(val)" v-for="(val,index) in objproject" style="text-align:center;cursor:pointer">
+                      <td>{{index+1}}</td>
+                      <td>{{val.code}}</td>
+                      <td>{{val.name}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </md-tab>
+  
+          </md-tabs>
+  
+          <md-dialog-actions>
+            <md-button class="md-primary" @click="searchdepart = false">Close</md-button>
+          </md-dialog-actions>
+        </md-dialog>
+      </div>
+      <!-- search project -->
+      <!-- search  Allocate-->
+        <div>
+        <md-dialog :md-active.sync="searchAllocate_m">
+          <md-dialog-title>เลือกการจัดสรร</md-dialog-title>
+          <md-tabs md-dynamic-height>
+            <md-tab md-label="">
+              <div class="table-responsive" style="overflow-y: auto;">
+                <table class="table table-hover">
+                  <thead align="center">
+                    <tr>
+                      <th>ลำดับ</th>
+                      <th id="colorselectorder">รหัสการจัดสรร</th>
+                      <th id="colorselectgroup">ชื่อการจัดสรร</th>
+                    </tr>
+                  </thead>
+                  <tbody id="valuetable">
+                    <tr @click="selectAllocate_step2(val)" v-for="(val,index) in objAllocate" style="text-align:center;cursor:pointer">
+                      <td>{{index+1}}</td>
+                      <td>{{val.code}}</td>
+                      <td>{{val.name}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </md-tab>
+  
+          </md-tabs>
+  
+          <md-dialog-actions>
+            <md-button class="md-primary" @click="searchdepart = false">Close</md-button>
+          </md-dialog-actions>
+        </md-dialog>
+      </div>
+       <!-- search  Allocate-->
     </div>
   </div>
 </template>

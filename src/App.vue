@@ -50,11 +50,22 @@
                 <md-icon>delete</md-icon>
                 <span class="md-list-item-text">ใบ BackOrder</span>
               </md-list-item>
-              <md-divider></md-divider>
               <md-list-item>
                 <md-icon>stars</md-icon>
                 <span class="md-list-item-text">รายการโปรด</span>
               </md-list-item>
+           
+              <md-list-item  @click="goindex('/setting')">
+                <md-icon>settings</md-icon>
+                <span class="md-list-item-text">Setting</span>
+              </md-list-item>
+                 <md-divider></md-divider>
+                <md-list-item>
+                <md-icon>exit_to_app</md-icon>
+                <span class="md-list-item-text">Logout</span>
+              </md-list-item>
+                 <md-divider></md-divider>
+
             </md-list>
           </md-drawer>
   

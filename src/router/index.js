@@ -4,6 +4,7 @@ import salesorder from '@/components/salesorder'
 import index from '@/components/index'
 import login from '@/components/login'
 import quotation from '@/components/quotation/quotation'
+import setting from '@/components/setting'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/quotation/:id',
       name: 'quotation',
       component: quotation
+    },
+    {
+      path: '/setting',
+      name: 'setting',
+      component: setting
     }
   ]
 })
