@@ -309,7 +309,7 @@
                         </div>
                         <div class="md-layout-item md-small-size-100">
                           <md-field>
-                            <label for="last-name subnotop">แผนก No send</label>
+                            <label for="last-name subnotop">แผนก</label>
                             <md-input name="last-name" id="last-name" @keyup.enter="searchdepart_step2" v-model="department" autocomplete="family-name" />
                           </md-field>
                           <md-button style="min-width: 50px;" class="buttonemp" @click="tests">
@@ -327,7 +327,7 @@
                         </div>
                         <div class="md-layout-item md-small-size-100">
                           <md-field>
-                            <label for="last-name">การจัดสรร  No send</label>
+                            <label for="last-name">การจัดสรร</label>
                             <md-input name="last-name" id="last-name" @keyup.enter="searchAllocate" v-model="Allocate" autocomplete="family-name" />
                           </md-field>
                           <!-- <md-button style="min-width: 50px;" class="buttonemp" @click="tests">
@@ -336,7 +336,7 @@
                         </div>
                         <div class="md-layout-item md-size-100 md-small-size-100">
                           <md-field>
-                            <label for="last-name">โครงการ No send</label>
+                            <label for="last-name">โครงการ</label>
                             <md-input name="last-name" id="last-name" @keyup.enter="searchproject_step2" v-model="project" autocomplete="family-name" />
                           </md-field>
                           <md-button style="min-width: 50px;" class="buttonemp" @click="tests">
@@ -859,11 +859,9 @@
                 </table>
               </div>
             </md-tab>
-  
           </md-tabs>
-  
           <md-dialog-actions>
-            <md-button class="md-primary" @click="searchdepart = false">Close</md-button>
+            <md-button class="md-primary" @click="searchproject = false">Close</md-button>
           </md-dialog-actions>
         </md-dialog>
       </div>
@@ -897,7 +895,7 @@
           </md-tabs>
   
           <md-dialog-actions>
-            <md-button class="md-primary" @click="searchdepart = false">Close</md-button>
+            <md-button class="md-primary" @click="searchAllocate_m = false">Close</md-button>
           </md-dialog-actions>
         </md-dialog>
       </div>

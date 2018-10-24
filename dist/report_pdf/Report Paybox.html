@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)http://localhost/reportpaybox/reportpaybox/reportpaybox.html -->
+<html lang="en"><script type="text/javascript" charset="utf-8" id="zm-extension" src="chrome-extension://fdcgdnkidjaadafnichfpabhfomcebme/scripts/webrtc-patch.js" async=""></script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Report Paybox</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./Report Paybox_files/bootstrap.min.css">
+    <script src="./Report Paybox_files/jquery.min.js"></script>
+    <script src="./Report Paybox_files/popper.min.js"></script>
+    <script src="./Report Paybox_files/numeral.min.js"></script>
+    <script src="./Report Paybox_files/bootstrap.min.js"></script>
+    <link href="./Report Paybox_files/css" rel="stylesheet">
+    <link rel="stylesheet" href="./Report Paybox_files/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <script src="./Report Paybox_files/axios.min.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+
+        }
+
+        .table td,
+        .table th {
+            padding: .45rem;
+
+        }
+
+        tr td {
+            text-align: center;
+        }
+
+        thead th {
+            position: sticky;
+            position: -webkit-sticky;
+            top: 0;
+
+            z-index: 10;
+            top: -1px;
+            background: #e9ecef;
+            color: black
+        }
+
+        .boderresult td {
+            border: 1px solid rgba(0, 0, 0, 0.25);
+        }
+
+        input {
+            text-align: center;
+        }
+
+        #loading {
+            border: 0;
+
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 1s;
+            opacity: 0;
+            z-index: 99;
+        }
+
+        .underlineper {
+            width: 0%;
+            height: 2.5px;
+            background-color: #689BF6;
+            transition: width 0.5s, opacity 2s;
+            position: relative;
+            margin: 0 auto;
+            top: 0;
+            left: 0;
+            z-index: 5;
+        }
+
+        p {
+            margin-bottom: 0.5rem
+        }
+
+        .table td,
+        .table th {
+            padding: 0rem;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        tr th {
+            font-weight: normal !important;
+        }
+        .fa-check{
+            color: green;
+    font-size: 19px;
+    position: relative;
+    left: 20px;
+    background: white;
+    border-radius: 50%;
+    padding: 4px;
+        }
+
+      
+
+        @media print {
+            * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        @page {
+            size: auto;
+            /* auto is the initial value */
+            margin: 0mm;
+            /* this affects the margin in the printer settings */
+        }
+
+        html {
+            background-color: #FFFFFF;
+            margin: 0px;
+            /* this affects the margin on the html before sending to printer */
+        }
+
+        body {
+            /* display:block !important; */
+           max-width: 714px;
+            /*            border: solid 1px blue;*/
+            margin: 4mm 5mm 5mm 4mm;
+            font-size: 15px;
+            /* margin you want for the content */
+        }
+            .printblack {
+                color: black !important;
+            }
+            .ellipsis {
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+            }
+            .nowrap{
+                white-space: nowrap
+            }
+            .maxwidth_print{
+                width: 108px;
+                text-align: center;
+            }
+            tbody tr{
+                text-align: center !important;
+            }
+            .fa-check{
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    
+    <div style="top: 25px;right: 30px;padding-right: 10px;position: absolute" class="d-none d-print-block" id="datenow">วันที่ 24/10/2561</div>
+    <div id="underlinec" class="underlineper"></div>
+    <div class="jumbotron text-center d-print-none" style="padding:5px;position: relative;top: -5px;">
+        <div class="row"></div>
+        <h1>Report Paybox</h1> <a href="http://localhost/reportpaybox/reportpaybox/binreportpaybox.html">บิล Paybox</a>
+    </div>
+
+    <div class="container-fluid" style="">
+        <div style="text-align: center">
+            <h2 class="d-none d-print-block">Report Paybox  </h2>
+            <div class=" d-none d-print-block">
+                <span style="display: inline-block">
+                    <div id="dateprint"></div>
+                </span>
+                <span style="display: inline-block">
+                    <div id="showsort_print"></div>
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row d-print-none">
+                    <div class="col-md-2 col-sm-12" style="background-color: transparent;">
+                        <p style="">เลือก Vending Id</p>
+                        <select placeholder="กรุณาเลือก Vending" id="vendingid" class="form-control">
+                            <option disabled="">กรุณาเลือก Vending</option>
+                            <!--<option value="0">ทั้งหมด</option>-->
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2 col-sm-12" style="background-color: transparent;">
+                        <p style=""> เริ่ม </p>
+                        <input type="date" class="form-control" onchange="test()" id="startdate">
+                    </div>
+
+                    <div class="col-md-2 col-sm-12" style="background-color: transparent;margin-bottom: 20px;position: relative">
+                        <p style=""> ถึง </p>
+                        <input type="date" class="form-control" id="enddate">
+                    </div>
+                    <div class="col-md-2 col-sm-12" style="background-color: transparent;margin-bottom: 20px;position: relative">
+                        <p style=""> เรียงข้อมูลตาม </p>
+                        <select class="form-control" id="orderby">
+                            <option value="0">เรียงตามลำดับ</option>
+                            <option value="1">เรียงตามหมวดหมู่</option>
+                            <option value="2">เรียงตามชื่อสินค้า</option>
+                            <option value="3">เรียงตามยอดขาย</option>
+
+                        </select>
+                    </div>
+                    <div class="col-2" style="position: relative"><button style="position: relative;top:30px" class="btn btn-success" onclick="callfunction()">ตกลง</button> <button style="margin-left: 5px;position: relative;top:30px" class="btn btn-danger" onclick="javascript:window.print();"><i style="font-size: 20px;" class="fa fa-print"></i></button></div>
+                </div>
+
+                <div class="col-12">
+                    <div class="row printpadding">
+                        <div class="col-2" style="background-color: transparent;text-align: center;position: relative">
+                            <span style="right: 0;position: absolute;top: 6px"> ยอดขายทั้งหมด</span>
+                        </div>
+                        <div class="col-2" style="background-color: transparent;margin-bottom: 20px;position: relative">
+                            <input type="text" class="form-control" align="center" id="sumall" readonly="">
+                        </div>
+                        <div style="position: relative"><span style="position: relative;top:5px;"> บาท</span></div>
+
+                        <div class="col-1" style="text-align: center;position: relative">
+                            <span style="position: absolute;right: 0;top: 6px">พนักงาน </span></div>
+                        <div class="col-2"><input type="text" class="form-control" align="center" id="totalemp" readonly=""></div>
+                        <div style="position: relative"><span style="position: relative;top:5px;"> บาท</span></div>
+
+
+                        <div class="col-1" style="text-align: center;position: relative;">
+                            <span style="position: absolute;right: 0;top: 6px">ลูกค้า</span>
+                        </div>
+                        <div class="col-2"><input type="text" class="form-control" align="center" id="totalcus" readonly=""></div>
+                        <div style="position: relative"><span style="position: relative;top:5px;"> บาท</span></div>
+
+                    </div>
+                </div>
+
+                <!--ค่าคอมมมมมมมมมมมมม-->
+                <div class="col-12" style="margin-top: 10px;margin-bottom: 20px;bold;border:1px solid black">
+                    <div style="position: absolute;top:-10px;z-index: 99;background: white;padding: 0 10px">ค่าคอมมิชชั่นต่อแก้ว</div>
+                    <div class="row" style="margin-top: 20px;margin-bottom: 15px">
+                        <div id="custotalall" style="padding-top: 3px;padding-left:10px;position: relative;top: -5px"></div>
+                        <div class="col-2">
+                            <div style="text-align: center"><span style="">โกโก้(ลูกค้า)</span></div> 
+                            <input type="text" class="form-control backgroundprint" align="center" id="cococus" readonly="">
+                        </div>
+                        <div class="col-2">
+                            <div style="text-align: center">
+                                <span style="">กาแฟ(ลูกค้า)</span></div> <input type="text" class="form-control" align="center" id="coffeecus" readonly="">
+                        </div>
+                        <div class="col-2">
+                            <div style="text-align: center">
+                                <span style="">ชา(ลูกค้า)</span></div> <input type="text" class="form-control" align="center" id="teacus" readonly="">
+                        </div>
+                        <div class="col-2">
+                            <div style="text-align: center " class="nowrap">
+                                <span style="">เครื่องดื่มโซดา(ลูกค้า)</span></div> <input type="text" class="form-control" align="center" id="sodacus" readonly="">
+                        </div>
+                        <div class="col-2" style="display:none">
+                            <div style="text-align: center ">
+                                <span style="white-space: nowrap;">เครื่องดื่มน้ำร้อนอัตโนมัติ (ลูกค้า)</span></div> <input type="text" class="form-control" align="center" id="hotdrink" readonly="">
+                        </div>
+                    </div>
+                </div>
+                <!--ค่าคอมมมมมมมมมมมมม-->
+
+                <div id="noitem"></div>
+              
+                <div class="table-responsive" style="overflow-y: auto;">
+                    <table class="table table-hover" style="border: 1px solid black" border="1">
+                        <thead align="center">
+                            <tr>
+                                <!--                                <th style=''>client_id</th>-->
+
+                                <th>ชื่อตู้</th>
+                                <th id="colorselectorder">ลำดับ</th>
+                                <!--
+                                <th>รหัสเปิดกะ</th>
+                                <th>วันที่เปิดกะ</th>
+-->
+                                <th id="colorselectgroup">หมวดหมู่</th>
+                                <th>กลุ่ม</th>
+                                <th id="colorselectname">ชื่อสินค้า</th>
+                                <th>จำนวน</th>
+                                <th>ราคา</th>
+                                <th id="colorselectsell"> ยอดขาย</th>
+                                <!--                                <th> ยอดทอนเงิน</th>-->
+                                <th> ใบรับเงินทอน</th>
+                                <th> สถานะ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="valuetable">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+<dialog id="loading"><img src="./Report Paybox_files/tenor.gif" width="200"></dialog>
+<script>
+    $(document).ready(function() {
+        callapicategories();
+        //        callfunction();
+
+        var vendingid = parseInt(document.getElementById('vendingid').value)
+        var start = document.getElementById('startdate').value
+        var end = document.getElementById('enddate').value
+
+        if (start == '' && end == '') {
+            var MyDate = new Date();
+            var MyDateString;
+            MyDate.setDate(MyDate.getDate());
+            MyDateString = ('0' + MyDate.getDate()).slice(-2) + '/' + ('0' + (MyDate.getMonth() + 1)).slice(-2) + '/' + MyDate.getFullYear();
+            // alert(MyDateString)
+            var result = MyDateString.split('/');
+            var dateinput = result[2] + '-' + result[1] + '-' + result[0];
+            console.log('datec ' + dateinput)
+            var start = dateinput
+            var end = dateinput
+            document.getElementById('startdate').value = dateinput
+            document.getElementById('enddate').value = dateinput
+            document.getElementById('datenow').innerHTML = 'วันที่ ' + convertthaidate(dateinput)
+        }
+    });
+   
+    function callfunction() {
+        loading()
+        var dateprint = document.getElementById('dateprint')
+        var vendingid = parseInt(document.getElementById('vendingid').value)
+        var start = document.getElementById('startdate').value
+        var end = document.getElementById('enddate').value
+        var orderby = document.getElementById('orderby').value
+        var showdate = 'เริ่ม ' + convertthaidate(start) + ' ถึง ' + convertthaidate(end)
+        dateprint.innerHTML = showdate
+
+        if (start == '' && end == '') {
+            var MyDate = new Date();
+            var MyDateString;
+            MyDate.setDate(MyDate.getDate());
+            MyDateString = ('0' + MyDate.getDate()).slice(-2) + '/' + ('0' + (MyDate.getMonth() + 1)).slice(-2) + '/' + MyDate.getFullYear();
+            // alert(MyDateString)
+            var result = MyDateString.split('/');
+            var dateinput = result[2] + '-' + result[1] + '-' + result[0];
+            console.log('datec ' + dateinput)
+            var start = dateinput
+            var end = dateinput
+            document.getElementById('startdate').value = dateinput
+            document.getElementById('enddate').value = dateinput
+        }
+
+
+        var token;
+        if (vendingid == 3) {
+            token = '0b61422ee3b44aaf93d58932a0cf72c8'
+        } else if (vendingid == 4) {
+            token = 'c0dcf8c170a64a7491c1f1e45787b951'
+        }
+        console.log(token)
+
+        console.log(start + ' : ' + end)
+        let data = JSON.stringify({
+            start_date: start,
+            end_date: end,
+            vending_id: vendingid
+        })
+
+        console.log(data)
+
+        loadfifty()
+
+        axios.post('https://cloud.paybox.work/v1/mobile/report/sale/detail', data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': token,
+                }
+            })
+            .then(function(response) {
+                console.log(response.data)
+                var datall = response.data
+
+                //                alert(orderby)
+                //0 เรียงตามลำดับ
+                //1 เรียงตามหมวดหมู่
+                //2 เรียงตามชื่อสินค้า
+                //3 เรียงตามยอดขาย
+                var showsort_print = document.getElementById('showsort_print')
+                //สี
+                let ordercolor = document.getElementById('colorselectorder')
+                var groupcolor = document.getElementById('colorselectgroup')
+                var namecolor = document.getElementById('colorselectname')
+                var sellcolor = document.getElementById('colorselectsell')
+                if (orderby == 0) {
+                    showsort_print.innerHTML = 'เรียงตามลำดับ'
+                    ordercolor.style.background = '#ef9a9a'
+                    groupcolor.style.background = '#e9ecef'
+                    namecolor.style.background = '#e9ecef'
+                    sellcolor.style.background = '#e9ecef'
+                    //                    colorselectgroup , colorselectname , colorselectsell = 'white'
+                    dynamicapi(datall)
+
+                } else if (orderby == 1) {
+                    showsort_print.innerHTML = 'เรียงตามหมวดหมู่'
+                    ordercolor.style.background = '#e9ecef'
+                    groupcolor.style.background = '#ef9a9a'
+                    sellcolor.style.background = '#e9ecef'
+                    namecolor.style.background = '#e9ecef'
+                    sortgroup(datall)
+
+                } else if (orderby == 2) {
+                    showsort_print.innerHTML = 'เรียงตามชื่อสินค้า'
+                    ordercolor.style.background = '#e9ecef'
+                    groupcolor.style.background = '#e9ecef'
+                    namecolor.style.background = '#ef9a9a'
+                    sellcolor.style.background = '#e9ecef'
+                    sortname(datall)
+
+                } else if (orderby == 3) {
+                    showsort_print.innerHTML = 'เรียงตามยอดขาย'
+                    ordercolor.style.background = '#e9ecef'
+                    groupcolor.style.background = '#e9ecef'
+                    namecolor.style.background = '#e9ecef'
+                    sellcolor.style.background = '#ef9a9a'
+                    sortsell(datall)
+
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    }
+    const callapicategories = () =>{
+        axios.post('https://cloud.paybox.work/v1/mobile/category/list', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': '0b61422ee3b44aaf93d58932a0cf72c8',
+                }
+            })
+            .then(function(response) {
+                console.log(response)
+             
+``
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    }
+
+    function test(val) {
+        console.log('test :' + document.getElementById('startdate').value)
+    }
+
+    const dynamicapi = (datall) => {
+        console.log(JSON.stringify(datall))
+        if (datall == '') {
+            alert('ระยะเวลานี้ไม่มีการขายในระบบ')
+            close()
+            document.getElementById('valuetable').innerHTML = '<td style="text-align:center"> - </td><td style="text-align:center"> - </td><td style="text-align:center"> - </td><td style="text-align:center"> - </td><td style="text-align:center"> - </td><td style="text-align:center"> - </td><td style="text-align:center"> - </td><td style="text-align:center"> - </td><td style="text-align:center"> - </td><td style="text-align:center"> - </td>'
+            return
+        }
+        console.log('eiei')
+        var lastqueue = datall[Object.keys(datall)[Object.keys(datall).length - 1]]
+        console.log('ลำดับสุดท้าย' + lastqueue.queue_no)
+        loadseventy()
+        console.log(datall);
+        var data = datall
+        var datalength = datall.length
+        console.log(datalength)
+        table = '';
+        var i;
+        var showorshow ;
+        var sumsell = 0;
+        var priceemp = 0
+        var priceother = 0
+        var coffercus = 0
+        var cococus = 0
+        var teacus = 0
+        var sodacus = 0
+        var hotdrink = 0
+        var totalprice = 0;
+        var totalall = 0;
+        var totalchange = 0;
+        var totalunchange = 0;
+
+        for (i = 0; i < datalength; i++) {
+            var shift_open = data[i].shift_open
+            var created = data[i].created
+            var resultcreated = created.substr(0, 10)
+            var resultshift_open = shift_open.substr(0, 10)
+            var cutshift_uuid
+            var keyword
+            if (data[i].category_name == 'เฉพาะพนักงาน') {
+                priceemp += data[i].sell_amount
+                keyword = ''
+
+            }
+            if (data[i].category_name != 'เฉพาะพนักงาน') {
+                priceother += data[i].sell_amount
+                keyword = ' (ลูกค้า)'
+            }
+            
+            if(data[i].status == 'Normal'){
+
+              if (data[i].category_name == 'กาแฟ') {
+                 if( data[i].sku_name != 'Extra shot'){
+                 coffercus += data[i].qty 
+                 showorshow = 'inline-block'
+                  }
+              }
+            if (data[i].category_name == 'โกโก้') {
+                cococus += data[i].qty
+                showorshow = 'inline-block'
+            }
+            if (data[i].category_name == 'ชา') {
+                teacus += data[i].qty
+                showorshow = 'inline-block'
+            }
+            if (data[i].category_name == 'เครื่องดื่มโซดา') {
+                sodacus += data[i].qty 
+                showorshow = 'inline-block'
+            }
+            if(data[i].category_name == 'เครื่องดื่มน้ำร้อนอัตโนมัติ'){
+                hotdrink += data[i].qty 
+                // showorshow = 'inline-block'
+            }
+            }else if(data[i].status != 'Normal'){
+                showorshow = 'none'
+            }
+
+            if (data[i].price) {
+                totalprice += data[i].price
+            }
+            if (data[i].sell_amount) {
+                totalall += data[i].sell_amount
+            }
+            if (data[i].change) {
+                // totalchange += data[i].change
+            }
+            if (data[i].un_change) {
+                totalunchange += data[i].un_change
+            }
+            if (data[i].shift_uuid) {
+                var cutuid = data[i].shift_uuid
+                cutshift_uuid = cutuid.slice(-6)
+            }
+            //<td>' +'...'+ cutshift_uuid + '</td><td>' + resultshift_open + '</td>
+            table += '<tr><td class="ellipsis">' + data[i].vending_name + '</td><td>' + data[i].queue_no + '</td><td><div style="background:' + convercoloremp(data[i].category_name) + ';color:white;" class="printblack ellipsis maxwidth_print">' + data[i].category_name + keyword +'<i class="fas fa-check" style="display:'+showorshow+'"></i>'+ '</div></td><td>' + data[i].item_name + '</td><td>' + data[i].sku_name + '</td><td>' + data[i].qty + '</td><td>' + convermoney(data[i].price) + '</td><td>' + convermoney(data[i].sell_amount) + '</td><td>' + data[i].un_change + '</td><td><div style="background:' + convercolor(data[i].status) + ';color:white;text-align:center;" class="printblack ellipsis">' + converstatus(data[i].status) + '</div></td></tr>'
+            sumsell += data[i].sell_amount
+        }
+        table += '<tr class="boderresult" style="background:#90caf9;"><td>สรุป </td><td>' + lastqueue.queue_no + '</td><td></td><td></td><td ></td><td ></td><td>' + convermoney(totalprice) + '</td><td>' + convermoney(totalall) + '</td><td>' + convermoney(totalunchange) + '</td><td></td></tr>'
+        document.getElementById('totalemp').value = priceemp
+        document.getElementById('totalcus').value = priceother
+        //            console.log('priceemp :'+priceemp);
+        //            console.log('priceother :'+priceother);
+        document.getElementById('coffeecus').value = coffercus
+        document.getElementById('cococus').value = cococus
+        document.getElementById('teacus').value = teacus
+        document.getElementById('sodacus').value = sodacus
+        document.getElementById('hotdrink').value = hotdrink
+        document.getElementById('custotalall').innerHTML = coffercus + cococus + teacus + sodacus + ' แก้ว'
+        console.log('coffee : ' + coffercus + '/coco : ' + cococus + '/teacus :' + teacus + 'sodacus' + sodacus)
+        document.getElementById('sumall').value = sumsell
+        //                console.log('all '+sumsell)
+        document.getElementById('valuetable').innerHTML = table;
+        close()
+    }
+
+    function converstatus(val) {
+        var status;
+        if (val == 'Normal') {
+            status = 'ปกติ';
+            return status;
+        } else {
+            status = 'ผิดปกติ';
+            return status;
+        }
+    }
+
+    function convercolor(val) {
+        var status;
+        if (val == 'Normal') {
+            status = 'green';
+            return status;
+        } else {
+            status = 'red';
+            return status;
+        }
+    }
+    function convertthaidate(val){
+        // console.log(val)
+        var str = val;
+    var res = str.split("-");
+    var result = res[2]+'/'+res[1]+'/'+(parseInt(res[0])+543)
+    return result;
+    }
+
+    function convercoloremp(val) {
+        var status;
+        if (val == 'เฉพาะพนักงาน') {
+            status = '#25a0ee';
+            return status;
+        } else {
+            status = '#FBB900';
+
+            return status;
+        }
+    }
+
+    function convermoney(val) {
+        var money = numeral(val).format('0,0.00');
+        return money;
+    }
+
+    function loading() {
+        document.getElementById('underlinec').style.opacity = 1;
+        document.getElementById('underlinec').style.width = '0%';
+        document.getElementById("loading").style.opacity = 1;
+        document.getElementById("loading").style.visibility = 'visible';
+    }
+
+    function loadfifty() {
+        document.getElementById('underlinec').style.width = '25%';
+    }
+
+    function loadseventy() {
+        document.getElementById('underlinec').style.width = '50%';
+    }
+
+    function close() {
+        document.getElementById('underlinec').style.width = '100%';
+        document.getElementById('underlinec').style.opacity = 0;
+        document.getElementById("loading").style.opacity = 0;
+        document.getElementById("loading").style.visibility = 'hidden';
+    }
+
+    const sortname = (arrayOfObjects) => {
+        console.log(arrayOfObjects)
+        var byName = arrayOfObjects.slice(0);
+        byName.sort(function(a, b) {
+            var x = a.sku_name.toLowerCase();
+            var y = b.sku_name.toLowerCase();
+            return x < y ? -1 : x > y ? 1 : 0;
+        });
+        //         console.log(byName)
+        dynamicapi(byName)
+    }
+
+    const sortgroup = (arrayOfObjects) => {
+        console.log(arrayOfObjects)
+        var bygroup = arrayOfObjects.slice(0);
+        bygroup.sort(function(a, b) {
+            var x = a.category_name.toLowerCase();
+            var y = b.category_name.toLowerCase();
+            return x < y ? -1 : x > y ? 1 : 0;
+        });
+        dynamicapi(bygroup)
+    }
+
+    const sortsell = (arrayOfObjects) => {
+        console.log(arrayOfObjects)
+        var bysell = arrayOfObjects.slice(0);
+        bysell.sort(function(a, b) {
+            var x = a.sell_amount;
+            var y = b.sell_amount;
+            return x > y ? -1 : x < y ? 1 : 0;
+        });
+        dynamicapi(bysell)
+    }
+
+</script>
+
+
+</body></html>

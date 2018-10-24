@@ -81,11 +81,13 @@ export default {
     searchdepart:false,
     objdepart:[],
     project:'',
+    idprojectC:'',
     searchproject:false,
     objproject:[],
     Allocate:'',
     searchAllocate_m:false,
     objAllocate:[],
+    Allocateid:'',
   }),
   methods: {
     searchAllocate(){
@@ -102,6 +104,7 @@ export default {
             return
           }
           if (result.data.length == 1) {
+            this.Allocateid = result.data[0].id
             this.Allocate = result.data[0].name
             
           } else if (result.data.length > 1) {
@@ -115,6 +118,7 @@ export default {
         })
     },
     selectAllocate_step2(val){
+      this.Allocateid = val.id
       this.Allocate = val.name
       this.searchAllocate_m = false
     },
@@ -132,8 +136,8 @@ export default {
             return
           }
           if (result.data.length == 1) {
-            this.department = result.data[0].name
-            
+            this.project = result.data[0].code +' '+result.data[0].name
+            this.idprojectC = result.data[0].id
           } else if (result.data.length > 1) {
             this.searchproject = true
             this.objproject = result.data
@@ -145,7 +149,9 @@ export default {
         })
     },
     selectproject_step2(val){
-       this.project =  val.name
+      // console.log(val)
+      this.idprojectC = val.id
+       this.project =  val.code+' '+val.name
        this.searchproject = false
     },
     searchdepart_step2(){
@@ -162,6 +168,7 @@ export default {
             return
           }
           if (result.data.length == 1) {
+            this.iddepartment = result.data[0].id
             this.department = result.data[0].name
             
           } else if (result.data.length > 1) {
@@ -175,6 +182,7 @@ export default {
         })
     },
     selectdepart_step2(val){
+      this.iddepartment = val.id
       this.searchdepart = false
       this.department = val.name
     },
@@ -315,7 +323,8 @@ export default {
           company_id: parseInt(this.company_id),
           //  before_tax_amount: '',
           assert_status: parseInt(this.answer_cus),
-          project_id: 0,
+          depart_id: parseInt(this.iddepartment),
+          project_id: parseInt(this.idprojectC),
           allocate_id: 0,
           is_cancel: 0,
           creator_by: this.creator_by,
