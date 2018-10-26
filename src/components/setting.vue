@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div style="padding: 15px;" class="container">
       <form class="md-layout" style="justify-content: center;">
       <md-card class="md-layout-item md-size-100 md-small-size-100">
         <md-card-header>
@@ -27,7 +27,7 @@
            <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-90 md-small-size-100">
               <md-field >
-                <label for="first-name">com_sys_id</label>
+                <label for="first-name"><md-icon>code</md-icon> com_sys_id</label>
                 <md-input name="first-name" id="first-name"  />
               </md-field>
             </div>
@@ -35,7 +35,7 @@
             <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-90 md-small-size-100">
               <md-field >
-                <label for="first-name">company_name</label>
+                <label for="first-name"><md-icon>account_balance</md-icon> company_name</label>
                 <md-input name="first-name" id="first-name"  />
               </md-field>
             </div>
@@ -43,7 +43,7 @@
            <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-90 md-small-size-100">
               <md-field >
-                <label for="first-name">eng_name</label>
+                <label for="first-name"><md-icon>account_balance</md-icon> eng_name</label>
                 <md-input name="first-name" id="first-name"  />
               </md-field>
             </div>
@@ -51,7 +51,7 @@
             <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-90 md-small-size-100">
               <md-field >
-                <label for="first-name">fax</label>
+                <label for="first-name"><md-icon>print</md-icon>fax</label>
                 <md-input name="first-name" id="first-name"  />
               </md-field>
             </div>
@@ -59,7 +59,7 @@
              <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-90 md-small-size-100">
               <md-field >
-                <label for="first-name">telephone</label>
+                <label for="first-name"><md-icon>phone</md-icon>telephone</label>
                 <md-input name="first-name" id="first-name"  />
               </md-field>
             </div>
@@ -85,7 +85,7 @@
            <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-90 md-small-size-100">
               <md-field >
-                <label for="first-name"><md-icon>code</md-icon>com_sys_id</label>
+                <label for="first-name"><md-icon>code</md-icon> com_sys_id</label>
                 <md-input name="first-name" id="first-name"  />
               </md-field>
             </div>
@@ -93,7 +93,7 @@
             <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-90 md-small-size-100">
               <md-field >
-                <label for="first-name">stock_status</label>
+                <label for="first-name"><md-icon>code</md-icon> stock_status</label>
                 <md-input name="first-name" id="first-name"  />
               </md-field>
             </div>
@@ -101,7 +101,7 @@
            <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-90 md-small-size-100">
               <md-field >
-                <label for="first-name">tax_number</label>
+                <label for="first-name"> <md-icon>payment</md-icon>tax_number</label>
                 <md-input name="first-name" id="first-name"  />
               </md-field>
             </div>
@@ -109,7 +109,7 @@
             <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-90 md-small-size-100">
               <md-field >
-                <label for="first-name">tax_rate</label>
+                <label for="first-name"> <md-icon>payment</md-icon>tax_rate</label>
                 <md-input name="first-name" id="first-name"  />
               </md-field>
             </div>
@@ -118,7 +118,7 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-90 md-small-size-100">
               <md-field >
-                <label for="first-name">web_site</label>
+                <label for="first-name"><md-icon>contacts</md-icon>web_site</label>
                 <md-input name="first-name" id="first-name"  />
               </md-field>
             </div>
@@ -128,9 +128,8 @@
               </form>
           </md-card-content>
             <md-card-actions>
-          <md-button type="submit" class="md-primary" >Create user</md-button>
+          <md-button type="submit" class="md-primary" >ตกลง</md-button>
         </md-card-actions>
-            <md-snackbar>The user  was saved with success!</md-snackbar>
       </md-card>
 
        

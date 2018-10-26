@@ -89,8 +89,8 @@
                     <md-field>
                       <md-icon>account_circle</md-icon>
                       <label>รหัสลูกค้า</label>
-                      <md-input required @keyup.enter="fsearchcus" v-model="searchcus"></md-input>
-                      <md-button style="min-width: 50px;" @click="fsearchcus">
+                      <md-input @blur="fsearchcus" required @keyup.enter="fsearchcus" v-model="searchcus"></md-input>
+                      <md-button  style="min-width: 50px;" @click="fsearchcus">
                         <md-icon>search</md-icon>
                       </md-button>
                     </md-field>
@@ -114,7 +114,7 @@
   
                           <div style="float:left;width:200px">
                             <md-field>
-                              <label>ค้นหาสินค้า</label>
+                              <label>เพิ่มสินค้า</label>
                               <md-input ref="addproduct" v-model="keywordproduct" @keyup.enter="addproduct"></md-input>
                             </md-field>
                           </div>
@@ -127,7 +127,7 @@
                       </div>
   
                       <md-field md-clearable class="md-toolbar-section-end">
-                        <md-input placeholder="Search by name..." v-model="search" @input="searchOnTable" />
+                        <md-input placeholder="ค้นหาสินค้า" v-model="search" @input="searchOnTable" />
                       </md-field>
                     </md-table-toolbar>
   
@@ -135,15 +135,14 @@
                       <md-button class="md-primary md-raised" @click="newUser">เพิ่มข้อมูลสินค้า</md-button>
                     </md-table-empty-state>
   
-                    <md-table-row slot="md-table-row" slot-scope="{ item }">
-  
+                    <md-table-row slot="md-table-row"  slot-scope="{ item }">
                       <md-table-cell md-label="รหัสสินค้า" md-sort-by="item_code" md-numeric><input type="text" class="datatable" disabled v-model="item.item_code"></md-table-cell>
                       <md-table-cell md-label="ชื่อสินค้า" md-sort-by="item_name"><input type="text" class="datatable" disabled v-model="item.item_name"></md-table-cell>
-                      <md-table-cell md-label="หน่วยนับ" md-sort-by="unit_code"><input type="text" class="datatable" v-model="item.unit_code.trim()"></md-table-cell>
+                      <md-table-cell md-label="หน่วยนับ" md-sort-by="unit_code"><input  type="text" style="padding-right: 31px !important;" class="datatable" v-model="item.unit_code.trim()"><div @click="searchunticode(item)"><md-icon class="search_unitcode">search</md-icon></div></md-table-cell>
                       <md-table-cell md-label="จำนวน" md-sort-by="qty"><input type="text" class="datatable" @keyup="calculatedata(item)" v-model.number="item.qty"></md-table-cell>
                       <md-table-cell md-label="ราคา/หน่วย" md-sort-by="price"><input type="text" class="datatable" @keyup="calculatedata(item)" style="width:100%" v-model.number="item.price"></md-table-cell>
                       <!-- <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 1" md-sort-by="price2"><input type="text" class="datatable" @keyup="calculatedata(item)" style="width:100%" v-model.number="item.price2"></md-table-cell> -->
-                      <md-table-cell md-label="ส่วนลด" md-sort-by="discount_amount"><input type="text" class="datatable" @keyup="calculatedata(item)" v-model.number="item.discount_amount"></md-table-cell>
+                      <md-table-cell md-label="ส่วนลด" md-sort-by="discount_amount"><input type="text" class="datatable" @keyup="calculatedata(item)" v-model="item.discount_amount"></md-table-cell>
                       <md-table-cell md-label="จำนวนเงิน" md-sort-by="item_amount"><input type="text" disabled class="datatable" v-model.number="item.item_amount"></md-table-cell>
                       <!-- <md-table-cell md-label="เงื่อนไขการขนส่ง" md-sort-by="because">{{ item.because }}</md-table-cell> -->
                     </md-table-row>
@@ -900,6 +899,38 @@
         </md-dialog>
       </div>
        <!-- search  Allocate-->
+       <!-- search unitcode -->
+        <div>
+        <md-dialog :md-active.sync="searchunitcode_m">
+          <md-dialog-title>เปลี่ยน หน่วยนับ</md-dialog-title>
+          <md-tabs md-dynamic-height>
+            <md-tab md-label="">
+              <div class="table-responsive" style="overflow-y: auto;">
+                <table class="table table-hover">
+                  <thead align="center">
+                    <tr>
+                      <th>ลำดับ</th>
+                      <th id="colorselectorder">หน่วยนับ</th>
+                    </tr>
+                  </thead>
+                  <tbody id="valuetable">
+                    <tr  v-for="(val,index) in unitcode_obj" @click="selectunitcode_step2(val)" style="text-align:center;cursor:pointer">
+                      <td>{{index+1}}</td>
+                      <td>{{val.unit_code}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </md-tab>
+  
+          </md-tabs>
+  
+          <md-dialog-actions>
+            <md-button class="md-primary" @click="searchunitcode_m = false">Close</md-button>
+          </md-dialog-actions>
+        </md-dialog>
+      </div>
+       <!-- search unitcode -->
     </div>
   </div>
 </template>

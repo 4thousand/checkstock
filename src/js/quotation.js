@@ -88,8 +88,66 @@ export default {
     searchAllocate_m:false,
     objAllocate:[],
     Allocateid:'',
+    searchunitcode_m:false,
+    unitcode_obj:[],
+    thisunticode:[],
   }),
   methods: {
+    searchunticode(val){
+      // console.log(index)
+      // console.log(this.selectunitcode_step2())
+      console.log(JSON.stringify(val))
+      let payload = {
+        item_code: val.item_code
+      }
+      // console.log(payload)
+      api.searchunitcode(payload,
+        (result) => {
+          console.log(JSON.stringify(result.data))
+          this.unitcode_obj = result.data
+          // if(this.billtype == 0){//สด
+          //   val.unit_code = result.data[1].unit_code
+          //   val.price = result.data[1].sale_price_1
+          // }
+          // if(this.billtype == 1){//เชื่อ
+          //   val.unit_code = result.data[1].unit_code
+          //   val.price = result.data[1].sale_price_2
+          // }
+
+           this.searchunitcode_m = true
+        },
+        (error) => {
+          console.log(JSON.stringify(error))
+          alertify.error('Data ข้อมูล Unit code ผิดพลาด');
+        })
+    },
+    selectunitcode_step2(val){
+      console.log(JSON.stringify(val))
+      this.searchunitcode_m = false
+      var index = this.findWithAttr(this.dproducts, 'item_name', val.item_name)
+          if(this.billtype == 0){//สด  
+            this.dproducts[index].unit_code = val.unit_code
+            this.dproducts[index].price = val.sale_price_1
+            this.dproducts[index].packing_rate_1 = val.rate_1
+            this.dproducts[index].item_amount = (this.dproducts[index].price * this.dproducts[index].qty)-this.dproducts[index].discount_amount
+            //packing rate ยังไม่ได้ทำ
+          }
+          if(this.billtype == 1){//เชื่อ
+            this.dproducts[index].unit_code = val.unit_code
+            this.dproducts[index].price = val.sale_price_2
+            this.dproducts[index].packing_rate_1 = val.rate_1
+            this.dproducts[index].item_amount = (this.dproducts[index].price * this.dproducts[index].qty)-this.dproducts[index].discount_amount
+          }
+     
+    },
+     findWithAttr(array, attr, value) {
+      for(var i = 0; i < array.length; i += 1) {
+          if(array[i][attr] === value) {
+              return i;
+          }
+      }
+      return -1;
+    },
     searchAllocate(){
       let payload = {
         keyword: this.Allocate
@@ -456,9 +514,17 @@ export default {
       if (!this.tablecode || !this.billtype) {
         return
       }
-      if (this.billtype) {
-        this.disablebilltype = true
+ 
+      if(this.dproducts.length > 0 ){
+      
+      // var test;
+      // for (let x = 0; x < this.dproducts.length; x++) {
+      //   test +=  this.dproducts[x].bar_code
+      // }
+      // console.log(test)
       }
+
+      this.disablebilltype = true
       let payload = {
         branch_id: this.objuser.branch_id,
         table_code: this.tablecode,
@@ -531,11 +597,49 @@ export default {
       //console.log(datashow)
     },
     calculatedata(val) {
+      // console.log(val.discount_amount.slice(-1))
+     
+      //ex 3%,3
+      // console.log(val.discount_amount.search(",")) 
+      if(val.discount_amount.search(",") >= 0){
+        var res = val.discount_amount.split(",")
+        
+        if(res[0].slice(-1) == '%'){
+          let cutper = parseInt(res[0].slice(0, -1))
+          val.item_amount = val.price - (val.price * cutper)/100
+        }else{
+          val.item_amount = val.price - res[0]
+        }
+
+        if(res[1].slice(-1) == '%'){
+           let cutper1 = parseInt(res[1].slice(0, -1))
+           val.item_amount = val.item_amount -( val.item_amount * cutper1)/100
+        }else{
+          val.item_amount = val.item_amount - res[1]
+        }
+        return
+      }
+      // if(val.discount_amount.search(","))
+
+      //ex. 3% หรือ 3
+      var checkpercent = val.discount_amount.slice(-1)
+      if(checkpercent == '%'){
+       var cutper = parseInt(val.discount_amount.slice(0, -1))
+        val.item_amount = val.price - (val.price * cutper)/100
+        return
+      //  console.log(test)
+        // alert('% นะ')
+      }else{
+        console.log(val.discount_amount)
+        parseInt(val.discount_amount)
+      }
+
       val.discount_word = String(val.discount_amount)
       console.log(JSON.stringify(val))
-      if (this.billtype == 0) {
+      
+      if (this.billtype == 0) {//เงินสด
         val.item_amount = (val.qty * val.price) - val.discount_amount
-      } else if (this.billtype == 1) {
+      } else if (this.billtype == 1) {//เงินเชื่อ
         val.item_amount = (val.qty * val.price) - val.discount_amount
       }
     },
@@ -683,7 +787,8 @@ export default {
 
     },
     convertmonth_preview(val) {
-      console.log(val.length)
+      // console.log(val)
+      // console.log(val.length)
       if (val.length == undefined) {
         var today = new Date();
         var dd = today.getDate();
@@ -702,7 +807,8 @@ export default {
         return val.substring(0, 10)
       }
 
-    }
+    
+  }
   },
   created() {
 
@@ -767,9 +873,9 @@ export default {
   },
   mounted () {
     this.docnoid = this.$route.params.id
-    if (this.docnoid == 0) {
-
-    }
+    // if (this.docnoid == 0) {
+    //   // location.reload()
+    // }
     this.showedit()
     this.creator_by = this.objuser.usercode
     this.branch_id = this.objuser.branch_id

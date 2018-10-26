@@ -56,9 +56,9 @@
                 <div class="row">
                   <div class="col-12">
                     <span class="md-title">{{ val.doc_no}}</span>
-                       <md-icon v-show="val.is_confirm == 0" style="color:green">check</md-icon>
-                       <md-icon v-show="val.is_cancel == 0" style="color:red;">cancel</md-icon>
-                    <span class="md-title datehover" style="float:right;font-size: .875rem;color: #5f6368;">{{val.doc_date.substring(0, 10)}}</span>
+                      <md-icon v-show="val.is_confirm == 0" style="float:right;color:green">check_circle_outline</md-icon>
+                       <md-icon v-show="val.is_cancel == 0" style="float:right;color:red;">cancel</md-icon>
+                         <span class="md-title datehover" style="float:right;font-size: .875rem;color: #5f6368;float:right;margin-right:10px">{{val.doc_date.substring(0, 10)}}</span>
                   </div>
                   <div class="col-12">
                     <span style="position: relative;left: 8px;font-size: .875rem;color: #5f6368;" class="md-subheading">
@@ -104,6 +104,9 @@
 </template>
 
 <style lang="scss" scoped>
+.md-speed-dial .md-button{
+      margin: 4px;
+}
   .container {
     padding: 5px 0;
   }
@@ -160,13 +163,13 @@
   }
   
   .hoverdiv {
-    transition: all 0.8s ease;
+    transition: all 0.8s;
     height: 30px;
   }
   
-  .hoverdiv:hover {
-    height: 200px !important;
-  }
+  // .hoverdiv:hover {
+  //   height: 200px !important;
+  // }
 </style>
 
 <script src="../js/index.js">

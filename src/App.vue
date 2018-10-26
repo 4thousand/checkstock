@@ -60,7 +60,7 @@
                 <span class="md-list-item-text">Setting</span>
               </md-list-item>
                  <md-divider></md-divider>
-                <md-list-item>
+                <md-list-item to="/" >
                 <md-icon>exit_to_app</md-icon>
                 <span class="md-list-item-text">Logout</span>
               </md-list-item>

@@ -107,5 +107,13 @@ export default {
           error(response)
         })
     },
-    
+    searchunitcode(payload, success, error) {
+      Vue.axios.post(URL + ':8081/product/v1/search/itemcode', JSON.stringify(payload)).then(
+        (response) => {
+          success(response.data)
+        },
+        (response) => {
+          error(response)
+        })
+    },
 }

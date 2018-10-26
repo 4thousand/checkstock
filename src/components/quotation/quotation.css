@@ -340,7 +340,6 @@
     height: auto !important;
     max-height: none !important;
   }
-  
   .calendarfollowcus{
     position: absolute;
     top: -83px;
@@ -368,6 +367,20 @@
   .paddingright{
     padding-right: 25px
   }
+  .search_unitcode{
+  position:absolute;
+  z-index:100;
+  right:8px;
+  border: 1px solid grey;
+  height:20px;
+  top:13px;
+  cursor: pointer;
+  transition: all 0.5s
+
+  }
+  .search_unitcode:hover{
+ transform: scale(1.25)
+    }
   /* .md-button .md-ripple:nth-child(2){
     width: 53px;
   } */
