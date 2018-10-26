@@ -606,14 +606,14 @@ export default {
         
         if(res[0].slice(-1) == '%'){
           let cutper = parseInt(res[0].slice(0, -1))
-          val.item_amount = val.price - (val.price * cutper)/100
+          val.item_amount =  val.price - (val.price  * cutper)/100
         }else{
           val.item_amount = val.price - res[0]
         }
 
         if(res[1].slice(-1) == '%'){
            let cutper1 = parseInt(res[1].slice(0, -1))
-           val.item_amount = val.item_amount -( val.item_amount * cutper1)/100
+           val.item_amount = val.qty *(val.item_amount -( val.item_amount * cutper1)/100)
         }else{
           val.item_amount = val.item_amount - res[1]
         }
@@ -625,7 +625,7 @@ export default {
       var checkpercent = val.discount_amount.slice(-1)
       if(checkpercent == '%'){
        var cutper = parseInt(val.discount_amount.slice(0, -1))
-        val.item_amount = val.price - (val.price * cutper)/100
+        val.item_amount = val.qty*(val.price - (val.price * cutper)/100)
         return
       //  console.log(test)
         // alert('% นะ')
@@ -638,9 +638,9 @@ export default {
       console.log(JSON.stringify(val))
       
       if (this.billtype == 0) {//เงินสด
-        val.item_amount = (val.qty * val.price) - val.discount_amount
+        val.item_amount = val.qty * (val.price - val.discount_amount)
       } else if (this.billtype == 1) {//เงินเชื่อ
-        val.item_amount = (val.qty * val.price) - val.discount_amount
+        val.item_amount = val.qty * (val.price - val.discount_amount)
       }
     },
     convertmoney(val) {
