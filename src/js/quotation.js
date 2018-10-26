@@ -598,31 +598,14 @@ export default {
     },
     calculatedata(val) {
       // console.log(val.discount_amount.slice(-1))
-     
-      //ex 3%,3
-      // console.log(val.discount_amount.search(",")) 
-      if(val.discount_amount.search(",") >= 0){
-        var res = val.discount_amount.split(",")
-        
-        if(res[0].slice(-1) == '%'){
-          let cutper = parseInt(res[0].slice(0, -1))
-          val.item_amount =  val.price - (val.price  * cutper)/100
-        }else{
-          val.item_amount = val.price - res[0]
-        }
+      val.discount_amount = val.discount_amount.toString()
+  
+   
+      if(val.discount_amount.search(",") < 0){
+      
+      console.log(val.discount_amount)
 
-        if(res[1].slice(-1) == '%'){
-           let cutper1 = parseInt(res[1].slice(0, -1))
-           val.item_amount = val.qty *(val.item_amount -( val.item_amount * cutper1)/100)
-        }else{
-          val.item_amount = val.item_amount - res[1]
-        }
-        return
-      }
-      // if(val.discount_amount.search(","))
-
-      //ex. 3% หรือ 3
-      var checkpercent = val.discount_amount.slice(-1)
+     var checkpercent = val.discount_amount.slice(-1)
       if(checkpercent == '%'){
        var cutper = parseInt(val.discount_amount.slice(0, -1))
         val.item_amount = val.qty*(val.price - (val.price * cutper)/100)
@@ -642,6 +625,34 @@ export default {
       } else if (this.billtype == 1) {//เงินเชื่อ
         val.item_amount = val.qty * (val.price - val.discount_amount)
       }
+
+     }else if(val.discount_amount.search(",") >= 0){
+        var res = val.discount_amount.split(",")
+        
+        if(res[0].slice(-1) == '%'){
+          let cutper = parseInt(res[0].slice(0, -1))
+          val.item_amount =  val.price - (val.price  * cutper)/100
+       
+        }else{
+          val.item_amount = val.price - res[0]
+       
+        }
+
+        if(res[1].slice(-1) == '%'){
+           let cutper1 = parseInt(res[1].slice(0, -1))
+           val.item_amount = val.qty *(val.item_amount -( val.item_amount * cutper1)/100)
+       
+        }else{
+          val.item_amount = val.qty*(val.item_amount - res[1])
+     
+        }
+        return
+      }
+
+      //ex. 3% หรือ 3
+ 
+
+     
     },
     convertmoney(val) {
       // console.log(val)
