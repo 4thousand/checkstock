@@ -249,7 +249,7 @@ export default {
         this.docheight = '72px'
       }
       if (this.isshowdocument) {
-        this.docheight = 'auto'
+        this.docheight = '256px'
       }
 
     },

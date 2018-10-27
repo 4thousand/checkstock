@@ -445,7 +445,7 @@ JsBarcode("#code128", docno);
 <?php
 date_default_timezone_set("Asia/Bangkok");
 $datetime = date("d/m/Y H:i:s");
-$header = "<div style='width:100%; text-align:center; font-size: 20px;'>รายงานสรุปยอดขายประจำวัน</div>";    
+$header = "<div style='width:100%; text-align:center; font-size: 20px;'>ใบเสนอราคา</div>";    
 $footer = "<div style='width:100%; text-align:right;' lang=\"th\">บันทึก ณ วันที่ ".$datetime."</div>"; 
 $html = ob_get_contents();
 ob_end_clean();
