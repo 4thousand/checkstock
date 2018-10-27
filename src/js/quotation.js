@@ -130,7 +130,6 @@ export default {
             this.dproducts[index].price = val.sale_price_1
             this.dproducts[index].packing_rate_1 = val.rate_1
             this.dproducts[index].item_amount = (this.dproducts[index].price * this.dproducts[index].qty)-this.dproducts[index].discount_amount
-            //packing rate ยังไม่ได้ทำ
           }
           if(this.billtype == 1){//เชื่อ
             this.dproducts[index].unit_code = val.unit_code
@@ -388,6 +387,10 @@ export default {
           creator_by: this.creator_by,
           subs: this.dproducts
         }
+        console.log(payload.subs.length)
+        for (let i = 0; i < payload.subs.length; i++) {
+          payload.subs[i].discount_amount = parseInt(payload.subs[i].discount_amount)
+        }
         document.getElementsByName('dataquotation')[0].value = JSON.stringify(
           payload
         )
@@ -395,16 +398,16 @@ export default {
           payload
         )
         console.log(JSON.stringify(payload))
-        //  api.savequotation(payload,
-        //    (result) => {
-        //      console.log(result)
-        //     alertify.success('บันทึกสำเร็จ ' + this.docno);
-        //   },
-        //    (error) => {
-        //      console.log(JSON.stringify(error))
-        //      //Customerall
-        //      alertify.error('เกิดข้อผิดพลาด');
-        //   })
+         api.savequotation(payload,
+           (result) => {
+             console.log(result)
+            alertify.success('บันทึกสำเร็จ ' + this.docno);
+          },
+           (error) => {
+             console.log(JSON.stringify(error))
+             //Customerall
+             alertify.error('เกิดข้อผิดพลาด');
+          })
       }
       //บันทึก
 
