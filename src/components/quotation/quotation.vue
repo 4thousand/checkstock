@@ -644,12 +644,12 @@
                       </tr>
                     </thead>
                     <tbody id="valuetable">
-                      <tr v-for="(val,index) in dproducts" style="width:100%;cursor:pointer;border-bottom: 1px rgba(0,0,0,0.25) solid;">
+                      <tr v-for="(val,index) in dproducts" style="width:100%;cursor:pointer;border-bottom: 1px rgba(0,0,0,0.25) solid;text-align:center">
                         <td>{{index+1}}</td>
-                        <td style="text-align:center">{{val.item_code}} {{val.item_name}}</td>
-                        <td style="text-align:center">{{val.price}}</td>
-                        <td style="text-align:center">{{val.qty}}</td>
-                        <td style="text-align:center">{{val.item_amount}}</td>
+                        <td >{{val.item_code}} {{val.item_name}}</td>
+                        <td >{{val.price}}</td>
+                        <td >{{val.qty}}</td>
+                        <td >{{val.item_amount}}</td>
                         <div style="background:black;width:100%;height:2px;"></div>
                       </tr>
                     </tbody>

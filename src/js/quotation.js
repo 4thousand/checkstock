@@ -266,6 +266,7 @@ export default {
       this.expiredate_cal = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
     },
     calDueDate_date() {
+      console.log(this.DueDate_date)
       var date1 = new Date(this.DueDate_date);
       var date2 = new Date();
       var timeDiff = Math.abs(date2.getTime() - date1.getTime());
@@ -387,6 +388,7 @@ export default {
           creator_by: this.creator_by,
           subs: this.dproducts
         }
+        
         console.log(payload.subs.length)
         for (let i = 0; i < payload.subs.length; i++) {
           payload.subs[i].discount_amount = parseInt(payload.subs[i].discount_amount)
@@ -398,16 +400,16 @@ export default {
           payload
         )
         console.log(JSON.stringify(payload))
-         api.savequotation(payload,
-           (result) => {
-             console.log(result)
-            alertify.success('บันทึกสำเร็จ ' + this.docno);
-          },
-           (error) => {
-             console.log(JSON.stringify(error))
-             //Customerall
-             alertify.error('เกิดข้อผิดพลาด');
-          })
+        //  api.savequotation(payload,
+        //    (result) => {
+        //      console.log(result)
+        //     alertify.success('บันทึกสำเร็จ ' + this.docno);
+        //   },
+        //    (error) => {
+        //      console.log(JSON.stringify(error))
+        //      //Customerall
+        //      alertify.error('เกิดข้อผิดพลาด');
+        //   })
       }
       //บันทึก
 
@@ -803,7 +805,7 @@ export default {
     convertmonth_preview(val) {
       // console.log(val)
       // console.log(val.length)
-      if (val.length == undefined) {
+      if (val.length === undefined) {
         var today = new Date();
         var dd = today.getDate();
         var mm = today.getMonth() + 1; //January is 0!
