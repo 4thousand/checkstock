@@ -129,13 +129,13 @@ export default {
             this.dproducts[index].unit_code = val.unit_code
             this.dproducts[index].price = val.sale_price_1
             this.dproducts[index].packing_rate_1 = val.rate_1
-            this.dproducts[index].item_amount = (this.dproducts[index].price * this.dproducts[index].qty)-this.dproducts[index].discount_amount
+            this.dproducts[index].item_amount = (this.dproducts[index].price * this.dproducts[index].qty)-this.dproducts[index].discount_word
           }
           if(this.billtype == 1){//เชื่อ
             this.dproducts[index].unit_code = val.unit_code
             this.dproducts[index].price = val.sale_price_2
             this.dproducts[index].packing_rate_1 = val.rate_1
-            this.dproducts[index].item_amount = (this.dproducts[index].price * this.dproducts[index].qty)-this.dproducts[index].discount_amount
+            this.dproducts[index].item_amount = (this.dproducts[index].price * this.dproducts[index].qty)-this.dproducts[index].discount_word
           }
      
     },
@@ -254,6 +254,7 @@ export default {
     },
     calexpire_Date() {
       var date1 = new Date(this.expiredate_cal);
+      this.expiredate_cal = (date1.getMonth() + 1) + '/' +  date1.getDate() + '/' +  date1.getFullYear()
       var date2 = new Date();
       var timeDiff = Math.abs(date2.getTime() - date1.getTime());
       var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
@@ -266,8 +267,9 @@ export default {
       this.expiredate_cal = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
     },
     calDueDate_date() {
-      console.log(this.DueDate_date)
-      var date1 = new Date(this.DueDate_date);
+      var date1 = new Date(this.DueDate_date); 
+      this.DueDate_date =  (date1.getMonth() + 1) + '/' +  date1.getDate() + '/' +  date1.getFullYear()
+      // alert(this.DueDate_date)
       var date2 = new Date();
       var timeDiff = Math.abs(date2.getTime() - date1.getTime());
       var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
@@ -390,15 +392,17 @@ export default {
         }
         
         console.log(payload.subs.length)
-        for (let i = 0; i < payload.subs.length; i++) {
-          payload.subs[i].discount_amount = parseInt(payload.subs[i].discount_amount)
-        }
+        // for (let i = 0; i < payload.subs.length; i++) {
+        //   payload.subs[i].discount_amount = parseInt(payload.subs[i].discount_amount)
+        // }
         document.getElementsByName('dataquotation')[0].value = JSON.stringify(
           payload
         )
+        
         document.getElementsByName('dataquotation')[1].value = JSON.stringify(
           payload
         )
+
         console.log(JSON.stringify(payload))
         //  api.savequotation(payload,
         //    (result) => {
@@ -602,62 +606,55 @@ export default {
       //console.log(datashow)
     },
     calculatedata(val) {
-      // console.log(val.discount_amount.slice(-1))
-      val.discount_amount = val.discount_amount.toString()
+      val.discount_word = val.discount_word.toString()
+      console.log(val.discount_word)
   
-   
-      if(val.discount_amount.search(",") < 0){
-      
-      console.log(val.discount_amount)
-
-     var checkpercent = val.discount_amount.slice(-1)
-      if(checkpercent == '%'){
-       var cutper = parseInt(val.discount_amount.slice(0, -1))
+      if(val.discount_word.search(",") < 0){
+      if(val.discount_word.slice(-1) == '%'){
+        var cutper = parseInt(val.discount_word.slice(0, -1))
         val.item_amount = val.qty*(val.price - (val.price * cutper)/100)
+        val.discount_amount = (val.price * val.qty) - ((val.price - ((val.price * cutper)/100))*val.qty)
+        console.log(val.discount_word) // ตัวอักษร
+        console.log(val.discount_amount) // ส่วนต่าง
         return
-      //  console.log(test)
-        // alert('% นะ')
       }else{
-        console.log(val.discount_amount)
-        parseInt(val.discount_amount)
+        val.discount_amount = (val.price * val.qty) - ((val.price - val.discount_word)*val.qty)
       }
-
-      val.discount_word = String(val.discount_amount)
       console.log(JSON.stringify(val))
-      
       if (this.billtype == 0) {//เงินสด
-        val.item_amount = val.qty * (val.price - val.discount_amount)
+        val.item_amount = val.qty * (val.price - val.discount_word)
       } else if (this.billtype == 1) {//เงินเชื่อ
-        val.item_amount = val.qty * (val.price - val.discount_amount)
+        val.item_amount = val.qty * (val.price - val.discount_word)
       }
-
-     }else if(val.discount_amount.search(",") >= 0){
-        var res = val.discount_amount.split(",")
-        
+      console.log(val.discount_word) // ตัวอักษร
+      console.log(val.discount_amount) // ส่วนต่าง
+     }else if(val.discount_word.search(",") >= 0){
+        var res = val.discount_word.split(",")
         if(res[0].slice(-1) == '%'){
-          let cutper = parseInt(res[0].slice(0, -1))
+          var cutper = parseInt(res[0].slice(0, -1))
           val.item_amount =  val.price - (val.price  * cutper)/100
-       
+          var diff1 =  (val.price  * cutper)/100
+          console.log('diff1 : '+diff1)
         }else{
+          var diff1 = val.price -(val.price - res[0])
+          console.log(diff1)
           val.item_amount = val.price - res[0]
-       
         }
-
         if(res[1].slice(-1) == '%'){
            let cutper1 = parseInt(res[1].slice(0, -1))
            val.item_amount = val.qty *(val.item_amount -( val.item_amount * cutper1)/100)
-       
+           var diff2 = ((val.price - diff1)*cutper1)/100
+           console.log('diff2 : '+diff2)
+           val.discount_amount = (diff1 + diff2)*val.qty
+           console.log(val.discount_amount)
         }else{
-          val.item_amount = val.qty*(val.item_amount - res[1])
-     
+          var diff2 = val.price -(val.price - res[1])
+          val.discount_amount = (diff1 + diff2)*val.qty
+          val.item_amount = (val.price * val.qty)- val.discount_amount
+          console.log(val.discount_amount)
         }
         return
       }
-
-      //ex. 3% หรือ 3
- 
-
-     
     },
     convertmoney(val) {
       // console.log(val)
