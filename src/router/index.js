@@ -6,6 +6,7 @@ import login from '@/components/login'
 import quotation from '@/components/quotation/quotation'
 import sale from '@/components/quotation/quotation'
 import setting from '@/components/setting'
+import newquo from '@/components/quotation/newquo'
 
 
 Vue.use(Router)
@@ -41,6 +42,11 @@ export default new Router({
       path: '/sale/:id',
       name: 'sale',
       component: sale
-    }
+    },//test
+    {
+      path: '/newquotation/:id',
+      name: 'newquo',
+      component: newquo
+    },
   ]
 })

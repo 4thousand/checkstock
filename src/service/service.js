@@ -45,6 +45,7 @@ export default {
         })
     },
     searchbykeyword(payload, success, error) {
+      console.log(JSON.stringify(payload))
       Vue.axios.post(URL + ':8081/product/v1/search/keyword', JSON.stringify(payload)).then(
         (response) => {
           success(response.data)

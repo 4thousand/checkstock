@@ -105,15 +105,6 @@ export default {
         (result) => {
           console.log(JSON.stringify(result.data))
           this.unitcode_obj = result.data
-          // if(this.billtype == 0){//สด
-          //   val.unit_code = result.data[1].unit_code
-          //   val.price = result.data[1].sale_price_1
-          // }
-          // if(this.billtype == 1){//เชื่อ
-          //   val.unit_code = result.data[1].unit_code
-          //   val.price = result.data[1].sale_price_2
-          // }
-
            this.searchunitcode_m = true
         },
         (error) => {
@@ -250,7 +241,6 @@ export default {
       if (this.isshowdocument) {
         this.docheight = '256px'
       }
-
     },
     calexpire_Date() {
       var date1 = new Date(this.expiredate_cal);
@@ -481,24 +471,26 @@ export default {
       console.log(this.DueDate_cal)
     },
     addproduct() {
+      console.log(this.keywordproduct)
       // alert(this.billtype)
+      // alert('d')
       if (this.billtype === '' && this.billtype !== 0 && this.billtype !== 1) {
         if (this.attention == 'wobble-hor-bottom') {
           this.attention = 'wobble-hor-bottom2'
         } else {
           this.attention = 'wobble-hor-bottom'
         }
-        // this.$refs.focustype.$el.focus()
-        // console.log(this.attention)
         return
       }
 
       if (!this.keywordproduct) {
         return
       }
+      
       let payload = {
         keyword: this.keywordproduct
       }
+      console.log(payload)
       api.searchbykeyword(payload,
         (result) => {
           console.log(result.data)

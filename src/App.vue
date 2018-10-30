@@ -7,7 +7,7 @@
             <md-button class="md-icon-button" @click="showNavigation = true">
               <md-icon>menu</md-icon>
             </md-button>
-             <md-icon  class="md-size-1x" style="margin-left:10px;margin-right:10px;">bookmarks </md-icon> <span style="margin-left: 14px;" class="md-title">{{topicmenu}}</span>
+             <md-icon  class="md-size-1x" style="margin-left:10px;margin-right:10px;">{{icon}} </md-icon> <span style="margin-left: 14px;" class="md-title">{{topicmenu}}</span>
             
              <!-- <md-autocomplete style="margin-left:30px;width: 45vw;" 
       v-model="selectedEmployee"
@@ -177,6 +177,7 @@
       role:'',
       branchname:'',
       pic_path:'',
+      icon:'',
       sale_code:'',
       company_name:'',
       selectedEmployee: null,
@@ -209,19 +210,28 @@
         if(this.$route.fullPath.search("quotation") == 1){
           this.topicmenucolor = 'green'
           this.topicmenu = 'ใบเสนอราคา'
+           this.icon = 'bookmark'
+        }
+        if(this.$route.fullPath.search("newquotation") == 1){
+          this.topicmenucolor = 'green'
+          this.topicmenu = 'สร้าง ใบเสนอราคา'
+           this.icon = 'bookmark'
         }
          if(this.$route.fullPath.search("index") == 1){
            this.topicmenucolor = '#448aff'
           this.topicmenu = 'หน้าหลัก'
+          this.icon = 'bookmarks'
         }
         if(this.$route.fullPath.search("setting") == 1){
           this.topicmenucolor = '#ff9100'
           this.topicmenu = 'Setting'
-        }
+             this.icon = 'build'
+         }
 
           if(this.$route.fullPath.search("sale") == 1){
           this.topicmenucolor = '#795548'
           this.topicmenu = 'ใบสั่งขาย'
+          this.icon = 'bookmark_border'
          }
       },
       toggleMenu() {
@@ -239,7 +249,7 @@
       
         if(val == '/quotation'){
           this.topicmenu = 'ใบเสนอราคา'
-          this.$router.push({ name : 'quotation',params : { id: 0}})
+          this.$router.push({ name : 'newquo',params : { id: 0}})
           return
         }
        
