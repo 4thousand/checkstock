@@ -3,11 +3,11 @@
     <transition name="slide-fade">
       <div v-if="this.$route.path != '/'" class="page-container">
         <div class="page-container md-layout-column">
-          <md-toolbar class="md-primary">
+          <md-toolbar :style="{background: topicmenucolor}" style="transition:all 1s;" class="md-primary">
             <md-button class="md-icon-button" @click="showNavigation = true">
               <md-icon>menu</md-icon>
             </md-button>
-             <md-icon  class="md-size-1x" style="margin-left:10px;margin-right:10px;">bookmarks </md-icon> <span style="margin-left: 14px;" class="md-title">เมนูทั้งหมด</span>
+             <md-icon  class="md-size-1x" style="margin-left:10px;margin-right:10px;">bookmarks </md-icon> <span style="margin-left: 14px;" class="md-title">{{topicmenu}}</span>
             
              <!-- <md-autocomplete style="margin-left:30px;width: 45vw;" 
       v-model="selectedEmployee"
@@ -41,7 +41,7 @@
                 <span class="md-list-item-text">ใบเสนอราคา</span>
               </md-list-item>
   
-              <md-list-item>
+              <md-list-item @click="goindex('/sale')">
                 <md-icon>send</md-icon>
                 <span class="md-list-item-text">ใบสั่งขาย</span>
               </md-list-item>
@@ -173,6 +173,7 @@
       showSidepanel: false,
       showNavigation: false,
       name:'',
+      topicmenu:'หน้าหลัก',
       role:'',
       branchname:'',
       pic_path:'',
@@ -196,17 +197,52 @@
         'Phyllis Lapin-Vance'
       ]
     }),
+    created (){
+      this.changetopicmenu()
+    },
+    watch:{
+      $route: 'changetopicmenu'
+    },
     methods: {
+      changetopicmenu(){
+        //  alert(this.$route.fullPath.search("quotation"))
+        if(this.$route.fullPath.search("quotation") == 1){
+          this.topicmenucolor = 'green'
+          this.topicmenu = 'ใบเสนอราคา'
+        }
+         if(this.$route.fullPath.search("index") == 1){
+           this.topicmenucolor = '#448aff'
+          this.topicmenu = 'หน้าหลัก'
+        }
+        if(this.$route.fullPath.search("setting") == 1){
+          this.topicmenucolor = '#ff9100'
+          this.topicmenu = 'Setting'
+        }
+
+          if(this.$route.fullPath.search("sale") == 1){
+          this.topicmenucolor = '#795548'
+          this.topicmenu = 'ใบสั่งขาย'
+         }
+      },
       toggleMenu() {
         this.menuVisible = !this.menuVisible;
       },
       goindex(val) {
         // localStorage.iddocno = 0
-        this.showNavigation = false
+          this.showNavigation = false
+
+        if(val == '/sale'){
+         this.$router.push({ name : 'sale',params : { id: 0}})
+         return
+        }
+       
+      
         if(val == '/quotation'){
+          this.topicmenu = 'ใบเสนอราคา'
           this.$router.push({ name : 'quotation',params : { id: 0}})
           return
         }
+       
         this.$router.push(val);
       },
         username () {
@@ -223,6 +259,7 @@
   	}
     },
     mounted() {
+ 
     setInterval(function () {
   		this.username()
     }.bind(this),1000)

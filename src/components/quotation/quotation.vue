@@ -927,12 +927,16 @@
                     <tr>
                       <th>ลำดับ</th>
                       <th id="colorselectorder">หน่วยนับ</th>
+                      <th v-show="billtype == 0" id="colorselectorder">ราคา(เงินสด)</th>
+                      <th v-show="billtype == 1" id="colorselectorder">ราคา(เงินเชื่อ)</th>
                     </tr>
                   </thead>
                   <tbody id="valuetable">
                     <tr  v-for="(val,index) in unitcode_obj" @click="selectunitcode_step2(val)" style="text-align:center;cursor:pointer">
                       <td>{{index+1}}</td>
                       <td>{{val.unit_code}}</td>
+                      <td v-show="billtype == 0">{{ val.sale_price_1 }}</td>
+                      <td v-show="billtype == 1">{{ val.sale_price_2 }}</td>
                     </tr>
                   </tbody>
                 </table>

@@ -392,9 +392,6 @@ export default {
         }
         
         console.log(payload.subs.length)
-        // for (let i = 0; i < payload.subs.length; i++) {
-        //   payload.subs[i].discount_amount = parseInt(payload.subs[i].discount_amount)
-        // }
         document.getElementsByName('dataquotation')[0].value = JSON.stringify(
           payload
         )
@@ -404,16 +401,16 @@ export default {
         )
 
         console.log(JSON.stringify(payload))
-        //  api.savequotation(payload,
-        //    (result) => {
-        //      console.log(result)
-        //     alertify.success('บันทึกสำเร็จ ' + this.docno);
-        //   },
-        //    (error) => {
-        //      console.log(JSON.stringify(error))
-        //      //Customerall
-        //      alertify.error('เกิดข้อผิดพลาด');
-        //   })
+         api.savequotation(payload,
+           (result) => {
+             console.log(result)
+            alertify.success('บันทึกสำเร็จ ' + this.docno);
+          },
+           (error) => {
+             console.log(JSON.stringify(error))
+             //Customerall
+             alertify.error('เกิดข้อผิดพลาด');
+          })
       }
       //บันทึก
 
@@ -569,7 +566,7 @@ export default {
           unit_code: val.unit_code,
           qty: 1,
           price: val.sale_price_1,
-          discount_word: '',
+          discount_word: '0',
           discount_amount: 0,
           item_amount: val.sale_price_1 * 1,
           item_description: "",
@@ -589,7 +586,7 @@ export default {
           unit_code: val.unit_code,
           qty: 1,
           price: val.sale_price_2,
-          discount_word: '',
+          discount_word: '0',
           discount_amount: 0,
           item_amount: val.sale_price_2 * 1,
           item_description: "",
@@ -885,6 +882,11 @@ export default {
     }
   },
   mounted () {
+    if(this.$route.fullPath.search("sale") == 1){
+      if(this.$route.params.id == 0){
+        alert('ใบสั่งขายยังเพิ่มไม่ได้')
+      }
+    }
     this.docnoid = this.$route.params.id
     // if (this.docnoid == 0) {
     //   // location.reload()
