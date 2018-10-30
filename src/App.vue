@@ -9,7 +9,7 @@
             </md-button>
              <md-icon  class="md-size-1x" style="margin-left:10px;margin-right:10px;">{{icon}} </md-icon> <span style="margin-left: 14px;" class="md-title">{{topicmenu}}</span>
             
-             <!-- <md-autocomplete style="margin-left:30px;width: 45vw;" 
+      <!-- <md-autocomplete style="margin-left:30px;width: 45vw;" 
       v-model="selectedEmployee"
       :md-options="employees"
       md-layout="box"
@@ -133,8 +133,6 @@
                 <md-button to="/" style="position: relative; left: 28px;" class="md-raised md-accent">Logout</md-button>
   
               </md-list-item>
-  
-  
             </md-list>
           </md-drawer>
   
@@ -228,9 +226,9 @@
              this.icon = 'build'
          }
 
-          if(this.$route.fullPath.search("sale") == 1){
+          if(this.$route.fullPath.search("newsale") == 1){
           this.topicmenucolor = '#795548'
-          this.topicmenu = 'ใบสั่งขาย'
+          this.topicmenu = 'สร้าง ใบสั่งขาย'
           this.icon = 'bookmark_border'
          }
       },
@@ -242,13 +240,12 @@
           this.showNavigation = false
 
         if(val == '/sale'){
-         this.$router.push({ name : 'sale',params : { id: 0}})
+         this.$router.push({ name : 'newsale',params : { id: 0}})
          return
         }
        
-      
         if(val == '/quotation'){
-          this.topicmenu = 'ใบเสนอราคา'
+          // this.topicmenu = 'ใบเสนอราคา'
           this.$router.push({ name : 'newquo',params : { id: 0}})
           return
         }

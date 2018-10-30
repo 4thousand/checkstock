@@ -16,7 +16,7 @@
                                   เลขที่ใบเสนอราคา
                               </span>
                     <md-field>
-                      <md-select @input="showdocno" placeholder="กรุณาเลือก" v-model="tablecode" name="country" id="country">
+                      <md-select  v-hotkey="keymap"  @input="showdocno" placeholder="กรุณาเลือก" v-model="tablecode" name="country" id="country">
                         <md-option value="QT">ใบเสนอราคา</md-option>
                         <md-option value="BO">BackOrder</md-option>
                       </md-select>
@@ -140,7 +140,7 @@
                     </md-table-toolbar>
   
                     <md-table-empty-state style="width:100% !important;" md-label="ไม่พบสินค้า" :md-description="`ไม่มีสินค้า  '${search}' ในระบบกรุณาตรวจสอบใหม่อีกครั้ง`">
-                      <md-button class="md-primary md-raised" @click="newUser">เพิ่มข้อมูลสินค้า</md-button>
+                      <md-button class="md-primary md-raised">เพิ่มข้อมูลสินค้า</md-button>
                     </md-table-empty-state>
   
                     <md-table-row slot="md-table-row"  slot-scope="{ item }">
@@ -754,6 +754,7 @@
                       <th style="white-space: nowrap;">หน่วยนับ</th>
                       <th style="white-space: nowrap;" v-show="billtype == 0">ราคา(เงินสด)</th>
                       <th style="white-space: nowrap;" v-show="billtype == 1">ราคา(เงินเชื่อ)</th>
+                      <th style="white-space: nowrap;">จำนวนคลัง</th>
                     </tr>
                   </thead>
                   <tbody id="valuetable">
@@ -766,6 +767,26 @@
                       <td>{{val.unit_code}}</td>
                       <td v-show="billtype == 0">{{val.sale_price_1}}</td>
                       <td v-show="billtype == 1">{{val.sale_price_2}}</td>
+                      <td><md-button @mouseover="findstock(val)" style="height:18px;" class="md-primary">{{ val.qty }} </md-button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <md-dialog-title v-if="hovershow_stock == true">คลังสินค้า {{ namestock }}</md-dialog-title>
+              <div  v-if="hovershow_stock == true"  class="table-responsive" style="overflow-y: auto;">
+                <table class="table table-hover">
+                  <thead align="center">
+                    <tr>
+                      <!--<th style=''>client_id</th>-->
+                      <th style="white-space: nowrap;padding: 0rem;">คลัง</th>
+                      <td style="white-space: nowrap;padding: 0rem;">จำนวน</td>
+                    </tr>
+                  </thead>
+                  <tbody id="valuetable">
+                    <tr v-for="(stock2,index) in stockobj" style="text-align:center;cursor:pointer">
+                      <td style="white-space: nowrap;padding: 0rem;">{{ stock2.wh_code}}</td>
+                      <td style="white-space: nowrap;padding: 0rem;">{{stock2.qty}}</td>
                     </tr>
                   </tbody>
                 </table>

@@ -7,7 +7,8 @@ import quotation from '@/components/quotation/quotation'
 import sale from '@/components/quotation/quotation'
 import setting from '@/components/setting'
 import newquo from '@/components/quotation/newquo'
-
+import newsale from '@/components/sale/newsale'
+import test from '@/components/quotation/test'
 
 Vue.use(Router)
 
@@ -42,11 +43,21 @@ export default new Router({
       path: '/sale/:id',
       name: 'sale',
       component: sale
-    },//test
+    },//newquotation
     {
       path: '/newquotation/:id',
       name: 'newquo',
       component: newquo
+    },
+    {
+      path: '/newsale/:id',
+      name: 'newsale',
+      component: newsale
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: test
     },
   ]
 })

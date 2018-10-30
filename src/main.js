@@ -7,7 +7,9 @@ import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css' // This line here
 import 'jspdf-customfonts/dist/jspdf.customfonts.min.js'
+import VueHotkey from 'v-hotkey'
 
+Vue.use(VueHotkey)
 Vue.use(VueMaterial)
 Vue.config.productionTip = false
 

@@ -91,6 +91,9 @@ export default {
     searchunitcode_m:false,
     unitcode_obj:[],
     thisunticode:[],
+    hovershow_stock:false,
+    stockobj:[],
+    namestock:''
   }),
   methods: {
     searchunticode(val){
@@ -276,9 +279,9 @@ export default {
       console.log(this.percal)
       this.percal = !this.percal
     },
-    newUser() {
-      this.$refs.addproduct.$el.focus()
-    },
+    // newUser() {
+    //   this.$refs.addproduct.$el.focus()
+    // },
     searchOnTable() {
       this.searched = searchByName(this.dproducts, this.search);
     },
@@ -445,6 +448,7 @@ export default {
           } else if (result.data.length > 1) {
             this.detailcusall = result.data
             this.showDialogcus = true
+
           }
         },
         (error) => {
@@ -460,6 +464,7 @@ export default {
       this.idcus = val.id
       this.searchcus = val.code
       this.detailcus = val.name
+      
       this.showDialogcus = false
       //bill_credit
       this.bill_credit = val.bill_credit
@@ -469,6 +474,8 @@ export default {
       date.setDate(date.getDate() + this.bill_credit);
       this.DueDate_cal = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
       console.log(this.DueDate_cal)
+      this.$refs.addproduct.$el.focus()
+      
     },
     addproduct() {
       console.log(this.keywordproduct)
@@ -496,8 +503,11 @@ export default {
           console.log(result.data)
           console.log(result.data.length)
           this.showDialogproduct = true
+          this.hovershow_stock = false
+          
           this.dataproductDialog = result.data
           console.log('billtype : ' + this.billtype)
+          this.$refs.addproduct.$el.focus()
         },
         (error) => {
           console.log(JSON.stringify(error))
@@ -591,7 +601,7 @@ export default {
         alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
       }
       this.keywordproduct = ''
-      this.$refs.addproduct.$el.focus()
+
       //console.log(datashow)
     },
     calculatedata(val) {
@@ -810,6 +820,33 @@ export default {
       }
 
     
+  },
+  changevaluetest(){
+    this.tablecode = 'QT'
+  },
+  changevaluetest2(){
+    this.tablecode = 'BO'
+  },
+  findstock(val){
+    this.hovershow_stock = true
+    console.log(val.item_code)
+    var payload = {
+      item_code : val.item_code
+     }
+
+    api.searchunitcode(payload,
+      (result) => {
+        console.log(result)
+        console.log(JSON.stringify(result.data))
+        console.log(JSON.stringify(result.data.stock))
+        this.namestock = result.data[0].item_name
+        this.stockobj = result.data[0].stock
+      },
+      (error) => {
+        console.log(JSON.stringify(error))
+        alertify.error('Data ข้อมูล ค้นหาคลัง ผิดพลาด');
+      })
+    // alert('ทดสอบ')
   }
   },
   created() {
@@ -817,6 +854,13 @@ export default {
     this.searched = this.dproducts;
   },
   computed: {
+    keymap () {
+      return {
+        'ctrl+shift+1': this.changevaluetest,
+        'ctrl+shift+2': this.changevaluetest2,
+      }
+      
+    },
     totalprice() {
       return this.dproducts.reduce(function (sum, item) {
         return (sum + item.item_amount)
