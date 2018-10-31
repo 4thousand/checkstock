@@ -1,4 +1,7 @@
 
+.md-elevation-0 .md-theme-default{
+  display: none !important;
+}
 .md-tooltip-top:nth-child(1){ top:390px !important;}
 .md-table-cell-container{
   padding: 6px 5px !important;
