@@ -46,7 +46,7 @@
       <!-- payloadreal -->
       <div v-for="val in dataall">
         <div @click="seedetail(val)" class="col-12 showhover" style="cursor: pointer;margin-bottom:10px">
-          <md-toolbar class="md-transparent hoverdiv" style="min-width:251px;display:block;padding-top:5px;overflow:hidden">
+          <md-toolbar id="responsiveheight" class="md-transparent hoverdiv" style="min-width:251px;display:block;padding-top:5px;overflow:hidden">
             <div class="md-layout md-gutter md-alignment-center">
               <div class="md-layout-item md-xlarge-size-5 md-large-size-5 md-xsmall-size-15 md-small-size-10 md-medium-size-5">
                 <md-avatar class="md-avatar-icon md-primary" :class="'active'+val.module.substring(0, 1)" style="margin:0;">{{ val.module.substring(0, 1) }}</md-avatar>
@@ -104,6 +104,22 @@
 </template>
 
 <style lang="scss" scoped>
+@media only screen and (max-width: 990px) {
+    #responsiveheight {
+        height: 83px;
+    }
+}
+@media only screen and (max-width: 508px) {
+    #responsiveheight {
+        height: 100px ;
+    }
+}
+@media only screen and (max-width: 450px) {
+    #responsiveheight {
+        height: 130px ;
+    }
+}
+
 .md-speed-dial .md-button{
       margin: 4px;
 }
@@ -163,7 +179,7 @@
   }
   
   .hoverdiv {
-    transition: all 0.8s;
+    transition: all 1s;
     height: 30px;
   }
   
