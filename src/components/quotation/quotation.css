@@ -1,5 +1,5 @@
 
-.md-elevation-0 .md-theme-default{
+#none .md-elevation-0 .md-theme-default{
   display: none !important;
 }
 .md-tooltip-top:nth-child(1){ top:390px !important;}

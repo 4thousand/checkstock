@@ -740,13 +740,13 @@
       <div>
         <md-dialog :md-active.sync="showDialogproduct">
           <md-dialog-title>ค้นหาสินค้า</md-dialog-title>
-          <md-tabs md-dynamic-height>
+          <md-tabs id="none" md-dynamic-height>
             <md-tab md-label="">
               <div class="table-responsive" style="overflow-y: auto;">
                 <table class="table table-hover">
                   <thead align="center">
                     <tr>
-                      <!--                                <th style=''>client_id</th>-->
+                      <!--<th style=''>client_id</th>-->
                       <th style="white-space: nowrap;">ลำดับ</th>
                       <th style="white-space: nowrap;">รูป</th>
                       <th style="overflow:auto;white-space: nowrap;">รหัสบาร์โค้ด</th>
