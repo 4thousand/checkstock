@@ -397,3 +397,31 @@ table#searchitem{
   /* .md-button .md-ripple:nth-child(2){
     width: 53px;
   } */
+@media (max-width: 768px){
+.container {
+    max-width: 960px;
+}
+}
+@media (max-width: 576px){
+.container {
+    width: 960px;
+    max-width: 960px;
+}
+}
+
+/*
+ mobile
+*/
+@media (max-width: 575px){
+  #notop_mobile{
+    top: 0;
+  }
+  #changetop_mobile{
+    position: relative;
+    top: -20px;
+  }
+  }
+
+/*
+ mobile
+*/

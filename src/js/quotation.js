@@ -94,7 +94,8 @@ export default {
     thisunticode:[],
     hovershow_stock:false,
     stockobj:[],
-    namestock:''
+    namestock:'',
+    stockall:[]
   }),
   methods: {
     searchunticode(val){
@@ -497,10 +498,10 @@ export default {
       }
       
       let payload = {
-        keyword: this.keywordproduct
+        item_code: this.keywordproduct
       }
       console.log(payload)
-      api.searchbykeyword(payload,
+      api.searchunitcode(payload,
         (result) => {
           console.log(result.data)
           console.log(result.data.length)
@@ -508,6 +509,8 @@ export default {
           this.hovershow_stock = false
           
           this.dataproductDialog = result.data
+          this.stockall = result.data[0].stk_location
+          console.log(this.stockall)
           console.log('billtype : ' + this.billtype)
           this.$refs.addproduct.$el.focus()
         },
@@ -829,7 +832,27 @@ export default {
   changevaluetest2(){
     this.tablecode = 'BO'
   },
-  findstock(val){
+  findstock(val,index){
+ 
+      // alert(!index)
+      // console.log(this.stockall.length)
+      // for (let i = 0; i < this.dataproductDialog.length ; i++) {
+      //   if(index != i){
+      //     console.log(index+':'+i)
+      //   document.getElementsByClassName('hover'+index)[i].style.display = 'none';
+      //   document.getElementsByClassName('hover'+index)[i].style.height = '0px';
+      //  }
+      // }
+
+      for (let i = 0; i < this.stockall.length; i++) {
+        document.getElementsByClassName('hover'+index)[i].style.display = 'block';
+        document.getElementsByClassName('hover'+index)[i].style.height = '20px';
+      }
+      return
+        
+    
+    this.namestock = ''
+    this.stockobj = []
     this.hovershow_stock = true
     console.log(val.item_code)
     var payload = {
@@ -842,7 +865,8 @@ export default {
         console.log(JSON.stringify(result.data))
         console.log(JSON.stringify(result.data.stock))
         this.namestock = result.data[0].item_name
-        this.stockobj = result.data[0].stock
+        this.stockobj = result.data[0].stk_location
+        console.log(result.data[0].stk_location.length)
       },
       (error) => {
         console.log(JSON.stringify(error))
