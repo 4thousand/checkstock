@@ -775,7 +775,7 @@
               
               <md-dialog-title v-if="hovershow_stock == true">คลังสินค้า {{ namestock }}</md-dialog-title>
               <div  v-if="hovershow_stock == true"  class="table-responsive" style="overflow-y: auto;">
-                <table class="table table-hover">
+                <table id="searchitem" class="table table-hover">
                   <thead align="center">
                     <tr>
                       <!--<th style=''>client_id</th>-->

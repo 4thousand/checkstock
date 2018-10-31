@@ -4,10 +4,11 @@ const toLower = text => {
 
 const searchByName = (items, term) => {
   if (term) {
-    return items.filter(item => toLower(item.item_name).includes(toLower(term)));
+    return items.filter(item => toLower(item.item_name).includes(toLower(term)) || toLower(item.unit_code).includes(toLower(term))  );
   }
   return items;
 }
+
 import Datepicker from 'vuejs-datepicker';
 import * as lang from "vuejs-datepicker/src/locale";
 import api from "../service/service.js"
@@ -284,6 +285,7 @@ export default {
     // },
     searchOnTable() {
       this.searched = searchByName(this.dproducts, this.search);
+      console.log(this.searched)
     },
     tests() {
       alert("ค้นหาข้อมูล Waiting ...");
@@ -394,16 +396,16 @@ export default {
         )
 
         console.log(JSON.stringify(payload))
-         api.savequotation(payload,
-           (result) => {
-             console.log(result)
-            alertify.success('บันทึกสำเร็จ ' + this.docno);
-          },
-           (error) => {
-             console.log(JSON.stringify(error))
-             //Customerall
-             alertify.error('เกิดข้อผิดพลาด');
-          })
+    //     api.savequotation(payload,
+    //       (result) => {
+    //         console.log(result)
+    //        alertify.success('บันทึกสำเร็จ ' + this.docno);
+    //      },
+    //       (error) => {
+    //         console.log(JSON.stringify(error))
+    //         //Customerall
+    //         alertify.error('เกิดข้อผิดพลาด');
+    //      })
       }
       //บันทึก
 
@@ -850,7 +852,6 @@ export default {
   }
   },
   created() {
-
     this.searched = this.dproducts;
   },
   computed: {
@@ -859,7 +860,6 @@ export default {
         'ctrl+shift+1': this.changevaluetest,
         'ctrl+shift+2': this.changevaluetest2,
       }
-      
     },
     totalprice() {
       return this.dproducts.reduce(function (sum, item) {
@@ -906,7 +906,6 @@ export default {
           return this.totalprice
         }
       }
-
     },
     firstDayOfAWeek: {
       get() {

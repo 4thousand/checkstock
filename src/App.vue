@@ -7,20 +7,20 @@
             <md-button class="md-icon-button" @click="showNavigation = true">
               <md-icon>menu</md-icon>
             </md-button>
-             <md-icon  class="md-size-1x" style="margin-left:10px;margin-right:10px;">{{icon}} </md-icon> <span style="margin-left: 14px;" class="md-title">{{topicmenu}}</span>
-            
-      <!-- <md-autocomplete style="margin-left:30px;width: 45vw;" 
-      v-model="selectedEmployee"
-      :md-options="employees"
-      md-layout="box"
-      md-dense>
-      <label>Employees</label>
-    </md-autocomplete> -->
-
+            <md-icon class="md-size-1x" style="margin-left:10px;margin-right:10px;">{{icon}} </md-icon> <span style="margin-left: 14px;" class="md-title">{{topicmenu}}</span>
+  
+            <!-- <md-autocomplete style="margin-left:30px;width: 45vw;" 
+        v-model="selectedEmployee"
+        :md-options="employees"
+        md-layout="box"
+        md-dense>
+        <label>Employees</label>
+      </md-autocomplete> -->
+  
             <div class="md-toolbar-section-end">
               <md-button @click="showSidepanel = true">
-                <md-icon class="md-size-1x" style="margin-right:10px">account_balance </md-icon> 
-                  <span style="margin-right:20px"> {{ company_name }}</span>
+                <md-icon class="md-size-1x" style="margin-right:10px">account_balance </md-icon>
+                <span style="margin-right:20px"> {{ company_name }}</span>
                 <md-icon class="md-size-1x" style="margin-right:10px">account_circle</md-icon>{{ name }}</md-button>
             </div>
           </md-toolbar>
@@ -54,45 +54,45 @@
                 <md-icon>stars</md-icon>
                 <span class="md-list-item-text">รายการโปรด</span>
               </md-list-item>
-           
-              <md-list-item  @click="goindex('/setting')">
+  
+              <md-list-item @click="goindex('/setting')">
                 <md-icon>settings</md-icon>
                 <span class="md-list-item-text">Setting</span>
               </md-list-item>
-                 <md-divider></md-divider>
-                <md-list-item to="/" >
+              <md-divider></md-divider>
+              <md-list-item to="/">
                 <md-icon>exit_to_app</md-icon>
                 <span class="md-list-item-text">Logout</span>
               </md-list-item>
-                 <md-divider></md-divider>
-
+              <md-divider></md-divider>
+  
             </md-list>
           </md-drawer>
   
           <md-drawer class="md-right" :md-active.sync="showSidepanel">
             <md-toolbar class="md-transparent" md-elevation="0">
-            
+  
               <md-icon class="md-size-1x" style="position: absolute;
-         left: 20px;">account_circle</md-icon>
+           left: 20px;">account_circle</md-icon>
               <span style="position:absolute;left:43px;" class="md-title">Profile</span>
-
+  
             </md-toolbar>
   
             <md-list>
               <md-avatar style="    min-width: 128px;
-        min-height: 128px;" class="md-large">
+          min-height: 128px;" class="md-large">
                 <img v-show="pic_path" :src="pic_path" alt="People">
-                 <img v-show="!pic_path" src="https://www.ankarsrum.com/wp-content/uploads/2018/01/no-image-icon-.png" alt="People">
-                
-                  <!-- <img v-show="!pic_path" src="https://www.talokla.com/wp-content/uploads/2018/04/single-lady01.jpg" alt="People"> -->
+                <img v-show="!pic_path" src="https://www.ankarsrum.com/wp-content/uploads/2018/01/no-image-icon-.png" alt="People">
+  
+                <!-- <img v-show="!pic_path" src="https://www.talokla.com/wp-content/uploads/2018/04/single-lady01.jpg" alt="People"> -->
               </md-avatar>
   
               <div class="md-list-item-content md-ripple md-disabled" style="margin-top:20px">
                 <md-icon style="margin-right: 16px;" class="md-primary">chat_bubble</md-icon>
                 <span style="white-space: inherit;" class="md-list-item-text">{{name}}</span>
               </div>
-
-               <md-list-item>
+  
+              <md-list-item>
                 <md-icon style="margin-right: 15px !important;" class="md-primary">build</md-icon>
                 <div class="md-list-item-text">
                   <span>{{role}}</span>
@@ -159,8 +159,8 @@
 <script>
   import Login from "./components/login";
   if (localStorage.Datauser) {
-  var Datauser = JSON.parse(localStorage.Datauser)
-}
+    var Datauser = JSON.parse(localStorage.Datauser)
+  }
   export default {
     name: "app",
     components: {
@@ -170,14 +170,14 @@
       menuVisible: false,
       showSidepanel: false,
       showNavigation: false,
-      name:'',
-      topicmenu:'หน้าหลัก',
-      role:'',
-      branchname:'',
-      pic_path:'',
-      icon:'',
-      sale_code:'',
-      company_name:'',
+      name: '',
+      topicmenu: 'หน้าหลัก',
+      role: '',
+      branchname: '',
+      pic_path: '',
+      icon: '',
+      sale_code: '',
+      company_name: '',
       selectedEmployee: null,
       employees: [
         'Jim Halpert',
@@ -196,94 +196,105 @@
         'Phyllis Lapin-Vance'
       ]
     }),
-    created (){
+    created() {
       this.changetopicmenu()
     },
-    watch:{
+    watch: {
       $route: 'changetopicmenu'
     },
     methods: {
-      changetopicmenu(){
+      changetopicmenu() {
         //  alert(this.$route.fullPath.search("quotation"))
-        if(this.$route.fullPath.search("quotation") == 1){
+        if (this.$route.fullPath.search("quotation") == 1) {
           this.topicmenucolor = 'green'
           this.topicmenu = 'ใบเสนอราคา'
-           this.icon = 'bookmark'
+          this.icon = 'bookmark'
         }
-        if(this.$route.fullPath.search("newquotation") == 1){
+        if (this.$route.fullPath.search("newquotation") == 1) {
           this.topicmenucolor = 'green'
           this.topicmenu = 'สร้าง ใบเสนอราคา'
-           this.icon = 'bookmark'
+          this.icon = 'bookmark'
         }
-         if(this.$route.fullPath.search("index") == 1){
-           this.topicmenucolor = '#448aff'
+        if (this.$route.fullPath.search("index") == 1) {
+          this.topicmenucolor = '#448aff'
           this.topicmenu = 'หน้าหลัก'
           this.icon = 'bookmarks'
         }
-        if(this.$route.fullPath.search("setting") == 1){
+        if (this.$route.fullPath.search("setting") == 1) {
           this.topicmenucolor = '#ff9100'
           this.topicmenu = 'Setting'
-             this.icon = 'build'
-         }
-
-          if(this.$route.fullPath.search("newsale") == 1){
+          this.icon = 'build'
+        }
+  
+        if (this.$route.fullPath.search("newsale") == 1) {
           this.topicmenucolor = '#795548'
           this.topicmenu = 'สร้าง ใบสั่งขาย'
           this.icon = 'bookmark_border'
-         }
+        }
       },
       toggleMenu() {
         this.menuVisible = !this.menuVisible;
       },
       goindex(val) {
         // localStorage.iddocno = 0
-          this.showNavigation = false
-
-        if(val == '/sale'){
-         this.$router.push({ name : 'newsale',params : { id: 0}})
-         return
-        }
-       
-        if(val == '/quotation'){
-          // this.topicmenu = 'ใบเสนอราคา'
-          this.$router.push({ name : 'newquo',params : { id: 0}})
+        this.showNavigation = false
+  
+        if (val == '/sale') {
+          this.$router.push({
+            name: 'newsale',
+            params: {
+              id: 0
+            }
+          })
           return
         }
-       
+  
+        if (val == '/quotation') {
+          // this.topicmenu = 'ใบเสนอราคา'
+          this.$router.push({
+            name: 'newquo',
+            params: {
+              id: 0
+            }
+          })
+          return
+        }
+  
         this.$router.push(val);
       },
-        username () {
-  		 	// console.log(localStor/age.Datauser)
-           var Datauser = JSON.parse(localStorage.Datauser)
-           this.name = Datauser.username
-           this.role = Datauser.rolename
-           this.branchname = Datauser.branch_name
-           this.pic_path = Datauser.pic_path
-           this.sale_code = Datauser.sale_code
-           this.company_name = Datauser.company_name
-          //  console.log(this.branchname)
+      username() {
+        // console.log(localStor/age.Datauser)
+        var Datauser = JSON.parse(localStorage.Datauser)
+        this.name = Datauser.username
+        this.role = Datauser.rolename
+        this.branchname = Datauser.branch_name
+        this.pic_path = Datauser.pic_path
+        this.sale_code = Datauser.sale_code
+        this.company_name = Datauser.company_name
+        //  console.log(this.branchname)
         // localStorage.rolename = Datauser.rolename
-  	}
+      }
     },
     mounted() {
- 
-    setInterval(function () {
-  		this.username()
-    }.bind(this),1000)
-
+  
+      setInterval(function() {
+        this.username()
+      }.bind(this), 1000)
+  
     }
   };
 </script>
 
 <style lang="scss" scoped>
-.search {
+  .search {
     max-width: 500px;
   }
-.md-avatar img {
-      width: 108%;
+  
+  .md-avatar img {
+    width: 108%;
     height: 108%;
-}
-
+  }
+  
   span,
   label,
   input,
@@ -320,10 +331,11 @@
 </style>
 
 <style>
-.md-content {
-      height: calc(100vh - 50px);
-      overflow: auto;
-    }
+  .md-content {
+    height: calc(100vh - 50px);
+    overflow: auto;
+  }
+  
   .container {
     background-color: white;
     box-shadow: 0 15px 35px rgba(50, 50, 93, 0.03), 0 5px 15px rgba(0, 0, 0, 0.06);
@@ -338,7 +350,9 @@
   .md-table-cell-container,
   p,
   strong,
-  .md-button-content,tr td,tr th {
+  .md-button-content,
+  tr td,
+  tr th {
     font-family: "Kanit", sans-serif !important;
   }
   

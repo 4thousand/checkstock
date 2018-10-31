@@ -1,7 +1,15 @@
 
+table#searchitem{
+  width: 40%;
+    position: relative;
+    left: 28px;
+    border: 1px solid #dee2e6;
+}
+
 #none .md-elevation-0 .md-theme-default{
   display: none !important;
 }
+
 .md-tooltip-top:nth-child(1){ top:390px !important;}
 .md-table-cell-container{
   padding: 6px 5px !important;
