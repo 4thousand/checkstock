@@ -166,7 +166,7 @@
                                     </span>
                   </div>
   
-                  <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:right;">
+                  <div class="md-layout-item md-size-10 md-xsmall-size-100 res_mobile" style="text-align:right;">
   
                     <span class="md-title subnotop">
                                       {{ convertmoney(totalprice) }}
@@ -176,7 +176,7 @@
                   </div>
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:center;">
   
-                    <span class="md-title subnotop" style="left:10px">
+                    <span class="md-title subnotop " style="left:10px">
                                       บาท 
                                     </span>
   
@@ -740,13 +740,14 @@
       <div>
         <md-dialog :md-active.sync="showDialogproduct">
           <md-dialog-title>ค้นหาสินค้า</md-dialog-title>
-            
+
+<!--             
              <md-dialog-title style="padding-left:25px;padding-top:0;padding-right:0;" v-if="hovershow_stock == true">คลังสินค้า {{ namestock }}</md-dialog-title>
               <div v-if="hovershow_stock == true"  class="table-responsive" style="overflow-y: auto;">
                 <table id="searchitem" class="table table-hover">
                   <thead align="center">
                     <tr>
-                      <!--<th style=''>client_id</th>-->
+                    
                       <th style="white-space: nowrap;padding: 0rem;">คลัง</th>
                          <td style="white-space: nowrap;padding: 0rem;">ชั้นเก็บ</td>
                       <td style="white-space: nowrap;padding: 0rem;">จำนวน</td>
@@ -760,7 +761,7 @@
                     </tr>
                   </tbody>
                 </table>
-              </div>
+              </div> -->
 
           <md-tabs id="none" md-dynamic-height>
             <md-tab md-label="">
@@ -793,7 +794,7 @@
                     </tr>
                     <tr >
                       <td  colspan="10" >
-                       <div :class="'hover'+index" style="text-align:right;display:none;height:0;transition:all 0.5s;"  v-for="(value,index2) in stockall" >
+                       <div :class="'hover'+index" style="text-align:right;visibility:hidden;height:0;transition:all 0.5s cubic-bezier(0.47, 0.46, 0, 1.02) 0s;"  v-for="(value,index2) in stockall" >
                        คลังสินค้า : {{val.stk_location[index2].wh_code}} ชั้นเก็บ : {{val.stk_location[index2].shelf_code}} จำนวน : {{val.stk_location[index2].qty}} <br>
                       </div></td>
                     </tr>

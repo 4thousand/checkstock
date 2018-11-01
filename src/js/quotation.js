@@ -92,7 +92,6 @@ export default {
     searchunitcode_m:false,
     unitcode_obj:[],
     thisunticode:[],
-    hovershow_stock:false,
     stockobj:[],
     namestock:'',
     stockall:[]
@@ -506,7 +505,6 @@ export default {
           console.log(result.data)
           console.log(result.data.length)
           this.showDialogproduct = true
-          this.hovershow_stock = false
           
           this.dataproductDialog = result.data
           this.stockall = result.data[0].stk_location
@@ -836,16 +834,16 @@ export default {
  
       console.log(index)
       // console.log(this.stockall.length)
-      // for (let i = 0; i < this.dataproductDialog.length ; i++) {
+      // for (let i = 0; i < this.stockall.length ; i++) {
       //   if(index != i){
       //     console.log(index+':'+i)
-      //   document.getElementsByClassName('hover'+index)[i].style.display = 'none';
-      //   document.getElementsByClassName('hover'+index)[i].style.height = '0px';
+      //   document.getElementsByClassName('hover'+i)[i].style.display = 'none';
+      //   document.getElementsByClassName('hover'+i)[i].style.height = '0px';
       //  }
       // }
 
       for (let i = 0; i < this.stockall.length; i++) {
-        document.getElementsByClassName('hover'+index)[i].style.display = 'block';
+        document.getElementsByClassName('hover'+index)[i].style.visibility = 'visible';
         document.getElementsByClassName('hover'+index)[i].style.height = '20px';
       }
       return
@@ -853,7 +851,6 @@ export default {
     
     this.namestock = ''
     this.stockobj = []
-    this.hovershow_stock = true
     console.log(val.item_code)
     var payload = {
       item_code : val.item_code
