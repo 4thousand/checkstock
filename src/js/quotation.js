@@ -834,7 +834,7 @@ export default {
   },
   findstock(val,index){
  
-      // alert(!index)
+      console.log(index)
       // console.log(this.stockall.length)
       // for (let i = 0; i < this.dataproductDialog.length ; i++) {
       //   if(index != i){
