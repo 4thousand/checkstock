@@ -497,10 +497,10 @@ export default {
       }
       
       let payload = {
-        item_code: this.keywordproduct
+        keyword: this.keywordproduct
       }
       console.log(payload)
-      api.searchunitcode(payload,
+      api.searchbykeyword(payload,
         (result) => {
           console.log(result.data)
           console.log(result.data.length)
