@@ -8,7 +8,7 @@ import sale from '@/components/quotation/quotation'
 import setting from '@/components/setting'
 import newquo from '@/components/quotation/newquo'
 import newsale from '@/components/sale/newsale'
-import test from '@/components/quotation/test'
+import deposit from '@/components/deposit/deposit'
 
 Vue.use(Router)
 
@@ -55,9 +55,9 @@ export default new Router({
       component: newsale
     },
     {
-      path: '/test',
-      name: 'test',
-      component: test
+      path: '/deposit',
+      name: 'deposit',
+      component: deposit
     },
   ]
 })

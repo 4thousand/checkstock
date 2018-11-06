@@ -45,6 +45,12 @@
                 <md-icon>send</md-icon>
                 <span class="md-list-item-text">ใบสั่งขาย</span>
               </md-list-item>
+              <!-- ใบมัดจำ -->
+               <md-list-item @click="goindex('/deposit')">
+                <md-icon>assignment</md-icon>
+                <span class="md-list-item-text">ใบมัดจำ</span>
+              </md-list-item>
+              <!-- ใบมัดจำ -->
   
               <md-list-item>
                 <md-icon>delete</md-icon>
@@ -238,6 +244,11 @@
       goindex(val) {
         // localStorage.iddocno = 0
           this.showNavigation = false
+
+        if(val == '/deposit'){
+         this.$router.push({ name : 'deposit',params : { id: 0}})
+         return
+        }
 
         if(val == '/sale'){
          this.$router.push({ name : 'newsale',params : { id: 0}})
