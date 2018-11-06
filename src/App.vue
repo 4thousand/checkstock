@@ -48,7 +48,7 @@
               <!-- ใบมัดจำ -->
                <md-list-item @click="goindex('/deposit')">
                 <md-icon>assignment</md-icon>
-                <span class="md-list-item-text">ใบมัดจำ</span>
+                <span class="md-list-item-text">ใบรับเงินมัดจำ</span>
               </md-list-item>
               <!-- ใบมัดจำ -->
   
@@ -238,7 +238,7 @@ export default {
       }
       if (this.$route.fullPath.search("deposit") == 1) {
         this.topicmenucolor = "#f4c20d";
-        this.topicmenu = "ใบเงินมัดจำ";
+        this.topicmenu = "ใบรับเงินมัดจำ";
         this.icon = "assignment";
       }
     },

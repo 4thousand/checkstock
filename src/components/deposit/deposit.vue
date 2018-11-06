@@ -25,7 +25,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4">เลขที่ใบเงินมัดจำ:</p>
                                         <div class="col-7">
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control" v-model="serialNo">
                                         </div>
                                     </div>
                                 </div>
@@ -33,7 +33,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4">เลขที่ใบกำกับภาษี:</p>
                                         <div class="col-7">
-                                            <input type="number" class="form-control">
+                                            <input type="number" v-model="taxNo" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -55,7 +55,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4">รหัสลูกค้า:</p>
                                         <div class="col-7">
-                                            <input type="text" class="form-control">
+                                            <input type="text" v-model="customerID" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -65,7 +65,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4">วันที่ออกเอกสาร:</p>
                                         <div class="col-7">
-                                            <input type="date" v-model="date" @change="checkdate" class="form-control">
+                                            <input type="date" v-model="documentDate" @change="checkdate" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -73,7 +73,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4">วันที่ใบกำกับภาษี:</p>
                                         <div class="col-7">
-                                            <input type="date" v-model="date" @change="checkdate" class="form-control">
+                                            <input type="date" v-model="taxApplyDate" @change="checkdate" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -83,7 +83,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4">เลขที่ใบจอง:</p>
                                         <div class="col-7">
-                                            <input type="text" class="form-control">
+                                            <input type="text" v-model="subNo" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -91,7 +91,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4">รหัสพนักงานขาย:</p>
                                         <div class="col-7">
-                                            <input type="text" class="form-control">
+                                            <input type="text" v-model="billerNo" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4">แผนก:</p>
                                         <div class="col-7">
-                                            <input class="form-control">
+                                            <input v-model="department" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -127,11 +127,11 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <p class="tax-head" v-if="feeType=='0'||feeType==''">จำนวนเงินก่อนภาษี {{ convertToBaht(valueBTax) }} บาท</p>
-                                        <p class="tax-head" v-if="feeType=='1'">จำนวนเงินก่อนภาษี11 {{ convertToBaht(priceNonTaxCOM) }} บาท</p>
-                                        <p class="tax-head" v-if="feeType=='2'">จำนวนเงินก่อนภาษี22 {{ convertToBaht(priceNonTaxCOM) }} บาท</p>
+                                        <p class="tax-head" v-if="feeType=='0'||feeType==''">จำนวนเงินก่อนภาษี: {{ convertToBaht(valueBTax) }} บาท</p>
+                                        <p class="tax-head" v-if="feeType=='1'">จำนวนเงินก่อนภาษี: {{ convertToBaht(priceNonTaxCOM) }} บาท</p>
+                                        <p class="tax-head" v-if="feeType=='2'">จำนวนเงินก่อนภาษี: {{ convertToBaht(priceNonTaxCOM) }} บาท</p>
                                         <input v-if="feeType==''" :disabled="feeType == ''" type="number" class="form-control tax-head" v-model.number="valueBTax">
-                                        <input v-if="feeType=='0'" type="number" class="form-control tax-head" v-model.number="priceNonTaxCOM">
+                                        <input v-if="feeType=='0'" type="number" class="form-control tax-head" v-model.number="valueBTax">
                                         <input v-if="feeType=='1'" :disabled="feeType == '1'" type="number" class="form-control tax-head" v-model.number="priceNonTaxCOM">
                                         <input v-if="feeType=='2'" :disabled="feeType == '2'" type="number" class="form-control tax-head" v-model.number="priceNonTaxCOM">
                                         <!-- <button @click="calltestapi" class="btn btn-primary" >คำนวณ</button> -->
@@ -141,16 +141,16 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <p class="tax-head">ภาษีมูลค่าเพิ่ม {{ convertToBaht(externalVAT) }} บาท</p>
+                                        <p class="tax-head" v-if="feeType==''||feeType=='0'">ภาษีมูลค่าเพิ่ม: {{ convertToBaht(externalVAT) }} บาท</p>
+                                        <p class="tax-head" v-if="feeType=='1'||feeType=='2'">ภาษีมูลค่าเพิ่ม: {{ convertToBaht(internalVAT) }} บาท</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <p class="tax-summary" v-if="feeType==''||feeType=='2'">มูลค่ารวมภาษี {{ convertToBaht(includeVAT) }} บาท</p>
-                                        <p class="tax-summary" v-if="feeType=='0'">มูลค่ารวมภาษี11 {{ convertToBaht(priceWithTaxCOM) }} บาท</p>
-                                        <p class="tax-summary" v-if="feeType=='1'">มูลค่ารวมภาษี11 {{ convertToBaht(includeVAT) }} บาท</p>
+                                        <p class="tax-summary" v-if="feeType==''||feeType=='1'||feeType=='2'">มูลค่ารวมภาษี {{ convertToBaht(includeVAT) }} บาท</p>
+                                        <p class="tax-summary" v-if="feeType=='0'">มูลค่ารวมภาษี {{ convertToBaht(includeVAT) }} บาท</p>
                                         <input v-if="feeType==''" :disabled="feeType == ''" type="number" class="form-control tax-head" v-model.number="includeVAT">
                                         <input v-if="feeType=='0'" :disabled="feeType == '0'" type="number" class="form-control tax-head" v-model.number="priceWithTaxCOM">
                                         <input v-if="feeType=='1'" type="number" class="form-control tax-head" v-model.number="includeVAT">
@@ -169,7 +169,7 @@
                             ชื่อ {{username}} บริษัท {{company}}
                             </div> -->
                             <div class="tax-bottom-part tax-head">
-                                <button :disabled="feeType==''" class="btn btn-primary"><span>บันทึก</span></button>
+                                <button :disabled="feeType==''" data-toggle="modal" data-target="#saveModal" class="btn btn-primary"><span>บันทึก</span></button>
                             </div>
                         </div>
                     </div>
@@ -218,6 +218,35 @@
                     
                     </div>
                 </div>
+                <div class="modal fade" id="saveModal">
+                    <div class="modal-dialog modal-lg">
+    
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title"><span>บันทึกข้อมูลเลขที่ใบมัดจำ</span></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="table-responsive">          
+                                    <div class="text-danger">
+                                        <span>เซฟข้อมูลแล้วไม่สามารถแก้ไขข้อมูลเก่าได้</span>
+                                    </div>
+                                    <div class="text-danger">
+                                        <span>
+                                            แน่ใจว่าจะเซฟ?
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addDeposit"><span>Save</span></button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><span>Close</span></button>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -229,13 +258,21 @@ import api from "../../service/service.js";
 export default {
   data() {
     return {
+      serialNo: "",
+      taxNo: "",
+      customerID: "",
+      documentDate: "",
+      taxApplyDate: "",
+      subNo: "",
+      billerNo: "",
+      department: "",
       taxrate: 0.0,
       valueBTax: 0.0,
       includeVAT: 0.0,
       balance: 0,
       click: false,
-      username: "",
-      company: "",
+      //   username: "",
+      //   company: "",
       date: "",
       depositSerial: [
         {
@@ -269,7 +306,8 @@ export default {
           subNo: "ASE215"
         }
       ],
-      feeType: ""
+      feeType: "",
+      nextTodoId: 4
     };
   },
   methods: {
@@ -309,6 +347,46 @@ export default {
     },
     selectDeposit(e) {
       alert(this.depositSerial[e - 1].serialNo);
+    },
+    addDeposit() {
+      if (this.feeType == 0) {
+        this.depositSerial.push({
+          id: this.nextTodoId++,
+          serialNo: this.serialNo,
+          taxNo: this.taxNo,
+          feeType: this.feeType,
+          customerID: this.customerID,
+          documentDate: this.documentDate,
+          taxApplyDate: this.taxApplyDate,
+          subNo: this.subNo,
+          billerNo: this.billerNo,
+          department: this.department,
+          taxrate: this.taxrate,
+          valueBTax: this.valueBTax,
+          includeVAT: this.priceWithTaxCOM,
+          VAT: this.externalVAT,
+          balance: 0
+        });
+      }
+      if (this.feeType == 1||this.feeType == 2) {
+        this.depositSerial.push({
+          id: this.nextTodoId++,
+          serialNo: this.serialNo,
+          taxNo: this.taxNo,
+          feeType: this.feeType,
+          customerID: this.customerID,
+          documentDate: this.documentDate,
+          taxApplyDate: this.taxApplyDate,
+          subNo: this.subNo,
+          billerNo: this.billerNo,
+          department: this.department,
+          taxrate: this.taxrate,
+          valueBTax: this.priceNonTaxCOM,
+          includeVAT: this.includeVAT,
+          VAT: this.internalVAT,
+          balance: 0
+        });
+      };
     }
   },
   computed: {
@@ -321,13 +399,10 @@ export default {
     },
     //ภาษีรวมใน
     internalVAT() {
-      return this.includeVAT - this.valueBTaxCOM;
+      return this.includeVAT - this.priceNonTaxCOM;
     },
     priceNonTaxCOM() {
       return this.includeVAT - this.includeVAT * (this.taxrate / 100);
-    },
-    zeroTaxFee() {
-      return this.includeVAT;
     }
   }
 };
@@ -354,7 +429,7 @@ select {
 .deposit-header {
   margin-bottom: 5%;
   background-color: #448aff;
-  color: aliceblue;
+  color: #fff;
   text-align: left;
   font-size: 24px;
 }
@@ -364,7 +439,7 @@ select {
 .tax-header {
   margin-bottom: 2.5%;
   background-color: #448aff;
-  color: aliceblue;
+  color: #fff;
   text-align: right;
   font-size: 24px;
 }
@@ -397,9 +472,11 @@ select {
   cursor: pointer;
 }
 .search-icon {
-  color: aliceblue !important;
+  color: #fff !important;
 }
-/* .md-icon-font {
-  color: aliceblue !important;
-} */
+.text-danger {
+  text-align: center;
+  font-size: 24px;
+  margin: 12px;
+}
 </style>
