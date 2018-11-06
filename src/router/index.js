@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import salesorder from '@/components/salesorder'
 import index from '@/components/index'
 import login from '@/components/login'
 import quotation from '@/components/quotation/quotation'
@@ -9,16 +8,13 @@ import setting from '@/components/setting'
 import newquo from '@/components/quotation/newquo'
 import newsale from '@/components/sale/newsale'
 import test from '@/components/quotation/test'
+import saleorder from '@/components/saleorder/saleorder'
+import newsaleorder from '@/components/saleorder/newsaleorder'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
-      path: '/salesorder',
-      name: 'salesorder',
-      component: salesorder
-    },
     {
       path: '/index',
       name: 'index',
@@ -45,6 +41,11 @@ export default new Router({
       component: sale
     },//newquotation
     {
+      path: '/saleorder/:id',
+      name: 'saleorder',
+      component: saleorder
+    },//newquotation
+    {
       path: '/newquotation/:id',
       name: 'newquo',
       component: newquo
@@ -55,9 +56,14 @@ export default new Router({
       component: newsale
     },
     {
+      path: '/newsaleorder/:id',
+      name: 'newsaleorder',
+      component: newsaleorder
+    },
+    {
       path: '/test',
       name: 'test',
       component: test
-    },
+    }
   ]
 })
