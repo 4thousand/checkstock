@@ -13,8 +13,8 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4">ค้นหา:</p>
                                         <div class="col-7  text-left" data-toggle="modal" data-target="#searchModal">
-                                            <button class="btn btn-primary icon-margin">
-                                                <md-icon>search</md-icon>
+                                            <button class="btn btn-primary icon-margin search-icon">
+                                                <md-icon class="search-icon">search</md-icon>
                                             </button>
                                         </div>
                                     </div>
@@ -43,10 +43,10 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4">ประเภทภาษี:</p>
                                         <div class="col-7">
-                                            <select class="form-control">
-                                                <option value="1">ภาษีแยกนอก</option>
-                                                <option value="2">ภาษีรวมใน</option>
-                                                <option value="3">ภาษีอัตราศูนย์</option>
+                                            <select @change="calFee" v-model="feeType" class="form-control">
+                                                <option value="0">ภาษีแยกนอก</option>
+                                                <option value="1">ภาษีรวมใน</option>
+                                                <option value="2">ภาษีอัตราศูนย์</option>
                                             </select>
                                         </div>
                                     </div>
@@ -81,26 +81,6 @@
                             <div class="row">
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">ชื่อในการออกบิล:</p>
-                                        <div class="col-7">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group row">
-                                        <p class="article-set col-4">ที่อยู่ในการออกบิล:</p>
-                                        <div class="col-7">
-                                            <textarea class="form-control" rows="2"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group row">
                                         <p class="article-set col-4">เลขที่ใบจอง:</p>
                                         <div class="col-7">
                                             <input type="text" class="form-control">
@@ -125,14 +105,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group row">
-                                        <p class="article-set col-4">วันที่ส่งของ:</p>
-                                        <div class="col-7">
-                                            <input type="date" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -147,7 +119,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <p class="tax-head">อัตราภาษีมูลค่าเพิ่ม: {{taxrate}} %
-                                        <!-- <input type="number" class="form-control tax-head" v-model="taxrate"> -->
+                                        <input :disabled="feeType==''||feeType=='2'" type="number" class="form-control tax-head" v-model="taxrate">
                                         </p>
                                     </div>
                                 </div>
@@ -155,8 +127,13 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <p class="tax-head">จำนวนเงินก่อนภาษี {{ convertToBaht(valueBTax) }} บาท</p>
-                                        <!-- <input type="number" class="form-control tax-head" v-model.number="valueBTax"> -->
+                                        <p class="tax-head" v-if="feeType=='0'||feeType==''">จำนวนเงินก่อนภาษี {{ convertToBaht(valueBTax) }} บาท</p>
+                                        <p class="tax-head" v-if="feeType=='1'">จำนวนเงินก่อนภาษี11 {{ convertToBaht(priceNonTaxCOM) }} บาท</p>
+                                        <p class="tax-head" v-if="feeType=='2'">จำนวนเงินก่อนภาษี22 {{ convertToBaht(priceNonTaxCOM) }} บาท</p>
+                                        <input v-if="feeType==''" :disabled="feeType == ''" type="number" class="form-control tax-head" v-model.number="valueBTax">
+                                        <input v-if="feeType=='0'" type="number" class="form-control tax-head" v-model.number="priceNonTaxCOM">
+                                        <input v-if="feeType=='1'" :disabled="feeType == '1'" type="number" class="form-control tax-head" v-model.number="priceNonTaxCOM">
+                                        <input v-if="feeType=='2'" :disabled="feeType == '2'" type="number" class="form-control tax-head" v-model.number="priceNonTaxCOM">
                                         <!-- <button @click="calltestapi" class="btn btn-primary" >คำนวณ</button> -->
                                     </div>
                                 </div>
@@ -164,14 +141,20 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <p class="tax-head">ภาษีมูลค่าเพิ่ม {{ convertToBaht(VAT) }} บาท</p>
+                                        <p class="tax-head">ภาษีมูลค่าเพิ่ม {{ convertToBaht(externalVAT) }} บาท</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <p class="tax-summary">มูลค่ารวมภาษี {{ convertToBaht(includeVAT) }} บาท</p>
+                                        <p class="tax-summary" v-if="feeType==''||feeType=='2'">มูลค่ารวมภาษี {{ convertToBaht(includeVAT) }} บาท</p>
+                                        <p class="tax-summary" v-if="feeType=='0'">มูลค่ารวมภาษี11 {{ convertToBaht(priceWithTaxCOM) }} บาท</p>
+                                        <p class="tax-summary" v-if="feeType=='1'">มูลค่ารวมภาษี11 {{ convertToBaht(includeVAT) }} บาท</p>
+                                        <input v-if="feeType==''" :disabled="feeType == ''" type="number" class="form-control tax-head" v-model.number="includeVAT">
+                                        <input v-if="feeType=='0'" :disabled="feeType == '0'" type="number" class="form-control tax-head" v-model.number="priceWithTaxCOM">
+                                        <input v-if="feeType=='1'" type="number" class="form-control tax-head" v-model.number="includeVAT">
+                                        <input v-if="feeType=='2'" type="number" class="form-control tax-head" v-model.number="includeVAT">
                                     </div>
                                 </div>
                             </div>
@@ -186,7 +169,7 @@
                             ชื่อ {{username}} บริษัท {{company}}
                             </div> -->
                             <div class="tax-bottom-part tax-head">
-                                <button class="btn btn-primary"><span>บันทึก</span></button>
+                                <button :disabled="feeType==''" class="btn btn-primary"><span>บันทึก</span></button>
                             </div>
                         </div>
                     </div>
@@ -197,7 +180,7 @@
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">ค้นหาเลขที่ใบมัดจำ</h4>
+                                <h4 class="modal-title"><span>ค้นหาเลขที่ใบมัดจำ</span></h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
@@ -229,7 +212,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal"><span>Close</span></button>
                             </div>
                         </div>
                     
@@ -246,8 +229,9 @@ import api from "../../service/service.js";
 export default {
   data() {
     return {
-      taxrate: 7.0,
-      valueBTax: 100.0,
+      taxrate: 0.0,
+      valueBTax: 0.0,
+      includeVAT: 0.0,
       balance: 0,
       click: false,
       username: "",
@@ -284,10 +268,21 @@ export default {
           billerName: "Ariya Indhabhandhu",
           subNo: "ASE215"
         }
-      ]
+      ],
+      feeType: ""
     };
   },
   methods: {
+    calFee() {
+      //alert(this.feeType);
+      if (this.feeType == "0") {
+      }
+      if (this.feeType == "1") {
+      }
+      if (this.feeType == "2") {
+        this.taxrate = 0;
+      }
+    },
     checkdate() {
       alert(this.date);
     },
@@ -313,15 +308,26 @@ export default {
       );
     },
     selectDeposit(e) {
-      alert(this.depositSerial[e-1].serialNo);
+      alert(this.depositSerial[e - 1].serialNo);
     }
   },
   computed: {
-    VAT() {
+    //ภาษีแยกนอก
+    externalVAT() {
       return this.valueBTax * (this.taxrate / 100);
     },
-    includeVAT() {
-      return this.valueBTax + this.VAT;
+    priceWithTaxCOM() {
+      return this.valueBTax + this.externalVAT;
+    },
+    //ภาษีรวมใน
+    internalVAT() {
+      return this.includeVAT - this.valueBTaxCOM;
+    },
+    priceNonTaxCOM() {
+      return this.includeVAT - this.includeVAT * (this.taxrate / 100);
+    },
+    zeroTaxFee() {
+      return this.includeVAT;
     }
   }
 };
@@ -329,13 +335,17 @@ export default {
 
 <style>
 span,
-  label,
-  input,
-  h1,p {
-    font-family: "Kanit", sans-serif !important;
-  }
+label,
+BToAinput,
+h1,
+p,
+option,
+select {
+  font-family: "Kanit", sans-serif !important;
+}
 .big-margin {
-  margin-top: 4%;
+  margin-top: 1%;
+  margin-bottom: 1%;
 }
 .deposit-border {
   border-color: #448aff;
@@ -384,12 +394,12 @@ span,
   padding: 0% 4%;
 }
 .table-pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
-.search-icon{
-    color: aliceblue;
+.search-icon {
+  color: aliceblue !important;
 }
-.md-icon-font{
-    color: aliceblue !important;
-}
+/* .md-icon-font {
+  color: aliceblue !important;
+} */
 </style>
