@@ -104,7 +104,11 @@ const toLower = text => {
       groupdoc_exchange:'',
       groupdoc_vatrate:'',
       groupdoc_moneytotal:'',
-      groupdoc_delivery:''
+      groupdoc_delivery:'',
+      stock_obj:[],
+      stock_index:'',
+      cart_item_code:[]
+
     }),
     methods: {
       searchstorecode(val){
@@ -118,7 +122,9 @@ const toLower = text => {
         api.searchunitcode(payload,
           (result) => {
             console.log(JSON.stringify(result.data))
-            this.unitcode_obj = result.data
+            this.stock_index = this.findWithAttr(this.dproducts, 'item_code', val.item_code)
+            console.log(this.stock_index)
+            this.stock_obj = result.data[0].stk_location
              this.searchwarehousecode_m = true
           },
           (error) => {
@@ -149,6 +155,7 @@ const toLower = text => {
         console.log(JSON.stringify(val))
         this.searchunitcode_m = false
         var index = this.findWithAttr(this.dproducts, 'item_name', val.item_name)
+        console.log(index)
             if(this.billtype == 0){//สด  
               this.dproducts[index].unit_code = val.unit_code
               this.dproducts[index].price = val.sale_price_1
@@ -166,20 +173,12 @@ const toLower = text => {
       selectwarehousecode(val){
         console.log(JSON.stringify(val))
         this.searchwarehousecode_m = false
-        var index = this.findWithAttr(this.dproducts, 'item_name', val.item_name)
-            if(this.billtype == 0){//สด  
-              this.dproducts[index].unit_code = val.unit_code
-              this.dproducts[index].price = val.sale_price_1
-              this.dproducts[index].packing_rate_1 = val.rate_1
-              this.dproducts[index].item_amount = (this.dproducts[index].price * this.dproducts[index].qty)-this.dproducts[index].discount_word
-            }
-            if(this.billtype == 1){//เชื่อ
-              this.dproducts[index].unit_code = val.unit_code
-              this.dproducts[index].price = val.sale_price_2
-              this.dproducts[index].packing_rate_1 = val.rate_1
-              this.dproducts[index].item_amount = (this.dproducts[index].price * this.dproducts[index].qty)-this.dproducts[index].discount_word
-            }
-       
+
+
+        this.dproducts[this.stock_index].warehouse = val.wh_code+' / '+val.shelf_code
+        this.dproducts[this.stock_index].stocklimit = val.qty
+        console.log(this.dproducts)
+    
       },
        findWithAttr(array, attr, value) {
         for(var i = 0; i < array.length; i += 1) {
@@ -613,6 +612,22 @@ const toLower = text => {
       showdetail(val) {
         console.log("----->"+JSON.stringify(val))
         if (this.billtype == 0) {
+
+          
+            //ตรวจสอบการซ้ำของสินค้า
+            for (var i=0; i < this.cart_item_code.length; i++) {
+                if (this.cart_item_code[i].item_code === val.item_code) {
+                    alert("คุณระบุสินค้าซ้ำ กรุณาตรวจสอบอีกครั้ง "+this.cart_item_code[i].item_code+" / "+val.item_code);
+                    return
+                }
+            }
+        
+        
+
+          this.cart_item_code.push({item_code:val.item_code})
+
+          console.log("*******************"+JSON.stringify(this.cart_item_code))
+
           var datashow = {
             item_id: val.id,
             item_code: val.item_code,
@@ -631,7 +646,7 @@ const toLower = text => {
             item_description: "",
             packing_rate_1: parseInt(val.rate_1),
             is_cancel: 0,
-            warehouse: val.stk_location[0].wh_code
+            warehouse: val.stk_location[0].wh_code+" / "+val.stk_location[0].shelf_code
           }
           this.dproducts.push(datashow)
           //close modal
@@ -656,7 +671,7 @@ const toLower = text => {
             item_description: "",
             packing_rate_1: parseInt(val.rate_1),
             is_cancel: 0,
-            warehouse: val.stk_location[0].wh_code
+            warehouse: val.stk_location[0].wh_code+" / "+val.stk_location[0].shelf_code
           }
           this.dproducts.push(datashow)
           //close modal

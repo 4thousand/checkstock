@@ -1007,11 +1007,11 @@
                     </tr>
                   </thead>
                   <tbody id="valuetable">
-                    <tr v-for="(val,index) in unitcode_obj" @click="selectwarehousecode(val)" style="text-align:center;cursor:pointer">
+                    <tr v-for="(val,index) in stock_obj" @click="selectwarehousecode(val)" style="text-align:center;cursor:pointer">
                       <td>{{index+1}}</td>
-                      <td>{{val.stk_location[index].wh_code}}</td>
-                      <td>{{val.stk_location[index].shelf_code}}</td>
-                      <td>{{val.stk_location[index].qty}}</td>
+                      <td>{{val.wh_code}}</td>
+                      <td>{{val.shelf_code}}</td>
+                      <td>{{val.qty}}</td>
                     </tr>
                   </tbody>
                 </table>
