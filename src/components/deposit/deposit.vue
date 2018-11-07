@@ -171,6 +171,9 @@
                             <div class="tax-bottom-part tax-head">
                                 <button :disabled="feeType==''" data-toggle="modal" data-target="#saveModal" class="btn btn-primary"><span>บันทึก</span></button>
                             </div>
+                            <div class="tax-bottom-part tax-head">
+                                <button data-toggle="modal" data-target="#updateModal" class="btn btn-primary"><span>test</span></button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -213,6 +216,131 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary" data-dismiss="modal"><span>Close</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="updateModal">
+                    <div class="modal-dialog modal-lg">
+    
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title"><span>บันทึกข้อมูลเลขที่ใบมัดจำ</span></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group row">
+                                        <p class="article-set col-4">เลขที่ใบเงินมัดจำ:</p>
+                                        <div class="col-7">
+                                            <input type="text" class="form-control" v-model="serialNo">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group row">
+                                        <p class="article-set col-4">เลขที่ใบกำกับภาษี:</p>
+                                        <div class="col-7">
+                                            <input type="number" v-model="taxNo" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group row">
+                                        <p class="article-set col-4">ประเภทภาษี:</p>
+                                        <div class="col-7">
+                                            <select @change="calFee" v-model="feeType" class="form-control">
+                                                <option value="0">ภาษีแยกนอก</option>
+                                                <option value="1">ภาษีรวมใน</option>
+                                                <option value="2">ภาษีอัตราศูนย์</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group row">
+                                        <p class="article-set col-4">รหัสลูกค้า:</p>
+                                        <div class="col-7">
+                                            <input type="text" v-model="customerID" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group row">
+                                        <p class="article-set col-4">วันที่ออกเอกสาร:</p>
+                                        <div class="col-7">
+                                            <input type="date" v-model="documentDate" @change="checkdate" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group row">
+                                        <p class="article-set col-4">วันที่ใบกำกับภาษี:</p>
+                                        <div class="col-7">
+                                            <input type="date" v-model="taxApplyDate" @change="checkdate" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group row">
+                                        <p class="article-set col-4">เลขที่ใบจอง:</p>
+                                        <div class="col-7">
+                                            <input type="text" v-model="subNo" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group row">
+                                        <p class="article-set col-4">รหัสพนักงานขาย:</p>
+                                        <div class="col-7">
+                                            <input type="text" v-model="billerNo" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group row">
+                                        <p class="article-set col-4">แผนก:</p>
+                                        <div class="col-7">
+                                            <input v-model="department" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group row">
+                                        <p class="article-set col-4">จำนวนเงินก่อนภาษี: {{ convertToBaht(valueBTax) }} บาท</p>
+                                        <div class="col-7">
+                                            <input type="number" class="form-control" v-model.number="valueBTax">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group ">
+                                            <p class="tax-head">จำนวนเงินก่อนภาษี: {{ convertToBaht(valueBTax) }} บาท</p>
+                                            <input type="number" class="form-control tax-head" v-model.number="valueBTax">
+                                            <!-- <button @click="calltestapi" class="btn btn-primary" >คำนวณ</button> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addDeposit"><span>Save</span></button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><span>Cancel</span></button>
                             </div>
                         </div>
                     
@@ -307,7 +435,9 @@ export default {
         }
       ],
       feeType: "",
-      nextTodoId: 4
+      nextTodoId: 4,
+      oldId: "",
+      oldList: ""
     };
   },
   methods: {
@@ -323,6 +453,9 @@ export default {
     },
     checkdate() {
       alert(this.date);
+    },
+    selectDepositList() {
+      this.oldId = this.nextTodoId;
     },
     convertToBaht(val) {
       var result = numeral(val).format("0,0.00");
@@ -365,10 +498,10 @@ export default {
           valueBTax: this.valueBTax,
           includeVAT: this.priceWithTaxCOM,
           VAT: this.externalVAT,
-          balance: 0
+          balance: 0,
         });
       }
-      if (this.feeType == 1||this.feeType == 2) {
+      if (this.feeType == 1 || this.feeType == 2) {
         this.depositSerial.push({
           id: this.nextTodoId++,
           serialNo: this.serialNo,
@@ -386,7 +519,7 @@ export default {
           VAT: this.internalVAT,
           balance: 0
         });
-      };
+      }
     }
   },
   computed: {
