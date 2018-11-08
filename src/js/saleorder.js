@@ -151,6 +151,9 @@ const toLower = text => {
             alertify.error('Data ข้อมูล Unit code ผิดพลาด');
           })
       },
+      checkitem(){
+        console.log(this.dproducts)
+      },
       selectunitcode_step2(val){
         console.log(JSON.stringify(val))
         this.searchunitcode_m = false
@@ -177,7 +180,7 @@ const toLower = text => {
 
         this.dproducts[this.stock_index].warehouse = val.wh_code+' / '+val.shelf_code
         this.dproducts[this.stock_index].stocklimit = val.qty
-        console.log(this.dproducts)
+        console.log(JSON.stringify(this.dproducts))
     
       },
        findWithAttr(array, attr, value) {
@@ -616,17 +619,16 @@ const toLower = text => {
           
             //ตรวจสอบการซ้ำของสินค้า
             for (var i=0; i < this.cart_item_code.length; i++) {
-                if (this.cart_item_code[i].item_code === val.item_code) {
-                    alert("คุณระบุสินค้าซ้ำ กรุณาตรวจสอบอีกครั้ง "+this.cart_item_code[i].item_code+" / "+val.item_code);
+                if (this.cart_item_code[i].bar_code === val.bar_code) {
+                    alert("รหัส Barcode สินค้าซ้ำกับที่ระบุไว้ก่อนแล้ว กรุณาตรวจสอบอีกครั้ง "+this.cart_item_code[i].bar_code+" / "+val.bar_code);
                     return
                 }
             }
+            console.log(this.cart_item_code+' '+val.bar_code)
         
-        
+          this.cart_item_code.push({bar_code:val.bar_code})
 
-          this.cart_item_code.push({item_code:val.item_code})
-
-          console.log("*******************"+JSON.stringify(this.cart_item_code))
+         // console.log("*******************"+JSON.stringify(this.cart_item_code))
 
           var datashow = {
             item_id: val.id,
@@ -683,6 +685,34 @@ const toLower = text => {
         //console.log(datashow)
       },
       calculatedata(val) {
+
+        console.log("**** val *****"+JSON.stringify(val))
+        console.log("**** qty *****"+JSON.stringify(val.qty))
+
+        //ตรวจเช็คจำนวน
+        console.log("**** packing_rate_1 *****"+JSON.stringify(val.packing_rate_1))
+
+        let qty_total = parseInt(val.qty) * parseInt(val.packing_rate_1)
+
+        console.log("**** qty total *****"+qty_total)
+        console.log("**** dproducts *****"+JSON.stringify(this.dproducts))
+
+        let index = this.findWithAttr(this.dproducts, 'item_name', val.item_name)
+
+        console.log("**** stocklimit *****"+JSON.stringify(this.dproducts[index].stocklimit))
+        console.log("**** if "+qty_total+">"+this.dproducts[index].stocklimit)
+        
+        
+        
+        if(qty_total>this.dproducts[index].stocklimit){
+          alert("คุณระบุจำนวนสิ้นค้าเกินกว่าที่คลังมี")
+          this.item.qty = this.dproducts[index].stocklimit //ตรงนี้ต้องแก้ไขครับ โดยส่งค่าสูงสุดที่มีในคลังกลับไป แต่ผมไม่ทราบวิธี คงต้องขอคำแนะนำจากนัดครับ
+          return
+        }
+        
+        
+
+
         val.discount_word = val.discount_word.toString()
         console.log(val.discount_word)
     
@@ -732,6 +762,9 @@ const toLower = text => {
           }
           return
         }
+
+        console.log("**** qty *****"+JSON.stringify(val.qty))
+
       },
       convertmoney(val) {
         // console.log(val)
