@@ -23,7 +23,7 @@
                             <div class="row">
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">เลขที่ใบเงินมัดจำ :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> เลขที่ใบเงินมัดจำ :</p>
                                         <div class="col-7">
                                             <input type="text" class="form-control" v-model="serialNo">
                                         </div>
@@ -31,7 +31,7 @@
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">เลขที่ใบกำกับภาษี :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> เลขที่ใบกำกับภาษี :</p>
                                         <div class="col-7">
                                             <input type="number" v-model="taxNo"  class="form-control">
                                         </div>
@@ -41,7 +41,7 @@
                             <div class="row">
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">ประเภทภาษี :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> ประเภทภาษี :</p>
                                         <div class="col-7">
                                             <select @change="calFee" v-model="feeType" class="form-control">
                                                 <option value="0">ภาษีแยกนอก</option>
@@ -53,7 +53,7 @@
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">รหัสลูกค้า :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> รหัสลูกค้า :</p>
                                         <div class="col-7">
                                             <input type="text" @keyup="searchCustomerIdApi" v-model="customerID" class="form-control">
                                         </div>
@@ -63,7 +63,7 @@
                             <div class="row">
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">ชื่อลูกค้า :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> ชื่อลูกค้า :</p>
                                         <div class="col-7">
                                             <input type="text" @keyup="searchCustomerNameApi" v-model="customerName"  class="form-control">
                                         </div>
@@ -73,17 +73,17 @@
                             <div class="row">
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">วันที่ออกเอกสาร :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> วันที่ออกเอกสาร :</p>
                                         <div class="col-7">
-                                            <input type="date" v-model="documentDate" class="form-control">
+                                            <vue-ctk-date-time-picker locale="th" format="YYYY-MM-DD" v-model="documentDate" disable-time="true"></vue-ctk-date-time-picker>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">วันที่ใบกำกับภาษี :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> วันที่ใบกำกับภาษี :</p>
                                         <div class="col-7">
-                                            <input type="date" v-model="taxApplyDate" class="form-control">
+                                            <vue-ctk-date-time-picker locale='th' format="YYYY-MM-DD" v-model="taxApplyDate" disable-time="true"></vue-ctk-date-time-picker>
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +99,7 @@
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">รหัสพนักงานขาย :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> รหัสพนักงานขาย :</p>
                                         <div class="col-7">
                                             <input type="text" v-model="billerNo"  class="form-control">
                                         </div>
@@ -109,7 +109,7 @@
                             <div class="row">
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">ชื่อพนักงานขาย :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> ชื่อพนักงานขาย :</p>
                                         <div class="col-7">
                                             <input type="text" v-model="billerName"  class="form-control">
                                         </div>
@@ -133,40 +133,40 @@
                                         <p class="article-set col-4">ชำระโดย :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input type="checkbox" v-model="cashPayment">
+                                                <input type="checkbox" v-model="cashPaymentPart">
                                                 : เงินสด
-                                                <input type="checkbox" v-model="creditPayment">
+                                                <input type="checkbox" v-model="creditPaymentPart">
                                                 : บัตรเครดิต/บัตรเดบิต
-                                                <input type="checkbox" v-model="checkPayment">
+                                                <input type="checkbox" v-model="checkPaymentPart">
                                                 : เช็ค
-                                                <input type="checkbox" v-model="transferPayment">
+                                                <input type="checkbox" v-model="transferPaymentPart">
                                                 : เงินโอน
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" v-if="cashPayment==true">
+                            <div class="row" v-if="cashPaymentPart==true">
                                 <hr class="col-10">
                                 <h4 class="payment-sub-header information-part col-3">เงินสด</h4>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">จำนวนเงิน :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> จำนวนเงิน :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input class="form-control" type="number">
+                                                <input class="form-control" type="number" v-model.number="cashPayment">
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" v-if="creditPayment==true">
+                            <div class="row" v-if="creditPaymentPart==true">
                                 <hr class="col-10">
                                 <h4 class="payment-sub-header information-part col-3">บัตรเครดิต/บัตรเดบิต
                                 </h4>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">ชื่อหน้าบัตร :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> ชื่อหน้าบัตร :</p>
                                         <div class="col-7">
                                             <p>
                                                 <input class="form-control">
@@ -176,42 +176,42 @@
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">เลขบัตร :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> เลขบัตร :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input class="form-control" type="number">
+                                                <input class="form-control" v-payment:formatCardNumber>
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">CVV :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> CVV :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input class="form-control" type="number">
+                                                <input class="form-control" v-payment:formatCardCVC>
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">จำนวนเงิน :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> จำนวนเงิน :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input class="form-control" type="number">
+                                                <input class="form-control" type="number" v-model.number="creditPayment">
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" v-if="checkPayment==true">
+                            <div class="row" v-if="checkPaymentPart==true">
                                 <hr class="col-10">
                                 <h4 class="payment-sub-header information-part col-3">เช็ค
                                 </h4>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">ธนาคาร :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> ธนาคาร :</p>
                                         <div class="col-7">
                                             <p>
                                                 <input class="form-control">
@@ -221,7 +221,7 @@
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">สาขา :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> สาขา :</p>
                                         <div class="col-7">
                                             <p>
                                                 <input class="form-control">
@@ -231,7 +231,7 @@
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">เลขที่เช็ค :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> เลขที่เช็ค :</p>
                                         <div class="col-7">
                                             <p>
                                                 <input class="form-control">
@@ -241,32 +241,32 @@
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">ลงวันที่ :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> ลงวันที่ :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input class="form-control">
+                                                <vue-ctk-date-time-picker format="YYYY-MM-DD" locale="th" v-model="checkDate" disable-time="true"></vue-ctk-date-time-picker>
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">จำนวนเงิน :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> จำนวนเงิน :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input class="form-control" type="number">
+                                                <input class="form-control" type="number" v-model.number="checkPayment">
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" v-if="transferPayment==true">
+                            <div class="row" v-if="transferPaymentPart==true">
                                 <hr class="col-10">
                                 <h4 class="payment-sub-header information-part col-3">เงินโอน
                                 </h4>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">ชื่อบัญชีของผู้โอนเงิน :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> ชื่อบัญชีผู้โอนเงิน :</p>
                                         <div class="col-7">
                                             <p>
                                                 <input class="form-control">
@@ -276,7 +276,7 @@
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">เลขที่บัญชีของผู้โอนเงิน :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> เลขที่บัญชีผู้โอนเงิน :</p>
                                         <div class="col-7">
                                             <p>
                                                 <input class="form-control">
@@ -286,7 +286,7 @@
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">ธนาคารของผู้โอนเงิน :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> ธนาคารผู้โอนเงิน :</p>
                                         <div class="col-7">
                                             <p>
                                                 <input class="form-control">
@@ -296,7 +296,7 @@
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">สาขาของผู้โอนเงิน :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> สาขาผู้โอนเงิน :</p>
                                         <div class="col-7">
                                             <p>
                                                 <input class="form-control">
@@ -306,7 +306,7 @@
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">ชื่อบัญชีที่โอนเงิน :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> ชื่อบัญชีที่โอนเงิน :</p>
                                         <div class="col-7">
                                             <p>
                                                 <input class="form-control">
@@ -316,7 +316,7 @@
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">เลขที่บัญชีที่โอนเงิน :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> เลขที่บัญชีที่โอนเงิน :</p>
                                         <div class="col-7">
                                             <p>
                                                 <input class="form-control">
@@ -326,7 +326,7 @@
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">ธนาคารที่โอนเงิน :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> ธนาคารที่โอนเงิน :</p>
                                         <div class="col-7">
                                             <p>
                                                 <input class="form-control">
@@ -336,7 +336,7 @@
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">สาขาที่โอนเงิน :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> สาขาที่โอนเงิน :</p>
                                         <div class="col-7">
                                             <p>
                                                 <input class="form-control">
@@ -346,24 +346,23 @@
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">จำนวนเงิน :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> จำนวนเงิน :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input class="form-control" type="number">
+                                                <input class="form-control" type="number" v-model.number="transferPayment">
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4">วัน/เวลาที่ชำระเงิน :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> วัน/เวลาที่ชำระเงิน :</p>
                                         <div class="col-7">
-                                            <p>
-                                                <input class="form-control" type="datetime-local">
-                                            </p>
+                                            <vue-ctk-date-time-picker locale="th" v-model="transferDate"></vue-ctk-date-time-picker>
                                         </div>
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -377,9 +376,9 @@
                             <div class="row tax-head-part">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <p class="tax-head">อัตราภาษีมูลค่าเพิ่ม : {{taxrate}} %
-                                        <input :disabled="feeType==''||feeType=='2'" type="number" class="form-control tax-head" v-model="taxrate">
-                                        </p>
+                                        <!-- <p class="tax-head">อัตราภาษีมูลค่าเพิ่ม : {{taxrate}} % -->
+                                        <!-- <input :disabled="feeType==''||feeType=='2'" type="number" class="form-control tax-head" v-model="taxrate"> -->
+                                        <!-- </p> -->
                                     </div>
                                 </div>
                             </div>
@@ -389,10 +388,10 @@
                                         <p class="tax-head" v-if="feeType=='0'||feeType==''">จำนวนเงินก่อนภาษี : {{ convertToBaht(valueBTax) }} บาท</p>
                                         <p class="tax-head" v-if="feeType=='1'">จำนวนเงินก่อนภาษี : {{ convertToBaht(priceNonTaxCOM) }} บาท</p>
                                         <p class="tax-head" v-if="feeType=='2'">จำนวนเงินก่อนภาษี : {{ convertToBaht(priceNonTaxCOM) }} บาท</p>
-                                        <input v-if="feeType==''" :disabled="feeType == ''" type="number" class="form-control tax-head" v-model.number="valueBTax">
+                                        <!-- <input v-if="feeType==''" :disabled="feeType == ''" type="number" class="form-control tax-head" v-model.number="valueBTax">
                                         <input v-if="feeType=='0'" type="number" class="form-control tax-head" v-model.number="valueBTax">
                                         <input v-if="feeType=='1'" :disabled="feeType == '1'" type="number" class="form-control tax-head" v-model.number="priceNonTaxCOM">
-                                        <input v-if="feeType=='2'" :disabled="feeType == '2'" type="number" class="form-control tax-head" v-model.number="priceNonTaxCOM">
+                                        <input v-if="feeType=='2'" :disabled="feeType == '2'" type="number" class="form-control tax-head" v-model.number="priceNonTaxCOM"> -->
                                         <!-- <button @click="calltestapi" class="btn btn-primary" >คำนวณ</button> -->
                                     </div>
                                 </div>
@@ -408,19 +407,19 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <p class="tax-summary" v-if="feeType==''||feeType=='1'||feeType=='2'">มูลค่ารวมภาษี {{ convertToBaht(includeVAT) }} บาท</p>
-                                        <p class="tax-summary" v-if="feeType=='0'">มูลค่ารวมภาษี {{ convertToBaht(priceWithTaxCOM) }} บาท</p>
-                                        <input v-if="feeType==''" :disabled="feeType == ''" type="number" class="form-control tax-head" v-model.number="includeVAT">
+                                        <p class="tax-summary" v-if="feeType==''||feeType=='1'||feeType=='2'">มูลค่ารวมภาษี : {{ convertToBaht(includeVAT) }} บาท</p>
+                                        <p class="tax-summary" v-if="feeType=='0'">มูลค่ารวมภาษี : {{ convertToBaht(priceWithTaxCOM) }} บาท</p>
+                                        <!-- <input v-if="feeType==''" :disabled="feeType == ''" type="number" class="form-control tax-head" v-model.number="includeVAT">
                                         <input v-if="feeType=='0'" :disabled="feeType == '0'" type="number" class="form-control tax-head" v-model.number="priceWithTaxCOM">
                                         <input v-if="feeType=='1'" type="number" class="form-control tax-head" v-model.number="includeVAT">
-                                        <input v-if="feeType=='2'" type="number" class="form-control tax-head" v-model.number="includeVAT">
+                                        <input v-if="feeType=='2'" type="number" class="form-control tax-head" v-model.number="includeVAT"> -->
                                     </div>
                                 </div>
                             </div>
                             <div class="row tax-bottom-part">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <p class="tax-head">ยอดเงินคงเหลือ {{ balance }} บาท</p>
+                                        <p class="tax-head">ยอดเงินคงเหลือ : {{ convertToBaht(balance) }} บาท</p>
                                     </div>
                                 </div>
                             </div>
@@ -431,7 +430,7 @@
                                 <button :disabled="feeType==''" data-toggle="modal" data-target="#saveModal" class="btn btn-primary"><span>บันทึก</span></button>
                             </div>
                             <div class="tax-bottom-part tax-head">
-                                <button data-toggle="modal" data-target="#updateModal" class="btn btn-primary"><span>test</span></button>
+                                <button data-toggle="modal" data-target="#updateModal" class="btn btn-primary"><span>{{convertToBaht(totalPayment)}}</span></button>
                             </div>
                         </div>
                     </div>
@@ -638,6 +637,9 @@
 </template>
 
 <script>
+import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
+import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.min.css";
+import VueStripePayment  from "vue-stripe-payment";
 import api from "../../service/service.js";
 
 export default {
@@ -646,20 +648,21 @@ export default {
       serialNo: "",
       taxNo: "",
       customerID: "",
+      date_payment: "",
       customerName: "",
       documentDate: "",
       taxApplyDate: "",
+      checkDate: "",
+      transferDate: "",
       subNo: "",
       billerNo: "",
       billerName: "",
       department: "",
-      taxrate: 0.0,
+      taxrate: 7.0,
       valueBTax: 0.0,
       includeVAT: 0.0,
-      balance: 0,
+      balance: 0.0,
       click: false,
-      //   username: "",
-      //   company: "",
       date: "",
       depositSerial: [
         {
@@ -693,11 +696,15 @@ export default {
           subNo: "ASE215"
         }
       ],
-      cashPayment: false,
-      creditPayment: false,
-      checkPayment: false,
-      transferPayment: false,
-      sumPayment: "",
+      cashPaymentPart: false,
+      creditPaymentPart: false,
+      checkPaymentPart: false,
+      transferPaymentPart: false,
+      cashPayment: 0.0,
+      creditPayment: 0.0,
+      checkPayment: 0.0,
+      transferPayment: 0.0,
+      price: "",
       feeType: "",
       nextTodoId: 4,
       oldId: "",
@@ -705,7 +712,16 @@ export default {
       key_cus: ""
     };
   },
+  components: {
+    VueCtkDateTimePicker
+  },
+  use: {
+      VueStripePayment
+  },
   methods: {
+    check_date_p(e) {
+      alert(e);
+    },
     calFee() {
       //alert(this.feeType);
       if (this.feeType == "0") {
@@ -715,9 +731,6 @@ export default {
       if (this.feeType == "2") {
         this.taxrate = 0;
       }
-    },
-    checkdate() {
-      alert(this.date);
     },
     selectDepositList() {
       this.oldId = this.nextTodoId;
@@ -830,6 +843,14 @@ export default {
     },
     priceNonTaxCOM() {
       return this.includeVAT - this.includeVAT * (this.taxrate / 100);
+    },
+    totalPayment() {
+      return (
+        this.cashPayment +
+        this.creditPayment +
+        this.checkPayment +
+        this.transferPayment
+      );
     }
   }
 };
@@ -838,7 +859,6 @@ export default {
 <style>
 span,
 label,
-BToAinput,
 h1,
 h2,
 h3,
