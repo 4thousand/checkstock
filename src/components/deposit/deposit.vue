@@ -111,7 +111,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> ชื่อพนักงานขาย :</p>
                                         <div class="col-7">
-                                            <input type="text" v-model="billerName"  class="form-control">
+                                            <input type="text" v-model="billerName" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -148,7 +148,7 @@
                             </div>
                             <div class="row" v-if="cashPaymentPart==true">
                                 <hr class="col-10">
-                                <h4 class="payment-sub-header information-part col-3">เงินสด</h4>
+                                <h4 class="payment-sub-header information-part col-12">เงินสด</h4>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> จำนวนเงิน :</p>
@@ -162,14 +162,14 @@
                             </div>
                             <div class="row" v-if="creditPaymentPart==true">
                                 <hr class="col-10">
-                                <h4 class="payment-sub-header information-part col-3">บัตรเครดิต/บัตรเดบิต
+                                <h4 class="payment-sub-header information-part col-12">บัตรเครดิต/บัตรเดบิต
                                 </h4>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> ชื่อหน้าบัตร :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input class="form-control">
+                                                <input class="form-control" v-model="creditCardName">
                                             </p>
                                         </div>
                                     </div>
@@ -179,12 +179,12 @@
                                         <p class="article-set col-4"><span style="color:red">*</span> เลขบัตร :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input class="form-control" v-payment:formatCardNumber>
+                                                <input class="form-control" v-model="creditNumber" v-payment:formatCardNumber>
                                             </p>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12 col-12">
+                                <!-- <div class="col-md-12 col-12">
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> CVV :</p>
                                         <div class="col-7">
@@ -193,7 +193,7 @@
                                             </p>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> จำนวนเงิน :</p>
@@ -207,14 +207,14 @@
                             </div>
                             <div class="row" v-if="checkPaymentPart==true">
                                 <hr class="col-10">
-                                <h4 class="payment-sub-header information-part col-3">เช็ค
+                                <h4 class="payment-sub-header information-part col-12">เช็ค
                                 </h4>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> ธนาคาร :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input class="form-control">
+                                                <input class="form-control" v-model="checkBankName">
                                             </p>
                                         </div>
                                     </div>
@@ -224,7 +224,7 @@
                                         <p class="article-set col-4"><span style="color:red">*</span> สาขา :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input class="form-control">
+                                                <input class="form-control" v-model="checkBankBranch">
                                             </p>
                                         </div>
                                     </div>
@@ -234,7 +234,7 @@
                                         <p class="article-set col-4"><span style="color:red">*</span> เลขที่เช็ค :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input class="form-control">
+                                                <input class="form-control" v-model="checkNumber">
                                             </p>
                                         </div>
                                     </div>
@@ -262,14 +262,14 @@
                             </div>
                             <div class="row" v-if="transferPaymentPart==true">
                                 <hr class="col-10">
-                                <h4 class="payment-sub-header information-part col-3">เงินโอน
+                                <h4 class="payment-sub-header information-part col-12">เงินโอน
                                 </h4>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> ชื่อบัญชีผู้โอนเงิน :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input class="form-control">
+                                                <input class="form-control" v-model="transferName">
                                             </p>
                                         </div>
                                     </div>
@@ -279,7 +279,7 @@
                                         <p class="article-set col-4"><span style="color:red">*</span> เลขที่บัญชีผู้โอนเงิน :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input class="form-control">
+                                                <input class="form-control" type="number" v-model="transferAccountNo">
                                             </p>
                                         </div>
                                     </div>
@@ -289,7 +289,7 @@
                                         <p class="article-set col-4"><span style="color:red">*</span> ธนาคารผู้โอนเงิน :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input class="form-control">
+                                                <input class="form-control" v-model="bankTransfererName">
                                             </p>
                                         </div>
                                     </div>
@@ -299,7 +299,7 @@
                                         <p class="article-set col-4"><span style="color:red">*</span> สาขาผู้โอนเงิน :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input class="form-control">
+                                                <input class="form-control" v-model="bankTransfererBanch">
                                             </p>
                                         </div>
                                     </div>
@@ -309,7 +309,7 @@
                                         <p class="article-set col-4"><span style="color:red">*</span> ชื่อบัญชีที่โอนเงิน :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input class="form-control">
+                                                <input class="form-control" v-model="receiveName">
                                             </p>
                                         </div>
                                     </div>
@@ -319,17 +319,18 @@
                                         <p class="article-set col-4"><span style="color:red">*</span> เลขที่บัญชีที่โอนเงิน :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input class="form-control">
+                                                <input class="form-control" type="number" v-model="bankReceiveAccountNo">
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4"><span style="color:red">*</span> ธนาคารที่โอนเงิน :</p>
-                                        <div class="col-7">
+                                        <p class="article-set col-md-4"><span style="color:red">*</span> ธนาคารที่โอนเงิน :</p>
+                                        <p class="col-12 d-block d-sm-none">dddd</p>
+                                        <div class="col-7 col-md-7">
                                             <p>
-                                                <input class="form-control">
+                                                <input class="form-control" v-model="bankReceiveName">
                                             </p>
                                         </div>
                                     </div>
@@ -339,7 +340,7 @@
                                         <p class="article-set col-4"><span style="color:red">*</span> สาขาที่โอนเงิน :</p>
                                         <div class="col-7">
                                             <p>
-                                                <input class="form-control">
+                                                <input class="form-control" v-model="bankReceiverBranch">
                                             </p>
                                         </div>
                                     </div>
@@ -358,7 +359,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> วัน/เวลาที่ชำระเงิน :</p>
                                         <div class="col-7">
-                                            <vue-ctk-date-time-picker locale="th" v-model="transferDate"></vue-ctk-date-time-picker>
+                                            <vue-ctk-date-time-picker @input="check_date_p(transferDate)" locale="th" v-model="transferDate"></vue-ctk-date-time-picker>
                                         </div>
                                     </div>
                                 </div>
@@ -368,7 +369,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-12 col-lg-4 big-margin">
-                    <div class="card">
+                    <div class="card stickydestop" style="position: sticky; top: 0;">
                         <div class="card-header tax-header">
                             <span>สรุปยอดชำระเงิน</span> 
                         </div>
@@ -416,13 +417,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row tax-bottom-part">
+                            <!-- <div class="row tax-bottom-part">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <p class="tax-head">ยอดเงินคงเหลือ : {{ convertToBaht(balance) }} บาท</p>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- <div class="alert alert-danger" role="alert">
                             ชื่อ {{username}} บริษัท {{company}}
                             </div> -->
@@ -459,7 +460,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr class="table-pointer" v-for="row in depositSerial"  @click="selectDeposit(row.id)">
+                                            <tr class="table-pointer" data-dismiss="modal" v-for="row in depositSerial"  @click="selectDeposit(row.id); selectDeposit(row)">
                                                 <td>{{row.serialNo}}</td>
                                                 <td>{{row.taxNo}}</td>
                                                 <td>{{row.customerID}}</td>
@@ -639,7 +640,7 @@
 <script>
 import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
 import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.min.css";
-import VueStripePayment  from "vue-stripe-payment";
+import VueStripePayment from "vue-stripe-payment";
 import api from "../../service/service.js";
 
 export default {
@@ -668,7 +669,7 @@ export default {
         {
           id: "1",
           serialNo: "51234",
-          taxNo: "SE5647",
+          taxNo: "5647",
           customerID: "S4545",
           documentDate: "2018-11-01",
           taxApplyDate: "2018-11-01",
@@ -687,13 +688,40 @@ export default {
         },
         {
           id: "3",
-          serialNo: "75424",
-          taxNo: "SE7896",
-          customerID: "S4545",
-          documentDate: "2018-11-05",
-          taxApplyDate: "2018-11-05",
-          billerName: "Ariya Indhabhandhu",
-          subNo: "ASE215"
+          serialNo: "1234567",
+          taxNo: "876543",
+          feeType: 2,
+          customerID: "3345",
+          documentDate: "2018-12-04",
+          taxApplyDate: "2018-12-11",
+          subNo: "5432222222",
+          billerNo: "234",
+          billerName: "werrr",
+          department: "IT",
+          cashPaymentPart: true,
+          cashPayment: 1220,
+          creditPaymentPart: true,
+          creditCardName: "Ariya Indhabhandhu",
+          creditNumber: "1234567890000000000987",
+          creditPayment:1244,
+          checkPaymentPart: true,
+          checkBankName: "AriyaCB",
+          checkBankBranch: "IceLan",
+          checkNumber: "12345678",
+          checkDate: "2018-05-23",
+          checkPayment: 111112,
+          transferPaymentPart:true,
+          transferName: "Ariya Indhabhandhu",
+          transferAccountNo: "1234567",
+          bankTransfererName: "AriyaBC",
+          bankTransfererBanch: "Isuland",
+          receiveName: "Suide",
+          bankReceiveAccountNo: "45678765",
+          bankReceiveName: "SCD",
+          bankReceiverBranch: "SCDF",
+          transferPayment: 1234567,
+          transferDate:"2018-11-10T18:09:00+07:00",
+          balance: 0
         }
       ],
       cashPaymentPart: false,
@@ -704,6 +732,19 @@ export default {
       creditPayment: 0.0,
       checkPayment: 0.0,
       transferPayment: 0.0,
+      creditCardName: "",
+      creditNumber: "",
+      checkBankName: "",
+      checkBankBranch: "",
+      checkNumber: "",
+      transferName: "",
+      transferAccountNo: "",
+      bankTransfererName: "",
+      bankTransfererBanch: "",
+      receiveName: "",
+      bankReceiveAccountNo: "",
+      bankReceiveName: "",
+      bankReceiverBranch: "",
       price: "",
       feeType: "",
       nextTodoId: 4,
@@ -716,7 +757,7 @@ export default {
     VueCtkDateTimePicker
   },
   use: {
-      VueStripePayment
+    VueStripePayment
   },
   methods: {
     check_date_p(e) {
@@ -785,8 +826,46 @@ export default {
         }
       );
     },
-    selectDeposit(e) {
-      alert(this.depositSerial[e - 1].serialNo);
+    selectDeposit(VAL) {
+      console.log(VAL);
+      (this.serialNo = VAL.serialNo),
+        (this.taxNo = VAL.taxNo),
+        (this.feeType = VAL.feeType),
+        (this.customerID = VAL.customerID),
+        (this.customerName = VAL.customerName),
+        (this.documentDate = VAL.documentDate),
+        (this.taxApplyDate = VAL.taxApplyDate),
+        (this.subNo = VAL.subNo),
+        (this.billerNo = VAL.billerNo),
+        (this.billerName = VAL.billerName),
+        (this.department = VAL.department);
+      if (VAL.cashPaymentPart == true) {
+        this.cashPayment = VAL.cashPayment;
+      }
+      if (VAL.creditPaymentPart == true) {
+        this.creditCardName = VAL.creditCardName;
+        this.creditNumber = VAL.creditNumber;
+        this.creditPayment = VAL.creditPayment;
+      }
+      if (VAL.checkPaymentPart == true) {
+        this.checkBankName = VAL.checkBankName;
+        this.checkBankBranch = VAL.checkBankBranch;
+        this.checkNumber = VAL.checkNumber;
+        this.checkDate = VAL.checkDate;
+        this.checkPayment = VAL.checkPayment;
+      }
+      if (VAL.transferPaymentPart == true) {
+        this.transferName = VAL.transferName;
+        this.transferAccountNo = VAL.transferAccountNo;
+        this.bankTransfererName = VAL.bankTransfererName;
+        this.bankTransfererBanch = VAL.bankTransfererBanch;
+        this.receiveName = VAL.receiveName;
+        this.bankReceiveAccountNo = VAL.bankReceiveAccountNo;
+        this.bankReceiveName = VAL.bankReceiveName;
+        this.bankReceiverBranch = VAL.bankReceiverBranch;
+        this.transferDate = VAL.transferDate;
+        this.transferPayment = VAL.transferPayment;
+      }
     },
     addDeposit() {
       if (this.feeType == 0) {
@@ -800,11 +879,32 @@ export default {
           taxApplyDate: this.taxApplyDate,
           subNo: this.subNo,
           billerNo: this.billerNo,
+          billerName: this.billerName,
           department: this.department,
-          taxrate: this.taxrate,
-          valueBTax: this.valueBTax,
-          includeVAT: this.priceWithTaxCOM,
-          VAT: this.externalVAT,
+          //   taxrate: this.taxrate,
+          //   valueBTax: this.valueBTax,
+          //   includeVAT: this.priceWithTaxCOM,
+          //   VAT: this.externalVAT,
+          cashPaymentPart: this.cashPaymentPart,
+          cashPayment: this.cashPayment,
+          creditPaymentPart: this.creditPaymentPart,
+          creditCardName: this.creditCardName,
+          creditNumber: this.creditNumber,
+          checkPaymentPart: this.checkPaymentPart,
+          checkBankName: this.checkBankName,
+          checkBankBranch: this.checkBankBranch,
+          checkNumber: this.checkNumber,
+          checkDate: this.checkDate,
+          checkPayment: this.checkPayment,
+          transferName: this.transferName,
+          transferAccountNo: this.transferAccountNo,
+          bankTransfererName: this.bankTransfererName,
+          bankTransfererBanch: this.bankTransfererBanch,
+          receiveName: this.receiveName,
+          bankReceiveAccountNo: this.bankReceiveAccountNo,
+          bankReceiveName: this.bankReceiveName,
+          bankReceiverBranch: this.bankReceiverBranch,
+          transferPayment: this.transferPayment,
           balance: 0
         });
       }
@@ -820,10 +920,30 @@ export default {
           subNo: this.subNo,
           billerNo: this.billerNo,
           department: this.department,
-          taxrate: this.taxrate,
-          valueBTax: this.priceNonTaxCOM,
-          includeVAT: this.includeVAT,
-          VAT: this.internalVAT,
+          //   taxrate: this.taxrate,
+          //   valueBTax: this.priceNonTaxCOM,
+          //   includeVAT: this.includeVAT,
+          //   VAT: this.internalVAT,
+          cashPaymentPart: this.cashPaymentPart,
+          cashPayment: this.cashPayment,
+          creditPaymentPart: this.creditPaymentPart,
+          creditCardName: this.creditCardName,
+          creditNumber: this.creditNumber,
+          checkPaymentPart: this.checkPaymentPart,
+          checkBankName: this.checkBankName,
+          checkBankBranch: this.checkBankBranch,
+          checkNumber: this.checkNumber,
+          checkDate: this.checkDate,
+          checkPayment: this.checkPayment,
+          transferName: this.transferName,
+          transferAccountNo: this.transferAccountNo,
+          bankTransfererName: this.bankTransfererName,
+          bankTransfererBanch: this.bankTransfererBanch,
+          receiveName: this.receiveName,
+          bankReceiveAccountNo: this.bankReceiveAccountNo,
+          bankReceiveName: this.bankReceiveName,
+          bankReceiverBranch: this.bankReceiverBranch,
+          transferPayment: this.transferPayment,
           balance: 0
         });
       }
@@ -857,6 +977,11 @@ export default {
 </script>
 
 <style>
+@media screen and (max-width: 990px) {
+  .stickydestop {
+    position: relative !important;
+  }
+}
 span,
 label,
 h1,
