@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4"><span style="color:red">*</span> ค้นหาพนักงาน :</p>
+                                        <p class="article-set col-4"><span style="color:red">*</span> ค้นหาพนักงานขาย :</p>
                                         <div class="col-7  text-left" data-toggle="modal" data-target="#searchEmployeeModal">
                                             <button class="btn btn-primary icon-margin search-icon">
                                                 <md-icon class="search-icon">search</md-icon>
@@ -620,7 +620,7 @@ export default {
     return {
       serialNo: "",
       taxNo: "",
-      id:'',
+      id: "",
       customerID: "",
       date_payment: "",
       customerName: "",
@@ -639,8 +639,8 @@ export default {
       balance: 0.0,
       click: false,
       date: "",
-      searchCustomerInput:"",
-      searchEmployeeInput:"",
+      searchCustomerInput: "",
+      searchEmployeeInput: "",
       depositSerial: [
         {
           id: "1",
@@ -700,8 +700,8 @@ export default {
           balance: 0
         }
       ],
-      customerDetail:[],
-      employeeDetail:[],
+      customerDetail: [],
+      employeeDetail: [],
       cashPaymentPart: false,
       creditPaymentPart: false,
       checkPaymentPart: false,
@@ -768,13 +768,15 @@ export default {
         result => {
           console.log(JSON.stringify(result.data));
           if (result.data.length == 0) {
-              this.customerDetail = result.data;
+            this.customerDetail = result.data;
             alertify.error("ไม่มีข้อมูลลูกค้าคนนี้");
             return;
           }
           if (result.data.length > 0) {
             this.customerDetail = result.data;
-            alertify.success("พบข้อมูลลูกค้าจำนวน "+result.data.length+" คน");
+            alertify.success(
+              "พบข้อมูลลูกค้าจำนวน " + result.data.length + " คน"
+            );
             return;
           }
         },
@@ -814,12 +816,12 @@ export default {
       );
     },
     searchCustomer(val) {
-      console.log(JSON.stringify(val))
-      this.id = val.id
-      this.customerID = val.code
-      this.customerName = val.name
-      
-      this.showDialogCustomer = false
+      console.log(JSON.stringify(val));
+      this.id = val.id;
+      this.customerID = val.code;
+      this.customerName = val.name;
+
+      this.showDialogCustomer = false;
     },
     searchEmployeeIdApi() {
       var payload = {
@@ -861,12 +863,12 @@ export default {
       );
     },
     searchEmployee(val) {
-      console.log(JSON.stringify(val))
-      this.id = val.employee_id
-      this.employeeID = val.sale_code
-      this.employeeName = val.sale_name
-      
-      this.showDialogCustomer = false
+      console.log(JSON.stringify(val));
+      this.id = val.employee_id;
+      this.employeeID = val.sale_code;
+      this.employeeName = val.sale_name;
+
+      this.showDialogCustomer = false;
     },
     selectDeposit(VAL) {
       console.log(VAL);
