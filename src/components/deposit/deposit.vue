@@ -53,9 +53,19 @@
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
+                                        <p class="article-set col-4"><span style="color:red">*</span> ค้นหาลูกค้า :</p>
+                                        <div class="col-7  text-left" data-toggle="modal" data-target="#searchCustomerModal">
+                                            <button class="btn btn-primary icon-margin search-icon">
+                                                <md-icon class="search-icon">search</md-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> รหัสลูกค้า :</p>
                                         <div class="col-7">
-                                            <input type="text" @keyup="searchCustomerIdApi" v-model="customerID" class="form-control">
+                                            <input type="text" disabled v-model.number="customerID" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -65,7 +75,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> ชื่อลูกค้า :</p>
                                         <div class="col-7">
-                                            <input type="text" @keyup="searchCustomerNameApi" v-model="customerName"  class="form-control">
+                                            <input type="text" disabled v-model="customerName"  class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -75,7 +85,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> วันที่ออกเอกสาร :</p>
                                         <div class="col-7">
-                                            <vue-ctk-date-time-picker locale="th" format="YYYY-MM-DD" v-model="documentDate" disable-time="true"></vue-ctk-date-time-picker>
+                                            <vue-ctk-date-time-picker locale="th" format="YYYY-MM-DD" v-model="documentDate" :disable-time="true"></vue-ctk-date-time-picker>
                                         </div>
                                     </div>
                                 </div>
@@ -83,7 +93,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> วันที่ใบกำกับภาษี :</p>
                                         <div class="col-7">
-                                            <vue-ctk-date-time-picker locale='th' format="YYYY-MM-DD" v-model="taxApplyDate" disable-time="true"></vue-ctk-date-time-picker>
+                                            <vue-ctk-date-time-picker locale='th' format="YYYY-MM-DD" v-model="taxApplyDate" :disable-time="true"></vue-ctk-date-time-picker>
                                         </div>
                                     </div>
                                 </div>
@@ -93,7 +103,17 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4">เลขที่ใบจอง :</p>
                                         <div class="col-7">
-                                            <input type="text" v-model="subNo"  class="form-control">
+                                            <input type="text" v-model="subNo" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group row">
+                                        <p class="article-set col-4"><span style="color:red">*</span> ค้นหาพนักงาน :</p>
+                                        <div class="col-7  text-left" data-toggle="modal" data-target="#searchEmployeeModal">
+                                            <button class="btn btn-primary icon-margin search-icon">
+                                                <md-icon class="search-icon">search</md-icon>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -101,7 +121,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> รหัสพนักงานขาย :</p>
                                         <div class="col-7">
-                                            <input type="text" v-model="billerNo"  class="form-control">
+                                            <input type="text" disabled v-model="employeeID" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -111,7 +131,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> ชื่อพนักงานขาย :</p>
                                         <div class="col-7">
-                                            <input type="text" v-model="billerName" class="form-control">
+                                            <input type="text" disabled v-model="employeeName" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -244,7 +264,7 @@
                                         <p class="article-set col-4"><span style="color:red">*</span> ลงวันที่ :</p>
                                         <div class="col-7">
                                             <p>
-                                                <vue-ctk-date-time-picker format="YYYY-MM-DD" locale="th" v-model="checkDate" disable-time="true"></vue-ctk-date-time-picker>
+                                                <vue-ctk-date-time-picker format="YYYY-MM-DD" locale="th" v-model="checkDate" :disable-time="true"></vue-ctk-date-time-picker>
                                             </p>
                                         </div>
                                     </div>
@@ -377,9 +397,11 @@
                             <div class="row tax-head-part">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <!-- <p class="tax-head">อัตราภาษีมูลค่าเพิ่ม : {{taxrate}} % -->
-                                        <!-- <input :disabled="feeType==''||feeType=='2'" type="number" class="form-control tax-head" v-model="taxrate"> -->
-                                        <!-- </p> -->
+                                        <p class="tax-head">อัตราภาษีมูลค่าเพิ่ม : {{taxrate}} %
+                                        <input v-show="feeType==''||feeType=='0'||feeType=='1'" :disabled="!feeType" type="number" class="form-control tax-head" v-model="taxrate">
+                                        <input v-show="feeType=='2'" type="number" class="form-control tax-head" v-model="zerotax">
+                                        <!-- <input :disabled="feeType==''||feeType=='2'" type="number" class="form-control tax-head" v-model="zerotax"> -->
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -389,10 +411,10 @@
                                         <p class="tax-head" v-if="feeType=='0'||feeType==''">จำนวนเงินก่อนภาษี : {{ convertToBaht(valueBTax) }} บาท</p>
                                         <p class="tax-head" v-if="feeType=='1'">จำนวนเงินก่อนภาษี : {{ convertToBaht(priceNonTaxCOM) }} บาท</p>
                                         <p class="tax-head" v-if="feeType=='2'">จำนวนเงินก่อนภาษี : {{ convertToBaht(priceNonTaxCOM) }} บาท</p>
-                                        <!-- <input v-if="feeType==''" :disabled="feeType == ''" type="number" class="form-control tax-head" v-model.number="valueBTax">
+                                        <input v-if="feeType==''" :disabled="feeType == ''" type="number" class="form-control tax-head" v-model.number="valueBTax">
                                         <input v-if="feeType=='0'" type="number" class="form-control tax-head" v-model.number="valueBTax">
                                         <input v-if="feeType=='1'" :disabled="feeType == '1'" type="number" class="form-control tax-head" v-model.number="priceNonTaxCOM">
-                                        <input v-if="feeType=='2'" :disabled="feeType == '2'" type="number" class="form-control tax-head" v-model.number="priceNonTaxCOM"> -->
+                                        <input v-if="feeType=='2'" :disabled="feeType == '2'" type="number" class="form-control tax-head" v-model.number="priceNonTaxCOM">
                                         <!-- <button @click="calltestapi" class="btn btn-primary" >คำนวณ</button> -->
                                     </div>
                                 </div>
@@ -410,20 +432,20 @@
                                     <div class="form-group">
                                         <p class="tax-summary" v-if="feeType==''||feeType=='1'||feeType=='2'">มูลค่ารวมภาษี : {{ convertToBaht(includeVAT) }} บาท</p>
                                         <p class="tax-summary" v-if="feeType=='0'">มูลค่ารวมภาษี : {{ convertToBaht(priceWithTaxCOM) }} บาท</p>
-                                        <!-- <input v-if="feeType==''" :disabled="feeType == ''" type="number" class="form-control tax-head" v-model.number="includeVAT">
+                                        <input v-if="feeType==''" :disabled="feeType == ''" type="number" class="form-control tax-head" v-model.number="includeVAT">
                                         <input v-if="feeType=='0'" :disabled="feeType == '0'" type="number" class="form-control tax-head" v-model.number="priceWithTaxCOM">
                                         <input v-if="feeType=='1'" type="number" class="form-control tax-head" v-model.number="includeVAT">
-                                        <input v-if="feeType=='2'" type="number" class="form-control tax-head" v-model.number="includeVAT"> -->
+                                        <input v-if="feeType=='2'" type="number" class="form-control tax-head" v-model.number="includeVAT">
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="row tax-bottom-part">
+                            <div class="row tax-bottom-part">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <p class="tax-head">ยอดเงินคงเหลือ : {{ convertToBaht(balance) }} บาท</p>
                                     </div>
                                 </div>
-                            </div> -->
+                            </div>
                             <!-- <div class="alert alert-danger" role="alert">
                             ชื่อ {{username}} บริษัท {{company}}
                             </div> -->
@@ -466,7 +488,7 @@
                                                 <td>{{row.customerID}}</td>
                                                 <td>{{row.documentDate}}</td>
                                                 <td>{{row.taxApplyDate}}</td>
-                                                <td>{{row.billerName}}</td>
+                                                <td>{{row.employeeName}}</td>
                                                 <td>{{row.subNo}}</td>
                                             </tr>
                                         </tbody>
@@ -479,130 +501,80 @@
                         </div>
                     </div>
                 </div>
-                <!--<div class="modal fade" id="updateModal">
+                <div class="modal fade" id="searchCustomerModal"><!--ค้นหาลูกค้า-->
                     <div class="modal-dialog modal-lg">
     
+                        <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title"><span>บันทึกข้อมูลเลขที่ใบมัดจำ</span></h4>
+                                <h4 class="modal-title"><span>ค้นหาลูกค้า</span></h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
-                                <div class="row">
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group row">
-                                        <p class="article-set col-4">เลขที่ใบเงินมัดจำ:</p>
-                                        <div class="col-7">
-                                            <input type="text" class="form-control" v-model="serialNo">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group row">
-                                        <p class="article-set col-4">เลขที่ใบกำกับภาษี:</p>
-                                        <div class="col-7">
-                                            <input type="number" v-model="taxNo" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group row">
-                                        <p class="article-set col-4">ประเภทภาษี:</p>
-                                        <div class="col-7">
-                                            <select @change="calFee" v-model="feeType" class="form-control">
-                                                <option value="0">ภาษีแยกนอก</option>
-                                                <option value="1">ภาษีรวมใน</option>
-                                                <option value="2">ภาษีอัตราศูนย์</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group row">
-                                        <p class="article-set col-4">รหัสลูกค้า:</p>
-                                        <div class="col-7">
-                                            <input @change="customerID" type="text" v-model="customerID" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group row">
-                                        <p class="article-set col-4">วันที่ออกเอกสาร:</p>
-                                        <div class="col-7">
-                                            <input type="date" v-model="documentDate" @change="checkdate" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group row">
-                                        <p class="article-set col-4">วันที่ใบกำกับภาษี:</p>
-                                        <div class="col-7">
-                                            <input type="date" v-model="taxApplyDate" @change="checkdate" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group row">
-                                        <p class="article-set col-4">เลขที่ใบจอง:</p>
-                                        <div class="col-7">
-                                            <input type="text" v-model="subNo" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group row">
-                                        <p class="article-set col-4">รหัสพนักงานขาย:</p>
-                                        <div class="col-7">
-                                            <input type="text" v-model="billerNo" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group row">
-                                        <p class="article-set col-4">แผนก:</p>
-                                        <div class="col-7">
-                                            <input v-model="department" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group row">
-                                        <p class="article-set col-4">จำนวนเงินก่อนภาษี: {{ convertToBaht(valueBTax) }} บาท</p>
-                                        <div class="col-7">
-                                            <input type="number" class="form-control" v-model.number="valueBTax">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                                
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group ">
-                                            <p class="tax-head">จำนวนเงินก่อนภาษี: {{ convertToBaht(valueBTax) }} บาท</p>
-                                            <input type="number" class="form-control tax-head" v-model.number="valueBTax">
-                                        </div>
-                                    </div>
+                                <label>รหัสลูกค้า</label> 
+                                <input class="form-control" @keyup.enter="searchCustomerAllKeyApi" v-model="searchCustomerInput">
+                                <div class="table-responsive">          
+                                    <table class="table table-hover">
+                                        <thead align="center">
+                                        <tr>
+                                            <th>ลำดับ</th>
+                                            <th>รหัสลูกค้า</th>
+                                            <th>ชื่อลูกค้า</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="table-pointer"  data-dismiss="modal" @click="searchCustomer(val)" v-for="(val,index) in customerDetail" style="text-align:center;cursor:pointer">
+                                            <td>{{index+1}}</td>
+                                            <td>{{val.code}}</td>
+                                            <td>{{val.name}}</td>
+                                        </tr>
+                                    </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addDeposit"><span>Save</span></button>
-                                <button type="button" class="btn btn-default" data-dismiss="modal"><span>Cancel</span></button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal"><span>Close</span></button>
                             </div>
                         </div>
-                    
                     </div>
-                </div>-->
+                </div>
+                <div class="modal fade" id="searchEmployeeModal"><!--ค้นหาพนักงาน-->
+                    <div class="modal-dialog modal-lg">
+    
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title"><span>ค้นหาพนักงาน</span></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <label>รหัสพนักงาน</label> 
+                                <input class="form-control" @keyup.enter="searchEmployeeAllKeyApi" v-model="searchEmployeeInput">
+                                <div class="table-responsive">          
+                                    <table class="table table-hover">
+                                        <thead align="center">
+                                        <tr>
+                                            <th>ลำดับ</th>
+                                            <th>รหัสพนักงาน</th>
+                                            <th>ชื่อพนักงาน</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="table-pointer"  data-dismiss="modal" @click="searchEmployee(val)" v-for="(val,index) in employeeDetail" style="text-align:center;cursor:pointer">
+                                            <td>{{index+1}}</td>
+                                            <td>{{val.sale_code}}</td>
+                                            <td>{{val.sale_name}}</td>
+                                        </tr>
+                                    </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal"><span>Close</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="modal fade" id="saveModal"><!--ยืนยันการบันทึกข้อมูล-->
                     <div class="modal-dialog modal-lg">
     
@@ -648,6 +620,7 @@ export default {
     return {
       serialNo: "",
       taxNo: "",
+      id:'',
       customerID: "",
       date_payment: "",
       customerName: "",
@@ -656,15 +629,18 @@ export default {
       checkDate: "",
       transferDate: "",
       subNo: "",
-      billerNo: "",
-      billerName: "",
+      employeeID: "",
+      employeeName: "",
       department: "",
+      zerotax: 0.0,
       taxrate: 7.0,
       valueBTax: 0.0,
       includeVAT: 0.0,
       balance: 0.0,
       click: false,
       date: "",
+      searchCustomerInput:"",
+      searchEmployeeInput:"",
       depositSerial: [
         {
           id: "1",
@@ -673,7 +649,7 @@ export default {
           customerID: "S4545",
           documentDate: "2018-11-01",
           taxApplyDate: "2018-11-01",
-          billerName: "Ariya Indhabhandhu",
+          employeeID: "Ariya Indhabhandhu",
           subNo: "ASE234"
         },
         {
@@ -683,7 +659,7 @@ export default {
           customerID: "S4566",
           documentDate: "2018-12-01",
           taxApplyDate: "2018-12-01",
-          billerName: "Ariya Indhabhandhu",
+          employeeID: "Ariya Indhabhandhu",
           subNo: "ASE232"
         },
         {
@@ -695,22 +671,22 @@ export default {
           documentDate: "2018-12-04",
           taxApplyDate: "2018-12-11",
           subNo: "5432222222",
-          billerNo: "234",
-          billerName: "werrr",
+          employeeID: "234",
+          employeeName: "werrr",
           department: "IT",
           cashPaymentPart: true,
           cashPayment: 1220,
           creditPaymentPart: true,
           creditCardName: "Ariya Indhabhandhu",
           creditNumber: "1234567890000000000987",
-          creditPayment:1244,
+          creditPayment: 1244,
           checkPaymentPart: true,
           checkBankName: "AriyaCB",
           checkBankBranch: "IceLan",
           checkNumber: "12345678",
           checkDate: "2018-05-23",
           checkPayment: 111112,
-          transferPaymentPart:true,
+          transferPaymentPart: true,
           transferName: "Ariya Indhabhandhu",
           transferAccountNo: "1234567",
           bankTransfererName: "AriyaBC",
@@ -720,10 +696,12 @@ export default {
           bankReceiveName: "SCD",
           bankReceiverBranch: "SCDF",
           transferPayment: 1234567,
-          transferDate:"2018-11-10T18:09:00+07:00",
+          transferDate: "2018-11-10T18:09:00+07:00",
           balance: 0
         }
       ],
+      customerDetail:[],
+      employeeDetail:[],
       cashPaymentPart: false,
       creditPaymentPart: false,
       checkPaymentPart: false,
@@ -770,7 +748,6 @@ export default {
       if (this.feeType == "1") {
       }
       if (this.feeType == "2") {
-        this.taxrate = 0;
       }
     },
     selectDepositList() {
@@ -780,6 +757,31 @@ export default {
       var result = numeral(val).format("0,0.00");
       // console.log(typeof result)
       return result;
+    },
+    searchCustomerAllKeyApi() {
+      var payload = {
+        keyword: this.searchCustomerInput
+      };
+
+      api.Customerall(
+        payload,
+        result => {
+          console.log(JSON.stringify(result.data));
+          if (result.data.length == 0) {
+              this.customerDetail = result.data;
+            alertify.error("ไม่มีข้อมูลลูกค้าคนนี้");
+            return;
+          }
+          if (result.data.length > 0) {
+            this.customerDetail = result.data;
+            alertify.success("พบข้อมูลลูกค้าจำนวน "+result.data.length+" คน");
+            return;
+          }
+        },
+        error => {
+          console.log(error);
+        }
+      );
     },
     searchCustomerNameApi() {
       var payload = {
@@ -798,7 +800,7 @@ export default {
     },
     searchCustomerIdApi() {
       var payload = {
-        keyword: this.customerID
+        id: this.customerID
       };
 
       api.findCustomerID(
@@ -811,9 +813,17 @@ export default {
         }
       );
     },
+    searchCustomer(val) {
+      console.log(JSON.stringify(val))
+      this.id = val.id
+      this.customerID = val.code
+      this.customerName = val.name
+      
+      this.showDialogCustomer = false
+    },
     searchEmployeeIdApi() {
       var payload = {
-        keyword: this.billerName
+        keyword: this.employeeID
       };
 
       api.searchcus(
@@ -826,6 +836,38 @@ export default {
         }
       );
     },
+    searchEmployeeAllKeyApi() {
+      var payload = {
+        keyword: this.searchEmployeeInput
+      };
+
+      api.searchcus(
+        payload,
+        result => {
+          console.log(JSON.stringify(result.data));
+          if (result.data.length == 0) {
+            this.employeeDetail = result.data;
+            alertify.error("ไม่มีข้อมูล");
+            return;
+          }
+          if (result.data.length > 0) {
+            this.employeeDetail = result.data;
+            alertify.success("พบข้อมูลพนักงาน");
+          }
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    },
+    searchEmployee(val) {
+      console.log(JSON.stringify(val))
+      this.id = val.employee_id
+      this.employeeID = val.sale_code
+      this.employeeName = val.sale_name
+      
+      this.showDialogCustomer = false
+    },
     selectDeposit(VAL) {
       console.log(VAL);
       (this.serialNo = VAL.serialNo),
@@ -836,8 +878,8 @@ export default {
         (this.documentDate = VAL.documentDate),
         (this.taxApplyDate = VAL.taxApplyDate),
         (this.subNo = VAL.subNo),
-        (this.billerNo = VAL.billerNo),
-        (this.billerName = VAL.billerName),
+        (this.employeeID = VAL.employeeID),
+        (this.employeeName = VAL.employeeName),
         (this.department = VAL.department);
       if (VAL.cashPaymentPart == true) {
         this.cashPayment = VAL.cashPayment;
@@ -878,8 +920,8 @@ export default {
           documentDate: this.documentDate,
           taxApplyDate: this.taxApplyDate,
           subNo: this.subNo,
-          billerNo: this.billerNo,
-          billerName: this.billerName,
+          employeeID: this.employeeID,
+          employeeName: this.employeeName,
           department: this.department,
           //   taxrate: this.taxrate,
           //   valueBTax: this.valueBTax,
@@ -918,7 +960,7 @@ export default {
           documentDate: this.documentDate,
           taxApplyDate: this.taxApplyDate,
           subNo: this.subNo,
-          billerNo: this.billerNo,
+          employeeID: this.employeeID,
           department: this.department,
           //   taxrate: this.taxrate,
           //   valueBTax: this.priceNonTaxCOM,
@@ -963,6 +1005,9 @@ export default {
     },
     priceNonTaxCOM() {
       return this.includeVAT - this.includeVAT * (this.taxrate / 100);
+    },
+    freeVAT() {
+      return this;
     },
     totalPayment() {
       return (
