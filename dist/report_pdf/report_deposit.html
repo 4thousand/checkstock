@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Deposit</title>
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css?family=Niramit');
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: auto;
+            /* auto is the initial value */
+            margin: 0mm;
+            /* this affects the margin in the printer settings */
+        }
+
+        html {
+            background-color: #FFFFFF;
+            margin: 0px;
+            /* this affects the margin on the html before sending to printer */
+        }
+
+        body {
+            /* display:block !important; */
+            max-width: 714px;
+            /*            border: solid 1px blue;*/
+            margin: 4mm 5mm 5mm 4mm;
+            font-size: 30px;
+            /* margin you want for the content */
+        }
+
+        span {
+            font-size: 0.7rem;
+            font-family: 'Niramit', sans-serif;
+        }
+
+        div {
+            line-height: 0.5rem;
+            padding-bottom: 0.15rem;
+            word-break: break-word;
+        }
+
+        .underline {
+            border-bottom: solid 1px black;
+            width: 250px;
+            height: 1px;
+        }
+
+        .settop {
+            display: block;
+            position: relative;
+            top: 10px;
+            left: 10px
+        }
+
+        svg {
+            position: absolute !important;
+            width: 209px !important;
+            height: 69px !important;
+            top: 17px !important;
+            left: 165px !important;
+        }
+
+        .logo_padding {
+            position: absolute;
+            background: white;
+            width: 173px;
+            height: 12px;
+            left: 171px;
+            top: 70px;
+            z-index: 20;
+        }
+
+        .logo_size {
+            width: 132px;
+            height: 60px;
+            position: absolute;
+            left: 10px;
+            top: 12px;
+        }
+
+        .header {
+            height: 81px;
+        }
+
+        .company_name {
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .address_padding {
+            padding-bottom: 12px;
+        }
+
+        .doccument_highlight {
+            padding-bottom: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div>
+            <div>
+                <div class="header">
+                    <img src="logo.jpg" class="logo_size" alt="">
+                    <div style="text-align: left;padding-top: 10px;margin-left: 133px">
+
+                        <p class="company_name">บริษัท นพดลพานิช จำกัด</p>
+                        <span style="font-size: 11px; font-weight: inherit; margin: 1px">
+                            <!-- <p class="company_name">บริษัท นพดลพานิช จำกัด</p> -->
+                            <div>
+                                392 ถ.เชียงใหม่-ลำปาง ต.ฟ้าฮ่าม อ.เมือง จ.เชียงใหม่ 50000
+                            </div>
+                            <div>
+                                <br> โทร: (053) 240-377 แฟกซ์: (053) 244-411
+                            </div>
+                        </span>
+                    </div>
+                    <div style="font-size: 11px; font-weight: inherit; margin-left: 3px">
+                        <span>
+                            ทะเบียนเลขที่/เลขประจำตัวผู้เสียภาษี 0505533000157 / สำนักงานใหญ่
+                        </span>
+                    </div>
+                    <div style="position: absolute;left: 450px;top: 22px;">
+
+                        <div style="font-size: 13px; font-weight: bold; margin-left: 3px;">
+                            <div style="border-style: solid; border-width: 1px; padding: 10px; text-align: center; background-color:rgb(199, 196, 196)">
+                                <div><span>สำเนา ใบเสร็จรับเงิน/</span></div>
+                                <br>
+                                <div><span>ใบรับเงินมัดจำ/ใบกำกับภาษี</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 100%;height: 110px;margin-top: -1px;">
+                    <div style="float: left;width: 50%;height: 95%;border: 1px solid black;border-radius: 8px">
+                        <div class="settop" style="width: 95%;height: 55%">
+                            <div class="address_padding">
+                                <span>รหัสลูกค้า :</span> <span style="text-decoration:underline"></span>
+                            </div>
+                            <div class="address_padding">
+                                <span>ชื่อลูกค้า :</span> <span style="text-decoration:underline"></span>
+                            </div>
+                            <div class="address_padding">
+                                <span>ที่อยู่ :</span>
+                            </div>
+                        </div>
+                        <div class="settop" style="width: 80%;height: 55%; margin-top: -54px; margin-left: 60px;">
+                            <div class="address_padding">
+                                <span>รหัสลูกค้า :</span> <span style="text-decoration:underline"></span>
+                            </div>
+                            <div class="address_padding">
+                                <span>ชื่อลูกค้า :</span> <span style="text-decoration:underline"></span>
+                            </div>
+                            <div class="address_padding">
+                                <span>ที่อยู่ :</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="float:right;width: 35%;height: 95%;border: 1px solid black;border-radius: 8px; margin-right:100px">
+                        <div class="settop" style="width: 95%;height: 55%">
+                            <div class="address_padding">
+                                <span>เลขที่เอกสาร:</span> <span style="text-decoration:underline"></span>
+                            </div>
+                            <div class="address_padding">
+                                <span>วันที่ออกเอกสาร :</span> <span style="text-decoration:underline"></span>
+                            </div>
+                            <div class="address_padding">
+                                <span>เลขที่ใบสั่งจอง :</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 100%;height: 550px;margin-top: -1px;">
+                    <div style="float: left;width: 86%;height: 95%;border: 1px solid black;">
+                        <div style="width: 100%;    height: 25px;border-bottom: 1px solid black; background: #eee">
+                            <div style="height:100%;float: left;width: 5%;border-right: 1px dashed grey;position: relative">
+                                <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 2px">ลำดับ</span>
+                            </div>
+                            <div style="float: left;width: 51%;height: 100%;border-right: 1px dashed grey;position: relative">
+                                <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 5px">รหัสสินค้า/รายละเอียด</span>
+                            </div>
+                            <div style="float: left;width: 10%;height: 100%;border-right: 1px dashed grey;position: relative">
+                                <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px">คลัง</span>
+                            </div>
+                            <div style="float: left;width: 10%;height: 100%;border-right: 1px dashed grey;position: relative">
+                                <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px">จำนวน</span>
+                            </div>
+                            <div style="float: left;width: 10%;height: 100%;border-right: 1px dashed grey;position: relative">
+                                <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px">หน่วย</span>
+                            </div>
+                            <div style="float: left;width: 14%;height: 100%;position: relative">
+                                <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px">จำนวนเงิน</span>
+                            </div>
+                        </div>
+                        <!-- วนลูป -->
+                        <div style="width: 100%;height: 25px;border-bottom: 1px solid black">
+                            <div style="height:100%;float: left;width: 5%;position: relative;">
+                                <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 12px;">1.</span>
+                            </div>
+                            <div style="float: left;width: 51%;height: 100%;position: relative">
+                                <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 5px">เงินรับมัดจำเพื่อเป็นค่าสินค้านี้</span>
+                            </div>
+                            <div style="float: left;width: 10%;height: 100%;position: relative">
+                                <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px"></span>
+                            </div>
+                            <div style="float: left;width: 10%;height: 100%;position: relative">
+                                <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px"></span>
+                            </div>
+                            <div style="float: left;width: 10%;height: 100%;position: relative">
+                                <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px"></span>
+                            </div>
+                            <div style="float: left;width: 14%;height: 100%;position: relative">
+                                <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px">5,348.00</span>
+                            </div>
+                            <!-- วนลูป -->
+                            <div style="width: 100%;height: 25px;">
+                                <div style="height:100%;float: left;width: 5%;position: relative;">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 12px;"></span>
+                                </div>
+                                <div style="float: left;width: 51%;height: 100%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 5px">2002006
+                                        <span>ท่อ PVC ชั้น 8.5 ขนาด 2"</span>
+                                    </span>
+                                </div>
+                                <div style="float: left;width: 10%;height: 100%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px">S1-B/-</span>
+                                </div>
+                                <div style="float: left;width: 10%;height: 100%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px">100</span>
+                                </div>
+                                <div style="float: left;width: 10%;height: 100%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px">ท่อน</span>
+                                </div>
+                                <div style="float: left;width: 14%;height: 100%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px"></span>
+                                </div>
+                            </div>
+                            <div style="width: 100%;height: 25px;">
+                                <div style="height:100%;float: left;width: 5%;position: relative;">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 12px;"></span>
+                                </div>
+                                <div style="float: left;width: 51%;height: 100%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 5px">2002006
+                                        <span>ท่อ PVC ชั้น 8.5 ขนาด 2"</span>
+                                    </span>
+                                </div>
+                                <div style="float: left;width: 10%;height: 100%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px">S1-B/-</span>
+                                </div>
+                                <div style="float: left;width: 10%;height: 100%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px">100</span>
+                                </div>
+                                <div style="float: left;width: 10%;height: 100%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px">ท่อน</span>
+                                </div>
+                                <div style="float: left;width: 14%;height: 100%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width: 100%;    height: 50px;border-bottom: 1px solid #bbb;">
+                            <div style="width: 100%;height: 25px;">
+                                <div style="height:100%;float: left;width: 5%;position: relative;">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 12px;"></span>
+                                </div>
+                                <div style="float: left;width: 51%;height: 100%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 5px">
+                                    </span>
+                                </div>
+                                <div style="float: left;width: 30%;height: 100%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px">จำนวนเงินก่อนภาษี
+                                        (บาท)</span>
+                                </div>
+                                <div style="float: left;width: 14%;height: 100%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px">4998.13</span>
+                                </div>
+                            </div>
+                            <div style="width: 100%;height: 25px;">
+                                <div style="height:100%;float: left;width: 5%;position: relative;">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 12px;"></span>
+                                </div>
+                                <div style="float: left;width: 51%;height: 100%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 5px">
+                                    </span>
+                                </div>
+                                <div style="float: left;width: 30%;height: 100%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px">ภาษีมูลค่าเพิ่ม
+                                        (บาท) อัตรา 7%</span>
+                                </div>
+                                <div style="float: left;width: 14%;height: 100%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px">349.87</span>
+                                </div>
+                            </div>
+                            <div style="width: 100%;height: 25px;">
+                                <div style="height:100%;float: left;width: 5%;position: relative;">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 12px;"></span>
+                                </div>
+                                <div style="float: left;width: 51%;height: 100%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 5px">
+                                    </span>
+                                </div>
+                                <div style="float: left;width: 30%;height: 100%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px">รวมเงินทั้งสิ้น
+                                        (บาท)</span>
+                                </div>
+                                <div style="float: left;width: 14%;height: 100%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px">5,348.00</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- วิธีการชำระเงิน -->
+                        <div style="width: 100%;    height: 65px;border-bottom: 1px solid #bbb;">
+                            <div style="width: 100%;height: 25px;">
+                                <div style="height:100%;float: left;width: 100%;position: relative;">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 12px;">ชำระโดย
+                                        : เงินโอน <span>5,348.00</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width: 100%;    height: 25px;border-bottom: 1px solid #bbb;">
+                            <div style="width: 100%;height: 25px;">
+                                <div style="height:100%;float: left;width: 100%;position: relative;margin-top: 40px">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 12px;font-weight: bold">***
+                                        เอกสารนี้ ไม่สามารถเบิกจ่ายสินค้าได้ ***</span>
+                                </div>
+                                <div style="height:100%;float: left;width: 100%;position: relative;">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 12px;">*
+                                        กรณีชำระด้วยเช็ค บริษัทจะส่งสินค้าให้เมื่อเช็คผ่านเข้าบัญชีบริษัทแล้ว</span>
+                                </div>
+                                <div style="height:100%;float: left;width: 100%;position: relative;">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 12px;">*
+                                        กรุณานำใบรับเงินมัดจำนี้มาแสดงเมื่อมารับสินค้าที่บริษัทฯ ทุกครั้ง</span>
+                                </div>
+                                <div style="height:100%;float: left;width: 100%;position: relative;">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 12px;">*
+                                        แก้ไขหรือเปลี่ยนแปลงใบกำกับภาษีภายใน 7 วันเท่านั้น</span>
+                                </div>
+                                <div style="height:100%;float: left;width: 100%;position: relative;">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 12px;">*
+                                        ค่าบริการฝากสินค้า 30 วัน คิด 1% ของราคาสินค้า</span>
+                                </div>
+                                <div style="height:100%;float: left;width: 100%;position: relative;">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 12px;">*
+                                        สินค้าพิเศษไม่รับคืน หรือแลกเปลี่ยน เงินรับมัดจำนี้บริษัทสงวนสิทธิ์ในการไม่คืน
+                                        หากมีการยกเลิก</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width: 100%;    height: 200px;border-bottom: 1px solid black; margin-top: 10px">
+                            <div style="width: 100%;height: 80px;">
+                                <div style="height:200%;float: left;width: 16%;border-right: 1px solid grey;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 2px">ผู้บันทึกรายการ</span>
+                                </div>
+                                <div style="float: left;width: 16%;height: 200%;border-right: 1px solid grey;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;left: 5px">พนักงานขาย</span>
+                                </div>
+                                <div style="float: left;width: 16%;height: 200%;border-right: 1px solid grey;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px">ผู้มัดจำสินค้า</span>
+                                </div>
+                                <div style="float: left;width: 16%;height: 200%;border-right: 1px solid grey;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px">ผู้รับเงิน</span>
+                                </div>
+                                <div style="float: left;width: 36%;height: 200%;position: relative">
+                                    <span style="font-size: 0.68rem;position: absolute;bottom: 3px;right: 5px"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                <script src="convertthaimoney.js"></script>
+</body>
+
+</html>
