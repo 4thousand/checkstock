@@ -989,9 +989,7 @@
 </template>
 
 <script src="../../js/quotation.js">
-  
 </script>
 
 <style src="./quotation.css">
-  
 </style>

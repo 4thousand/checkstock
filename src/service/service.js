@@ -34,6 +34,16 @@ export default {
           error(response)
         })
     },
+    findCustomerID (payload, success, error){
+      Vue.axios.post(URL + ':8081/customer/v1/search/id', payload).then(
+        (response)=>{
+          success(response.data)
+        },
+        (response)=>{
+          error(response)
+        }
+      )
+    },
     showdocno (payload, success, error) {
       console.log(JSON.stringify(payload))
       Vue.axios.post(URL + ':8081/gendocno/v1/gen', JSON.stringify(payload)).then(

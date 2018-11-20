@@ -7,8 +7,9 @@ import sale from '@/components/quotation/quotation'
 import setting from '@/components/setting'
 import newquo from '@/components/quotation/newquo'
 import newsale from '@/components/sale/newsale'
+import deposit from '@/components/deposit/deposit'
 import saleorder from '@/components/saleorder/saleorder'
-import newsaleorder from '@/components/saleorder/newsaleorder'
+import newsaleorder from '@/components/saleorder/newsaleorder
 
 Vue.use(Router)
 
@@ -55,6 +56,10 @@ export default new Router({
       component: newsale
     },
     {
+      path: '/deposit',
+      name: 'deposit',
+      component: deposit
+    },
       path: '/newsaleorder/:id',
       name: 'newsaleorder',
       component: newsaleorder

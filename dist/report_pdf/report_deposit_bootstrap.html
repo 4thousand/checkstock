@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Document</title>
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css?family=Niramit');
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: auto;
+            /* auto is the initial value */
+            margin: 0mm;
+            /* this affects the margin in the printer settings */
+        }
+
+        .logo_size {
+            width: 132px;
+            height: 60px;
+            position: absolute;
+        }
+
+        .customer_detail_border {
+            border: 1px solid;
+            border-radius: 8px;
+            padding: 2px;
+        }
+
+        .receive_type {
+            border: 1px solid;
+            text-align: center;
+        }
+
+        .cost_summary {
+            text-align: right;
+        }
+
+        .border_header {
+            margin-top: 10px;
+        }
+
+        .signature{
+            margin-top: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="col-lg-6 col-md-6 col-6">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="border_header">
+                    <div class="col-lg-2 col-md-2 col-2">
+                        <img src="logo.jpg" class="logo_size" alt="">
+                    </div>
+                    <div class="col-lg-7 col-7">
+                        <span>บริษัท นพดลพานิช จำกัด</span><br>
+                        <span>392 ถ.เชียงใหม่-ลำปาง ต.ฟ้าฮ่าม อ.เมือง จ.เชียงใหม่ 50000</span><br>
+                        <span>โทร: (053) 240-377 แฟกซ์: (053) 244-411</span>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-3">
+                        <div class="receive_type">
+                            <span>ใบเสร็จรับเงิน/</span><br>
+                            <span>ใบรับเงินมัดจำ/ใบกำกับภาษี</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <span>ทะเบียนเลขที่ /เลขที่ประจำตัวผู้เสียภาษี 0505533000157 / สำนักงานใหญ่</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-7 customer_detail_border">
+                    <div class="col-lg-4 col-md-4 col-4">
+                        <span>รหัสลูกค้า:</span><br>
+                        <span>ชื่อลูกค้า:</span><br>
+                        <span>ที่อยู่:</span>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-8">
+                        <span>A06638</span><br>
+                        <span>กริยาน กินลาหันสา</span><br>
+                        <span>392 ถ.เชียงใหม่-ลำปาง ต.ฟ้าฮ่าม อ.เมือง จ.เชียงใหม่ 50000</span>
+                    </div>
+                </div>
+                <div class="col-lg-5 customer_detail_border">
+                    <div class="col-lg-5 col-md-5 col-5">
+                        <span>เลขที่เอกสาร:</span><br>
+                        <span>วันที่เอกสาร:</span><br>
+                        <span>เลขที่ใบจอง:</span>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-7">
+                        <span>S01-IDM6111-0002</span><br>
+                        <span>01/11/2561</span><br>
+                        <span>S01-ROV6110-0719</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <table class="table-bordered col-lg-12 col-md-12 col-12">
+                    <thead>
+                        <tr class="cost_summary">
+                            <th scope="col">ลำดับ</th>
+                            <th scope="col">รหัสรายละเอียด</th>
+                            <th scope="col">คลัง</th>
+                            <th scope="col">จำนวน</th>
+                            <th scope="col">หน่วย</th>
+                            <th scope="col">จำนวนเงิน</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td colspan="4">เงินรับเงินมัดจำเพื่อเป็นค่าสินค้าดังนี้</td>
+                            <td class="cost_summary">5,348.00</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>2002006 ท่อ PVC ชั้น 8.5 ขนาด 2"</td>
+                            <td>S1-B/-</td>
+                            <td>10,000</td>
+                            <td>ท่อน</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>2002006 ท่อ PVC ชั้น 8.5 ขนาด 2"</td>
+                            <td>S1-B/-</td>
+                            <td>10,000</td>
+                            <td>ท่อน</td>
+                            <td></td>
+                        </tr>
+                        <tr class="cost_summary">
+                            <td colspan="5">จำนวนเงินก่อนภาษี(บาท)</td>
+                            <td>4,998.13</td>
+                        </tr>
+                        <tr class="cost_summary">
+                            <td colspan="5">ภาษีค่าเพิ่ม(บาท)อัตรา 7%</td>
+                            <td>349.87</td>
+                        </tr>
+                        <tr class="cost_summary">
+                            <td colspan="5">รวมเงินทั้งสิ้น(บาท)</td>
+                            <td>5,348.00</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">ชำระโดย:</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <p>*** เอกสารนี้ ไม่สามารถเบิกจ่ายสินค้าได้ </p>
+                                <p>**** กรณีชำระด้วยเช็ค บริษัทจะส่งสินค้าให้เมื่อเช็คผ่านเข้าบัญชีบริษัทแล้ว</p>
+                                <p>* กรุณานำใบรับเงินมัดจำนี้มาแสดงเมื่อมารับสินค้าที่บริษัทฯ ทุกครั้ง</p>
+                                <p>* แก้ไขหรือเปลี่ยนแปลงใบกำกับภาษีภายใน 7 วันเท่านั้น</p>
+                                <p>* ค่าบริการฝากสินค้า 30 วัน คิด 1% ของราคาสินค้า</p>
+                                <p>* สินค้าพิเศษไม่รับคืน หรือแลกเปลี่ยน เงินรับมัดจำนี้บริษัทสงวนสิทธิ์ในการไม่คืน
+                                    หากมีการยกเลิก</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table-bordered col-lg-12 col-md-12 col-12">
+                    <tbody>
+                        <tr>
+                            <td class="signature">ผู้บันทึกรายการ</td>
+                            <td class="signature">พนักงานขาย</td>
+                            <td class="signature">ผู้มัดจำสินค้า</td>
+                            <td class="signature">ผู้รับเงิน</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+</body>
+
+</html>
