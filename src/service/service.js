@@ -48,6 +48,7 @@ export default {
       console.log(JSON.stringify(payload))
       Vue.axios.post(URL + ':8081/gendocno/v1/gen', JSON.stringify(payload)).then(
         (response) => {
+          console.log(response.data)
           success(response.data)
         },
         (response) => {

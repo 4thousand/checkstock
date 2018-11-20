@@ -45,12 +45,20 @@
                 <md-icon>send</md-icon>
                 <span class="md-list-item-text">ใบสั่งขาย</span>
               </md-list-item>
+
               <!-- ใบมัดจำ -->
                <md-list-item @click="goindex('/deposit')">
                 <md-icon>assignment</md-icon>
                 <span class="md-list-item-text">ใบรับเงินมัดจำ</span>
               </md-list-item>
               <!-- ใบมัดจำ -->
+
+
+              <md-list-item @click="goindex('/saleorder')">
+                <md-icon>send</md-icon>
+                <span class="md-list-item-text">ใบสั่งขาย (ทดสอบ)</span>
+              </md-list-item>
+
   
               <md-list-item>
                 <md-icon>delete</md-icon>
@@ -258,6 +266,63 @@ export default {
         this.$router.push({ name: "newsale", params: { id: 0 } });
         return;
       }
+
+        if(this.$route.fullPath.search("newsale") == 1){
+          this.topicmenucolor = '#795548'
+          this.topicmenu = 'สร้าง ใบสั่งขาย'
+          this.icon = 'bookmark_border'
+         }
+
+         if(this.$route.fullPath.search("newsaleorder") == 1){
+          this.topicmenucolor = '#795548'
+          this.topicmenu = 'สร้าง ใบสั่งขาย (ทดสอบ)'
+          this.icon = 'bookmark_border'
+         }
+      },
+      toggleMenu() {
+        this.menuVisible = !this.menuVisible;
+      },
+      goindex(val) {
+        // localStorage.iddocno = 0
+          this.showNavigation = false
+
+        if(val == '/sale'){
+         this.$router.push({ name : 'newsale',params : { id: 0}})
+         return
+        }
+
+        if(val == '/saleorder'){
+         this.$router.push({ name : 'newsaleorder',params : { id: 0}})
+         return
+        }
+       
+        if(val == '/quotation'){
+          // this.topicmenu = 'ใบเสนอราคา'
+          this.$router.push({ name : 'newquo',params : { id: 0}})
+          return
+        }
+       
+        this.$router.push(val);
+      },
+        username () {
+  		 	// console.log(localStor/age.Datauser)
+           var Datauser = JSON.parse(localStorage.Datauser)
+           this.name = Datauser.username
+           this.role = Datauser.rolename
+           this.branchname = Datauser.branch_name
+           this.pic_path = Datauser.pic_path
+           this.sale_code = Datauser.sale_code
+           this.company_name = Datauser.company_name
+          //  console.log(this.branchname)
+        // localStorage.rolename = Datauser.rolename
+  	}
+    },
+    mounted() {
+ 
+    setInterval(function () {
+  		this.username()
+    }.bind(this),1000)
+
 
       if (val == "/quotation") {
         // this.topicmenu = 'ใบเสนอราคา'
