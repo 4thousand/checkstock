@@ -1104,4 +1104,12 @@ select {
 .payment-sub-header {
   margin-left: 5%;
 }
+
+.article-set, .tax-head, .tax-summary {
+    text-align: right !important;
+}
+
+.form-control:disabled, .form-control[readonly] {
+  text-align: right !important;
+}
 </style>
