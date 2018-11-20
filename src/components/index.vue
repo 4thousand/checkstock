@@ -9,6 +9,7 @@
           <md-input @keyup.enter="showalldoc" v-model="keyword_showalldoc"></md-input>
         </md-field>
       </div>
+    
       <!-- payloadreal -->
       <div v-for="val in dataall">
         <div @click="seedetail(val)" class="col-12 showhover" style="cursor: pointer;margin-bottom:10px">

@@ -45,6 +45,11 @@
                 <md-icon>send</md-icon>
                 <span class="md-list-item-text">ใบสั่งขาย</span>
               </md-list-item>
+
+              <md-list-item @click="goindex('/saleorder')">
+                <md-icon>send</md-icon>
+                <span class="md-list-item-text">ใบสั่งขาย (ทดสอบ)</span>
+              </md-list-item>
   
               <md-list-item>
                 <md-icon>delete</md-icon>
@@ -226,9 +231,15 @@
              this.icon = 'build'
          }
 
-          if(this.$route.fullPath.search("newsale") == 1){
+        if(this.$route.fullPath.search("newsale") == 1){
           this.topicmenucolor = '#795548'
           this.topicmenu = 'สร้าง ใบสั่งขาย'
+          this.icon = 'bookmark_border'
+         }
+
+         if(this.$route.fullPath.search("newsaleorder") == 1){
+          this.topicmenucolor = '#795548'
+          this.topicmenu = 'สร้าง ใบสั่งขาย (ทดสอบ)'
           this.icon = 'bookmark_border'
          }
       },
@@ -241,6 +252,11 @@
 
         if(val == '/sale'){
          this.$router.push({ name : 'newsale',params : { id: 0}})
+         return
+        }
+
+        if(val == '/saleorder'){
+         this.$router.push({ name : 'newsaleorder',params : { id: 0}})
          return
         }
        
