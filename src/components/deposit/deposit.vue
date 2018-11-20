@@ -455,6 +455,10 @@
                             <div class="tax-bottom-part tax-head">
                                 <button data-toggle="modal" data-target="#updateModal" class="btn btn-primary"><span>{{convertToBaht(totalPayment)}}</span></button>
                             </div>
+                             <!-- <form id="tax_report" :action="php + '/vue_sale/report_pdf/report_deposit.php'" method="post" target="_blank">
+			      		        <input type="hidden" name="dataquotation">
+                                <md-button type="submit" style="float: right; position: relative; top: -37px;" class="md-raised md-primary">Print</md-button>
+			      	        </form> -->
                         </div>
                     </div>
                 </div>
@@ -641,6 +645,7 @@ export default {
       date: "",
       searchCustomerInput: "",
       searchEmployeeInput: "",
+      php: 'http://' + document.domain,
       depositSerial: [
         {
           id: "1",
@@ -1105,11 +1110,14 @@ select {
   margin-left: 5%;
 }
 
-.article-set, .tax-head, .tax-summary {
-    text-align: right !important;
+.article-set,
+.tax-head,
+.tax-summary {
+  text-align: right !important;
 }
 
-.form-control:disabled, .form-control[readonly] {
+.form-control:disabled,
+.form-control[readonly] {
   text-align: right !important;
 }
 </style>

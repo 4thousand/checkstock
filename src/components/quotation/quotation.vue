@@ -991,5 +991,5 @@
 <script src="../../js/quotation.js">
 </script>
 
-<style scoped src="./quotation.css">
+<style  src="./quotation.css">
 </style>
