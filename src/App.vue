@@ -59,6 +59,10 @@
                 <span class="md-list-item-text">ใบสั่งขาย (ทดสอบ)</span>
               </md-list-item>
 
+              <md-list-item @click="goindex('/dashboard')">
+                <md-icon>send</md-icon>
+                <span class="md-list-item-text">Dashboard</span>
+              </md-list-item>
   
               <md-list-item>
                 <md-icon>delete</md-icon>
