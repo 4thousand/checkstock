@@ -315,36 +315,8 @@ export default {
            this.company_name = Datauser.company_name
           //  console.log(this.branchname)
         // localStorage.rolename = Datauser.rolename
-  	}
+  	  }
     },
-    mounted() {
- 
-    setInterval(function () {
-  		this.username()
-    }.bind(this),1000)
-
-
-      if (val == "/quotation") {
-        // this.topicmenu = 'ใบเสนอราคา'
-        this.$router.push({ name: "newquo", params: { id: 0 } });
-        return;
-      }
-
-      this.$router.push(val);
-    },
-    username() {
-      // console.log(localStor/age.Datauser)
-      var Datauser = JSON.parse(localStorage.Datauser);
-      this.name = Datauser.username;
-      this.role = Datauser.rolename;
-      this.branchname = Datauser.branch_name;
-      this.pic_path = Datauser.pic_path;
-      this.sale_code = Datauser.sale_code;
-      this.company_name = Datauser.company_name;
-      //  console.log(this.branchname)
-      // localStorage.rolename = Datauser.rolename
-    }
-  },
   mounted() {
     setInterval(
       function() {
@@ -352,8 +324,16 @@ export default {
       }.bind(this),
       1000
     );
+
+       if (val == "/quotation") {
+        // this.topicmenu = 'ใบเสนอราคา'
+        this.$router.push({ name: "newquo", params: { id: 0 } });
+        return;
+      }
+
+      this.$router.push(val);
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
