@@ -7,7 +7,6 @@ import sale from '@/components/quotation/quotation'
 import setting from '@/components/setting'
 import newquo from '@/components/quotation/newquo'
 import newsale from '@/components/sale/newsale'
-import test from '@/components/quotation/test'
 import saleorder from '@/components/saleorder/saleorder'
 import newsaleorder from '@/components/saleorder/newsaleorder'
 
@@ -59,11 +58,6 @@ export default new Router({
       path: '/newsaleorder/:id',
       name: 'newsaleorder',
       component: newsaleorder
-    },
-    {
-      path: '/test',
-      name: 'test',
-      component: test
     }
   ]
 })

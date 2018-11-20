@@ -13,8 +13,9 @@
                   </div>
                   <div class="md-layout-item md-size-20 md-xsmall-size-100">
                     <span class="md-title sub">
-                                  เลขที่ใบเสนอราคา
-                              </span>
+                        เลขที่ใบเสนอราคา
+                    </span>
+                  
                     <md-field>
                       <md-select  v-hotkey="keymap"  @input="showdocno" placeholder="กรุณาเลือก" v-model="tablecode" name="country" id="country">
                         <md-option value="QT">ใบเสนอราคา</md-option>
@@ -148,7 +149,8 @@
                       <md-table-cell   md-label="รหัสสินค้า" md-sort-by="item_code" md-numeric><input type="text" class="datatable" disabled v-model="item.item_code"></md-table-cell>
                       <md-table-cell md-label="ชื่อสินค้า" md-sort-by="item_name"><input type="text" class="datatable" disabled v-model="item.item_name"></md-table-cell>
 
-<md-table-cell md-label="คลังสินค้า/ที่เก็บ" md-sort-by="warehouse"><input type="text" style="padding-right: 31px !important;" class="datatable" v-model="item.warehouse"><div @click="searchstorecode(item)"><md-icon class="search_unitcode">arrow_drop_down</md-icon></div></md-table-cell>
+                      <md-table-cell md-label="คลังสินค้า" md-sort-by="wh_code"><input type="text" style="padding-right: 31px !important;" class="datatable" v-model="item.wh_code"><div @click="searchstorecode(item)"><md-icon class="search_unitcode">arrow_drop_down</md-icon></div></md-table-cell>
+                      <md-table-cell md-label="ที่เก็บ" md-sort-by="shelf_code"><input type="text" style="padding-right: 31px !important;" class="datatable" v-model="item.shelf_code"><div @click="searchstorecode(item)"><md-icon class="search_unitcode">arrow_drop_down</md-icon></div></md-table-cell>
 
                       <md-table-cell md-label="หน่วยนับ" md-sort-by="unit_code"><input  type="text" style="padding-right: 31px !important;" class="datatable" v-model="item.unit_code.trim()"><div @click="searchunticode(item)"><md-icon class="search_unitcode">arrow_drop_down</md-icon></div></md-table-cell>
 
@@ -744,8 +746,7 @@
       <div>
         <md-dialog :md-active.sync="showDialogproduct">
           <md-dialog-title>ค้นหาสินค้า</md-dialog-title>
-
-<!--             
+            <!--             
              <md-dialog-title style="padding-left:25px;padding-top:0;padding-right:0;" v-if="hovershow_stock == true">คลังสินค้า {{ namestock }}</md-dialog-title>
               <div v-if="hovershow_stock == true"  class="table-responsive" style="overflow-y: auto;">
                 <table id="searchitem" class="table table-hover">
@@ -766,7 +767,6 @@
                   </tbody>
                 </table>
               </div> -->
-
           <md-tabs id="none" md-dynamic-height>
             <md-tab md-label="">
               <div class="table-responsive" style="overflow-y: auto;">
@@ -785,21 +785,23 @@
                     </tr>
                   </thead>
                   <tbody  v-for="(val,index) in dataproductDialog" id="valuetable">
-                    <tr  style="text-align:center;cursor:pointer">
-                      <td @click="showdetail(val)" >{{index+1}}</td>
-                      <td @click="showdetail(val)" v-show="val.pic_path_1"><img style="width:50px;height:50px;" class="hoverzoom" :src="val.pic_path_1" alt=""></td>
-                      <td @click="showdetail(val)" v-show="!val.pic_path_1"><img style="max-width:50px;max-height:50px;" src="../../assets/No_Image_Available.png" alt=""></td>
-                      <td @click="showdetail(val)" >{{val.bar_code}}</td>
-                      <td @click="showdetail(val)" >{{val.item_name}}</td>
-                      <td @click="showdetail(val)" >{{val.unit_code}}</td>
-                      <td @click="showdetail(val)" v-show="billtype == 0">{{val.sale_price_1}}</td>
-                      <td @click="showdetail(val)" v-show="billtype == 1">{{val.sale_price_2}}</td>
-                      <td><md-button @click="findstock(val,index)" style="height:18px;" class="md-primary">{{ val.stk_qty }} </md-button></td>
+                    <tr  @click="findstock(val,index)" style="text-align:center;cursor:pointer">
+                      <td  >{{index+1}}</td>
+                      <td  v-show="val.pic_path_1"><img style="width:50px;height:50px;" class="hoverzoom" :src="val.pic_path_1" alt=""></td>
+                      <td  v-show="!val.pic_path_1"><img style="max-width:50px;max-height:50px;" src="../../assets/No_Image_Available.png" alt=""></td>
+                      <td  >{{val.bar_code}}</td>
+                      <td  >{{val.item_name}}</td>
+                      <td  >{{val.unit_code}}</td>
+                      <td  v-show="billtype == 0">{{val.sale_price_1}}</td>
+                      <td  v-show="billtype == 1">{{val.sale_price_2}}</td>
+                      <td><div style="height:18px;" >{{ val.stk_qty }} </div></td>
                     </tr>
-                    <tr >
-                      <td  colspan="10" >
-                       <div :class="'hover'+index" style="text-align:right;visibility:hidden;height:0;transition:all 0.5s cubic-bezier(0.47, 0.46, 0, 1.02) 0s;"  v-for="(value,index2) in stockall" >
-                       คลังสินค้า : {{val.stk_location[index2].wh_code}} ชั้นเก็บ : {{val.stk_location[index2].shelf_code}} จำนวน : {{val.stk_location[index2].qty}} <br>
+                    <tr class="nohover">
+                      <td style="display:none;"  :class="'trshow'+index" colspan="10" >
+                        <span > กรุณาเลือกคลัง </span>
+                       <div class="hovercolor" :class="'hover'+index" style="text-align:right;visibility:hidden;height:0;transition:all 0.5s cubic-bezier(0.47, 0.46, 0, 1.02) 0s;"  v-for="(value,index2) in stockall" :key="index2" >
+                         <!--  -->
+                      <md-button @click="showdetail(val,value)" style="margin: 5px 0" class="md-raised md-primary"> คลังสินค้า : {{val.stk_location[index2].wh_code}} ชั้นเก็บ : {{val.stk_location[index2].shelf_code}} จำนวน : {{val.stk_location[index2].qty}} </md-button>
                       </div></td>
                     </tr>
                   </tbody>

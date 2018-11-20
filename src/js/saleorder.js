@@ -612,21 +612,22 @@ const toLower = text => {
           })
   
       },
-      showdetail(val) {
+      showdetail(val,stock) {
+        // alert(JSON.stringify(val)+JSON.stringify(stock))
+        // return
         console.log("----->"+JSON.stringify(val))
         if (this.billtype == 0) {
-
           
             //ตรวจสอบการซ้ำของสินค้า
-            for (var i=0; i < this.cart_item_code.length; i++) {
-                if (this.cart_item_code[i].bar_code === val.bar_code) {
-                    alert("รหัส Barcode สินค้าซ้ำกับที่ระบุไว้ก่อนแล้ว กรุณาตรวจสอบอีกครั้ง "+this.cart_item_code[i].bar_code+" / "+val.bar_code);
-                    return
-                }
-            }
-            console.log(this.cart_item_code+' '+val.bar_code)
+          //   for (var i=0; i < this.cart_item_code.length; i++) {
+          //       if (this.cart_item_code[i].bar_code === val.bar_code) {
+          //           alert("รหัส Barcode สินค้าซ้ำกับที่ระบุไว้ก่อนแล้ว กรุณาตรวจสอบอีกครั้ง "+this.cart_item_code[i].bar_code+" / "+val.bar_code);
+          //           return
+          //       }
+          //   }
+          //   console.log(this.cart_item_code+' '+val.bar_code)
         
-          this.cart_item_code.push({bar_code:val.bar_code})
+          // this.cart_item_code.push({bar_code:val.bar_code})
 
          // console.log("*******************"+JSON.stringify(this.cart_item_code))
 
@@ -635,11 +636,9 @@ const toLower = text => {
             item_code: val.item_code,
             bar_code: val.bar_code,
             item_name: val.item_name,
-
-            // item_stock: val.item_name,
-            // item_storage: val.item_name,
-
             unit_code: val.unit_code,
+            wh_code: stock.wh_code,
+            shelf_code: stock.shelf_code,
             qty: 1,
             price: val.sale_price_1,
             discount_word: '0',
@@ -660,11 +659,9 @@ const toLower = text => {
             item_code: val.item_code,
             bar_code: val.bar_code,
             item_name: val.item_name,
-
-            // item_stock: val.item_name,
-            // item_storage: val.item_name,
-
             unit_code: val.unit_code,
+            wh_code: stock.wh_code,
+            shelf_code: stock.shelf_code,
             qty: 1,
             price: val.sale_price_2,
             discount_word: '0',
@@ -950,44 +947,43 @@ const toLower = text => {
     findstock(val,index){
    
         console.log(index)
-        // console.log(this.stockall.length)
-        // for (let i = 0; i < this.stockall.length ; i++) {
-        //   if(index != i){
-        //     console.log(index+':'+i)
-        //   document.getElementsByClassName('hover'+i)[i].style.display = 'none';
-        //   document.getElementsByClassName('hover'+i)[i].style.height = '0px';
-        //  }
-        // }
-  
+        
+        
         for (let i = 0; i < this.stockall.length; i++) {
           document.getElementsByClassName('hover'+index)[i].style.visibility = 'visible';
-          document.getElementsByClassName('hover'+index)[i].style.height = '20px';
+          document.getElementsByClassName('hover'+index)[i].style.height = '35px';
+        }
+        for (let i = 0; i < this.stockall.length; i++) {
+          document.getElementsByClassName('trshow'+index)[i].style.display = 'table-cell';
         }
         return
           
       
-      this.namestock = ''
-      this.stockobj = []
-      console.log(val.item_code)
-      var payload = {
-        item_code : val.item_code
-       }
+      // this.namestock = ''
+      // this.stockobj = []
+      // console.log(val.item_code)
+      // var payload = {
+      //   item_code : val.item_code
+      //  }
   
-      api.searchunitcode(payload,
-        (result) => {
-          console.log(result)
-          console.log(JSON.stringify(result.data))
-          console.log(JSON.stringify(result.data.stock))
-          this.namestock = result.data[0].item_name
-          this.stockobj = result.data[0].stk_location
-          console.log(result.data[0].stk_location.length)
-        },
-        (error) => {
-          console.log(JSON.stringify(error))
-          alertify.error('Data ข้อมูล ค้นหาคลัง ผิดพลาด');
-        })
+      // api.searchunitcode(payload,
+      //   (result) => {
+      //     console.log(result)
+      //     console.log(JSON.stringify(result.data))
+      //     console.log(JSON.stringify(result.data.stock))
+      //     this.namestock = result.data[0].item_name
+      //     this.stockobj = result.data[0].stk_location
+      //     console.log(result.data[0].stk_location.length)
+      //   },
+      //   (error) => {
+      //     console.log(JSON.stringify(error))
+      //     alertify.error('Data ข้อมูล ค้นหาคลัง ผิดพลาด');
+      //   })
       // alert('ทดสอบ')
-    }
+    },
+    selectstock(val){
+      alert(JSON.stringify(val)) 
+    },
     },
     created() {
       this.searched = this.dproducts;
