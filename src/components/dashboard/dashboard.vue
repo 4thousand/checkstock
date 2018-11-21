@@ -6,7 +6,7 @@
                     Dashboard
                 </h1>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8 col-12">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Graph</h4>

@@ -8,7 +8,7 @@
                              <span>ใบรับเงินมัดจำ</span>    
                         </div>
                         <div class="deposit-border">
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
                                         <p class="article-set col-4">ค้นหา :</p>
@@ -19,13 +19,13 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="row">
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> เลขที่ใบเงินมัดจำ :</p>
                                         <div class="col-7">
-                                            <input type="text" class="form-control" v-model="serialNo">
+                                            <input type="text" class="form-control" disabled v-model="serialNo">
                                         </div>
                                     </div>
                                 </div>
@@ -132,6 +132,20 @@
                                         <p class="article-set col-4"><span style="color:red">*</span> ชื่อพนักงานขาย :</p>
                                         <div class="col-7">
                                             <input type="text" disabled v-model="employeeName" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group row">
+                                        <p class="article-set col-4"><span style="color:red">*</span> สาขาร้าน :</p>
+                                        <div class="col-7">
+                                            <select @change="createDepositNoApi()" v-model="branchId" class="form-control">
+                                                <option value="1">นพดลพานิช สำนักงานใหญ่</option>
+                                                <option value="2">เอสซีจี โฮมโซลูชั่น (แยกต้นเปา)</option>
+                                                <option value="3">เอ็กซ์เปิร์ท เพ้นท์</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -462,10 +476,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal fade" id="searchModal"><!--ค้นหาใบมัดจำ-->
+                <!-- <div class="modal fade" id="searchModal">
                     <div class="modal-dialog modal-lg">
     
-                        <!-- Modal content-->
+
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title"><span>ค้นหาเลขที่ใบมัดจำ</span></h4>
@@ -504,7 +518,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="modal fade" id="searchCustomerModal"><!--ค้นหาลูกค้า-->
                     <div class="modal-dialog modal-lg">
     
@@ -748,15 +762,6 @@ export default {
     check_date_p(e) {
       alert(e);
     },
-    calFee() {
-      //alert(this.feeType);
-      if (this.feeType == "0") {
-      }
-      if (this.feeType == "1") {
-      }
-      if (this.feeType == "2") {
-      }
-    },
     selectDepositList() {
       this.oldId = this.nextTodoId;
     },
@@ -999,23 +1004,6 @@ export default {
         });
       }
     },
-    createDepositNoApi() {
-      let payload = {
-        branch_id: this.feeType,
-        table_code: "DP",
-        bill_type: this.cashPaymentPart
-      };
-      console.log(payload);
-      api.showdocno(
-          payload,
-          result=>{
-              console.log(JSON.stringify(result.data));
-          },
-          error => {
-            console.log(error);
-          }
-      );
-    },
     creditDepositDocApi(){
         let payload = {
             doc_no:this.createDepositNoApi(),
@@ -1068,6 +1056,24 @@ export default {
   },
   computed: {
     //ภาษีแยกนอก
+    createDepositNoApi() {
+      let payload = {
+        branch_id: this.branchId,
+        table_code: "DP",
+        bill_type: this.feeType
+      };
+      console.log(payload);
+      api.showdocno(
+          payload,
+          result=>{
+              console.log(JSON.stringify(result.data));
+          },
+          error => {
+            console.log(error);
+          }
+      );
+      return result;
+    },
     externalVAT() {
       return this.valueBTax * (this.taxrate / 100);
     },
