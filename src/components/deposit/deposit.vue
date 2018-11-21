@@ -645,7 +645,7 @@ export default {
       date: "",
       searchCustomerInput: "",
       searchEmployeeInput: "",
-      php: 'http://' + document.domain,
+      php: "http://" + document.domain,
       depositSerial: [
         {
           id: "1",
@@ -728,12 +728,14 @@ export default {
       bankReceiveAccountNo: "",
       bankReceiveName: "",
       bankReceiverBranch: "",
+      billType:"0",
       price: "",
       feeType: "",
       nextTodoId: 4,
       oldId: "",
       oldList: "",
-      key_cus: ""
+      key_cus: "",
+      companyId:""
     };
   },
   components: {
@@ -996,6 +998,72 @@ export default {
           balance: 0
         });
       }
+    },
+    createDepositNoApi() {
+      let payload = {
+        branch_id: this.feeType,
+        table_code: "DP",
+        bill_type: this.cashPaymentPart
+      };
+      console.log(payload);
+      api.showdocno(
+          payload,
+          result=>{
+              console.log(JSON.stringify(result.data));
+          },
+          error => {
+            console.log(error);
+          }
+      );
+    },
+    creditDepositDocApi(){
+        let payload = {
+            doc_no:this.createDepositNoApi(),
+            company_id: this.companyId,
+            branch_id: this.branchId,
+            //id: this.nextTodoId++,
+            // serialNo: this.serialNo,
+            // taxNo: this.taxNo,
+            tax_type: this.feeType,
+            ar_id: this.customerID,
+            ar_code:this.customerName,
+            // documentDate: this.documentDate,
+            // taxApplyDate: this.taxApplyDate,
+            // subNo: this.subNo,
+            sale_id: this.employeeID,
+            salec_code: this.employeeName,
+            // department: this.department,
+            bill_type:this.billType,
+            tax_rate: this.taxrate,
+        //   cashPaymentPart: this.cashPaymentPart,
+            cash_amount: this.cashPayment,
+        //   creditPaymentPart: this.creditPaymentPart,
+        //   creditCardName: this.creditCardName,
+        //   creditNumber: this.creditNumber,
+        //   checkPaymentPart: this.checkPaymentPart,
+        //   checkBankName: this.checkBankName,
+        //   checkBankBranch: this.checkBankBranch,
+        //   checkNumber: this.checkNumber,
+        //   checkDate: this.checkDate,
+        //   checkPayment: this.checkPayment,
+        //   transferName: this.transferName,
+        //   transferAccountNo: this.transferAccountNo,
+        //   bankTransfererName: this.bankTransfererName,
+        //   bankTransfererBanch: this.bankTransfererBanch,
+        //   receiveName: this.receiveName,
+        //   bankReceiveAccountNo: this.bankReceiveAccountNo,
+        //   bankReceiveName: this.bankReceiveName,
+        //   bankReceiverBranch: this.bankReceiverBranch,
+        //   transferPayment: this.transferPayment,
+        //   balance: 0
+            total_amount: this.totalPayment
+        }
+        api.createdeposit(
+            payload,
+            result=>{
+                console.log(JSON.stringify(result.data));
+            }
+        )
     }
   },
   computed: {

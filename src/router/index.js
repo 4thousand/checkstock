@@ -8,6 +8,7 @@ import setting from '@/components/setting'
 import newquo from '@/components/quotation/newquo'
 import newsale from '@/components/sale/newsale'
 import deposit from '@/components/deposit/deposit'
+import depositlist from '@/components/deposit/depositlist'
 import saleorder from '@/components/saleorder/saleorder'
 import newsaleorder from '@/components/saleorder/newsaleorder'
 import dashboard from '@/components/dashboard/dashboard'
@@ -60,6 +61,11 @@ export default new Router({
       path: '/deposit',
       name: 'deposit',
       component: deposit
+    },
+    {
+      path: '/depositlist',
+      name: 'depositlist',
+      component: depositlist
     },
     {
       path: '/newsaleorder/:id',

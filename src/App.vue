@@ -7,7 +7,7 @@
             <md-button class="md-icon-button" @click="showNavigation = true">
               <md-icon>menu</md-icon>
             </md-button>
-             <md-icon  class="md-size-1x" style="margin-left:10px;margin-right:10px;">{{icon}} </md-icon> <span style="margin-left: 14px;" class="md-title">{{topicmenu}}</span>
+             <md-icon  class="md-size-1x md-xsmall-hide" style="margin-left:10px;margin-right:10px;">{{icon}} </md-icon> <span style="margin-left: 14px;" class="md-title">{{topicmenu}}</span>
             
       <!-- <md-autocomplete style="margin-left:30px;width: 45vw;" 
       v-model="selectedEmployee"
@@ -19,9 +19,10 @@
 
             <div class="md-toolbar-section-end">
               <md-button @click="showSidepanel = true">
-                <md-icon class="md-size-1x" style="margin-right:10px">account_balance </md-icon> 
-                  <span style="margin-right:20px"> {{ company_name }}</span>
-                <md-icon class="md-size-1x" style="margin-right:10px">account_circle</md-icon>{{ name }}</md-button>
+                <md-icon class="md-size-1x md-xsmall-hide" style="margin-right:10px">account_balance </md-icon> 
+                  <span class="md-xsmall-hide" style="margin-right:20px"> {{ company_name }}</span>
+                <md-icon class="md-size-1x">account_circle</md-icon><span class="md-xsmall-hide" style="margin-right:10px"></span><span class="md-xsmall-hide">{{ name }}</span>
+              </md-button>
             </div>
           </md-toolbar>
   
@@ -59,7 +60,7 @@
               </md-list-item> -->
 
               <!-- ใบมัดจำ -->
-               <md-list-item @click="goindex('/deposit')">
+               <md-list-item @click="goindex('/depositlist')">
                 <md-icon>assignment</md-icon>
                 <span class="md-list-item-text">ใบรับเงินมัดจำ</span>
               </md-list-item>
@@ -275,8 +276,8 @@ export default {
       // localStorage.iddocno = 0
       this.showNavigation = false;
 
-      if (val == "/deposit") {
-        this.$router.push({ name: "deposit", params: { id: 0 } });
+      if (val == "/depositlist") {
+        this.$router.push({ name: "depositlist" });
         return;
       }
 
@@ -285,56 +286,56 @@ export default {
         return;
       }
 
-        if(this.$route.fullPath.search("newsale") == 1){
-          this.topicmenucolor = '#795548'
-          this.topicmenu = 'สร้าง ใบสั่งขาย'
-          this.icon = 'bookmark_border'
-         }
+      if (this.$route.fullPath.search("newsale") == 1) {
+        this.topicmenucolor = "#795548";
+        this.topicmenu = "สร้าง ใบสั่งขาย";
+        this.icon = "bookmark_border";
+      }
 
-         if(this.$route.fullPath.search("newsaleorder") == 1){
-          this.topicmenucolor = '#795548'
-          this.topicmenu = 'สร้าง ใบสั่งขาย (ทดสอบ)'
-          this.icon = 'bookmark_border'
-         }
-      },
-      toggleMenu() {
-        this.menuVisible = !this.menuVisible;
-      },
-      goindex(val) {
-        // localStorage.iddocno = 0
-          this.showNavigation = false
-
-        if(val == '/sale'){
-         this.$router.push({ name : 'newsale',params : { id: 0}})
-         return
-        }
-
-        if(val == '/saleorder'){
-         this.$router.push({ name : 'newsaleorder',params : { id: 0}})
-         return
-        }
-       
-        if(val == '/quotation'){
-          // this.topicmenu = 'ใบเสนอราคา'
-          this.$router.push({ name : 'newquo',params : { id: 0}})
-          return
-        }
-       
-        this.$router.push(val);
-      },
-        username () {
-  		 	// console.log(localStor/age.Datauser)
-           var Datauser = JSON.parse(localStorage.Datauser)
-           this.name = Datauser.username
-           this.role = Datauser.rolename
-           this.branchname = Datauser.branch_name
-           this.pic_path = Datauser.pic_path
-           this.sale_code = Datauser.sale_code
-           this.company_name = Datauser.company_name
-          //  console.log(this.branchname)
-        // localStorage.rolename = Datauser.rolename
-  	  }
+      if (this.$route.fullPath.search("newsaleorder") == 1) {
+        this.topicmenucolor = "#795548";
+        this.topicmenu = "สร้าง ใบสั่งขาย (ทดสอบ)";
+        this.icon = "bookmark_border";
+      }
     },
+    toggleMenu() {
+      this.menuVisible = !this.menuVisible;
+    },
+    goindex(val) {
+      // localStorage.iddocno = 0
+      this.showNavigation = false;
+
+      if (val == "/sale") {
+        this.$router.push({ name: "newsale", params: { id: 0 } });
+        return;
+      }
+
+      if (val == "/saleorder") {
+        this.$router.push({ name: "newsaleorder", params: { id: 0 } });
+        return;
+      }
+
+      if (val == "/quotation") {
+        // this.topicmenu = 'ใบเสนอราคา'
+        this.$router.push({ name: "newquo", params: { id: 0 } });
+        return;
+      }
+
+      this.$router.push(val);
+    },
+    username() {
+      // console.log(localStor/age.Datauser)
+      var Datauser = JSON.parse(localStorage.Datauser);
+      this.name = Datauser.username;
+      this.role = Datauser.rolename;
+      this.branchname = Datauser.branch_name;
+      this.pic_path = Datauser.pic_path;
+      this.sale_code = Datauser.sale_code;
+      this.company_name = Datauser.company_name;
+      //  console.log(this.branchname)
+      // localStorage.rolename = Datauser.rolename
+    }
+  },
   mounted() {
     setInterval(
       function() {
@@ -343,15 +344,15 @@ export default {
       1000
     );
 
-       if (val == "/quotation") {
-        // this.topicmenu = 'ใบเสนอราคา'
-        this.$router.push({ name: "newquo", params: { id: 0 } });
-        return;
-      }
+    if (val == "/quotation") {
+      // this.topicmenu = 'ใบเสนอราคา'
+      this.$router.push({ name: "newquo", params: { id: 0 } });
+      return;
+    }
 
-      this.$router.push(val);
+    this.$router.push(val);
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -435,7 +436,7 @@ tr th {
   (
     primary: md-get-palette-color(blue, A200),
     // The primary color of your application accent: md-get-palette-color(orange, A200),
-    // The accent or secondary color theme: dark / / This can be dark or light
+      // The accent or secondary color theme: dark / / This can be dark or light
   )
 );
 @import "~vue-material/dist/theme/all";
