@@ -76,6 +76,11 @@
                 <md-icon>send</md-icon>
                 <span class="md-list-item-text">Dashboard</span>
               </md-list-item>
+
+              <md-list-item @click="goindex('/utility')">
+                <md-icon>build</md-icon>
+                <span class="md-list-item-text">Utility</span>
+              </md-list-item>
   
               <!-- <md-list-item>
                 <md-icon>delete</md-icon>
