@@ -397,7 +397,7 @@ table#searchitem{
   /* .md-button .md-ripple:nth-child(2){
     width: 53px;
   } */
-@media (max-width: 768px){
+/* @media (max-width: 768px){
 .container {
     max-width: 960px;
 }
@@ -407,7 +407,7 @@ table#searchitem{
     width: 960px;
     max-width: 960px;
    }
-}
+} */
 
 /*
  mobile
