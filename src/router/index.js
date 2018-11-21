@@ -11,6 +11,7 @@ import deposit from '@/components/deposit/deposit'
 import saleorder from '@/components/saleorder/saleorder'
 import newsaleorder from '@/components/saleorder/newsaleorder'
 import dashboard from '@/components/dashboard/dashboard'
+import utility from '@/components/utility/utility'
 
 Vue.use(Router)
 
@@ -70,6 +71,11 @@ export default new Router({
       path: '/dashboard',
       name: 'dashboard',
       component: dashboard
+    },
+    {
+      path: '/utility',
+      name: 'utility',
+      component: utility
     }
   ]
 })
