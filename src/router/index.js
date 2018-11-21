@@ -10,6 +10,7 @@ import newsale from '@/components/sale/newsale'
 import deposit from '@/components/deposit/deposit'
 import saleorder from '@/components/saleorder/saleorder'
 import newsaleorder from '@/components/saleorder/newsaleorder'
+import dashboard from '@/components/dashboard/dashboard'
 
 Vue.use(Router)
 
@@ -64,6 +65,11 @@ export default new Router({
       path: '/newsaleorder/:id',
       name: 'newsaleorder',
       component: newsaleorder
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: dashboard
     }
   ]
 })

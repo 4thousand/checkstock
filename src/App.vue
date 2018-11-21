@@ -2,7 +2,7 @@
   <div id="app">
     <transition name="slide-fade">
       <div v-if="this.$route.path != '/'" class="page-container">
-        <div class="page-container md-layout-column">
+          <div class="page-container md-layout-column">
           <md-toolbar :style="{background: topicmenucolor}" style="transition:all 1s;" class="md-primary">
             <md-button class="md-icon-button" @click="showNavigation = true">
               <md-icon>menu</md-icon>
@@ -36,15 +36,27 @@
                 <span class="md-list-item-text">หน้าหลัก</span>
               </md-list-item>
               <md-divider></md-divider>
-              <md-list-item @click="goindex('/quotation')">
+              <!-- <md-list-item @click="goindex('/quotation')">
                 <md-icon>move_to_inbox</md-icon>
                 <span class="md-list-item-text">ใบเสนอราคา</span>
+              </md-list-item> -->
+
+               <md-list-item md-expand>
+                <md-icon>add</md-icon>
+                <span class="md-list-item-text">ใบทั้งหมด</span>
+
+                <md-list slot="md-expand">
+                  <md-list-item @click="goindex('/quotation')" class="md-inset"><md-icon style="position:absolute;  left: 16px;">move_to_inbox</md-icon><span class="md-list-item-text">ใบเสนอราคา</span></md-list-item>
+                  <md-list-item @click="goindex('/saleorder')" class="md-inset"><md-icon style="position:absolute;  left: 16px;">send</md-icon><span class="md-list-item-text">ใบสั่งขาย </span></md-list-item>
+                  <md-list-item class="md-inset"> <md-icon style="position:absolute;  left: 16px;">inbox</md-icon> <span class="md-list-item-text" style="position:relative"> ใบ BackOrder</span></md-list-item>
+                </md-list>
               </md-list-item>
-  
+              
+<!--               
               <md-list-item @click="goindex('/sale')">
                 <md-icon>send</md-icon>
                 <span class="md-list-item-text">ใบสั่งขาย</span>
-              </md-list-item>
+              </md-list-item> -->
 
               <!-- ใบมัดจำ -->
                <md-list-item @click="goindex('/deposit')">
@@ -54,17 +66,23 @@
               <!-- ใบมัดจำ -->
 
 
-              <md-list-item @click="goindex('/saleorder')">
+              <!-- <md-list-item >
                 <md-icon>send</md-icon>
                 <span class="md-list-item-text">ใบสั่งขาย (ทดสอบ)</span>
-              </md-list-item>
+              </md-list-item> -->
 
+              <md-list-item @click="goindex('/dashboard')">
+                <md-icon>send</md-icon>
+                <span class="md-list-item-text">Dashboard</span>
+              </md-list-item>
   
-              <md-list-item>
+              <!-- <md-list-item>
                 <md-icon>delete</md-icon>
                 <span class="md-list-item-text">ใบ BackOrder</span>
-              </md-list-item>
+              </md-list-item> -->
+
               <md-list-item>
+
                 <md-icon>stars</md-icon>
                 <span class="md-list-item-text">รายการโปรด</span>
               </md-list-item>
