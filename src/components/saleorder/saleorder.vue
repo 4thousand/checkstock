@@ -746,27 +746,6 @@
       <div>
         <md-dialog :md-active.sync="showDialogproduct">
           <md-dialog-title>ค้นหาสินค้า</md-dialog-title>
-            <!--             
-             <md-dialog-title style="padding-left:25px;padding-top:0;padding-right:0;" v-if="hovershow_stock == true">คลังสินค้า {{ namestock }}</md-dialog-title>
-              <div v-if="hovershow_stock == true"  class="table-responsive" style="overflow-y: auto;">
-                <table id="searchitem" class="table table-hover">
-                  <thead align="center">
-                    <tr>
-                    
-                      <th style="white-space: nowrap;padding: 0rem;">คลัง</th>
-                         <td style="white-space: nowrap;padding: 0rem;">ชั้นเก็บ</td>
-                      <td style="white-space: nowrap;padding: 0rem;">จำนวน</td>
-                    </tr>
-                  </thead>
-                  <tbody id="valuetable">
-                    <tr v-for="(stock2,index) in stockobj" style="transition:all 1s;text-align:center;cursor:pointer">
-                      <td style="white-space: nowrap;padding: 0rem;transition:all 1s; ">{{ stock2.wh_code}}</td>
-                     <td style="white-space: nowrap;padding: 0rem; transition:all 1s; ">{{ stock2.shelf_code}}</td>
-                      <td style="white-space: nowrap;padding: 0rem;transition:all 1s; ">{{stock2.qty}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div> -->
           <md-tabs id="none" md-dynamic-height>
             <md-tab md-label="">
               <div class="table-responsive" style="overflow-y: auto;">
@@ -782,19 +761,21 @@
                       <th style="white-space: nowrap;" v-show="billtype == 0">ราคา(เงินสด)</th>
                       <th style="white-space: nowrap;" v-show="billtype == 1">ราคา(เงินเชื่อ)</th>
                       <th style="white-space: nowrap;">คงเหลือ</th>
+                       <th style="white-space: nowrap;">อัตราส่วน</th>
                     </tr>
                   </thead>
                   <tbody  v-for="(val,index) in dataproductDialog" id="valuetable">
                     <tr  @click="findstock(val,index)" style="text-align:center;cursor:pointer">
                       <td  >{{index+1}}</td>
-                      <td  v-show="val.pic_path_1"><img style="width:50px;height:50px;" class="hoverzoom" :src="val.pic_path_1" alt=""></td>
+                      <td  v-show="val.pic_path_1"><img style="min-width:50px;height:50px;" class="hoverzoom" :src="val.pic_path_1" alt=""></td>
                       <td  v-show="!val.pic_path_1"><img style="max-width:50px;max-height:50px;" src="../../assets/No_Image_Available.png" alt=""></td>
-                      <td  >{{val.bar_code}}</td>
+                      <td style="min-width:80px;" >{{val.bar_code}}</td>
                       <td  >{{val.item_name}}</td>
                       <td  >{{val.unit_code}}</td>
                       <td  v-show="billtype == 0">{{val.sale_price_1}}</td>
                       <td  v-show="billtype == 1">{{val.sale_price_2}}</td>
                       <td><div style="height:18px;" >{{ val.stk_qty }} </div></td>
+                       <td><div style="height:18px;" >{{ val.rate_1 }} </div></td>
                     </tr>
                     <tr class="nohover">
                       <td style="display:none;"  :class="'trshow'+index" colspan="10" >

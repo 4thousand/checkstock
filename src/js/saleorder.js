@@ -122,7 +122,7 @@ const toLower = text => {
         api.searchunitcode(payload,
           (result) => {
             console.log(JSON.stringify(result.data))
-            this.stock_index = this.findWithAttr(this.dproducts, 'item_code', val.item_code)
+            this.stock_index = this.findWithAttr(this.dproducts, 'bar_code', val.bar_code)
             console.log(this.stock_index)
             this.stock_obj = result.data[0].stk_location
              this.searchwarehousecode_m = true
@@ -157,7 +157,7 @@ const toLower = text => {
       selectunitcode_step2(val){
         console.log(JSON.stringify(val))
         this.searchunitcode_m = false
-        var index = this.findWithAttr(this.dproducts, 'item_name', val.item_name)
+        var index = this.findWithAttr(this.dproducts, 'bar_code', val.bar_code)
         console.log(index)
             if(this.billtype == 0){//สด  
               this.dproducts[index].unit_code = val.unit_code
@@ -176,11 +176,10 @@ const toLower = text => {
       selectwarehousecode(val){
         console.log(JSON.stringify(val))
         this.searchwarehousecode_m = false
-
-
-        this.dproducts[this.stock_index].warehouse = val.wh_code+' / '+val.shelf_code
+        this.dproducts[this.stock_index].wh_code = val.wh_code
+        this.dproducts[this.stock_index].shelf_code = val.shelf_code
         this.dproducts[this.stock_index].stocklimit = val.qty
-        console.log(JSON.stringify(this.dproducts))
+
     
       },
        findWithAttr(array, attr, value) {
@@ -568,6 +567,7 @@ const toLower = text => {
             this.showDialogproduct = true
             
             this.dataproductDialog = result.data
+            console.log(this.dataproductDialog)
             this.stockall = result.data[0].stk_location
             console.log(this.stockall)
             console.log('billtype : ' + this.billtype)
@@ -613,24 +613,8 @@ const toLower = text => {
   
       },
       showdetail(val,stock) {
-        // alert(JSON.stringify(val)+JSON.stringify(stock))
-        // return
         console.log("----->"+JSON.stringify(val))
         if (this.billtype == 0) {
-          
-            //ตรวจสอบการซ้ำของสินค้า
-          //   for (var i=0; i < this.cart_item_code.length; i++) {
-          //       if (this.cart_item_code[i].bar_code === val.bar_code) {
-          //           alert("รหัส Barcode สินค้าซ้ำกับที่ระบุไว้ก่อนแล้ว กรุณาตรวจสอบอีกครั้ง "+this.cart_item_code[i].bar_code+" / "+val.bar_code);
-          //           return
-          //       }
-          //   }
-          //   console.log(this.cart_item_code+' '+val.bar_code)
-        
-          // this.cart_item_code.push({bar_code:val.bar_code})
-
-         // console.log("*******************"+JSON.stringify(this.cart_item_code))
-
           var datashow = {
             item_id: val.id,
             item_code: val.item_code,
@@ -647,7 +631,9 @@ const toLower = text => {
             item_description: "",
             packing_rate_1: parseInt(val.rate_1),
             is_cancel: 0,
-            warehouse: val.stk_location[0].wh_code+" / "+val.stk_location[0].shelf_code
+            wh_code: val.stk_location[0].wh_code,
+            shelf_code: val.stk_location[0].shelf_code,
+            stocklimit: val.stk_location[0].qty, 
           }
           this.dproducts.push(datashow)
           //close modal
@@ -670,7 +656,9 @@ const toLower = text => {
             item_description: "",
             packing_rate_1: parseInt(val.rate_1),
             is_cancel: 0,
-            warehouse: val.stk_location[0].wh_code+" / "+val.stk_location[0].shelf_code
+            wh_code: val.stk_location[0].wh_code,
+            shelf_code: val.stk_location[0].shelf_code,
+            stocklimit: val.stk_location[0].qty, 
           }
           this.dproducts.push(datashow)
           //close modal
@@ -682,28 +670,13 @@ const toLower = text => {
         //console.log(datashow)
       },
       calculatedata(val) {
-
-        console.log("**** val *****"+JSON.stringify(val))
-        console.log("**** qty *****"+JSON.stringify(val.qty))
-
-        //ตรวจเช็คจำนวน
-        console.log("**** packing_rate_1 *****"+JSON.stringify(val.packing_rate_1))
-
         let qty_total = parseInt(val.qty) * parseInt(val.packing_rate_1)
-
-        console.log("**** qty total *****"+qty_total)
-        console.log("**** dproducts *****"+JSON.stringify(this.dproducts))
-
-        let index = this.findWithAttr(this.dproducts, 'item_name', val.item_name)
-
-        console.log("**** stocklimit *****"+JSON.stringify(this.dproducts[index].stocklimit))
-        console.log("**** if "+qty_total+">"+this.dproducts[index].stocklimit)
-        
-        
-        
-        if(qty_total>this.dproducts[index].stocklimit){
+        // console.log(JSON.stringify(val))
+        let index = this.findWithAttr(this.dproducts, 'bar_code', val.bar_code)
+        // console.log(JSON.stringify(this.dproducts))
+        if(qty_total > this.dproducts[index].stocklimit){
           alert("คุณระบุจำนวนสิ้นค้าเกินกว่าที่คลังมี")
-          this.item.qty = this.dproducts[index].stocklimit //ตรงนี้ต้องแก้ไขครับ โดยส่งค่าสูงสุดที่มีในคลังกลับไป แต่ผมไม่ทราบวิธี คงต้องขอคำแนะนำจากนัดครับ
+          this.dproducts[index].qty = 0
           return
         }
         
@@ -711,7 +684,7 @@ const toLower = text => {
 
 
         val.discount_word = val.discount_word.toString()
-        console.log(val.discount_word)
+        // console.log(val.discount_word)
     
         if(val.discount_word.search(",") < 0){
         if(val.discount_word.slice(-1) == '%'){
