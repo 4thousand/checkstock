@@ -9,11 +9,13 @@ import 'vue-material/dist/theme/default.css' // This line here
 import 'jspdf-customfonts/dist/jspdf.customfonts.min.js'
 import VueHotkey from 'v-hotkey'
 import VueApexCharts from 'vue-apexcharts'
+import vSelect from 'vue-select'
 
 Vue.use(VueApexCharts)
 Vue.use(VueHotkey)
 Vue.use(VueMaterial)
 Vue.config.productionTip = false
+Vue.component('v-select', vSelect)
 
 /* eslint-disable no-new */
 new Vue({

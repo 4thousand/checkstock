@@ -155,7 +155,9 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4">แผนก :</p>
                                         <div class="col-7">
-                                            <input v-model="department" class="form-control">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" v-model="department">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -632,6 +634,7 @@ import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
 import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.min.css";
 import VueStripePayment from "vue-stripe-payment";
 import api from "../../service/service.js";
+import { ModelSelect } from "vue-search-select";
 
 export default {
   data() {
@@ -640,6 +643,7 @@ export default {
       taxNo: "",
       id: "",
       customerID: "",
+      customerCode: "",
       date_payment: "",
       customerName: "",
       documentDate: "",
@@ -648,8 +652,10 @@ export default {
       transferDate: "",
       subNo: "",
       employeeID: "",
+      employeeCode: "",
       employeeName: "",
       department: "",
+      departmentData: [],
       zerotax: 0.0,
       taxrate: 7.0,
       valueBTax: 0.0,
@@ -742,19 +748,20 @@ export default {
       bankReceiveAccountNo: "",
       bankReceiveName: "",
       bankReceiverBranch: "",
-      billType:"0",
+      billType: "0",
       price: "",
       feeType: "",
       nextTodoId: 4,
       oldId: "",
       oldList: "",
       key_cus: "",
-      companyId:1,
-      branchId:""
+      companyId: 1,
+      branchId: ""
     };
   },
   components: {
-    VueCtkDateTimePicker
+    VueCtkDateTimePicker,
+    ModelSelect
   },
   use: {
     VueStripePayment
@@ -770,6 +777,30 @@ export default {
       var result = numeral(val).format("0,0.00");
       // console.log(typeof result)
       return result;
+    },
+    searchDepartmentApi() {
+      var payload = {
+        keyword: this.department
+      };
+      console.log(JSON.stringify(payload));
+      api.searchdepartment(
+        payload,
+        result => {
+          console.log(JSON.stringify(result.data));
+          if (result.data.length == 0) {
+            this.departmentData = result.data;
+            alertify.error("ไม่มีข้อมูลของแผนกนี้");
+            return;
+          }
+          if (result.data.length > 0) {
+            this.departmentData = result.data;
+            return;
+          }
+        },
+        error => {
+          console.log(error);
+        }
+      );
     },
     searchCustomerAllKeyApi() {
       var payload = {
@@ -830,8 +861,8 @@ export default {
     },
     searchCustomer(val) {
       console.log(JSON.stringify(val));
-      this.id = val.id;
-      this.customerID = val.code;
+      this.customerID = val.id;
+      this.customerCode = val.code;
       this.customerName = val.name;
 
       this.showDialogCustomer = false;
@@ -877,8 +908,8 @@ export default {
     },
     searchEmployee(val) {
       console.log(JSON.stringify(val));
-      this.id = val.employee_id;
-      this.employeeID = val.sale_code;
+      this.employeeID = val.employee_id;
+      this.employeeCode = val.sale_code;
       this.employeeName = val.sale_name;
 
       this.showDialogCustomer = false;
@@ -1013,41 +1044,41 @@ export default {
       };
       console.log(payload);
       api.showdocno(
-          payload,
-          result=>{
-              console.log(JSON.stringify(result));
-              if (result.error) {
-                    this.serialNo = 'ไม่มีข้อมูล'
-                    return
-                }
-                this.serialNo = result
-          },
-          error => {
-            console.log(error);
+        payload,
+        result => {
+          console.log(JSON.stringify(result));
+          if (result.error) {
+            this.serialNo = "ไม่มีข้อมูล";
+            return;
           }
+          this.serialNo = result;
+        },
+        error => {
+          console.log(error);
+        }
       );
     },
-    createDepositDocApi(){
-        let payload = {
-            doc_no:this.serialNo,
-            company_id: this.companyId,
-            branch_id: parseInt(this.branchId),
-            //id: this.nextTodoId++,
-            // serialNo: this.serialNo,
-            // taxNo: this.taxNo,
-            tax_type: parseInt(this.feeType),
-            ar_id: parseInt(this.customerID),
-            ar_code:this.customerName,
-            // documentDate: this.documentDate,
-            // taxApplyDate: this.taxApplyDate,
-            // subNo: this.subNo,
-            sale_id: parseInt(this.employeeID),
-            salec_code: this.employeeName,
-            // department: this.department,
-            bill_type:parseInt(this.billType),
-            tax_rate: this.taxrate,
+    createDepositDocApi() {
+      let payload = {
+        doc_no: this.serialNo,
+        company_id: this.companyId,
+        branch_id: parseInt(this.branchId),
+        //id: this.nextTodoId++,
+        // serialNo: this.serialNo,
+        // taxNo: this.taxNo,
+        tax_type: parseInt(this.feeType),
+        ar_id: parseInt(this.customerID),
+        ar_code: this.customerCode,
+        // documentDate: this.documentDate,
+        // taxApplyDate: this.taxApplyDate,
+        // subNo: this.subNo,
+        sale_id: parseInt(this.employeeID),
+        salec_code: this.employeeCode,
+        // department: this.department,
+        bill_type: parseInt(this.billType),
+        tax_rate: this.taxrate,
         //   cashPaymentPart: this.cashPaymentPart,
-            cash_amount: this.cashPayment,
+        cash_amount: this.cashPayment,
         //   creditPaymentPart: this.creditPaymentPart,
         //   creditCardName: this.creditCardName,
         //   creditNumber: this.creditNumber,
@@ -1067,18 +1098,18 @@ export default {
         //   bankReceiverBranch: this.bankReceiverBranch,
         //   transferPayment: this.transferPayment,
         //   balance: 0
-            total_amount: this.totalPayment
+        total_amount: this.totalPayment
+      };
+      console.log(JSON.stringify(payload));
+      api.createdeposit(
+        payload,
+        result => {
+          console.log(JSON.stringify(result));
+        },
+        error => {
+          console.log(JSON.stringify(error));
         }
-        console.log(payload);
-        api.createdeposit(
-            payload,
-            result=>{
-                console.log(JSON.stringify(result));
-            },
-            error=>{
-                console.log(JSON.stringify(error))
-            }
-        )
+      );
     }
   },
   computed: {
