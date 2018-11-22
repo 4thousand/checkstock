@@ -25,7 +25,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> เลขที่ใบเงินมัดจำ :</p>
                                         <div class="col-7">
-                                            <input type="text" class="form-control" disabled v-model="serialNo">
+                                            <input type="text" class="form-control" disabled v-model="serialNo" @change="createDepositNoApi">
                                         </div>
                                     </div>
                                 </div>
@@ -33,7 +33,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> เลขที่ใบกำกับภาษี :</p>
                                         <div class="col-7">
-                                            <input type="number" v-model="taxNo"  class="form-control">
+                                            <input type="text" v-model="taxNo"  class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -43,7 +43,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> ประเภทภาษี :</p>
                                         <div class="col-7">
-                                            <select @change="calFee" v-model="feeType" class="form-control">
+                                            <select v-model="feeType" class="form-control">
                                                 <option value="0">ภาษีแยกนอก</option>
                                                 <option value="1">ภาษีรวมใน</option>
                                                 <option value="2">ภาษีอัตราศูนย์</option>
@@ -141,7 +141,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> สาขาร้าน :</p>
                                         <div class="col-7">
-                                            <select @change="createDepositNoApi()" v-model="branchId" class="form-control">
+                                            <select @change="createDepositNoApi" v-model.number="branchId" class="form-control">
                                                 <option value="1">นพดลพานิช สำนักงานใหญ่</option>
                                                 <option value="2">เอสซีจี โฮมโซลูชั่น (แยกต้นเปา)</option>
                                                 <option value="3">เอ็กซ์เปิร์ท เพ้นท์</option>
@@ -615,7 +615,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addDeposit"><span>Save</span></button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="createDepositDocApi"><span>Save</span></button>
                                 <button type="button" class="btn btn-default" data-dismiss="modal"><span>Close</span></button>
                             </div>
                         </div>
@@ -749,7 +749,8 @@ export default {
       oldId: "",
       oldList: "",
       key_cus: "",
-      companyId:""
+      companyId:1,
+      branchId:""
     };
   },
   components: {
@@ -1004,24 +1005,46 @@ export default {
         });
       }
     },
-    creditDepositDocApi(){
+    createDepositNoApi() {
+      let payload = {
+        branch_id: parseInt(this.branchId),
+        table_code: "DP",
+        bill_type: parseInt(this.feeType)
+      };
+      console.log(payload);
+      api.showdocno(
+          payload,
+          result=>{
+              console.log(JSON.stringify(result));
+              if (result.error) {
+                    this.serialNo = 'ไม่มีข้อมูล'
+                    return
+                }
+                this.serialNo = result
+          },
+          error => {
+            console.log(error);
+          }
+      );
+    },
+    createDepositDocApi(){
         let payload = {
-            doc_no:this.createDepositNoApi(),
+            doc_no:this.serialNo,
             company_id: this.companyId,
-            branch_id: this.branchId,
+            branch_id: parseInt(this.branchId),
             //id: this.nextTodoId++,
             // serialNo: this.serialNo,
             // taxNo: this.taxNo,
-            tax_type: this.feeType,
-            ar_id: this.customerID,
+            tax_type: parseInt(this.feeType),
+            ar_id: parseInt(this.customerID),
             ar_code:this.customerName,
             // documentDate: this.documentDate,
             // taxApplyDate: this.taxApplyDate,
             // subNo: this.subNo,
-            sale_id: this.employeeID,
+            sale_id: parseInt(this.employeeID),
             salec_code: this.employeeName,
             // department: this.department,
-            bill_type:this.billType,
+            bill_type:parseInt(this.billType),
             tax_rate: this.taxrate,
         //   cashPaymentPart: this.cashPaymentPart,
             cash_amount: this.cashPayment,
@@ -1046,34 +1069,20 @@ export default {
         //   balance: 0
             total_amount: this.totalPayment
         }
+        console.log(payload);
         api.createdeposit(
             payload,
             result=>{
-                console.log(JSON.stringify(result.data));
+                console.log(JSON.stringify(result));
+            },
+            error=>{
+                console.log(JSON.stringify(error))
             }
         )
     }
   },
   computed: {
     //ภาษีแยกนอก
-    createDepositNoApi() {
-      let payload = {
-        branch_id: this.branchId,
-        table_code: "DP",
-        bill_type: this.feeType
-      };
-      console.log(payload);
-      api.showdocno(
-          payload,
-          result=>{
-              console.log(JSON.stringify(result.data));
-          },
-          error => {
-            console.log(error);
-          }
-      );
-      return result;
-    },
     externalVAT() {
       return this.valueBTax * (this.taxrate / 100);
     },
