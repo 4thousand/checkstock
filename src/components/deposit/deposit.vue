@@ -8,18 +8,7 @@
                              <span>ใบรับเงินมัดจำ</span>    
                         </div>
                         <div class="deposit-border">
-                            <!-- <div class="row">
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group row">
-                                        <p class="article-set col-4">ค้นหา :</p>
-                                        <div class="col-7  text-left" data-toggle="modal" data-target="#searchModal">
-                                            <button class="btn btn-primary icon-margin search-icon">
-                                                <md-icon class="search-icon">search</md-icon>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
+
                             <div class="row">
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
@@ -43,7 +32,7 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> ประเภทภาษี :</p>
                                         <div class="col-7">
-                                            <select v-model="feeType" class="form-control">
+                                            <select v-model="feeType" @change="createDepositNoApi" class="form-control">
                                                 <option value="0">ภาษีแยกนอก</option>
                                                 <option value="1">ภาษีรวมใน</option>
                                                 <option value="2">ภาษีอัตราศูนย์</option>
@@ -109,19 +98,9 @@
                                 </div>
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
-                                        <p class="article-set col-4"><span style="color:red">*</span> ค้นหาพนักงานขาย :</p>
-                                        <div class="col-7  text-left" data-toggle="modal" data-target="#searchEmployeeModal">
-                                            <button class="btn btn-primary icon-margin search-icon">
-                                                <md-icon class="search-icon">search</md-icon>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> รหัสพนักงานขาย :</p>
                                         <div class="col-7">
-                                            <input type="text" disabled v-model="employeeID" class="form-control">
+                                            <input type="text" disabled v-model="profile.sale_code" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -131,37 +110,12 @@
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> ชื่อพนักงานขาย :</p>
                                         <div class="col-7">
-                                            <input type="text" disabled v-model="employeeName" class="form-control">
+                                            <input type="text" disabled v-model="profile.username" class="form-control">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group row">
-                                        <p class="article-set col-4"><span style="color:red">*</span> สาขาร้าน :</p>
-                                        <div class="col-7">
-                                            <select @change="createDepositNoApi" v-model.number="branchId" class="form-control">
-                                                <option value="1">นพดลพานิช สำนักงานใหญ่</option>
-                                                <option value="2">เอสซีจี โฮมโซลูชั่น (แยกต้นเปา)</option>
-                                                <option value="3">เอ็กซ์เปิร์ท เพ้นท์</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group row">
-                                        <p class="article-set col-4">แผนก :</p>
-                                        <div class="col-7">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" v-model="department">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                             <hr>
                             <div class="row">
                                 <div class="col-md-12 col-12">
@@ -220,16 +174,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <div class="col-md-12 col-12">
-                                    <div class="form-group row">
-                                        <p class="article-set col-4"><span style="color:red">*</span> CVV :</p>
-                                        <div class="col-7">
-                                            <p>
-                                                <input class="form-control" v-payment:formatCardCVC>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div> -->
+
                                 <div class="col-md-12 col-12">
                                     <div class="form-group row">
                                         <p class="article-set col-4"><span style="color:red">*</span> จำนวนเงิน :</p>
@@ -414,8 +359,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <p class="tax-head">อัตราภาษีมูลค่าเพิ่ม : {{taxrate}} %
-                                        <input v-show="feeType==''||feeType=='0'||feeType=='1'" :disabled="!feeType" type="number" class="form-control tax-head" v-model="taxrate">
-                                        <input v-show="feeType=='2'" type="number" class="form-control tax-head" v-model="zerotax">
+                                        <!-- <input v-show="feeType==''||feeType=='0'||feeType=='1'" :disabled="!feeType" type="number" class="form-control tax-head" v-model="taxrate">
+                                        <input v-show="feeType=='2'" type="number" class="form-control tax-head" v-model="zerotax"> -->
                                         <!-- <input :disabled="feeType==''||feeType=='2'" type="number" class="form-control tax-head" v-model="zerotax"> -->
                                         </p>
                                     </div>
@@ -427,10 +372,10 @@
                                         <p class="tax-head" v-if="feeType=='0'||feeType==''">จำนวนเงินก่อนภาษี : {{ convertToBaht(valueBTax) }} บาท</p>
                                         <p class="tax-head" v-if="feeType=='1'">จำนวนเงินก่อนภาษี : {{ convertToBaht(priceNonTaxCOM) }} บาท</p>
                                         <p class="tax-head" v-if="feeType=='2'">จำนวนเงินก่อนภาษี : {{ convertToBaht(priceNonTaxCOM) }} บาท</p>
-                                        <input v-if="feeType==''" :disabled="feeType == ''" type="number" class="form-control tax-head" v-model.number="valueBTax">
+                                        <!-- <input v-if="feeType==''" :disabled="feeType == ''" type="number" class="form-control tax-head" v-model.number="valueBTax">
                                         <input v-if="feeType=='0'" type="number" class="form-control tax-head" v-model.number="valueBTax">
                                         <input v-if="feeType=='1'" :disabled="feeType == '1'" type="number" class="form-control tax-head" v-model.number="priceNonTaxCOM">
-                                        <input v-if="feeType=='2'" :disabled="feeType == '2'" type="number" class="form-control tax-head" v-model.number="priceNonTaxCOM">
+                                        <input v-if="feeType=='2'" :disabled="feeType == '2'" type="number" class="form-control tax-head" v-model.number="priceNonTaxCOM"> -->
                                         <!-- <button @click="calltestapi" class="btn btn-primary" >คำนวณ</button> -->
                                     </div>
                                 </div>
@@ -446,12 +391,13 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <p class="tax-summary" v-if="feeType==''||feeType=='1'||feeType=='2'">มูลค่ารวมภาษี : {{ convertToBaht(includeVAT) }} บาท</p>
-                                        <p class="tax-summary" v-if="feeType=='0'">มูลค่ารวมภาษี : {{ convertToBaht(priceWithTaxCOM) }} บาท</p>
-                                        <input v-if="feeType==''" :disabled="feeType == ''" type="number" class="form-control tax-head" v-model.number="includeVAT">
+                                        <!-- <p class="tax-summary" v-if="feeType==''||feeType=='1'||feeType=='2'">มูลค่ารวมภาษี : {{ convertToBaht(includeVAT) }} บาท</p>
+                                        <p class="tax-summary" v-if="feeType=='0'">มูลค่ารวมภาษี : {{ convertToBaht(priceWithTaxCOM) }} บาท</p> -->
+                                        <p class="tax-summary">มูลค่ารวมภาษี : {{ convertToBaht(totalPayment) }} บาท</p>
+                                        <!-- <input v-if="feeType==''" :disabled="feeType == ''" type="number" class="form-control tax-head" v-model.number="includeVAT">
                                         <input v-if="feeType=='0'" :disabled="feeType == '0'" type="number" class="form-control tax-head" v-model.number="priceWithTaxCOM">
                                         <input v-if="feeType=='1'" type="number" class="form-control tax-head" v-model.number="includeVAT">
-                                        <input v-if="feeType=='2'" type="number" class="form-control tax-head" v-model.number="includeVAT">
+                                        <input v-if="feeType=='2'" type="number" class="form-control tax-head" v-model.number="includeVAT"> -->
                                     </div>
                                 </div>
                             </div>
@@ -468,9 +414,9 @@
                             <div class="tax-bottom-part tax-head">
                                 <button :disabled="feeType==''" data-toggle="modal" data-target="#saveModal" class="btn btn-primary"><span>บันทึก</span></button>
                             </div>
-                            <div class="tax-bottom-part tax-head">
+                            <!-- <div class="tax-bottom-part tax-head">
                                 <button data-toggle="modal" data-target="#updateModal" class="btn btn-primary"><span>{{convertToBaht(totalPayment)}}</span></button>
-                            </div>
+                            </div> -->
                              <!-- <form id="tax_report" :action="php + '/vue_sale/report_pdf/report_deposit.php'" method="post" target="_blank">
 			      		        <input type="hidden" name="dataquotation">
                                 <md-button type="submit" style="float: right; position: relative; top: -37px;" class="md-raised md-primary">Print</md-button>
@@ -756,7 +702,8 @@ export default {
       oldList: "",
       key_cus: "",
       companyId: 1,
-      branchId: ""
+      branchId: "",
+      profile:JSON.parse(localStorage.Datauser)
     };
   },
   components: {
@@ -955,90 +902,90 @@ export default {
         this.transferPayment = VAL.transferPayment;
       }
     },
-    addDeposit() {
-      if (this.feeType == 0) {
-        this.depositSerial.push({
-          id: this.nextTodoId++,
-          serialNo: this.serialNo,
-          taxNo: this.taxNo,
-          feeType: this.feeType,
-          customerID: this.customerID,
-          documentDate: this.documentDate,
-          taxApplyDate: this.taxApplyDate,
-          subNo: this.subNo,
-          employeeID: this.employeeID,
-          employeeName: this.employeeName,
-          department: this.department,
-          //   taxrate: this.taxrate,
-          //   valueBTax: this.valueBTax,
-          //   includeVAT: this.priceWithTaxCOM,
-          //   VAT: this.externalVAT,
-          cashPaymentPart: this.cashPaymentPart,
-          cashPayment: this.cashPayment,
-          creditPaymentPart: this.creditPaymentPart,
-          creditCardName: this.creditCardName,
-          creditNumber: this.creditNumber,
-          checkPaymentPart: this.checkPaymentPart,
-          checkBankName: this.checkBankName,
-          checkBankBranch: this.checkBankBranch,
-          checkNumber: this.checkNumber,
-          checkDate: this.checkDate,
-          checkPayment: this.checkPayment,
-          transferName: this.transferName,
-          transferAccountNo: this.transferAccountNo,
-          bankTransfererName: this.bankTransfererName,
-          bankTransfererBanch: this.bankTransfererBanch,
-          receiveName: this.receiveName,
-          bankReceiveAccountNo: this.bankReceiveAccountNo,
-          bankReceiveName: this.bankReceiveName,
-          bankReceiverBranch: this.bankReceiverBranch,
-          transferPayment: this.transferPayment,
-          balance: 0
-        });
-      }
-      if (this.feeType == 1 || this.feeType == 2) {
-        this.depositSerial.push({
-          id: this.nextTodoId++,
-          serialNo: this.serialNo,
-          taxNo: this.taxNo,
-          feeType: this.feeType,
-          customerID: this.customerID,
-          documentDate: this.documentDate,
-          taxApplyDate: this.taxApplyDate,
-          subNo: this.subNo,
-          employeeID: this.employeeID,
-          department: this.department,
-          //   taxrate: this.taxrate,
-          //   valueBTax: this.priceNonTaxCOM,
-          //   includeVAT: this.includeVAT,
-          //   VAT: this.internalVAT,
-          cashPaymentPart: this.cashPaymentPart,
-          cashPayment: this.cashPayment,
-          creditPaymentPart: this.creditPaymentPart,
-          creditCardName: this.creditCardName,
-          creditNumber: this.creditNumber,
-          checkPaymentPart: this.checkPaymentPart,
-          checkBankName: this.checkBankName,
-          checkBankBranch: this.checkBankBranch,
-          checkNumber: this.checkNumber,
-          checkDate: this.checkDate,
-          checkPayment: this.checkPayment,
-          transferName: this.transferName,
-          transferAccountNo: this.transferAccountNo,
-          bankTransfererName: this.bankTransfererName,
-          bankTransfererBanch: this.bankTransfererBanch,
-          receiveName: this.receiveName,
-          bankReceiveAccountNo: this.bankReceiveAccountNo,
-          bankReceiveName: this.bankReceiveName,
-          bankReceiverBranch: this.bankReceiverBranch,
-          transferPayment: this.transferPayment,
-          balance: 0
-        });
-      }
-    },
+    // addDeposit() {
+    //   if (this.feeType == 0) {
+    //     this.depositSerial.push({
+    //       id: this.nextTodoId++,
+    //       serialNo: this.serialNo,
+    //       taxNo: this.taxNo,
+    //       feeType: this.feeType,
+    //       customerID: this.customerID,
+    //       documentDate: this.documentDate,
+    //       taxApplyDate: this.taxApplyDate,
+    //       subNo: this.subNo,
+    //       employeeID: this.employeeID,
+    //       employeeName: this.employeeName,
+    //       department: this.department,
+    //       //   taxrate: this.taxrate,
+    //       //   valueBTax: this.valueBTax,
+    //       //   includeVAT: this.priceWithTaxCOM,
+    //       //   VAT: this.externalVAT,
+    //       cashPaymentPart: this.cashPaymentPart,
+    //       cashPayment: this.cashPayment,
+    //       creditPaymentPart: this.creditPaymentPart,
+    //       creditCardName: this.creditCardName,
+    //       creditNumber: this.creditNumber,
+    //       checkPaymentPart: this.checkPaymentPart,
+    //       checkBankName: this.checkBankName,
+    //       checkBankBranch: this.checkBankBranch,
+    //       checkNumber: this.checkNumber,
+    //       checkDate: this.checkDate,
+    //       checkPayment: this.checkPayment,
+    //       transferName: this.transferName,
+    //       transferAccountNo: this.transferAccountNo,
+    //       bankTransfererName: this.bankTransfererName,
+    //       bankTransfererBanch: this.bankTransfererBanch,
+    //       receiveName: this.receiveName,
+    //       bankReceiveAccountNo: this.bankReceiveAccountNo,
+    //       bankReceiveName: this.bankReceiveName,
+    //       bankReceiverBranch: this.bankReceiverBranch,
+    //       transferPayment: this.transferPayment,
+    //       balance: 0
+    //     });
+    //   }
+    //   if (this.feeType == 1 || this.feeType == 2) {
+    //     this.depositSerial.push({
+    //       id: this.nextTodoId++,
+    //       serialNo: this.serialNo,
+    //       taxNo: this.taxNo,
+    //       feeType: this.feeType,
+    //       customerID: this.customerID,
+    //       documentDate: this.documentDate,
+    //       taxApplyDate: this.taxApplyDate,
+    //       subNo: this.subNo,
+    //       employeeID: this.employeeID,
+    //       department: this.department,
+    //       //   taxrate: this.taxrate,
+    //       //   valueBTax: this.priceNonTaxCOM,
+    //       //   includeVAT: this.includeVAT,
+    //       //   VAT: this.internalVAT,
+    //       cashPaymentPart: this.cashPaymentPart,
+    //       cashPayment: this.cashPayment,
+    //       creditPaymentPart: this.creditPaymentPart,
+    //       creditCardName: this.creditCardName,
+    //       creditNumber: this.creditNumber,
+    //       checkPaymentPart: this.checkPaymentPart,
+    //       checkBankName: this.checkBankName,
+    //       checkBankBranch: this.checkBankBranch,
+    //       checkNumber: this.checkNumber,
+    //       checkDate: this.checkDate,
+    //       checkPayment: this.checkPayment,
+    //       transferName: this.transferName,
+    //       transferAccountNo: this.transferAccountNo,
+    //       bankTransfererName: this.bankTransfererName,
+    //       bankTransfererBanch: this.bankTransfererBanch,
+    //       receiveName: this.receiveName,
+    //       bankReceiveAccountNo: this.bankReceiveAccountNo,
+    //       bankReceiveName: this.bankReceiveName,
+    //       bankReceiverBranch: this.bankReceiverBranch,
+    //       transferPayment: this.transferPayment,
+    //       balance: 0
+    //     });
+    //   }
+    // },
     createDepositNoApi() {
       let payload = {
-        branch_id: parseInt(this.branchId),
+        branch_id: parseInt(this.profile.branch_id),
         table_code: "DP",
         bill_type: parseInt(this.feeType)
       };
@@ -1063,8 +1010,6 @@ export default {
         doc_no: this.serialNo,
         company_id: this.companyId,
         branch_id: parseInt(this.branchId),
-        //id: this.nextTodoId++,
-        // serialNo: this.serialNo,
         // taxNo: this.taxNo,
         tax_type: parseInt(this.feeType),
         ar_id: parseInt(this.customerID),
@@ -1072,8 +1017,8 @@ export default {
         // documentDate: this.documentDate,
         // taxApplyDate: this.taxApplyDate,
         // subNo: this.subNo,
-        sale_id: parseInt(this.employeeID),
-        salec_code: this.employeeCode,
+        sale_id: parseInt(this.profile.id),
+        salec_code: this.profile.sale_code,
         // department: this.department,
         bill_type: parseInt(this.billType),
         tax_rate: this.taxrate,
@@ -1138,6 +1083,9 @@ export default {
         this.transferPayment
       );
     }
+  },
+   mounted () {
+      console.log(this.profile)
   }
 };
 </script>
