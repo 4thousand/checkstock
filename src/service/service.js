@@ -136,5 +136,14 @@ export default {
         (response) => {
           error(response)
         })
+    },
+    createsale(payload, success, error){
+      Vue.axios.post(URL + ':8081/sales/v1/sale/new', JSON.stringify(payload)).then(
+        (response) => {
+          success(response.data)
+        },
+        (response) => {
+          error(response)
+        })
     }
 }

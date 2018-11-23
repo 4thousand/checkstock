@@ -18,9 +18,9 @@
                   
                     <md-field>
                       <md-select  v-hotkey="keymap"  @input="showdocno" placeholder="กรุณาเลือก" v-model="tablecode" name="country" id="country">
-                        <md-option value="QT">ใบเสนอราคา</md-option>
+                        <md-option value="RO">ใบสั่งจอง</md-option>
                         <md-option value="SO">ใบสั่งขาย</md-option>
-                        <md-option value="BO">BackOrder</md-option>
+                        <!-- <md-option value="BO">BackOrder</md-option> -->
                       </md-select>
                     </md-field>
                   </div>
@@ -154,7 +154,7 @@
 
                       <md-table-cell md-label="หน่วยนับ" md-sort-by="unit_code"><input  type="text" style="padding-right: 31px !important;" class="datatable" v-model="item.unit_code.trim()"><div @click="searchunticode(item)"><md-icon class="search_unitcode">arrow_drop_down</md-icon></div></md-table-cell>
 
-                      <md-table-cell md-label="จำนวน" md-sort-by="qty"><input type="text" class="datatable" @keyup="calculatedata(item)" v-model="item.qty"></md-table-cell>
+                      <md-table-cell md-label="จำนวน" md-sort-by="qty"><input type="text" class="datatable" @keyup="calculatedata(item)" v-model.number="item.qty"></md-table-cell>
 
                       <md-table-cell md-label="ราคา/หน่วย" md-sort-by="price"><input type="text" class="datatable" @keyup="calculatedata(item)" style="width:100%" v-model="item.price"></md-table-cell>
                       <!-- <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 1" md-sort-by="price2"><input type="text" class="datatable" @keyup="calculatedata(item)" style="width:100%" v-model.number="item.price2"></md-table-cell> -->

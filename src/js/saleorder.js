@@ -99,16 +99,15 @@ const toLower = text => {
       //ปู
       selectSaleorder:"SO",
       pattern_order:'',
-      groupdoc_name:'',
-      groupdoc_currency:'',
-      groupdoc_exchange:'',
-      groupdoc_vatrate:'',
-      groupdoc_moneytotal:'',
-      groupdoc_delivery:'',
+      // groupdoc_name:'',
+      // groupdoc_currency:'',
+      // groupdoc_exchange:'',
+      // groupdoc_vatrate:'',
+      // groupdoc_moneytotal:'',
+      // groupdoc_delivery:'',
       stock_obj:[],
       stock_index:'',
       cart_item_code:[]
-
     }),
     methods: {
       searchstorecode(val){
@@ -339,6 +338,7 @@ const toLower = text => {
         alert("ค้นหาข้อมูล Waiting ...");
       },
       setDone(id, index) {
+
         if (id == 'third') {
           this.$router.push("/index");
           return
@@ -354,13 +354,12 @@ const toLower = text => {
           let percent
           let discount_amount
   
-          if (this.tablecode == 'BO') {
+          if (this.tablecode == 'RO') {
             doc_type = 0
-          } else if (this.tablecode == 'QT') {
-            doc_type = 1
           } else if (this.tablecode == 'SO') {
-            doc_type = 3
+            doc_type = 1
           }
+
           if (this.salecode) {
             var str = this.salecode;
             var res = str.split("/");
@@ -434,16 +433,8 @@ const toLower = text => {
             is_cancel: 0,
             creator_by: this.creator_by,
             subs: this.dproducts,
-            //ปูเพิ่มมา
-            pattern_order: this.pattern_order,
-            groupdoc_name:this.groupdoc_name,
-            groupdoc_currency:this.groupdoc_currency,
-            groupdoc_exchange:this.groupdoc_exchange,
-            groupdoc_vatrate:this.groupdoc_vatrate,
-            groupdoc_moneytotal:this.groupdoc_moneytotal,
-            groupdoc_delivery:this.groupdoc_delivery
           }
-          console.log("**********"+payload.pattern_order)
+          console.log("payload : "+payload)
 
 
           console.log(payload.subs.length)
