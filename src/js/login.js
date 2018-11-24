@@ -39,21 +39,24 @@ import facebookLogin from 'facebook-login-vuejs';
           }
         },
         (error) => {
-           console.log(error.response.data.message)
+           this.login = {}
+       
+          alertify.error('เกิดข้อผิดพลาด')   
+           this.loading = false;
+           setTimeout(() => {
           switch (error.response.data.message) {
             case "No Content = UserName Not Active":
               alertify.error('ผู้ใช้ถูกระงับการใช้งาน');
-                this.loading = false;
               break;
           case "No Content = UserName or Password Invalid":
               alertify.error('ผู้ใช้ไม่มีสิทธิในแอพนี้หรือรหัสผ่านไม่ถูกต้อง');
-                this.loading = false;
               break;
             default:
               this.loading = false;
               break;
           }
-          //  alertify.success('Error login');
+        }, 3000);
+    
           // this.cload()
         })
         }, 3000);
