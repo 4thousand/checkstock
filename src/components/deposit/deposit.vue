@@ -1,6 +1,6 @@
-<template>
+    <template>
     <div>
-        <md-steppers md-sync-route md-dynamic-height :md-active-step.sync="active">
+        <md-steppers md-sync-route md-dynamic-height md-alternative :md-active-step.sync="active">
             <md-step id="first" md-label="ฟอร์มใบรับเงินมัดจำ" :md-done.sync="first">
                 <div class="container">
                     <div class="row">
@@ -15,7 +15,7 @@
                                         <div class="col-md-12 col-12">
                                             <div class="form-group row">
                                                 <p class="article-set col-4"><span style="color:red">*</span> เลขที่ใบเงินมัดจำ :</p>
-                                                <div class="col-7">
+                                                                                        <div class="col-7">
                                                     <input type="text" class="form-control" disabled v-model="serialNo" @change="createDepositNoApi">
                                                 </div>
                                             </div>
