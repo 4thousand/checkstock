@@ -426,17 +426,17 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <p class="tax-head" v-if="feeType=='0'||feeType==''">จำนวนเงินก่อนภาษี : {{ convertToBaht(valueBTax) }} บาท</p>
+                                                    <!-- <p class="tax-head" v-if="feeType=='0'||feeType==''">จำนวนเงินก่อนภาษี : {{ convertToBaht(valueBTax) }} บาท</p>
                                                     <p class="tax-head" v-if="feeType=='1'">จำนวนเงินก่อนภาษี : {{ convertToBaht(priceNonTaxCOM) }} บาท</p>
-                                                    <p class="tax-head" v-if="feeType=='2'">จำนวนเงินก่อนภาษี : {{ convertToBaht(priceNonTaxCOM) }} บาท</p>
+                                                    <p class="tax-head" v-if="feeType=='2'">จำนวนเงินก่อนภาษี : {{ convertToBaht(priceNonTaxCOM) }} บาท</p> -->
+                                                    <p class="tax-head">จำนวนเงินก่อนภาษี : {{ convertToBaht(priceBVAT) }} บาท</p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <p class="tax-head" v-if="feeType==''||feeType=='0'">ภาษีมูลค่าเพิ่ม : {{ convertToBaht(externalVAT) }} บาท</p>
-                                                    <p class="tax-head" v-if="feeType=='1'||feeType=='2'">ภาษีมูลค่าเพิ่ม : {{ convertToBaht(internalVAT) }} บาท</p>
+                                                    <p class="tax-head">ภาษีมูลค่าเพิ่ม : {{ convertToBaht(VAT) }} บาท</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -1021,6 +1021,12 @@ export default {
   },
   computed: {
     //ภาษีแยกนอก
+    VAT() {
+      return this.totalPayment - this.priceBVAT;
+    },
+    priceBVAT() {
+      return this.totalPayment - this.totalPayment * (this.taxrate / 100);
+    },
     externalVAT() {
       return this.valueBTax * (this.taxrate / 100);
     },
