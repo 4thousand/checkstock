@@ -11,10 +11,20 @@
         </div>
 
         <md-speed-dial class="md-bottom-right">
-          <md-speed-dial-target @click="goindex('/deposit')">
+          <md-speed-dial-target>
             <md-icon>add</md-icon>
-            <md-tooltip md-direction="left">เพิ่มใบรับเงินมัดเงิน</md-tooltip>
           </md-speed-dial-target>
+          <md-speed-dial-content>
+            <md-button class="md-icon-button" @click="goindex('/deposit')">
+              <md-icon>description</md-icon>
+              <md-tooltip md-direction="left">เพิ่มใบรับเงินมัดจำแบบหน้าร้าน</md-tooltip>
+            </md-button>
+
+            <md-button class="md-icon-button" @click="goindex('/prototype')">
+              <md-icon>streetview</md-icon>
+              <md-tooltip md-direction="left">เพิ่มใบรับเงินมัดจำแบบขายโครงการ</md-tooltip>
+            </md-button>
+          </md-speed-dial-content>
           </md-speed-dial>
 
       </div>
@@ -28,6 +38,11 @@
 
       if (val == "/deposit") {
         this.$router.push({ name: "deposit"});
+        return;
+      }
+
+      if (val == "/prototype") {
+        this.$router.push({ name: "prototype"});
         return;
       }
 
