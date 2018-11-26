@@ -44,7 +44,7 @@
 
                <md-list-item md-expand>
                 <md-icon>add</md-icon>
-                <span class="md-list-item-text">ใบทั้งหมด</span>
+                <span class="md-list-item-text">งานขาย</span>
 
                 <md-list slot="md-expand">
                   <md-list-item @click="goindex('/quotation')" class="md-inset"><md-icon style="position:absolute;  left: 16px;">move_to_inbox</md-icon><span class="md-list-item-text">ใบเสนอราคา</span></md-list-item>
