@@ -8,21 +8,22 @@ const toLower = text => {
     }
     return items;
   }
-  
+  import Loading from 'vue-loading-overlay';
+  import 'vue-loading-overlay/dist/vue-loading.css';
   import Datepicker from 'vuejs-datepicker';
   import * as lang from "vuejs-datepicker/src/locale";
   import api from "../service/service.js"
   // import * as jsPDF from 'jspdf'
   import JQuery from 'jquery'
-  import Loading from 'vue-loading-overlay';
-  import 'vue-loading-overlay/dist/vue-loading.css';
+
 
   let $ = JQuery
   
   export default {
     name: "saleorder",
     components: {
-      Datepicker
+      Datepicker,
+      Loading
     },
     data: () => ({
       msg: "",
@@ -115,9 +116,7 @@ const toLower = text => {
       isLoading: false,
       fullPage: true,
     }),
-    components: {
-      Loading
-    },
+   
     methods: {
       searchstorecode(val){
         // console.log(index)
@@ -994,6 +993,9 @@ const toLower = text => {
     selectstock(val){
       alert(JSON.stringify(val)) 
     },
+    checkval(){
+      this.datenow_datepicker = ''
+    }
     },
     created() {
       this.searched = this.dproducts;

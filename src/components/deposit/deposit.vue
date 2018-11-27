@@ -81,7 +81,7 @@
                                             <div class="form-group row">
                                                 <p class="article-set col-4"><span style="color:red">*</span> วันที่ออกเอกสาร :</p>
                                                 <div class="col-7">
-                                                    <vue-ctk-date-time-picker locale="th" format="YYYY-MM-DD" v-model="documentDate" :disable-time="true"></vue-ctk-date-time-picker>
+                                                    <vue-ctk-date-time-picker locale="th" format="YYYY-MM-DD" @input="checkval" v-model="documentDate" :disable-time="true"></vue-ctk-date-time-picker>
                                                 </div>
                                             </div>
                                         </div>
@@ -716,6 +716,9 @@ export default {
         if (index) {
           this.active = index
         }
+    },
+    checkval(){
+        alert(this.documentDate)
     },
     check_date_p(e) {
       alert(e);
