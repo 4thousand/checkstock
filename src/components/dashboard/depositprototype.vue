@@ -40,6 +40,19 @@
                                     <div class="row">
                                         <div class="col-md-12 col-12">
                                             <div class="form-group row">
+                                                <p class="article-set col-md-3 col-12"><span style="color:red">*</span> ประเภทการขาย :</p>
+                                                <div class="col-md-8 col-12">
+                                                    <select v-model="saleType" @change="createDepositNoApi" class="form-control">
+                                                        <option value="0">ขายหน้าร้าน</option>
+                                                        <option value="1">ขายโครงการ</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 col-12">
+                                            <div class="form-group row">
                                                 <p class="article-set col-md-3 col-12"><span style="color:red">*</span> เลขที่ใบเงินมัดจำ :</p>
                                                 <div class="col-md-8 col-12">
                                                     <input type="text" class="form-control" disabled v-model="serialNo" @change="createDepositNoApi">
@@ -50,21 +63,7 @@
                                             <div class="form-group row">
                                                 <p class="article-set col-md-3 col-12"><span style="color:red">*</span> เลขที่ใบกำกับภาษี :</p>
                                                 <div class="col-md-8 col-12">
-                                                    <input type="text" v-model="taxNo"  class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12 col-12">
-                                            <div class="form-group row">
-                                                <p class="article-set col-md-3 col-12"><span style="color:red">*</span> ประเภทภาษี :</p>
-                                                <div class="col-md-8 col-12">
-                                                    <select v-model="feeType" @change="createDepositNoApi" class="form-control">
-                                                        <option value="0">ภาษีแยกนอก</option>
-                                                        <option value="1">ภาษีรวมใน</option>
-                                                        <option value="2">ภาษีอัตราศูนย์</option>
-                                                    </select>
+                                                    <input type="text" disabled v-model="taxNo" @change="createDepositNoApi" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -120,7 +119,7 @@
                                             <div class="form-group row">
                                                 <p class="article-set col-md-3 col-4"><span style="color:red"></span></p>
                                                 <div class="tax-bottom-part tax-head col-md-8 col-7">
-                                                    <button :disabled="feeType==''||customerCode==''||customerName==''" @click="setDone('first', 'second')" class="btn btn-primary"><span>ถัดไป</span></button>
+                                                    <button :disabled="saleType==''||customerCode==''||customerName==''" @click="setDone('first', 'second')" class="btn btn-primary"><span>ถัดไป</span></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -181,6 +180,20 @@
                                         <div class="row">
                                             <div class="col-md-12 col-12">
                                                 <div class="form-group row">
+                                                    <p class="article-set col-md-3 col-12"><span style="color:red">*</span> ประเภทภาษี :</p>
+                                                    <div class="col-md-8 col-12">
+                                                        <select v-model="feeType" @change="createDepositNoApi" class="form-control">
+                                                            <option value="0">ภาษีแยกนอก</option>
+                                                            <option value="1">ภาษีรวมใน</option>
+                                                            <option value="2">ภาษีอัตราศูนย์</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 col-12">
+                                                <div class="form-group row">
                                                     <div class style="margin-left:6%">
                                                         <span class="col-sm-12">
                                                             <md-switch v-model="cashPaymentPart">เงินสด</md-switch>
@@ -208,7 +221,7 @@
                                                 <div class="form-group row">
                                                     <p class="method-set col-lg-4 col-md-12 col-12"><span style="color:red">*</span> จำนวนเงิน :</p>
                                                     <div class="col-lg-7 col-md-12 col-12">
-                                                        <input class="form-control" type="number" v-model.number="cashPayment">
+                                                        <input class="form-control" v-model.number="cashPayment">
                                                     </div>                                        
                                                 </div>
                                             </div>
@@ -242,7 +255,7 @@
                                                     <p class="method-set col-lg-4 col-md-12 col-12"><span style="color:red">*</span> จำนวนเงิน :</p>
                                                     <div class="col-lg-7 col-md-12 col-12">
                                                         <p>
-                                                            <input class="form-control" type="number" v-model.number="creditPayment">
+                                                            <input class="form-control" v-model.number="creditPayment">
                                                         </p>
                                                     </div>
                                                 </div>
@@ -426,24 +439,30 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <!-- <p class="tax-head" v-if="feeType=='0'||feeType==''">จำนวนเงินก่อนภาษี : {{ convertToBaht(valueBTax) }} บาท</p>
-                                                    <p class="tax-head" v-if="feeType=='1'">จำนวนเงินก่อนภาษี : {{ convertToBaht(priceNonTaxCOM) }} บาท</p>
-                                                    <p class="tax-head" v-if="feeType=='2'">จำนวนเงินก่อนภาษี : {{ convertToBaht(priceNonTaxCOM) }} บาท</p> -->
-                                                    <p class="tax-head">จำนวนเงินก่อนภาษี : {{ convertToBaht(priceBVAT) }} บาท</p>
+                                                    <p class="tax-head" v-if="feeType==''" @change="feeType">จำนวนเงินก่อนภาษี : {{ convertToBaht(0) }} บาท</p>
+                                                    <p class="tax-head" v-if="feeType=='0'" @change="feeType">จำนวนเงินก่อนภาษี : {{ convertToBaht(totalPayment) }} บาท</p>
+                                                    <p class="tax-head" v-if="feeType=='1'" @change="feeType">จำนวนเงินก่อนภาษี : {{ convertToBaht(priceBVAT) }} บาท</p>
+                                                    <p class="tax-head" v-if="feeType=='2'" @change="feeType">จำนวนเงินก่อนภาษี : {{ convertToBaht(totalPayment) }} บาท</p>
+                                                    <!-- <p class="tax-head">จำนวนเงินก่อนภาษี : {{ convertToBaht(priceBVAT) }} บาท</p> -->
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <p class="tax-head">ภาษีมูลค่าเพิ่ม : {{ convertToBaht(VAT) }} บาท</p>
+                                                    <p class="tax-head" v-if="feeType==''||feeType=='2'">ภาษีมูลค่าเพิ่ม : {{ convertToBaht(0) }} บาท</p>
+                                                    <p class="tax-head" v-if="feeType=='0'">ภาษีมูลค่าเพิ่ม : {{ convertToBaht(externalVAT) }} บาท</p>
+                                                    <p class="tax-head" v-if="feeType=='1'">ภาษีมูลค่าเพิ่ม : {{ convertToBaht(internalVAT) }} บาท</p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <p class="tax-summary">มูลค่ารวมภาษี : {{ convertToBaht(totalPayment) }} บาท</p>
+                                                    <p class="tax-summary" v-if="feeType==''">มูลค่ารวมภาษี : {{ convertToBaht(0) }} บาท</p>
+                                                    <p class="tax-summary" v-if="feeType=='0'">มูลค่ารวมภาษี : {{ convertToBaht(priceAVAT) }} บาท</p>
+                                                    <p class="tax-summary" v-if="feeType=='1'">มูลค่ารวมภาษี : {{ convertToBaht(totalPayment) }} บาท</p>
+                                                    <p class="tax-summary" v-if="feeType=='2'">มูลค่ารวมภาษี : {{ convertToBaht(totalPayment) }} บาท</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -455,7 +474,7 @@
                                             </div>
                                         </div>
                                         <div class="tax-bottom-part tax-button">
-                                            <button :disabled="feeType==''" @click="setDone('second', 'third'),createDepositDocApi()" class="btn btn-primary"><span>บันทึก</span></button>
+                                            <button :disabled="saleType==''" @click="setDone('second', 'third'),createDepositDocApi()" class="btn btn-primary"><span>บันทึก</span></button>
                                         </div>
                                     </div>
                                 </div>
@@ -524,8 +543,8 @@ export default {
       customerCode: "",
       date_payment: "",
       customerName: "",
-      documentDate: "",
-      taxApplyDate: "",
+      documentDate: this.getDate(),
+      taxApplyDate: this.getDate(),
       checkDate: "",
       transferDate: "",
       subNo: "",
@@ -569,7 +588,7 @@ export default {
           id: "3",
           serialNo: "1234567",
           taxNo: "876543",
-          feeType: 2,
+          saleType: 2,
           customerID: "3345",
           documentDate: "2018-12-04",
           taxApplyDate: "2018-12-11",
@@ -610,10 +629,10 @@ export default {
       checkPaymentPart: false,
       transferPaymentPart: false,
       QRPaymentPart: false,
-      cashPayment: 0.0,
-      creditPayment: 0.0,
-      checkPayment: 0.0,
-      transferPayment: 0.0,
+    //   cashPayment: 0.0,
+    //   creditPayment: 0.0,
+    //   checkPayment: 0.0,
+    //   transferPayment: 0.0,
       creditCardName: "",
       creditNumber: "",
       checkBankName: "",
@@ -629,7 +648,7 @@ export default {
       bankReceiverBranch: "",
       billType: "0",
       price: "",
-      feeType: "",
+      saleType: "",
       nextTodoId: 4,
       oldId: "",
       oldList: "",
@@ -811,7 +830,7 @@ export default {
       console.log(VAL);
       (this.serialNo = VAL.serialNo),
         (this.taxNo = VAL.taxNo),
-        (this.feeType = VAL.feeType),
+        (this.saleType = VAL.saleType),
         (this.customerID = VAL.customerID),
         (this.customerName = VAL.customerName),
         (this.documentDate = VAL.documentDate),
@@ -849,12 +868,12 @@ export default {
       }
     },
     // addDeposit() {
-    //   if (this.feeType == 0) {
+    //   if (this.saleType == 0) {
     //     this.depositSerial.push({
     //       id: this.nextTodoId++,
     //       serialNo: this.serialNo,
     //       taxNo: this.taxNo,
-    //       feeType: this.feeType,
+    //       saleType: this.saleType,
     //       customerID: this.customerID,
     //       documentDate: this.documentDate,
     //       taxApplyDate: this.taxApplyDate,
@@ -889,12 +908,12 @@ export default {
     //       balance: 0
     //     });
     //   }
-    //   if (this.feeType == 1 || this.feeType == 2) {
+    //   if (this.saleType == 1 || this.saleType == 2) {
     //     this.depositSerial.push({
     //       id: this.nextTodoId++,
     //       serialNo: this.serialNo,
     //       taxNo: this.taxNo,
-    //       feeType: this.feeType,
+    //       saleType: this.saleType,
     //       customerID: this.customerID,
     //       documentDate: this.documentDate,
     //       taxApplyDate: this.taxApplyDate,
@@ -933,7 +952,7 @@ export default {
       let payload = {
         branch_id: parseInt(this.profile.branch_id),
         table_code: "DP",
-        bill_type: parseInt(this.feeType)
+        bill_type: parseInt(this.saleType)
       };
       console.log(payload);
       api.showdocno(
@@ -945,6 +964,7 @@ export default {
             return;
           }
           this.serialNo = result;
+          this.taxNo = result;
         },
         error => {
           console.log(error);
@@ -973,7 +993,7 @@ export default {
         company_id: this.companyId,
         branch_id: parseInt(this.branchId),
         // taxNo: this.taxNo,
-        tax_type: parseInt(this.feeType),
+        tax_type: parseInt(this.saleType),
         ar_id: parseInt(this.customerID),
         ar_code: this.customerCode,
         // documentDate: this.documentDate,
@@ -1021,28 +1041,31 @@ export default {
   },
   computed: {
     //ภาษีแยกนอก
-    VAT() {
-      return this.totalPayment - this.priceBVAT;
-    },
-    priceBVAT() {
-      return this.totalPayment - this.totalPayment * (this.taxrate / 100);
-    },
     externalVAT() {
-      return this.valueBTax * (this.taxrate / 100);
+      return this.totalPayment * (this.taxrate / 100);
     },
-    priceWithTaxCOM() {
-      return this.valueBTax + this.externalVAT;
+    priceAVAT() {
+      return this.totalPayment + this.externalVAT;
     },
     //ภาษีรวมใน
     internalVAT() {
-      return this.includeVAT - this.priceNonTaxCOM;
+      return this.totalPayment - this.priceBVAT;
     },
-    priceNonTaxCOM() {
-      return this.includeVAT - this.includeVAT * (this.taxrate / 100);
+    priceBVAT() {
+      return this.totalPayment * (100/(100+this.taxrate));
     },
-    freeVAT() {
-      return this;
+    cashPayment() {
+        return this;
     },
+      creditPayment(){
+          return this;
+      },
+      checkPayment(){
+          return this;
+      },
+      transferPayment(){
+          return this;
+      },
     totalPayment() {
       return (
         this.cashPayment +
