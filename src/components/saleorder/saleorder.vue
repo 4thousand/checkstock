@@ -1,5 +1,9 @@
 <template>
   <div ref="testDiv" class="saleorder">
+    <loading :active.sync="isLoading" 
+        :can-cancel="true" 
+        :on-cancel="onCancel"
+        :is-full-page="fullPage"></loading>
     <div ref="testDiv" class="fluid-container">
       <div>
         <div class="container">

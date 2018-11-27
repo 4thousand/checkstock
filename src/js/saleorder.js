@@ -14,6 +14,9 @@ const toLower = text => {
   import api from "../service/service.js"
   // import * as jsPDF from 'jspdf'
   import JQuery from 'jquery'
+  import Loading from 'vue-loading-overlay';
+  import 'vue-loading-overlay/dist/vue-loading.css';
+
   let $ = JQuery
   
   export default {
@@ -108,8 +111,13 @@ const toLower = text => {
       stock_obj:[],
       stock_index:'',
       cart_item_code:[],
-      barcode_unitcode:''
+      barcode_unitcode:'',
+      isLoading: false,
+      fullPage: true,
     }),
+    components: {
+      Loading
+    },
     methods: {
       searchstorecode(val){
         // console.log(index)
@@ -118,9 +126,11 @@ const toLower = text => {
         let payload = {
           item_code: val.item_code
         }
+        this.isLoading = true
         // console.log(payload)
         api.searchunitcode(payload,
           (result) => {
+            this.isLoading = false
             console.log(JSON.stringify(result.data))
             this.stock_index = this.findWithAttr(this.dproducts, 'bar_code', val.bar_code)
             console.log(this.stock_index)
@@ -128,6 +138,7 @@ const toLower = text => {
              this.searchwarehousecode_m = true
           },
           (error) => {
+            this.isLoading = false
             console.log(JSON.stringify(error))
             alertify.error('Data ข้อมูล Unit code ผิดพลาด');
           })
@@ -138,15 +149,18 @@ const toLower = text => {
         let payload = {
           item_code: val.item_code
         }
+        this.isLoading = true
         // console.log(payload)
         api.searchunitcode(payload,
           (result) => {
+            this.isLoading = false
             console.log(JSON.stringify(result.data))
             this.unitcode_obj = result.data
              this.searchunitcode_m = true
              console.log('Dproducts : //'+JSON.stringify(this.dproducts))
           },
           (error) => {
+            this.isLoading = false
             console.log(JSON.stringify(error))
             alertify.error('Data ข้อมูล Unit code ผิดพลาด');
           })
@@ -195,9 +209,11 @@ const toLower = text => {
         let payload = {
           keyword: this.Allocate
         }
+        this.isLoading = true
         console.log(payload)
         api.searchAllocate(payload,
           (result) => {
+            this.isLoading = false
             console.log(JSON.stringify(result.data))
             // console.log(result.data.length)
             if (result.data.length == 0) {
@@ -214,6 +230,7 @@ const toLower = text => {
             }
           },
           (error) => {
+            this.isLoading = false
             console.log(JSON.stringify(error))
             alertify.error('Data ข้อมูลการจัดสรรผิดพลาด');
           })
@@ -228,8 +245,10 @@ const toLower = text => {
           keyword: this.project
         }
         console.log(payload)
+        this.isLoading = true
         api.searchproject(payload,
           (result) => {
+            this.isLoading = false
             console.log(JSON.stringify(result.data))
             // console.log(result.data.length)
             if (result.data.length == 0) {
@@ -245,6 +264,7 @@ const toLower = text => {
             }
           },
           (error) => {
+            this.isLoading = false
             console.log(JSON.stringify(error))
             alertify.error('Data ข้อมูลโครงการผิดพลาด');
           })
@@ -259,9 +279,11 @@ const toLower = text => {
         let payload = {
           keyword: this.department
         }
+        this.isLoading = true
         console.log(payload)
         api.searchdepartment(payload,
           (result) => {
+            this.isLoading = false
             console.log(JSON.stringify(result.data))
             // console.log(result.data.length)
             if (result.data.length == 0) {
@@ -278,6 +300,7 @@ const toLower = text => {
             }
           },
           (error) => {
+            this.isLoading = false
             console.log(JSON.stringify(error))
             alertify.error('Data ข้อมูลแผนกผิดพลาด');
           })
@@ -447,14 +470,16 @@ const toLower = text => {
           document.getElementsByName('dataquotation')[1].value = JSON.stringify(
             payload
           )
-  
+          this.isLoading = true
           console.log(JSON.stringify(payload))
           api.createsale(payload,
             (result) => {
+              this.isLoading = false
               console.log(result)
              alertify.success('บันทึกสำเร็จ ' + this.docno);
            },
             (error) => {
+              this.isLoading = false
               console.log(JSON.stringify(error))
               //Customerall
               alertify.error('เกิดข้อผิดพลาด');
@@ -484,12 +509,14 @@ const toLower = text => {
         return result;
       },
       fsearchcus() {
+        this.isLoading = true;
         var payload = {
           keyword: this.searchcus
         }
   
         api.Customerall(payload,
           (result) => {
+            this.isLoading = false;
             console.log(JSON.stringify(result.data))
             // console.log(result.data.length)
             if (result.data.length == 0) {
@@ -507,6 +534,7 @@ const toLower = text => {
             }
           },
           (error) => {
+            this.isLoading = false
             console.log(JSON.stringify(error))
             //Customerall
             alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
@@ -533,6 +561,7 @@ const toLower = text => {
         
       },
       addproduct() {
+        this.isLoading = true
         console.log(this.keywordproduct)
         // alert(this.billtype)
         // alert('d')
@@ -552,9 +581,11 @@ const toLower = text => {
         let payload = {
           keyword: this.keywordproduct
         }
+        this.isLoading = true
         console.log(payload)
         api.searchbykeyword(payload,
           (result) => {
+            this.isLoading = false
             console.log(result.data)
             console.log(result.data.length)
             this.showDialogproduct = true
@@ -567,6 +598,7 @@ const toLower = text => {
             this.$refs.addproduct.$el.focus()
           },
           (error) => {
+            this.isLoading = false
             console.log(JSON.stringify(error))
             alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
           })
@@ -587,8 +619,10 @@ const toLower = text => {
           bill_type: parseInt(this.billtype)
         }
         console.log(JSON.stringify(payload))
+        this.isLoading = true
         api.showdocno(payload,
           (result) => {
+            this.isLoading = false
             if (result.error) {
               this.docno = 'ไม่มีข้อมูล'
               return
@@ -597,6 +631,7 @@ const toLower = text => {
   
           },
           (error) => {
+            this.isLoading = false
             console.log(JSON.stringify(error))
             //Customerall
             alertify.error('ข้อมูล ประเภทเสนอราคาเกิดข้อผิดพลาด');
@@ -753,9 +788,11 @@ const toLower = text => {
         let payload = {
           keyword: this.salecode
         }
+        this.isLoading = true
         console.log(payload)
         api.searchcus(payload,
           (result) => {
+            this.isLoading = false
             console.log(JSON.stringify(result.data))
             // console.log(result.data.length)
             if (result.data.length == 0) {
@@ -771,6 +808,7 @@ const toLower = text => {
             }
           },
           (error) => {
+            this.isLoading = false
             console.log(JSON.stringify(error))
             alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
           })
@@ -795,9 +833,11 @@ const toLower = text => {
         let payload = {
           id: parseInt(this.docnoid)
         }
+        this.isLoading = true
         console.log(payload)
         api.detailquoall(payload,
           (result) => {
+            this.isLoading = false
             console.log(JSON.stringify(result.data))
             console.log(result.data.bill_type)
             let doc_type
@@ -876,6 +916,7 @@ const toLower = text => {
             console.log(JSON.stringify(result.data.subs))
           },
           (error) => {
+            this.isLoading = false
             console.log(JSON.stringify(error))
             alertify.error('ข้อมูลผิดพลาด detailquoall');
           })
