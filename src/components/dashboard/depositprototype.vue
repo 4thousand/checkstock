@@ -117,6 +117,20 @@
                                     <div class="row">
                                         <div class="col-md-12 col-12">
                                             <div class="form-group row">
+                                                <p class="article-set col-md-3 col-12"><span style="color:red">*</span> สาขาที่ขาย :</p>
+                                                <div class="col-md-8 col-12">
+                                                    <select v-model="profile.branch_id" class="form-control" @change="createDepositNoApi">
+                                                        <option value="1">นพดลพานิช สำนักงานใหญ่</option>
+                                                        <option value="2">เอสซีจี โฮมโซลูชั่น (แยกต้นเปา)</option>
+                                                        <option value="3">Home Expert Paint Shop</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 col-12">
+                                            <div class="form-group row">
                                                 <p class="article-set col-md-3 col-4"><span style="color:red"></span></p>
                                                 <div class="tax-bottom-part tax-head col-md-8 col-7">
                                                     <button :disabled="saleType==''||customerCode==''||customerName==''" @click="setDone('first', 'second')" class="btn btn-primary"><span>ถัดไป</span></button>
@@ -221,7 +235,7 @@
                                                 <div class="form-group row">
                                                     <p class="method-set col-lg-4 col-md-12 col-12"><span style="color:red">*</span> จำนวนเงิน :</p>
                                                     <div class="col-lg-7 col-md-12 col-12">
-                                                        <input class="form-control" v-model.number="cashPayment">
+                                                        <input class="form-control" min=0 v-model.number="cashPayment" pattern="[0-9]" type="number">
                                                     </div>                                        
                                                 </div>
                                             </div>
@@ -255,7 +269,7 @@
                                                     <p class="method-set col-lg-4 col-md-12 col-12"><span style="color:red">*</span> จำนวนเงิน :</p>
                                                     <div class="col-lg-7 col-md-12 col-12">
                                                         <p>
-                                                            <input class="form-control" v-model.number="creditPayment">
+                                                            <input class="form-control" min=0 v-model.number="creditPayment">
                                                         </p>
                                                     </div>
                                                 </div>
@@ -310,7 +324,7 @@
                                                     <p class="method-set col-lg-4 col-md-12 col-12"><span style="color:red">*</span> จำนวนเงิน :</p>
                                                     <div class="col-lg-7 col-md-12 col-12">
                                                         <p>
-                                                            <input class="form-control" type="number" v-model.number="checkPayment">
+                                                            <input class="form-control" type="number" min=0 v-model.number="checkPayment">
                                                         </p>
                                                     </div>
                                                 </div>
@@ -405,7 +419,7 @@
                                                     <p class="method-set col-lg-4 col-md-12 col-12"><span style="color:red">*</span> จำนวนเงิน :</p>
                                                     <div class="col-lg-7 col-md-12 col-12">
                                                         <p>
-                                                            <input class="form-control" type="number" v-model.number="transferPayment">
+                                                            <input class="form-control" min=0 type="number" v-model.number="transferPayment">
                                                         </p>
                                                     </div>
                                                 </div>
@@ -513,6 +527,11 @@
                                                 <div class="tax-bottom-part print-button col-3">
                                                     <button class="btn btn-primary search-icon">Print</button>
                                                 </div>
+                                                <form :action="php + '/vue_sale/report_pdf/report_quotationpdf.php'" method="post" target="_blank">
+                                                    <input type="hidden" name="dataquotation">
+                                                    <md-button type="submit" class="md-raised md-primary">PDF</md-button>
+                                                        <!-- <button type="submit">กด</button> -->
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -629,10 +648,10 @@ export default {
       checkPaymentPart: false,
       transferPaymentPart: false,
       QRPaymentPart: false,
-    //   cashPayment: 0.0,
-    //   creditPayment: 0.0,
-    //   checkPayment: 0.0,
-    //   transferPayment: 0.0,
+      cashPayment: null,
+      creditPayment: null,
+      checkPayment: null,
+      transferPayment: null,
       creditCardName: "",
       creditNumber: "",
       checkBankName: "",
@@ -961,6 +980,7 @@ export default {
           console.log(JSON.stringify(result));
           if (result.error) {
             this.serialNo = "ไม่มีข้อมูล";
+            this.taxNo = "ไม่มีข้อมูล";
             return;
           }
           this.serialNo = result;
@@ -1054,18 +1074,6 @@ export default {
     priceBVAT() {
       return this.totalPayment * (100/(100+this.taxrate));
     },
-    cashPayment() {
-        return this;
-    },
-      creditPayment(){
-          return this;
-      },
-      checkPayment(){
-          return this;
-      },
-      transferPayment(){
-          return this;
-      },
     totalPayment() {
       return (
         this.cashPayment +
