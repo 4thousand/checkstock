@@ -10,7 +10,12 @@ import 'jspdf-customfonts/dist/jspdf.customfonts.min.js'
 import VueHotkey from 'v-hotkey'
 import VueApexCharts from 'vue-apexcharts'
 import vSelect from 'vue-select'
+import VueMoment from 'vue-moment'
+import moment from 'moment-timezone'
 
+Vue.use(VueMoment, {
+  moment,
+})
 Vue.use(VueApexCharts)
 Vue.use(VueHotkey)
 Vue.use(VueMaterial)

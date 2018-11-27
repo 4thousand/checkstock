@@ -273,6 +273,16 @@ export default {
         this.topicmenu = "ใบรับเงินมัดจำ";
         this.icon = "assignment";
       }
+      if (this.$route.fullPath.search("depositlist") == 1) {
+        this.topicmenucolor = "#f4c20d";
+        this.topicmenu = "ใบรับเงินมัดจำ";
+        this.icon = "assignment";
+      }
+      if (this.$route.fullPath.search("prototype") == 1) {
+        this.topicmenucolor = "#f4c20d";
+        this.topicmenu = "ใบรับเงินมัดจำ";
+        this.icon = "assignment";
+      }
     },
     toggleMenu() {
       this.menuVisible = !this.menuVisible;
