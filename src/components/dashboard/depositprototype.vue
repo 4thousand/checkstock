@@ -74,7 +74,7 @@
                                             <div class="form-group row">
                                                 <p class="article-set col-md-3 col-12"><span style="color:red">*</span> วันที่ออกเอกสาร :</p>
                                                 <div class="col-md-8 col-12">
-                                                    <vue-ctk-date-time-picker locale="th" format="YYYY-MM-DD" v-model="documentDate" :disable-time="true"></vue-ctk-date-time-picker>
+                                                    <vue-ctk-date-time-picker locale="th" format="YYYY-MM-DD" @input="checkval" v-model="documentDate" :disable-time="true"></vue-ctk-date-time-picker>
                                                 </div>
                                             </div>
                                         </div>
@@ -524,7 +524,7 @@ export default {
       customerCode: "",
       date_payment: "",
       customerName: "",
-      documentDate: "",
+      documentDate: this.getDate(),
       taxApplyDate: "",
       checkDate: "",
       transferDate: "",
@@ -959,6 +959,9 @@ export default {
         return;
       }
     },
+    checkval(){
+        console.log(this.documentDate)
+    },
     getDate() {
       const toTwoDigits = num => (num < 10 ? "0" + num : num);
       let today = new Date();
@@ -1005,16 +1008,24 @@ export default {
         //   bankReceiverBranch: this.bankReceiverBranch,
         //   transferPayment: this.transferPayment,
         //   balance: 0
-        total_amount: this.totalPayment
+        total_amount: this.totalPayment,
+      
       };
+
       console.log(JSON.stringify(payload));
       api.createdeposit(
         payload,
         result => {
           console.log(JSON.stringify(result));
+            alertify.success(
+              "บันทึกเรียบร้อย "+result.data.doc_no
+            )
         },
         error => {
           console.log(JSON.stringify(error));
+          alertify.error(
+              "เกิดข้อผิดพลาด createdeposit"
+            )
         }
       );
     }
@@ -1051,6 +1062,8 @@ export default {
         this.transferPayment
       );
     }
+  },
+  created(){
   },
   mounted() {
     console.log(this.profile);
