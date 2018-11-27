@@ -780,7 +780,8 @@
                        <div class="hovercolor" :class="'hover'+index" style="text-align:right;visibility:hidden;height:0;transition:all 0.5s cubic-bezier(0.47, 0.46, 0, 1.02) 0s;"  v-for="(value,index2) in stockall" :key="index2" >
                          <!--  -->
                       <md-button @click="showdetail(val,value)" style="margin: 5px 0" class="md-raised md-primary"> คลังสินค้า : {{val.stk_location[index2].wh_code}} ชั้นเก็บ : {{val.stk_location[index2].shelf_code}} จำนวน : {{val.stk_location[index2].qty}} </md-button>
-                      </div></td>
+                      </div>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
