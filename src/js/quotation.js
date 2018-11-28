@@ -9,6 +9,8 @@ const searchByName = (items, term) => {
   return items;
 }
 
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 import Datepicker from 'vuejs-datepicker';
 import * as lang from "vuejs-datepicker/src/locale";
 import api from "../service/service.js"
@@ -19,7 +21,8 @@ let $ = JQuery
 export default {
   name: "quotation",
   components: {
-    Datepicker
+    Datepicker,
+    Loading
   },
   data: () => ({
     msg: "",
@@ -94,7 +97,9 @@ export default {
     thisunticode:[],
     stockobj:[],
     namestock:'',
-    stockall:[]
+    stockall:[],
+    isLoading: false,
+    fullPage: true,
   }),
   methods: {
     searchunticode(val){
@@ -104,14 +109,17 @@ export default {
       let payload = {
         item_code: val.item_code
       }
+      this.isLoading = true
       // console.log(payload)
       api.searchunitcode(payload,
         (result) => {
+          this.isLoading = false
           console.log(JSON.stringify(result.data))
           this.unitcode_obj = result.data
            this.searchunitcode_m = true
         },
         (error) => {
+          this.isLoading = false
           console.log(JSON.stringify(error))
           alertify.error('Data ข้อมูล Unit code ผิดพลาด');
         })
@@ -147,8 +155,10 @@ export default {
         keyword: this.Allocate
       }
       console.log(payload)
+      this.isLoading = true
       api.searchAllocate(payload,
         (result) => {
+          this.isLoading = false
           console.log(JSON.stringify(result.data))
           // console.log(result.data.length)
           if (result.data.length == 0) {
@@ -165,6 +175,7 @@ export default {
           }
         },
         (error) => {
+          this.isLoading = false
           console.log(JSON.stringify(error))
           alertify.error('Data ข้อมูลการจัดสรรผิดพลาด');
         })
@@ -179,8 +190,10 @@ export default {
         keyword: this.project
       }
       console.log(payload)
+      this.isLoading = true
       api.searchproject(payload,
         (result) => {
+          this.isLoading = false
           console.log(JSON.stringify(result.data))
           // console.log(result.data.length)
           if (result.data.length == 0) {
@@ -196,6 +209,7 @@ export default {
           }
         },
         (error) => {
+          this.isLoading = false
           console.log(JSON.stringify(error))
           alertify.error('Data ข้อมูลโครงการผิดพลาด');
         })
@@ -210,9 +224,11 @@ export default {
       let payload = {
         keyword: this.department
       }
+      this.isLoading = true
       console.log(payload)
       api.searchdepartment(payload,
         (result) => {
+          this.isLoading = false
           console.log(JSON.stringify(result.data))
           // console.log(result.data.length)
           if (result.data.length == 0) {
@@ -229,6 +245,7 @@ export default {
           }
         },
         (error) => {
+          this.isLoading = false
           console.log(JSON.stringify(error))
           alertify.error('Data ข้อมูลแผนกผิดพลาด');
         })
@@ -434,9 +451,10 @@ export default {
       var payload = {
         keyword: this.searchcus
       }
-
+      this.isLoading = true
       api.Customerall(payload,
         (result) => {
+          this.isLoading = false
           console.log(JSON.stringify(result.data))
           // console.log(result.data.length)
           if (result.data.length == 0) {
@@ -454,6 +472,7 @@ export default {
           }
         },
         (error) => {
+          this.isLoading = false
           console.log(JSON.stringify(error))
           //Customerall
           alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
@@ -499,9 +518,11 @@ export default {
       let payload = {
         keyword: this.keywordproduct
       }
+      this.isLoading = true
       console.log(payload)
       api.searchbykeyword(payload,
         (result) => {
+          this.isLoading = false
           console.log(result.data)
           console.log(result.data.length)
           this.showDialogproduct = true
@@ -513,6 +534,7 @@ export default {
           this.$refs.addproduct.$el.focus()
         },
         (error) => {
+          this.isLoading = false
           console.log(JSON.stringify(error))
           alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
         })
@@ -541,9 +563,11 @@ export default {
         table_code: this.tablecode,
         bill_type: parseInt(this.billtype)
       }
+      this.isLoading = true
       console.log(payload)
       api.showdocno(payload,
         (result) => {
+          this.isLoading = false
           if (result.error) {
             this.docno = 'ไม่มีข้อมูล'
             return
@@ -552,6 +576,7 @@ export default {
 
         },
         (error) => {
+          this.isLoading = false
           console.log(JSON.stringify(error))
           //Customerall
           alertify.error('ข้อมูล ประเภทเสนอราคาเกิดข้อผิดพลาด');
@@ -679,9 +704,11 @@ export default {
       let payload = {
         keyword: this.salecode
       }
+      this.isLoading = true
       console.log(payload)
       api.searchcus(payload,
         (result) => {
+          this.isLoading = false
           console.log(JSON.stringify(result.data))
           // console.log(result.data.length)
           if (result.data.length == 0) {
@@ -697,6 +724,7 @@ export default {
           }
         },
         (error) => {
+          this.isLoading = false
           console.log(JSON.stringify(error))
           alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
         })
@@ -721,9 +749,11 @@ export default {
       let payload = {
         id: parseInt(this.docnoid)
       }
+      this.isLoading = true
       console.log(payload)
       api.detailquoall(payload,
         (result) => {
+          this.isLoading = false
           console.log(JSON.stringify(result.data))
           console.log(result.data.bill_type)
           let doc_type
@@ -796,6 +826,7 @@ export default {
           console.log(JSON.stringify(result.data.subs))
         },
         (error) => {
+          this.isLoading = false
           console.log(JSON.stringify(error))
           alertify.error('ข้อมูลผิดพลาด detailquoall');
         })
@@ -855,9 +886,10 @@ export default {
     var payload = {
       item_code : val.item_code
      }
-
+     this.isLoading = true
     api.searchunitcode(payload,
       (result) => {
+        this.isLoading = false
         console.log(result)
         console.log(JSON.stringify(result.data))
         console.log(JSON.stringify(result.data.stock))
@@ -866,6 +898,7 @@ export default {
         console.log(result.data[0].stk_location.length)
       },
       (error) => {
+        this.isLoading = false
         console.log(JSON.stringify(error))
         alertify.error('Data ข้อมูล ค้นหาคลัง ผิดพลาด');
       })

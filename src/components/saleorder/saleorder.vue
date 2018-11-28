@@ -19,7 +19,6 @@
                     <span class="md-title sub">
                         เลขที่ใบเสนอราคา
                     </span>
-                  
                     <md-field>
                       <md-select  v-hotkey="keymap"  @input="showdocno" placeholder="กรุณาเลือก" v-model="tablecode" name="country" id="country">
                         <md-option value="RO">ใบสั่งจอง</md-option>
@@ -28,7 +27,6 @@
                       </md-select>
                     </md-field>
                   </div>
-  
                   <div :class="attention" class="md-layout-item md-size-25 md-xsmall-size-100">
                     <!-- :class="disablebilltype+'0'" -->
                     <span ref="focustype" :class="disablebilltype+'0'" class="md-title sub">
@@ -36,7 +34,6 @@
                                     </span>
                     <!-- v-show="disablebilltype"   -->
                     <md-icon v-show="disablebilltype" style="position:relative;top:10px;color:black">lock</md-icon>
-  
                     <md-field>
                       <!-- :disabled="disablebilltype" -->
                       <md-select @input="showdocno" :disabled="disablebilltype" v-model="billtype" name="country" id="country" placeholder="กรุณาเลือก">
@@ -45,20 +42,15 @@
                       </md-select>
                     </md-field>
                   </div>
-  
                   <!-- <div class="md-layout-item md-size-5 md-xsmall-size-100">
                                </div> -->
-  
                   <div id="notop_mobile" style="position: relative; top: 25px;" class="md-layout-item md-size-40 md-xsmall-size-100">
                     <md-field>
                       <label>เลขที่เอกสาร</label>
                       <md-input disabled v-model="docno"></md-input>
                     </md-field>
                   </div>
-  
                 </div>
-  
-  
                 <div class="md-layout md-gutter">
                   <div class="md-layout-item md-size-15 md-xsmall-size-100">
                   </div>
@@ -118,7 +110,6 @@
                   <md-table class="col-12" v-model="searched" md-sort="name" md-sort-order="asc" md-card md-fixed-header>
                     <md-table-toolbar>
                       <div class="md-toolbar-section-start">
-  
                         <div style="min-height:42px;position:relative" class="md-title">
                           <div style="float:left;position:relative;top:13px;margin-right:10px">ข้อมูลสินค้า</div>
   
