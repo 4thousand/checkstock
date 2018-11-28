@@ -11,21 +11,10 @@
         </div>
 
         <md-speed-dial class="md-bottom-right">
-          <md-speed-dial-target>
+          <md-speed-dial-target @click="goindex('/prototype')">
             <md-icon>add</md-icon>
           </md-speed-dial-target>
-          <md-speed-dial-content>
-            <md-button class="md-icon-button" @click="goindex('/deposit')">
-              <md-icon>description</md-icon>
-              <md-tooltip md-direction="left">เพิ่มใบรับเงินมัดจำแบบหน้าร้าน</md-tooltip>
-            </md-button>
-
-            <md-button class="md-icon-button" @click="goindex('/prototype')">
-              <md-icon>streetview</md-icon>
-              <md-tooltip md-direction="left">เพิ่มใบรับเงินมัดจำแบบขายโครงการ</md-tooltip>
-            </md-button>
-          </md-speed-dial-content>
-          </md-speed-dial>
+        </md-speed-dial>
 
       </div>
     </div>
