@@ -29,7 +29,7 @@
                   </div>
                   <div class="col-12">
                     <span style="position: relative;left: 8px;font-size: .875rem;color: #5f6368;" class="md-subheading">
-                    {{ 'รหัสลูกค้า : '+val.ar_code + ' ชื่อลูกค้า :' + val.ar_name + ' พนักงานขาย :' +val.sale_name +' รวมมูลค่าสินค้าทั้งหมด : '+val.total_amount +" บาท"}}
+                    {{ 'รหัสลูกค้า : '+val.ar_code + ' ชื่อลูกค้า :' + val.ar_name + ' พนักงานขาย :' +val.sale_name +' รวมมูลค่าสินค้าทั้งหมด : '+convertToBaht(val.total_amount) +" บาท"}}
                     </span>
                     <div @click="val.total_amount = !val.total_amount" v-show="val.total_amount" style="float:right;" class=" starhover">
                       <md-icon>star_border</md-icon>
