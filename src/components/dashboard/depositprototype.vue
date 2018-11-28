@@ -512,18 +512,17 @@
                                             มูลค่ารวมภาษี : {{totalPayment}}
                                         </div>
                                         <div class="col-md-12">
-                                            <div class="form-group row">
-                                                <div class="tax-bottom-part finish-button col-3">
-                                                    <button class="btn btn-primary finish-button search-icon" @click="goindex('/index')">สิ้นสุด</button>
+                                            <div class="form-group">
+                                                <div class="row" style="padding-top:3%">
+                                                    <div class="tax-bottom-part finish-button col-8">
+                                                        <button class="btn btn-primary finish-button search-icon" @click="goindex('/index')">สิ้นสุด</button>
+                                                    </div>
+                                                    <div class="tax-bottom-part print-button col-4">
+                                                        <form :action="php + '/vue_sale/report_pdf/report_deposit.html'" method="post" target="_blank">
+                                                            <button type="submit" class="btn btn-primary search-icon">Print</button>
+                                                        </form>
+                                                    </div>
                                                 </div>
-                                                <div class="tax-bottom-part print-button col-3">
-                                                    <button class="btn btn-primary search-icon">Print</button>
-                                                </div>
-                                                <form :action="php + '/vue_sale/report_pdf/report_quotationpdf.php'" method="post" target="_blank">
-                                                    <input type="hidden" name="dataquotation">
-                                                    <md-button type="submit" class="md-raised md-primary">PDF</md-button>
-                                                        <!-- <button type="submit">กด</button> -->
-                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -827,7 +826,8 @@ export default {
     }
   },
   mounted() {
-      this.setDone('first', 'second')
+    //   this.setDone('first', 'second')
+    this.setDone('second', 'third')
 
     console.log(this.profile);
   }
