@@ -24,4 +24,8 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
   
 ## Deposit
 
+```bash
+#Add Deposit Form
+```
+
 ## Sale order
