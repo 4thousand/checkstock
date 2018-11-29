@@ -16,6 +16,11 @@ export default {
     changeColor () {
       alert('sadasd')
     },
+    convertToBaht(val) {
+      var result = numeral(val).format("0,0.00");
+      // console.log(typeof result)
+      return result;
+    },
     seedetail(val){
         console.log(JSON.stringify(val))
         

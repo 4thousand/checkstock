@@ -408,7 +408,7 @@ background-color: transparent;
       top: -40px;
     }
     .form-control:disabled, .form-control[readonly]{
-      text-align: center !important;
+      text-align: center;
     }
     .md-table-content{
       height: auto !important;

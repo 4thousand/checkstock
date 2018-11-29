@@ -1106,9 +1106,9 @@ div {
   float: right;
 }
 
-.form-control[readonly] {
+/* .form-control[readonly] {
   text-align: right !important;
-}
+} */
 
 @media (max-width: 991px) {
   .method-set {

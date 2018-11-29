@@ -10,6 +10,31 @@
           </md-field>
         </div>
 
+            <md-toolbar id="responsiveheight" class="md-transparent hoverdiv" style="min-width:251px;display:block;padding-top:5px;overflow:hidden">
+              <div class="md-layout md-gutter md-alignment-center">
+                <div class="md-layout-item md-xlarge-size-5 md-large-size-5 md-xsmall-size-15 md-small-size-10 md-medium-size-5">
+                  <md-avatar class="md-avatar-icon md-primary">D</md-avatar>
+                </div>
+    
+                <div class="md-layout-item md-xlarge-size-95  md-large-size-95 md-xsmall-size-85 md-small-size-90 md-medium-size-95">
+                  <div class="row">
+                    <div class="col-12">
+                      <span class="md-title">S01-QHV6010-0006</span>
+                      <!-- <md-icon v-show="val.is_confirm == 1" style="float:right;color:green">check_circle_outline</md-icon>
+                      <md-icon v-show="val.is_cancel == 1" style="float:right;color:red;">cancel</md-icon> -->
+                      <span class="md-title datehover" style="float:right;font-size: .875rem;color: #5f6368;float:right;margin-right:10px">2018-11-28</span>
+                    </div>
+                    <div class="col-12">
+                      <span style="position: relative;left: 8px;font-size: .875rem;color: #5f6368;" class="md-subheading">
+                      {{ 'รหัสลูกค้า : '+5064 + ' ชื่อลูกค้า :' + "val.ar_name" + ' พนักงานขาย :' +"val.sale_name" +' รวมมูลค่ารวมภาษี : '+"convertToBaht(val.total_amount) "+" บาท"}}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </md-toolbar>
+
+
         <md-speed-dial class="md-bottom-right">
           <md-speed-dial-target @click="goindex('/prototype')">
             <md-icon>add</md-icon>
@@ -21,8 +46,8 @@
 </template>
 <script>
  export default {
-   methods:{
-     goindex(val) {
+  methods:{
+    goindex(val) {
       // localStorage.iddocno = 0
 
       if (val == "/deposit") {
@@ -36,7 +61,12 @@
       }
 
     }
-   }
+  },
+  convertToBaht(val) {
+    var result = numeral(val).format("0,0.00");
+    // console.log(typeof result)
+    return result;
+  },
  }
 </script>
 <style>
