@@ -10,7 +10,9 @@
             <div class="card-body">
               <h4 class="card-title">Graph</h4>
               <p class="card-text">Some example text.</p>
-              <apexcharts width="100%" type="line" :options="chartOptions" :series="ser"></apexcharts>
+              <div>
+                <apexchart width="500" type="bar" :options="options" :series="series"></apexchart>
+              </div>
             </div>
           </div>
         </div>
@@ -99,29 +101,41 @@ export default {
   name: 'quotation',
   data () {
     return {
-     msg:'',
-     star:true,
-     Search:'',
-     sale_code:JSON.parse(localStorage.Datauser),
-     dataall:[],
-     keyword_showalldoc:'',
-     chartOptions: {
+      msg:'',
+      star:true,
+      Search:'',
+      sale_code:JSON.parse(localStorage.Datauser),
+      dataall:[],
+      keyword_showalldoc:'',
+      //  chartOptions: {
+      //     chart: {
+      //       id: "vuechart-example"
+      //     },
+      //     xaxis: {
+      //       categories: ["11-01-2018", 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+      //     }
+      //   },
+      //   ser: [
+      //     {
+      //       name: "series-1",
+      //       data: [30.1, 40, 45, 50, 49, 60, 70, 91]
+      //     },{
+      //       name: "series-2",
+      //       data: [32.1, 45, 34, 10, 4, 100, 700, 91]
+      //     }
+      //   ],
+      options: {
         chart: {
-          id: "vuechart-example"
+          id: 'vuechart-example'
         },
         xaxis: {
-          categories: ["11-01-2018", 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
         }
       },
-      ser: [
-        {
-          name: "series-1",
-          data: [30.1, 40, 45, 50, 49, 60, 70, 91]
-        },{
-          name: "series-2",
-          data: [32.1, 45, 34, 10, 4, 100, 700, 91]
-        }
-      ]
+      series: [{
+        name: 'series-1',
+        data: [30, 40, 45, 50, 49, 60, 70, 91]
+      }]
     }
   },
   methods: {
