@@ -878,9 +878,6 @@ export default {
         return;
       }
     },
-    checkval(){
-        console.log(this.documentDate)
-    },
     getDate() {
       const toTwoDigits = num => (num < 10 ? "0" + num : num);
       let today = new Date();
@@ -927,24 +924,16 @@ export default {
         //   bankReceiverBranch: this.bankReceiverBranch,
         //   transferPayment: this.transferPayment,
         //   balance: 0
-        total_amount: this.totalPayment,
-      
+        total_amount: this.totalPayment
       };
-
       console.log(JSON.stringify(payload));
       api.createdeposit(
         payload,
         result => {
           console.log(JSON.stringify(result));
-            alertify.success(
-              "บันทึกเรียบร้อย "+result.data.doc_no
-            )
         },
         error => {
           console.log(JSON.stringify(error));
-          alertify.error(
-              "เกิดข้อผิดพลาด createdeposit"
-            )
         }
       );
     }
@@ -992,8 +981,6 @@ export default {
         return this.totalPayment;
       }
     }
-  },
-  created(){
   },
   mounted() {
     // this.setDone('first', 'second')
@@ -1106,9 +1093,9 @@ div {
   float: right;
 }
 
-/* .form-control[readonly] {
-  text-align: right !important;
-} */
+.form-control[readonly] {
+  text-align: left !important;
+}
 
 @media (max-width: 991px) {
   .method-set {
@@ -1127,7 +1114,7 @@ div {
   .tax-header,
   .tax-head,
   .tax-summary {
-    text-align: left;
+    text-align: left !important;
   }
   .tax-button {
     text-align: center;
