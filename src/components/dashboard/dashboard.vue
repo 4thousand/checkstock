@@ -1,6 +1,6 @@
 <template>
   <div class="index" style="background: #f4f5f7;">
-    <div class="container-fluid">
+    <div>
       <!-- payloadreal -->
       <div class="row">
         <div class="col-xl-8 col-lg-12 col-md-12 col-12">
@@ -81,7 +81,7 @@
                             <div class="col-10">
                               <div class="row">
                                 <div class="col-10">
-                                  <span class="md-title">{{val.doc_no}}</span>
+                                  <span class="bl-title">{{val.doc_no}}</span>
                                 </div>
                                 <div class="col-2">
                                   <md-icon
@@ -371,9 +371,9 @@ export default {
   padding: 5px 0;
 }
 
-.md-title {
+.bl-title {
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.85rem !important;
 }
 
 .datehover,
@@ -413,19 +413,19 @@ h4 {
 }
 
 @media screen and (max-width: 360px) {
-  .md-title {
+  .bl-title {
     font-size: 14px;
   }
 }
 
 @media screen and (max-width: 330px) {
-  .md-title {
+  .bl-title {
     font-size: 14px;
   }
 }
 
 @media screen and (max-width: 990px) {
-  .md-title {
+  .bl-title {
     font-size: 16px;
   }
 }

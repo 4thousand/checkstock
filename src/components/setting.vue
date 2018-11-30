@@ -19,8 +19,11 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-90 md-small-size-100">
               <md-field >
-                <label for="first-name"> <md-icon>attach_money</md-icon>buy_tax_type</label>
-                <md-input name="first-name" id="first-name"  />
+                <label>ประเภทการขาย</label>
+                <md-select v-model="setting_saleType" name="movie" id="movie">
+                  <md-option value="0">ขายหน้าร้าน</md-option>
+                  <md-option value="1">ขายโครงการ</md-option>
+                </md-select>
               </md-field>
             </div>
           </div>
@@ -77,8 +80,12 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-90 md-small-size-100">
               <md-field >
-                <label for="first-name"><md-icon>attach_money</md-icon>sale_tax_type</label>
-                <md-input name="first-name" id="first-name"  />
+                <label>ประเภทภาษี</label>
+                <md-select v-model="setting_feeType">
+                  <md-option value="0">ภาษีแยกนอก</md-option>
+                  <md-option value="1">ภาษีรวมใน</md-option>
+                  <md-option value="2">ภาษีอัตราศูนย์</md-option>
+                </md-select>
               </md-field>
             </div>
           </div>
@@ -109,8 +116,8 @@
             <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-90 md-small-size-100">
               <md-field >
-                <label for="first-name"> <md-icon>payment</md-icon>tax_rate</label>
-                <md-input name="first-name" id="first-name"  />
+                <label> <md-icon>payment</md-icon>tax_rate</label>
+                <md-input v-model="setting_taxRate" />
               </md-field>
             </div>
           </div>

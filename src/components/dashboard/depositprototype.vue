@@ -701,6 +701,7 @@ import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.min.css";
 import VueStripePayment from "vue-stripe-payment";
 import api from "../../service/service.js";
 import { ModelSelect } from "vue-search-select";
+import setting from "../../js/setting.js";
 
 export default {
   data() {
@@ -721,7 +722,7 @@ export default {
       employeeName: "",
       department: "",
       departmentData: [],
-      taxrate: 7.0,
+      taxrate: setting.data().setting_taxRate,
       balance: 0.0,
       click: false,
       searchCustomerInput: "",
@@ -751,8 +752,8 @@ export default {
       bankReceiveName: "",
       bankReceiverBranch: "",
       billType: "0",
-      saleType: "",
-      feeType: "",
+      saleType: setting.data().setting_saleType,
+      feeType: setting.data().setting_feeType,
       companyId: 1,
       branchId: "",
       showDialog: false,
@@ -987,6 +988,7 @@ export default {
     // this.setDone('second', 'third')
 
     console.log(this.profile);
+    console.log("show "+setting.data().setting_feeType)
   }
 };
 </script>
