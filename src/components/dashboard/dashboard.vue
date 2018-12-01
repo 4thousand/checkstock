@@ -394,7 +394,7 @@ export default {
 }
 
 .apexcharts-toolbar{
-  z-index: 0;
+  z-index: 0 !important;
 }
 
 .activeQ {

@@ -170,7 +170,7 @@
                             type="text"
                             disabled
                             v-model="profile.username"
-                            class="form-control"
+                            class="form-control disable-control"
                           >
                         </div>
                       </div>
@@ -1096,6 +1096,10 @@ div {
 }
 
 .form-control[readonly] {
+  text-align: left !important;
+}
+
+.disable-control{ 
   text-align: left !important;
 }
 
