@@ -14,37 +14,18 @@
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
                         <p class="article-set col-md-3 col-12">
-                          <span style="color:red">*</span> รหัสลูกค้า :
+                          <span style="color:red">*</span> สาขาที่ขาย :
                         </p>
                         <div class="col-md-8 col-12">
-                          <div class="input-group">
-                            <input
-                              type="text"
-                              disabled
-                              v-model.number="customerCode"
-                              class="form-control"
-                            >
-                            <div class="input-group-append">
-                              <button
-                                class="btn btn-primary icon-margin search-icon"
-                                @click="showDialog = true"
-                              >
-                                <md-icon class="search-icon">search</md-icon>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 col-12">
-                      <div class="form-group row">
-                        <p class="article-set col-md-3 col-12">
-                          <span style="color:red">*</span> ชื่อลูกค้า :
-                        </p>
-                        <div class="col-md-8 col-12">
-                          <input type="text" disabled v-model="customerName" class="form-control">
+                          <select
+                            v-model="profile.branch_id"
+                            class="form-control"
+                            @change="createDepositNoApi"
+                          >
+                            <option value="1">นพดลพานิช สำนักงานใหญ่</option>
+                            <option value="2">เอสซีจี โฮมโซลูชั่น (แยกต้นเปา)</option>
+                            <option value="3">Home Expert Paint Shop</option>
+                          </select>
                         </div>
                       </div>
                     </div>
@@ -72,12 +53,51 @@
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
                         <p class="article-set col-md-3 col-12">
+                          <span style="color:red">*</span> รหัสลูกค้า :
+                        </p>
+                        <div class="col-md-8 col-12">
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              disabled
+                              v-model.number="customerCode"
+                              class="form-control disable-control"
+                            >
+                            <div class="input-group-append">
+                              <button
+                                class="btn btn-primary icon-margin search-icon"
+                                @click="showDialog = true"
+                              >
+                                <md-icon class="search-icon">search</md-icon>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 col-12">
+                      <div class="form-group row">
+                        <p class="article-set col-md-3 col-12">
+                          <span style="color:red">*</span> ชื่อลูกค้า :
+                        </p>
+                        <div class="col-md-8 col-12">
+                          <input type="text" disabled v-model="customerName" class="form-control disable-control">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 col-12">
+                      <div class="form-group row">
+                        <p class="article-set col-md-3 col-12">
                           <span style="color:red">*</span> เลขที่ใบเงินมัดจำ :
                         </p>
                         <div class="col-md-8 col-12">
                           <input
                             type="text"
-                            class="form-control"
+                            class="form-control disable-control"
                             disabled
                             v-model="serialNo"
                             @change="createDepositNoApi"
@@ -96,7 +116,7 @@
                             disabled
                             v-model="taxNo"
                             @change="createDepositNoApi"
-                            class="form-control"
+                            class="form-control disable-control"
                           >
                         </div>
                       </div>
@@ -139,7 +159,7 @@
                       <div class="form-group row">
                         <p class="article-set col-md-3 col-12">เลขที่ใบจอง :</p>
                         <div class="col-md-8 col-12">
-                          <input type="text" v-model="preemptionNo" class="form-control">
+                          <input type="text" v-model="preemptionNo" class="form-control" disabled>
                         </div>
                       </div>
                     </div>
@@ -153,7 +173,7 @@
                             type="text"
                             disabled
                             v-model="profile.sale_code"
-                            class="form-control"
+                            class="form-control disable-control"
                           >
                         </div>
                       </div>
@@ -172,26 +192,6 @@
                             v-model="profile.username"
                             class="form-control disable-control"
                           >
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 col-12">
-                      <div class="form-group row">
-                        <p class="article-set col-md-3 col-12">
-                          <span style="color:red">*</span> สาขาที่ขาย :
-                        </p>
-                        <div class="col-md-8 col-12">
-                          <select
-                            v-model="profile.branch_id"
-                            class="form-control"
-                            @change="createDepositNoApi"
-                          >
-                            <option value="1">นพดลพานิช สำนักงานใหญ่</option>
-                            <option value="2">เอสซีจี โฮมโซลูชั่น (แยกต้นเปา)</option>
-                            <option value="3">Home Expert Paint Shop</option>
-                          </select>
                         </div>
                       </div>
                     </div>
@@ -296,18 +296,30 @@
                     <div class="row">
                       <div class="col-md-12 col-12">
                         <div class="form-group row">
+                          <p class="article-set col-md-3 col-12">
+                            <span style="color:red">*</span> ราคารวม :
+                          </p>
+                          <div class="col-md-8 col-12">
+                            <input class="form-control" min="0" v-model.number="payment">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 col-12">
+                        <div class="form-group row">
                           <div class style="margin-left:6%">
                             <span class="col-sm-12">
-                              <md-switch v-model="cashPaymentPart">เงินสด</md-switch>
+                              <md-switch v-model="cashPaymentPart" @change="payment_validation">เงินสด</md-switch>
                             </span>
                             <span class="col-sm-12">
-                              <md-switch v-model="creditPaymentPart">บัตรเครดิต/บัตรเดบิต</md-switch>
+                              <md-switch v-model="creditPaymentPart" @change="payment_validation">บัตรเครดิต/บัตรเดบิต</md-switch>
                             </span>
                             <span class="col-sm-12">
-                              <md-switch v-model="checkPaymentPart">เช็ค</md-switch>
+                              <md-switch v-model="checkPaymentPart" @change="payment_validation">เช็ค</md-switch>
                             </span>
                             <span class="col-sm-12">
-                              <md-switch v-model="transferPaymentPart">เงินโอน</md-switch>
+                              <md-switch v-model="transferPaymentPart" @change="payment_validation">เงินโอน</md-switch>
                             </span>
                             <span class="col-sm-12">
                               <md-switch v-model="QRPaymentPart">QR Code</md-switch>
@@ -331,6 +343,7 @@
                               v-model.number="cashPayment"
                               pattern="[0-9]"
                               type="number"
+                              @change="payment_validation"
                             >
                           </div>
                         </div>
@@ -608,7 +621,7 @@
                     <div class="row">
                       <div class="col-md-12">
                         <div class="form-group">
-                          <p class="tax-head">จำนวนเงินก่อนภาษี : {{ convertToBaht(price) }} บาท</p>
+                          <p class="tax-head">จำนวนเงินก่อนภาษี : {{ convertToBaht(payment_type) }} บาท</p>
                         </div>
                       </div>
                     </div>
@@ -629,18 +642,25 @@
                     <div class="row tax-bottom-part">
                       <div class="col-md-12">
                         <div class="form-group">
-                          <p class="tax-head">ยอดเงินคงเหลือ : {{ convertToBaht(balance) }} บาท</p>
+                          <p class="tax-head">เงินทอน : {{ convertToBaht(balance) }} บาท</p>
                         </div>
                       </div>
                     </div>
                     <div class="tax-bottom-part tax-button">
                       <button
-                        :disabled="saleType==''"
+                        :disabled="feeType==''||balance<0||payment==null"
                         @click="setDone('second', 'third'),createDepositDocApi()"
                         class="btn btn-primary"
                       >
                         <span>บันทึก</span>
                       </button>
+                    </div>
+                    <div class="row tax-bottom-part">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <p class="tax-head" style="color:red" :hidden="balance>=0">*ยอดชำระไม่เพียงพอ</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -723,7 +743,6 @@ export default {
       department: "",
       departmentData: [],
       taxrate: setting.data().setting_taxRate,
-      balance: 0.0,
       click: false,
       searchCustomerInput: "",
       searchEmployeeInput: "",
@@ -738,6 +757,7 @@ export default {
       creditPayment: null,
       checkPayment: null,
       transferPayment: null,
+      payment:null,
       creditCardName: "",
       creditNumber: "",
       checkBankName: "",
@@ -887,6 +907,46 @@ export default {
       let day = toTwoDigits(today.getDate());
       return `${year}-${month}-${day}`;
     },
+    setzero(){
+      if(this.cashPayment==null){
+        this.cash=0;
+      }
+      else if(this.cashPayment!=null){
+        this.cash==this.cashPayment
+      }
+      if(this.creditPayment==null){
+        this.credit=0;
+      }
+      else if(this.creditPayment!=null){
+        this.credit==this.creditPayment
+      }
+      if(this.checkPayment==null){
+        this.cash=0;
+      }
+      else if(this.checkPayment!=null){
+        this.check==this.checkPayment
+      }
+      if(this.transferPayment==null){
+        this.transfer=0;
+      }
+      else if(this.transferPayment!=null){
+        this.transfer==this.transferPayment
+      }
+    },
+    payment_validation(){
+      if(this.cashPaymentPart==false){
+        this.cashPayment=null;
+      }
+      if(this.creditPaymentPart==false){
+        this.creditPayment=null;
+      }
+      if(this.checkPaymentPart==false){
+        this.checkPayment=null;
+      }
+      if(this.transferPaymentPart==false){
+        this.transferPayment=null;
+      }
+    },
     createDepositDocApi() {
       let payload = {
         doc_no: this.serialNo,
@@ -949,23 +1009,23 @@ export default {
         this.transferPayment
       );
     },
-    price() {
+    payment_type() {
       if (this.feeType == "0") {
-        return this.totalPayment;
+        return this.payment;
       }
       if (this.feeType == "1") {
-        return this.totalPayment * (100 / (100 + this.taxrate));
+        return this.payment * (100 / (100 + this.taxrate));
       }
       if (this.feeType == "2") {
-        return this.totalPayment;
+        return this.payment;
       }
     },
     cal_VAT() {
       if (this.feeType == "0") {
-        return this.totalPayment * (this.taxrate / 100);
+        return this.payment_type * (this.taxrate / 100);
       }
       if (this.feeType == "1") {
-        return this.totalPayment - this.price;
+        return this.payment - this.payment_type;
       }
       if (this.feeType == "2") {
         return 0;
@@ -973,22 +1033,26 @@ export default {
     },
     total_VAT() {
       if (this.feeType == "0") {
-        return this.totalPayment + this.cal_VAT;
+        return this.payment + this.cal_VAT;
       }
       if (this.feeType == "1") {
-        return this.totalPayment;
+        return this.payment;
       }
       if (this.feeType == "2") {
-        return this.totalPayment;
+        return this.payment;
       }
+    },
+    balance(){
+      console.log(this.totalPayment)
+      console.log(this.total_VAT)
+      return this.totalPayment-this.total_VAT
     }
   },
   mounted() {
-    // this.setDone('first', 'second')
+    this.setDone('first', 'second')
     // this.setDone('second', 'third')
 
     console.log(this.profile);
-    console.log("show "+setting.data().setting_feeType)
   }
 };
 </script>
