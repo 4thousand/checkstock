@@ -47,7 +47,7 @@
                 <h4 class="card-title">ยอดขาย</h4>
                 <p class="card-text">Some example text.</p>
                 <div>
-                  <apexchart type="radialBar" height="300" :options="chartOptions" :series="sere"/>
+                  <apexchart type="radialBar" height="250" :options="chartOptions" :series="sere"/>
                 </div>
               </div>
             </div>
@@ -71,19 +71,19 @@
                       <div class="md-layout md-gutter md-alignment-center">
                         <div class="md-layout-item">
                           <div class="row">
-                            <div class="col-2">
+                            <div class="col-4 col-sm-2 col-md-2">
                               <md-avatar
                                 class="md-avatar-icon md-primary"
                                 :class="'active'+val.module.substring(0, 1)"
                                 style="margin:0;"
                               >{{ val.module.substring(0, 1) }}</md-avatar>
                             </div>
-                            <div class="col-10">
+                            <div class="col-8 col-sm-10 col-md-10">
                               <div class="row">
-                                <div class="col-10">
+                                <div class="col-8">
                                   <span class="bl-title">{{val.doc_no}}</span>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-4">
                                   <md-icon
                                     v-show="val.is_confirm == 1"
                                     style="float:right;color:green"
@@ -97,13 +97,17 @@
                               <div class="row">
                                 <div class="col-12">
                                   <span
-                                    style="position: relative;left: 8px;font-size: .875rem;color: #5f6368;"
-                                    class="md-small-hide"
-                                  >{{ ' ชื่อลูกค้า :' + val.ar_name}}</span>
+                                    style="position: relative;font-size: .875rem;color: #5f6368;"
+                                    class="md-xsmall-hide"
+                                  >{{'ชื่อลูกค้า :' + val.ar_name}}</span>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-12">
                                   <span
-                                    style="position: relative;left: 8px;font-size: .875rem;color: #5f6368;"
-                                    class="md-small-hide"
-                                  >{{' รวมมูลค่าสินค้าทั้งหมด : '+ convertToBaht(val.total_amount) +" บาท"}}</span>
+                                    style="position: relative;font-size: .875rem;color: #5f6368;"
+                                    class="md-xsmall-hide"
+                                  >{{'รวมมูลค่าสินค้าทั้งหมด : '+ convertToBaht(val.total_amount) +" บาท"}}</span>
                                 </div>
                               </div>
                             </div>
@@ -389,6 +393,10 @@ export default {
   visibility: visible;
 }
 
+.apexcharts-toolbar{
+  z-index: 0;
+}
+
 .activeQ {
   background: #3d91ff !important;
 }
@@ -408,31 +416,23 @@ h4 {
   font-family: "Kanit", sans-serif !important;
 }
 
+.card-text{
+  font-size: 14px !important;
+}
+
 .hoverdiv {
   transition: all 1s;
 }
 
 @media screen and (max-width: 360px) {
   .bl-title {
-    font-size: 14px;
+    font-size: 14px !important;
   }
 }
 
 @media screen and (max-width: 330px) {
   .bl-title {
-    font-size: 14px;
-  }
-}
-
-@media screen and (max-width: 990px) {
-  .bl-title {
-    font-size: 16px;
-  }
-}
-
-@media screen and (max-width: 1200px) {
-  .md-title {
-    font-size: 14px;
+    font-size: 12px !important;
   }
 }
 

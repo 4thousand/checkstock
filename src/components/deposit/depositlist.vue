@@ -22,8 +22,8 @@
                   <div class="md-layout-item md-xlarge-size-95  md-large-size-95 md-xsmall-size-85 md-small-size-90 md-medium-size-95">
                     <div class="row">
                       <div class="col-12">
-                        <span class="md-title">S01-QHV6010-0006</span>
-                        <span class="md-title datehover" style="float:right;font-size: .875rem;color: #5f6368;float:right;margin-right:10px">2018-11-28</span>
+                        <span class="bl-title">S01-QHV6010-0006</span>
+                        <span class="md-title datehover">2018-11-28</span>
                       </div>
                       <div class="col-12">
                         <span style="position: relative;left: 8px;font-size: .875rem;color: #5f6368;" class="md-subheading">
@@ -77,10 +77,6 @@
     padding: 5px 0;
   }
   
-  .md-title {
-    font-weight: 700;
-    font-size: 1.075rem;
-  }
   
   .md-app {
     max-height: 400px;
