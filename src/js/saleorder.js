@@ -115,11 +115,13 @@ const toLower = text => {
       barcode_unitcode:'',
       isLoading: false,
       fullPage: true,
-      onCancel:"",
       index:0,
     }),
    
     methods: {
+      onCancel(){
+
+      },
       searchstorecode(val){
         // console.log(index)
         // console.log(this.selectunitcode_step2())
@@ -664,10 +666,10 @@ const toLower = text => {
             item_description: "",
             packing_rate_1: parseInt(val.rate_1),
             is_cancel: 0,
-            stock_type: val.stock_type,
-            wh_code: val.stk_location[0].wh_code,
-            shelf_code: val.stk_location[0].shelf_code,
-            stocklimit: val.stk_location[0].qty, 
+            stock_type: val.stock_type,//แก้
+            wh_code: val.stk_location[0].wh_code, //แก้ 
+            shelf_code: val.stk_location[0].shelf_code, //แก้
+            stocklimit: val.stk_location[0].qty,  //แก้
           }
           this.dproducts.push(datashow)
           //close modal
@@ -691,11 +693,11 @@ const toLower = text => {
             item_description: "",
             packing_rate_1: parseInt(val.rate_1),
             is_cancel: 0,
-            stock_type: val.stock_type,
-            wh_code: val.stk_location[0].wh_code,
-            shelf_code: val.stk_location[0].shelf_code,
-            stocklimit: val.stk_location[0].qty, 
-          }
+            stock_type: val.stock_type, //แก้
+            wh_code: val.stk_location[0].wh_code, //แก้
+            shelf_code: val.stk_location[0].shelf_code, //แก้
+            stocklimit: val.stk_location[0].qty,  //แก้
+          } 
           this.dproducts.push(datashow)
           //close modal
           this.showDialogproduct = false
