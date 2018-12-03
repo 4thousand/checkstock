@@ -89,12 +89,10 @@
                       <label>รหัสลูกค้า</label> 
                       <md-input @blur="fsearchcus" required @keyup.enter="fsearchcus" v-model="searchcus"></md-input>
                     
-       <md-avatar style="position:absolute;right:0;top:15px">
-     <md-icon>info</md-icon>
-      <md-tooltip  md-direction="top"> <md-icon style="color:white;">keyboard</md-icon> รหัสลูกค้า หรือ ชื่อ + Enter</md-tooltip>
-    </md-avatar>
-                        <!-- <md-icon>info</md-icon> -->
-                   
+                      <md-avatar style="position:absolute;right:0;top:15px">
+                    <md-icon>info</md-icon>
+                      <md-tooltip  md-direction="top"> <md-icon style="color:white;">keyboard</md-icon> รหัสลูกค้า หรือ ชื่อ + Enter</md-tooltip>
+                    </md-avatar>
                     </md-field>
                   </div>
   
@@ -761,7 +759,7 @@
                       <td  >{{index+1}}</td>
                       <td  v-show="val.pic_path_1"><img style="min-width:50px;height:50px;" class="hoverzoom" :src="val.pic_path_1" alt=""></td>
                       <td  v-show="!val.pic_path_1"><img style="max-width:50px;max-height:50px;" src="../../assets/No_Image_Available.png" alt=""></td>
-                      <td style="min-width:80px;" >{{val.bar_code}}</td>
+                      <td style="min-width:80px;" >{{val.item_code}}</td>
                       <td  >{{val.item_name}}</td>
                       <td  >{{val.unit_code}}</td>
                       <td  v-show="billtype == 0">{{val.sale_price_1}}</td>

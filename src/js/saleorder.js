@@ -115,6 +115,8 @@ const toLower = text => {
       barcode_unitcode:'',
       isLoading: false,
       fullPage: true,
+      onCancel:"",
+      index:0,
     }),
    
     methods: {
@@ -131,7 +133,7 @@ const toLower = text => {
           (result) => {
             this.isLoading = false
             console.log(JSON.stringify(result.data))
-            this.stock_index = this.findWithAttr(this.dproducts, 'bar_code', val.bar_code)
+            this.stock_index = val.index
             console.log(this.stock_index)
             this.stock_obj = result.data[0].stk_location
              this.searchwarehousecode_m = true
@@ -148,6 +150,8 @@ const toLower = text => {
         let payload = {
           item_code: val.item_code
         }
+        
+        this.stock_index = val.index
         this.isLoading = true
         // console.log(payload)
         api.searchunitcode(payload,
@@ -156,7 +160,7 @@ const toLower = text => {
             console.log(JSON.stringify(result.data))
             this.unitcode_obj = result.data
              this.searchunitcode_m = true
-             console.log('Dproducts : //'+JSON.stringify(this.dproducts))
+            //  console.log('Dproducts : //'+JSON.stringify(this.dproducts))
           },
           (error) => {
             this.isLoading = false
@@ -168,10 +172,11 @@ const toLower = text => {
         console.log(this.dproducts)
       },
       selectunitcode_step2(val){
-        // console.log(JSON.stringify(val))
+        console.log(JSON.stringify(val))
         this.searchunitcode_m = false
-        console.log(this.dproducts)
-          var index = this.findWithAttr(this.dproducts, 'bar_code', this.barcode_unitcode)
+        // console.log(this.dproducts)
+        console.log(this.stock_index)
+          var index = this.stock_index
           console.log('index  :  '+index)
               if(this.billtype == 0){//สด  
                 this.dproducts[index].unit_code = val.unit_code
@@ -193,8 +198,6 @@ const toLower = text => {
         this.dproducts[this.stock_index].wh_code = val.wh_code
         this.dproducts[this.stock_index].shelf_code = val.shelf_code
         this.dproducts[this.stock_index].stocklimit = val.qty
-
-    
       },
        findWithAttr(array, attr, value) {
         for(var i = 0; i < array.length; i += 1) {
@@ -645,6 +648,7 @@ const toLower = text => {
         console.log(stock)
         if (this.billtype == 0) {
           var datashow = {
+            index: this.index++,
             item_id: val.id,
             item_code: val.item_code,
             bar_code: val.bar_code,
@@ -671,6 +675,7 @@ const toLower = text => {
           alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
         } else if (this.billtype == 1) {
           var datashow = {
+            index: this.index++,
             item_id: val.id,
             item_code: val.item_code,
             bar_code: val.bar_code,
@@ -703,7 +708,7 @@ const toLower = text => {
       calculatedata(val) {
         let qty_total = parseInt(val.qty) * parseInt(val.packing_rate_1)
         // console.log(JSON.stringify(val))
-        let index = this.findWithAttr(this.dproducts, 'bar_code', val.bar_code)
+        let index = val.index
         // console.log(JSON.stringify(this.dproducts))
 
        if(this.dproducts[index].stock_type == 0){// เช็คว่าเป็นสินค้า ,0 เป็นสินค้า ,1 เป็นบริการ

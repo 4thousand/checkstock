@@ -12,7 +12,9 @@ import VueApexCharts from 'vue-apexcharts'
 import vSelect from 'vue-select'
 import VueMoment from 'vue-moment'
 import moment from 'moment-timezone'
+import GSignInButton from 'vue-google-signin-button'
 
+Vue.use(GSignInButton)
 Vue.use(VueMoment, {
   moment,
 })

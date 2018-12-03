@@ -100,6 +100,7 @@ export default {
     stockall:[],
     isLoading: false,
     fullPage: true,
+    onCancel:"",
   }),
   methods: {
     searchunticode(val){
