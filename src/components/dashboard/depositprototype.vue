@@ -18,7 +18,7 @@
                         </p>
                         <div class="col-md-8 col-12">
                           <select
-                            v-model="profile.branch_id"
+                            v-model="branchId"
                             class="form-control"
                             @change="createDepositNoApi"
                           >
@@ -218,12 +218,10 @@
               </div>
             </div>
 
-            <md-dialog :md-active.sync="showDialog">
+            <md-dialog :md-active.sync="showDialog" :md-fullscreen="false">
               <md-dialog-content class="modal-content">
                 <div class="modal-header">
-                  <h4 class="modal-title">
-                    <span>ค้นหาลูกค้า</span>
-                  </h4>
+                    <h4>ค้นหาลูกค้า</h4>
                   <button type="button" class="close" @click="showDialog = false">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -238,7 +236,7 @@
                       <thead align="center">
                         <tr>
                           <th>ลำดับ</th>
-                          <th>รหัสลูกค้า</th>
+                          <th class="md-xsmall-hide">รหัสลูกค้า</th>
                           <th>ชื่อลูกค้า</th>
                         </tr>
                       </thead>
@@ -250,7 +248,7 @@
                           style="text-align:center;cursor:pointer"
                         >
                           <td>{{index+1}}</td>
-                          <td>{{val.code}}</td>
+                          <td class="md-xsmall-hide">{{val.code}}</td>
                           <td>{{val.name}}</td>
                         </tr>
                       </tbody>
@@ -649,7 +647,7 @@
                     </div>
                     <div class="tax-bottom-part tax-button">
                       <button
-                        :disabled="feeType==''||balance<0||payment==null||typeof(this.totalPayment)=='string'"
+                        :disabled="feeType==''||balance<0||payment==null||typeof(this.totalPayment)=='string'||totalPayment==null"
                         @click="setDone('second', 'third'),createDepositDocApi()"
                         class="btn btn-primary"
                       >
@@ -773,8 +771,10 @@ export default {
       bankReceiveName: "",
       bankReceiverBranch: "",
       billType: "0",
-      saleType: setting.data().setting_saleType,
-      feeType: setting.data().setting_feeType,
+      saleType: "",
+      //setting.data().setting_saleType
+      feeType: "",
+      //setting.data().setting_feeType
       companyId: 1,
       branchId: "",
       showDialog: false,
@@ -954,16 +954,18 @@ export default {
         company_id: this.companyId,
         branch_id: parseInt(this.branchId),
         // taxNo: this.taxNo,
-        tax_type: parseInt(this.saleType),
+        tax_type: parseInt(this.feeType),
         ar_id: parseInt(this.customerID),
+        ar_name:this.customerName,
         ar_code: this.customerCode,
         // documentDate: this.documentDate,
         // taxApplyDate: this.taxApplyDate,
         // preemptionNo: this.preemptionNo,
         sale_id: parseInt(this.profile.id),
-        salec_code: this.profile.sale_code,
+        sale_name:this.profile.username,
+        sale_code: this.profile.sale_code,
         // department: this.department,
-        bill_type: parseInt(this.billType),
+        bill_type: parseInt(this.saleType),
         tax_rate: this.taxrate,
         //   cashPaymentPart: this.cashPaymentPart,
         cash_amount: this.cashPayment,
@@ -986,16 +988,23 @@ export default {
         //   bankReceiverBranch: this.bankReceiverBranch,
         //   transferPayment: this.transferPayment,
         //   balance: 0
-        total_amount: this.totalPayment
+        total_amount: this.payment,
+        create_by: this.profile.rolename
       };
       console.log(JSON.stringify(payload));
       api.createdeposit(
         payload,
         result => {
           console.log(JSON.stringify(result));
+          alertify.success(
+            "บันทึกข้อมูลใบรับเงินมัดจำเรียบร้อย"
+          );
         },
         error => {
           console.log(JSON.stringify(error));
+          alertify.error(
+            "การส่งข้อมูลผิดพลาด"
+          );
         }
       );
     }
@@ -1051,9 +1060,9 @@ export default {
       }
     },
     balance(){
-      console.log(typeof(this.totalPayment))
-      console.log(typeof(this.cashPayment))
-      console.log(this.total_VAT)
+      // console.log(typeof(this.totalPayment))
+      // console.log(typeof(this.cashPayment))
+      // console.log(this.total_VAT)
       return this.totalPayment-this.total_VAT
     }
   },

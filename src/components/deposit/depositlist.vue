@@ -6,7 +6,7 @@
             <md-tooltip md-direction="bottom">ค้นหาใบรับเงินมัดจำ</md-tooltip>
             <md-icon>search</md-icon>
             <label>ค้นหา</label>
-            <md-input @keyup.enter="showalldoc" v-model="keyword_showalldoc"></md-input>
+            <md-input @keyup.enter="showalldoc" v-model="searchDepById"></md-input>
           </md-field>
         </div>
 
@@ -47,6 +47,7 @@
     </div>
 </template>
 <script>
+import api from "../../service/service.js";
  export default {
   methods:{
     goindex(val) {
@@ -69,6 +70,13 @@
     // console.log(typeof result)
     return result;
   },
+  searchDepIdApi(){
+    var payload = {
+      id: this.searchDepositDoc
+    };
+
+    api.searchDepIdApi();
+  }
  }
 </script>
 <style>
