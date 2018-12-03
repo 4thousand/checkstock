@@ -746,7 +746,7 @@
                       <th style="white-space: nowrap;">ลำดับ</th>
                       <th style="white-space: nowrap;">รูป</th>
                       <th style="overflow:auto;white-space: nowrap;">รหัสสินค้า</th>
-                      <th style="white-space: nowrap;">ชื่อสินค้า</th>
+                      <th style="white-space: nowrap;padding: .75rem 5rem;">ชื่อสินค้า</th>
                       <th style="white-space: nowrap;">หน่วยนับ</th>
                       <th style="white-space: nowrap;" v-show="billtype == 0">ราคา(เงินสด)</th>
                       <th style="white-space: nowrap;" v-show="billtype == 1">ราคา(เงินเชื่อ)</th>
@@ -755,7 +755,7 @@
                     </tr>
                   </thead>
                   <tbody  v-for="(val,index) in dataproductDialog" id="valuetable">
-                    <tr  @click="findstock(val,index)" style="text-align:center;cursor:pointer">
+                    <tr @click="findstock(val,index)" style="text-align:center;cursor:pointer">
                       <td  >{{index+1}}</td>
                       <td  v-show="val.pic_path_1"><img style="min-width:50px;height:50px;" class="hoverzoom" :src="val.pic_path_1" alt=""></td>
                       <td  v-show="!val.pic_path_1"><img style="max-width:50px;max-height:50px;" src="../../assets/No_Image_Available.png" alt=""></td>
