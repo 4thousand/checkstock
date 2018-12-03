@@ -300,7 +300,7 @@
                             <span style="color:red">*</span> ราคารวม :
                           </p>
                           <div class="col-md-8 col-12">
-                            <input class="form-control" min="0" v-model.number="payment">
+                            <input class="form-control" min="0" type="number" v-model.number="payment">
                           </div>
                         </div>
                       </div>
@@ -344,6 +344,7 @@
                               pattern="[0-9]"
                               type="number"
                               @change="payment_validation"
+                              required
                             >
                           </div>
                         </div>
@@ -648,7 +649,7 @@
                     </div>
                     <div class="tax-bottom-part tax-button">
                       <button
-                        :disabled="feeType==''||balance<0||payment==null"
+                        :disabled="feeType==''||balance<0||payment==null||typeof(this.totalPayment)=='string'"
                         @click="setDone('second', 'third'),createDepositDocApi()"
                         class="btn btn-primary"
                       >
@@ -1001,13 +1002,20 @@ export default {
   },
   computed: {
     totalPayment() {
-      console.log(this.feeType);
-      return (
-        this.cashPayment +
-        this.creditPayment +
-        this.checkPayment +
-        this.transferPayment
-      );
+      // console.log(this.feeType);
+      // console.log(this.cashPayment);
+      // console.log(this.creditPayment);
+      // console.log(this.checkPayment);
+      // console.log(this.transferPayment);
+      
+      if (this.cashPayment!=null||this.creditPayment!=null||this.checkPayment!=null||this.transferPayment != null) {
+        return (
+          this.cashPayment +
+          this.creditPayment +
+          this.checkPayment +
+          this.transferPayment
+        );
+      }
     },
     payment_type() {
       if (this.feeType == "0") {
@@ -1043,13 +1051,14 @@ export default {
       }
     },
     balance(){
-      console.log(this.totalPayment)
+      console.log(typeof(this.totalPayment))
+      console.log(typeof(this.cashPayment))
       console.log(this.total_VAT)
       return this.totalPayment-this.total_VAT
     }
   },
   mounted() {
-    this.setDone('first', 'second')
+    // this.setDone('first', 'second')
     // this.setDone('second', 'third')
 
     console.log(this.profile);
@@ -1163,7 +1172,7 @@ div {
   text-align: left !important;
 }
 
-.disable-control{ 
+.form-control:disabled{ 
   text-align: left !important;
 }
 
