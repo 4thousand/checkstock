@@ -138,7 +138,16 @@ export default {
         })
     },
     searchDepById(payload, success, error){
-      Vue.axios.post(URL + ':8081/product/v1/dep/search/id', JSON.stringify(payload)).then(
+      Vue.axios.post(URL + ':8081/sales/v1/dep/search/id', JSON.stringify(payload)).then(
+        (response) => {
+          success(response.data)
+        },
+        (response) => {
+          error(response)
+        })
+    },
+    searchDepByKeyword(payload, success, error){
+      Vue.axios.post(URL + ':8081/sales/v1/dep/search/keyword', JSON.stringify(payload)).then(
         (response) => {
           success(response.data)
         },

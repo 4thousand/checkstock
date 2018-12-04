@@ -386,7 +386,12 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
-                              <input class="form-control" min="0" v-model.number="creditPayment">
+                              <input class="form-control" min="0" 
+                                v-model.number="creditPayment" 
+                                pattern="[0-9]"
+                                type="number"
+                                @change="payment_validation"
+                              >
                             </p>
                           </div>
                         </div>
@@ -457,9 +462,11 @@
                             <p>
                               <input
                                 class="form-control"
-                                type="number"
                                 min="0"
                                 v-model.number="checkPayment"
+                                pattern="[0-9]"
+                                type="number"
+                                @change="payment_validation"
                               >
                             </p>
                           </div>
@@ -581,6 +588,8 @@
                                 min="0"
                                 type="number"
                                 v-model.number="transferPayment"
+                                pattern="[0-9]"
+                                @change="payment_validation"
                               >
                             </p>
                           </div>
