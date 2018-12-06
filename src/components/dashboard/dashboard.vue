@@ -132,7 +132,7 @@
       </div>
       <!-- ข้อมูลใบเสนอราคา -->
     </div>
-    <md-speed-dial style="z-index:99" class="md-bottom-right">
+    <md-speed-dial class="md-bottom-right">
       <md-speed-dial-target>
         <md-icon>add</md-icon>
       </md-speed-dial-target>

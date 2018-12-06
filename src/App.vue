@@ -42,7 +42,7 @@
                 <span class="md-list-item-text">ใบเสนอราคา</span>
               </md-list-item> -->
 
-               <md-list-item md-expand>
+              <md-list-item md-expand>
                 <md-icon>add</md-icon>
                 <span class="md-list-item-text">งานขาย</span>
 
@@ -53,24 +53,27 @@
                 </md-list>
               </md-list-item>
               
-<!--               
-              <md-list-item @click="goindex('/sale')">
-                <md-icon>send</md-icon>
-                <span class="md-list-item-text">ใบสั่งขาย</span>
-              </md-list-item> -->
 
-              <!-- ใบมัดจำ -->
-               <md-list-item @click="goindex('/depositlist')">
-                <md-icon>assignment</md-icon>
-                <span class="md-list-item-text">ใบรับเงินมัดจำ</span>
+              <md-list-item md-expand>
+                <md-icon>monetization_on</md-icon>
+                <span class="md-list-item-text">Cashier</span>
+
+                <md-list slot="md-expand">
+                  <md-list-item @click="goindex('/depositlist')" class="md-inset"><md-icon style="position:absolute;  left: 16px;">assignment</md-icon><span class="md-list-item-text">ใบรับเงินมัดจำ</span></md-list-item>
+                  <md-list-item @click="goindex('/index')" class="md-inset"><md-icon style="position:absolute;  left: 16px;">payment</md-icon><span class="md-list-item-text">ออกบิลขาย</span></md-list-item>
+                  <md-list-item @click="goindex('/index')" class="md-inset"> <md-icon style="position:absolute;  left: 16px;">receipt</md-icon> <span class="md-list-item-text">ระบบขายหน้าร้าน</span></md-list-item>
+                </md-list>
               </md-list-item>
-              <!-- ใบมัดจำ -->
 
+              <md-list-item md-expand>
+                <md-icon>how_to_reg</md-icon>
+                <span class="md-list-item-text">ระบบทะเบียน</span>
 
-              <!-- <md-list-item >
-                <md-icon>send</md-icon>
-                <span class="md-list-item-text">ใบสั่งขาย (ทดสอบ)</span>
-              </md-list-item> -->
+                <md-list slot="md-expand">
+                  <md-list-item @click="goindex('/depositlist')" class="md-inset"><md-icon style="position:absolute; left: 16px;">add_shopping_cart</md-icon><span class="md-list-item-text">จัดการสินค้า</span></md-list-item>
+                  <md-list-item @click="goindex('/index')" class="md-inset"><md-icon style="position:absolute; left: 16px;">person_add</md-icon><span class="md-list-item-text">จัดการลูกค้า</span></md-list-item>
+                </md-list>
+              </md-list-item>
 
               <md-list-item @click="goindex('/dashboard')">
                 <md-icon>send</md-icon>
@@ -86,12 +89,6 @@
                 <md-icon>delete</md-icon>
                 <span class="md-list-item-text">ใบ BackOrder</span>
               </md-list-item> -->
-
-              <md-list-item>
-
-                <md-icon>stars</md-icon>
-                <span class="md-list-item-text">รายการโปรด</span>
-              </md-list-item>
            
               <md-list-item  @click="goindex('/setting')">
                 <md-icon>settings</md-icon>

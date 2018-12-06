@@ -160,6 +160,10 @@ import api from "../../service/service.js";
     background: #ff815a !important;
   }
 
+  .activeD{
+    background: #f4c20d !important;
+  }
+
   .dateOfDep {
     float:right;
     font-size: .875rem;
