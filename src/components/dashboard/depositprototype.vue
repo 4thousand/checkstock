@@ -199,12 +199,31 @@
                   <div class="row">
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
+                        <p class="article-set col-md-3 col-12">
+                          <span style="color:red">*</span> แผนก :
+                        </p>
+                        <div class="col-md-8 col-12">
+                          <select
+                            v-model="department"
+                            class="form-control"
+                          >
+                            <option value="1">ค้าปลีกสาขา 1</option>
+                            <option value="2">ค้าปลีกสาขา 2</option>
+                            <option value="3">ค้าส่งและขายโครงการ</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 col-12">
+                      <div class="form-group row">
                         <p class="article-set col-md-3 col-4">
                           <span style="color:red"></span>
                         </p>
                         <div class="tax-bottom-part tax-head col-md-8 col-7">
                           <button
-                            :disabled="saleType==''||customerCode==''||customerName==''"
+                            :disabled="saleType==''||customerCode==''||customerName==''||department==''"
                             @click="setDone('first', 'second')"
                             class="btn btn-primary"
                           >
@@ -740,6 +759,10 @@ export default {
       customerID: "",
       customerCode: "",
       customerName: "",
+      customerAddress:"",
+      customerPhone:'',
+      customerCreditDay:'',
+      customerDueDate:'',
       documentDate: this.getDate(),
       taxApplyDate: this.getDate(),
       checkDate: "",
@@ -819,30 +842,30 @@ export default {
       // console.log(typeof result)
       return result;
     },
-    searchDepartmentApi() {
-      var payload = {
-        keyword: this.department
-      };
-      console.log(JSON.stringify(payload));
-      api.searchdepartment(
-        payload,
-        result => {
-          console.log(JSON.stringify(result.data));
-          if (result.data.length == 0) {
-            this.departmentData = result.data;
-            alertify.error("ไม่มีข้อมูลของแผนกนี้");
-            return;
-          }
-          if (result.data.length > 0) {
-            this.departmentData = result.data;
-            return;
-          }
-        },
-        error => {
-          console.log(error);
-        }
-      );
-    },
+    // searchDepartmentApi() {
+    //   var payload = {
+    //     keyword: this.department
+    //   };
+    //   console.log(JSON.stringify(payload));
+    //   api.searchdepartment(
+    //     payload,
+    //     result => {
+    //       console.log(JSON.stringify(result.data));
+    //       if (result.data.length == 0) {
+    //         this.departmentData = result.data;
+    //         alertify.error("ไม่มีข้อมูลของแผนกนี้");
+    //         return;
+    //       }
+    //       if (result.data.length > 0) {
+    //         this.departmentData = result.data;
+    //         return;
+    //       }
+    //     },
+    //     error => {
+    //       console.log(error);
+    //     }
+    //   );
+    // },
     searchCustomerAllKeyApi() {
       var payload = {
         keyword: this.searchCustomerInput
@@ -875,6 +898,10 @@ export default {
       this.customerID = val.id;
       this.customerCode = val.code;
       this.customerName = val.name;
+      this.customerAddress = val.address;
+      this.customerPhone = val.telephone;
+      this.customerCreditDay=val.bill_credit;
+      this.customerDueDate=this.getDate(val.bill_credit);
 
       this.showDialogCustomer = false;
     },
@@ -912,6 +939,15 @@ export default {
     getDate() {
       const toTwoDigits = num => (num < 10 ? "0" + num : num);
       let today = new Date();
+      let year = today.getFullYear();
+      let month = toTwoDigits(today.getMonth() + 1);
+      let day = toTwoDigits(today.getDate());
+      return `${year}-${month}-${day}`;
+    },
+    getDueDate(val){
+      const toTwoDigits = num => (num < 10 ? "0" + num : num);
+      let today = new Date();
+      today.setDate(today.getDate()+val)
       let year = today.getFullYear();
       let month = toTwoDigits(today.getMonth() + 1);
       let day = toTwoDigits(today.getDate());
@@ -967,18 +1003,20 @@ export default {
         ar_id: parseInt(this.customerID),
         ar_name:this.customerName,
         ar_code: this.customerCode,
+        ar_bill_address: this.customerAddress,
+        ar_telephone: this.customerPhone,
         // documentDate: this.documentDate,
         // taxApplyDate: this.taxApplyDate,
         // preemptionNo: this.preemptionNo,
         sale_id: parseInt(this.profile.id),
         sale_name:this.profile.username,
         sale_code: this.profile.sale_code,
-        // department: this.department,
+        depart_id: this.department,
         bill_type: parseInt(this.saleType),
         tax_rate: this.taxrate,
         //   cashPaymentPart: this.cashPaymentPart,
         cash_amount: this.cashPayment,
-        //   creditPaymentPart: this.creditPaymentPart,
+        creditcard_amount: this.creditPayment,
         //   creditCardName: this.creditCardName,
         //   creditNumber: this.creditNumber,
         //   checkPaymentPart: this.checkPaymentPart,
@@ -986,7 +1024,7 @@ export default {
         //   checkBankBranch: this.checkBankBranch,
         //   checkNumber: this.checkNumber,
         //   checkDate: this.checkDate,
-        //   checkPayment: this.checkPayment,
+        chq_amount: this.checkPayment,
         //   transferName: this.transferName,
         //   transferAccountNo: this.transferAccountNo,
         //   bankTransfererName: this.bankTransfererName,
@@ -995,7 +1033,7 @@ export default {
         //   bankReceiveAccountNo: this.bankReceiveAccountNo,
         //   bankReceiveName: this.bankReceiveName,
         //   bankReceiverBranch: this.bankReceiverBranch,
-        //   transferPayment: this.transferPayment,
+        bank_amount: this.transferPayment,
         //   balance: 0
         total_amount: this.payment,
         create_by: this.profile.rolename
@@ -1080,6 +1118,7 @@ export default {
     // this.setDone('second', 'third')
 
     console.log(this.profile);
+    console.log(JSON.stringify(this.getDueDate(1)));
   }
 };
 </script>

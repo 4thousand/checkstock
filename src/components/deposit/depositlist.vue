@@ -36,7 +36,6 @@
                         </span>
                       </div>
                     </div>
-
                 </div>
               </div>
             </md-toolbar>

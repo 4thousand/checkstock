@@ -70,7 +70,7 @@
                 <span class="md-list-item-text">ระบบทะเบียน</span>
 
                 <md-list slot="md-expand">
-                  <md-list-item @click="goindex('/depositlist')" class="md-inset"><md-icon style="position:absolute; left: 16px;">add_shopping_cart</md-icon><span class="md-list-item-text">จัดการสินค้า</span></md-list-item>
+                  <md-list-item @click="goindex('/utility')" class="md-inset"><md-icon style="position:absolute; left: 16px;">add_shopping_cart</md-icon><span class="md-list-item-text">จัดการสินค้า</span></md-list-item>
                   <md-list-item @click="goindex('/index')" class="md-inset"><md-icon style="position:absolute; left: 16px;">person_add</md-icon><span class="md-list-item-text">จัดการลูกค้า</span></md-list-item>
                 </md-list>
               </md-list-item>
