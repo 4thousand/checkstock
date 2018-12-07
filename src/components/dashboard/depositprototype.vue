@@ -370,6 +370,27 @@
                     <div class="row" v-if="creditPaymentPart==true">
                       <hr class="col-10">
                       <h4 class="payment-sub-header information-part col-12">บัตรเครดิต/บัตรเดบิต</h4>
+                     
+               
+                    <!-- v-for -->
+                      <div class="col-md-12 col-12" v-for="val in creditCardList">
+                        <div class="form-group row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            บัตรที่{{val.length}} :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <div class="alert alert-info">
+                              <a class="close" data-dismiss="alert" aria-label="close" @click="createCreditCard">&times;</a>
+                              <span class="fontsize">ชื่อหน้าบัตร : {{val.creditCardName}}</span> 
+                              <span class="fontsize">เลขบัตร : {{val.creditNumber}}</span> 
+                              <span class="fontsize">จำนวนเงิน : {{val.creditPayment}}</span> 
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      
+
                       <div class="col-md-12 col-12">
                         <div class="form-group row">
                           <p class="method-set col-lg-4 col-md-12 col-12">
@@ -414,6 +435,15 @@
                             </p>
                           </div>
                         </div>
+                      </div>
+                      <div class="tax-bottom-part tax-button col-md-12 col-12">
+                        <button
+                          :disabled="creditCardName==''||creditNumber==''||creditPayment==null||typeof(this.creditPayment)=='string'"
+                          @click="createCreditCard()"
+                          class="btn btn-primary"
+                        >
+                          <span>เพิ่ม</span>
+                        </button>
                       </div>
                     </div>
                     <div class="row" v-if="checkPaymentPart==true">
@@ -786,11 +816,13 @@ export default {
       QRPaymentPart: false,
       cashPayment: null,
       creditPayment: null,
+      totalCreditPayment:null,
       checkPayment: null,
       transferPayment: null,
       payment:null,
       creditCardName: "",
       creditNumber: "",
+      creditCardList:[],
       checkBankName: "",
       checkBankBranch: "",
       checkNumber: "",
@@ -866,6 +898,25 @@ export default {
     //     }
     //   );
     // },
+    createCreditCard(){
+      var creditcard = {
+        creditCardName: this.creditCardName,
+        creditNumber: this.creditNumber,
+        creditPayment:this.creditPayment
+      };
+      this.creditCardName=''
+      this.creditNumber=''
+      this.creditPayment=''     
+      console.log(JSON.stringify(creditcard));
+      this.creditCardList.push(creditcard);
+      console.log(JSON.stringify(this.creditCardList));
+    },
+    removeCreditCard(){
+      var index = this.creditCardList.indexOf(creditNumber);
+      if (index > -1) {
+        array.splice(index, 0);
+      }
+    },
     searchCustomerAllKeyApi() {
       var payload = {
         keyword: this.searchCustomerInput
@@ -1067,7 +1118,7 @@ export default {
       if (this.cashPayment!=null||this.creditPayment!=null||this.checkPayment!=null||this.transferPayment != null) {
         return (
           this.cashPayment +
-          this.creditPayment +
+          this.totalCreditPayment +
           this.checkPayment +
           this.transferPayment
         );
@@ -1114,7 +1165,7 @@ export default {
     }
   },
   mounted() {
-    // this.setDone('first', 'second')
+    this.setDone('first', 'second')
     // this.setDone('second', 'third')
 
     console.log(this.profile);
