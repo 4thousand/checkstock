@@ -911,7 +911,7 @@ export default {
       this.creditCardList.push(creditcard);
       console.log(JSON.stringify(this.creditCardList));
     },
-    removeCreditCard(){
+    removeCreditCard(x){
       var index = this.creditCardList.indexOf(creditNumber);
       if (index > -1) {
         array.splice(index, 0);
