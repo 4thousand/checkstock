@@ -373,14 +373,14 @@
                      
                
                     <!-- v-for -->
-                      <div class="col-md-12 col-12" v-for="val in creditCardList">
+                      <div class="col-md-12 col-12" v-for="(val,index) in creditCardList">
                         <div class="form-group row">
                           <p class="method-set col-lg-4 col-md-12 col-12">
-                            บัตรที่{{val.length}} :
+                            บัตรที่{{ index + 1}} :
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <div class="alert alert-info">
-                              <a class="close" data-dismiss="alert" aria-label="close" @click="createCreditCard">&times;</a>
+                              <a class="close" data-dismiss="alert" aria-label="close" @click="removeCreditCard(val,index)">&times;</a>
                               <span class="fontsize">ชื่อหน้าบัตร : {{val.creditCardName}}</span> 
                               <span class="fontsize">เลขบัตร : {{val.creditNumber}}</span> 
                               <span class="fontsize">จำนวนเงิน : {{val.creditPayment}}</span> 
@@ -816,7 +816,6 @@ export default {
       QRPaymentPart: false,
       cashPayment: null,
       creditPayment: null,
-      totalCreditPayment:null,
       checkPayment: null,
       transferPayment: null,
       payment:null,
@@ -911,11 +910,9 @@ export default {
       this.creditCardList.push(creditcard);
       console.log(JSON.stringify(this.creditCardList));
     },
-    removeCreditCard(x){
-      var index = this.creditCardList.indexOf(creditNumber);
-      if (index > -1) {
-        array.splice(index, 0);
-      }
+    removeCreditCard(val,index){
+      // console.log(val)
+      this.creditCardList.splice(index);
     },
     searchCustomerAllKeyApi() {
       var payload = {
@@ -1123,6 +1120,11 @@ export default {
           this.transferPayment
         );
       }
+    },
+    totalCreditPayment(){
+      return this.creditCardList.reduce((sum,item)=>{
+        return(sum+item.creditPayment)
+      },0)
     },
     payment_type() {
       if (this.feeType == "0") {
