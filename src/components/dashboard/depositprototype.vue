@@ -1167,7 +1167,7 @@ export default {
     }
   },
   mounted() {
-    this.setDone('first', 'second')
+    // this.setDone('first', 'second')
     // this.setDone('second', 'third')
 
     console.log(this.profile);
