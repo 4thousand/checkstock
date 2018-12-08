@@ -383,7 +383,7 @@
                               <a class="close" data-dismiss="alert" aria-label="close" @click="removeCreditCard(val,index)">&times;</a>
                               <span class="fontsize">ชื่อหน้าบัตร : {{val.creditCardName}}</span> 
                               <span class="fontsize">เลขบัตร : {{val.creditNumber}}</span> 
-                              <span class="fontsize">จำนวนเงิน : {{val.creditPayment}}</span> 
+                              <span class="fontsize">จำนวนเงิน : {{convertToBaht(val.creditPayment)+" บาท"}}</span> 
                             </div>
                           </div>
                         </div>
@@ -406,7 +406,7 @@
                       <div class="col-md-12 col-12">
                         <div class="form-group row">
                           <p class="method-set col-lg-4 col-md-12 col-12">
-                            <span style="color:red">*</span> เลขบัตร :
+                            <span style="color:red">*</span> เลขที่บัตรเครดิต :
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
@@ -414,6 +414,151 @@
                                 class="form-control"
                                 v-model="creditNumber"
                                 v-payment:formatCardNumber
+                              >
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-12">
+                        <div class="form-group row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> เลขที่อนุมัติ :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <input
+                                class="form-control"
+                                v-model="creditNumber"
+                                v-payment:formatCardNumber
+                              >
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-12">
+                        <div class="form-group row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> รหัสธนาคาร :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <input
+                                class="form-control"
+                                v-model="creditNumber"
+                                v-payment:formatCardNumber
+                              >
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-12">
+                        <div class="form-group row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> สาขาธนาคาร :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <input
+                                class="form-control"
+                                v-model="creditNumber"
+                                v-payment:formatCardNumber
+                              >
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-12">
+                        <div class="form-group row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> วันที่ถึงกำหนด :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <input
+                                class="form-control"
+                                v-model="creditNumber"
+                                v-payment:formatCardNumber
+                              >
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-12">
+                        <div class="form-group row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> ยอดบัตรเครดิต :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <input
+                                class="form-control"
+                                v-model="creditNumber"
+                                v-payment:formatCardNumber
+                              >
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-12">
+                        <div class="form-group row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> ประเภทบัตร :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <input
+                                class="form-control"
+                                v-model="creditNumber"
+                                v-payment:formatCardNumber
+                              >
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-12">
+                        <div class="form-group row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> % Charge :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <input
+                                class="form-control"
+                                v-model="creditNumber"
+                                v-payment:formatCardNumber
+                              >
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-12">
+                        <div class="form-group row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> Charge บาท :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <input
+                                class="form-control"
+                                v-model="creditNumber"
+                                v-payment:formatCardNumber
+                              >
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-12">
+                        <div class="form-group row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> ยอด Charge :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <input
+                                class="form-control"
+                                v-model="creditNumber"
+                                v-payment:formatCardNumber
+                                disabled
                               >
                             </p>
                           </div>
@@ -431,7 +576,24 @@
                                 pattern="[0-9]"
                                 type="number"
                                 @change="payment_validation"
+                                disabled
                               >
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-12">
+                        <div class="form-group row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            หมายเหตุ :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <textarea
+                                class="form-control"
+                                v-model.number="checkPayment"
+                                rows="5"
+                              ></textarea>
                             </p>
                           </div>
                         </div>
@@ -452,31 +614,19 @@
                       <div class="col-md-12 col-12">
                         <div class="form-group row">
                           <p class="method-set col-lg-4 col-md-12 col-12">
-                            <span style="color:red">*</span> ธนาคาร :
-                          </p>
-                          <div class="col-lg-7 col-md-12 col-12">
-                            <p>
-                              <input class="form-control" v-model="checkBankName">
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-12 col-12">
-                        <div class="form-group row">
-                          <p class="method-set col-lg-4 col-md-12 col-12">
-                            <span style="color:red">*</span> สาขา :
-                          </p>
-                          <div class="col-lg-7 col-md-12 col-12">
-                            <p>
-                              <input class="form-control" v-model="checkBankBranch">
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-12 col-12">
-                        <div class="form-group row">
-                          <p class="method-set col-lg-4 col-md-12 col-12">
                             <span style="color:red">*</span> เลขที่เช็ค :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <input class="form-control" v-model="checkNumber">
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-12">
+                        <div class="form-group row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> มูลค่าเช็ค :
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
@@ -505,6 +655,30 @@
                       <div class="col-md-12 col-12">
                         <div class="form-group row">
                           <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> ธนาคาร :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <input class="form-control" v-model="checkBankName">
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-12">
+                        <div class="form-group row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> สาขา :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <input class="form-control" v-model="checkBankBranch">
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-12">
+                        <div class="form-group row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
                             <span style="color:red">*</span> จำนวนเงิน :
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
@@ -521,7 +695,24 @@
                           </div>
                         </div>
                       </div>
+                      <div class="col-md-12 col-12">
+                        <div class="form-group row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            หมายเหตุ :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <textarea
+                                class="form-control"
+                                v-model.number="checkPayment"
+                                rows="5"
+                              ></textarea>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
+                    
                     <div class="row" v-if="transferPaymentPart==true">
                       <hr class="col-10">
                       <h4 class="payment-sub-header information-part col-12">เงินโอน</h4>
@@ -795,6 +986,7 @@ export default {
       customerDueDate:'',
       documentDate: this.getDate(),
       taxApplyDate: this.getDate(),
+      creditDate:"",
       checkDate: "",
       transferDate: "",
       preemptionNo: "",
@@ -810,8 +1002,8 @@ export default {
       php: "http://" + document.domain,
       customerDetail: [],
       cashPaymentPart: false,
-      creditPaymentPart: false,
-      checkPaymentPart: false,
+      creditPaymentPart: true,
+      checkPaymentPart: true,
       transferPaymentPart: false,
       QRPaymentPart: false,
       cashPayment: null,
@@ -821,10 +1013,17 @@ export default {
       payment:null,
       creditCardName: "",
       creditNumber: "",
+      validateCreditCardNo:"",
+      creditType:"",
+      percentCardCharge:"",
+      bahtCardCharge:"",
+      creditNotice:"",
       creditCardList:[],
       checkBankName: "",
       checkBankBranch: "",
       checkNumber: "",
+      chqPrize:"",
+      chqNotice:"",
       transferName: "",
       transferAccountNo: "",
       bankTransfererName: "",
@@ -1167,7 +1366,7 @@ export default {
     }
   },
   mounted() {
-    // this.setDone('first', 'second')
+    this.setDone('first', 'second')
     // this.setDone('second', 'third')
 
     console.log(this.profile);
