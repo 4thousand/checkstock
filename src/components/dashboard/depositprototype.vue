@@ -200,7 +200,7 @@
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
                         <p class="article-set col-md-3 col-12">
-                          <span style="color:red">*</span> แผนก :
+                          แผนก :
                         </p>
                         <div class="col-md-8 col-12">
                           <select
@@ -218,12 +218,67 @@
                   <div class="row">
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
+                        <p class="article-set col-md-3 col-12">
+                          โครงการ :
+                        </p>
+                        <div class="col-md-8 col-12">
+                          <select
+                            v-model="project"
+                            class="form-control"
+                          >
+                            <option value="1">ม.ราชภัฎเชียงมใหม่ สะลวง-ขี้เหล็ก</option>
+                            <option value="2">มาสด้า มหิดล</option>
+                            <option value="3">อาคารพาณิชย์ซอยร้องขุ่นแยกหลุยส์</option>
+                            <option value="4">มบ.กาญจน์สิริหลังม.พายัพ</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 col-12">
+                      <div class="form-group row">
+                        <p class="article-set col-md-3 col-12">
+                          การจัดสรร :
+                        </p>
+                        <div class="col-md-8 col-12">
+                          <select
+                            v-model="allocate"
+                            class="form-control"
+                          >
+                            <option value="1">Renovate Drive Thru (S01)</option>
+                            <option value="2">Renovate Showroom (S01)</option>
+                            <option value="3">Renovate Office HR (S01)</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 col-12">
+                      <div class="form-group row">
+                        <p class="article-set col-md-3 col-12">
+                          หมายเหตุ :
+                        </p>
+                        <div class="col-md-8 col-12">
+                          <textarea
+                                class="form-control"
+                                v-model="infoNotice"
+                                rows="5"
+                              ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 col-12">
+                      <div class="form-group row">
                         <p class="article-set col-md-3 col-4">
                           <span style="color:red"></span>
                         </p>
                         <div class="tax-bottom-part tax-head col-md-8 col-7">
                           <button
-                            :disabled="saleType==''||customerCode==''||customerName==''||department==''"
+                            :disabled="saleType==''||customerCode==''||customerName==''"
                             @click="setDone('first', 'second')"
                             class="btn btn-primary"
                           >
@@ -428,8 +483,7 @@
                             <p>
                               <input
                                 class="form-control"
-                                v-model="creditNumber"
-                                v-payment:formatCardNumber
+                                v-model="validateCreditCardNo"
                               >
                             </p>
                           </div>
@@ -444,8 +498,7 @@
                             <p>
                               <input
                                 class="form-control"
-                                v-model="creditNumber"
-                                v-payment:formatCardNumber
+                                v-model="creditBank"
                               >
                             </p>
                           </div>
@@ -460,8 +513,7 @@
                             <p>
                               <input
                                 class="form-control"
-                                v-model="creditNumber"
-                                v-payment:formatCardNumber
+                                v-model="creditBranch"
                               >
                             </p>
                           </div>
@@ -474,11 +526,12 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
-                              <input
-                                class="form-control"
-                                v-model="creditNumber"
-                                v-payment:formatCardNumber
-                              >
+                              <vue-ctk-date-time-picker
+                                format="YYYY-MM-DD"
+                                locale="th"
+                                v-model="creditDate"
+                                :disable-time="true"
+                              ></vue-ctk-date-time-picker>
                             </p>
                           </div>
                         </div>
@@ -492,8 +545,8 @@
                             <p>
                               <input
                                 class="form-control"
-                                v-model="creditNumber"
-                                v-payment:formatCardNumber
+                                type="number"
+                                v-model="creditPrice"
                               >
                             </p>
                           </div>
@@ -508,8 +561,7 @@
                             <p>
                               <input
                                 class="form-control"
-                                v-model="creditNumber"
-                                v-payment:formatCardNumber
+                                v-model="creditType"
                               >
                             </p>
                           </div>
@@ -518,30 +570,14 @@
                       <div class="col-md-12 col-12">
                         <div class="form-group row">
                           <p class="method-set col-lg-4 col-md-12 col-12">
-                            <span style="color:red">*</span> % Charge :
+                            <span style="color:red">*</span> ค่า Charge :
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
                               <input
                                 class="form-control"
-                                v-model="creditNumber"
-                                v-payment:formatCardNumber
-                              >
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-12 col-12">
-                        <div class="form-group row">
-                          <p class="method-set col-lg-4 col-md-12 col-12">
-                            <span style="color:red">*</span> Charge บาท :
-                          </p>
-                          <div class="col-lg-7 col-md-12 col-12">
-                            <p>
-                              <input
-                                class="form-control"
-                                v-model="creditNumber"
-                                v-payment:formatCardNumber
+                                v-model="cardCharge"
+                                @change="chargeCal"
                               >
                             </p>
                           </div>
@@ -556,8 +592,7 @@
                             <p>
                               <input
                                 class="form-control"
-                                v-model="creditNumber"
-                                v-payment:formatCardNumber
+                                v-model="cardChargePrice"
                                 disabled
                               >
                             </p>
@@ -591,7 +626,7 @@
                             <p>
                               <textarea
                                 class="form-control"
-                                v-model.number="checkPayment"
+                                v-model.number="creditNotice"
                                 rows="5"
                               ></textarea>
                             </p>
@@ -630,7 +665,7 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
-                              <input class="form-control" v-model="checkNumber">
+                              <input class="form-control" v-model="chqPrize">
                             </p>
                           </div>
                         </div>
@@ -704,7 +739,7 @@
                             <p>
                               <textarea
                                 class="form-control"
-                                v-model.number="checkPayment"
+                                v-model.number="chqNotice"
                                 rows="5"
                               ></textarea>
                             </p>
@@ -759,7 +794,7 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
-                              <input class="form-control" v-model="bankTransfererBanch">
+                              <input class="form-control" v-model="bankTransfererBranch">
                             </p>
                           </div>
                         </div>
@@ -896,7 +931,7 @@
                     </div>
                     <div class="tax-bottom-part tax-button">
                       <button
-                        :disabled="feeType==''||balance<0||payment==null||typeof(this.totalPayment)=='string'||totalPayment==null"
+                        :disabled="feeType==''||balance<0||payment==null||typeof(this.totalPayment)=='string'||totalPayment==null||(cashPaymentPart==true&&cashPayment==null)||((creditPaymentPart==true)&&(creditCardList==[])&&(checkPaymentPart==true&&(checkNumber&&checkBankName&&checkBankBranch&&chqPrize==''))&&(transferPaymentPart==true&&(transferName&&transferAccountNo&&bankTransfererName&&bankTransfererBanch&&receiveName&&bankReceiveAccountNo&&bankReceiveName&&bankReceiverBranch=='')))"
                         @click="setDone('second', 'third'),createDepositDocApi()"
                         class="btn btn-primary"
                       >
@@ -995,6 +1030,7 @@ export default {
       employeeName: "",
       department: "",
       departmentData: [],
+      infoNotice:"",
       taxrate: setting.data().setting_taxRate,
       click: false,
       searchCustomerInput: "",
@@ -1002,8 +1038,8 @@ export default {
       php: "http://" + document.domain,
       customerDetail: [],
       cashPaymentPart: false,
-      creditPaymentPart: true,
-      checkPaymentPart: true,
+      creditPaymentPart: false,
+      checkPaymentPart: false,
       transferPaymentPart: false,
       QRPaymentPart: false,
       cashPayment: null,
@@ -1015,8 +1051,11 @@ export default {
       creditNumber: "",
       validateCreditCardNo:"",
       creditType:"",
-      percentCardCharge:"",
-      bahtCardCharge:"",
+      creditBank:"",
+      creditBranch:'',
+      creditPrice:"",
+      cardCharge:"",
+      cardChargePrice:"",
       creditNotice:"",
       creditCardList:[],
       checkBankName: "",
@@ -1024,6 +1063,7 @@ export default {
       checkNumber: "",
       chqPrize:"",
       chqNotice:"",
+      chqList:[],
       transferName: "",
       transferAccountNo: "",
       bankTransfererName: "",
@@ -1037,6 +1077,8 @@ export default {
       //setting.data().setting_saleType
       feeType: "",
       //setting.data().setting_feeType
+      project:"",
+      allocate:"",
       companyId: 1,
       branchId: "",
       showDialog: false,
@@ -1104,6 +1146,7 @@ export default {
       };
       this.creditCardName=''
       this.creditNumber=''
+      this.creditPrice=''
       this.creditPayment=''     
       console.log(JSON.stringify(creditcard));
       this.creditCardList.push(creditcard);
@@ -1148,7 +1191,7 @@ export default {
       this.customerAddress = val.address;
       this.customerPhone = val.telephone;
       this.customerCreditDay=val.bill_credit;
-      this.customerDueDate=this.getDate(val.bill_credit);
+      this.customerDueDate=this.getDueDate(val.bill_credit);
 
       this.showDialogCustomer = false;
     },
@@ -1231,12 +1274,33 @@ export default {
         this.cashPayment=null;
       }
       if(this.creditPaymentPart==false){
+        this.creditCardName=null;
+        this.creditNumber=null;
+        this.validateCreditCardNo=null;
+        this.creditBank=null;
+        this.creditBranch=null;
+        this.creditDate="";
+        this.creditPrice="";
+        this.creditType=null;
+        this.cardCharge=null;
         this.creditPayment=null;
+        this.creditNotice=null;
       }
       if(this.checkPaymentPart==false){
+        this.checkNumber=null;
+        this.chqPrize=null;
+        this.checkDate=null;
+        this.checkBankName=null;
+        this.checkBankBranch=null;
         this.checkPayment=null;
+        this.chqNotice=null;
       }
       if(this.transferPaymentPart==false){
+        this.transfer=null;
+        this.transferAccountNo=null;
+        this.bankTransfererName=null;
+        this.bankTransfererBanch=null;
+        this.receiveName=null
         this.transferPayment=null;
       }
     },
@@ -1258,12 +1322,16 @@ export default {
         sale_id: parseInt(this.profile.id),
         sale_name:this.profile.username,
         sale_code: this.profile.sale_code,
-        depart_id: this.department,
+        credit_day:this.customerCreditDay,
+        due_date:this.customerDueDate,
+        depart_id: parseInt(this.department),
         bill_type: parseInt(this.saleType),
         tax_rate: this.taxrate,
+        ref_no:this.preemptionNo,
+        my_description: this.infoNotice,
         //   cashPaymentPart: this.cashPaymentPart,
         cash_amount: this.cashPayment,
-        creditcard_amount: this.creditPayment,
+        creditcard_amount: this.totalCreditPayment,
         //   creditCardName: this.creditCardName,
         //   creditNumber: this.creditNumber,
         //   checkPaymentPart: this.checkPaymentPart,
@@ -1283,7 +1351,12 @@ export default {
         bank_amount: this.transferPayment,
         //   balance: 0
         total_amount: this.payment,
-        create_by: this.profile.rolename
+        scg_id:'',
+        job_no:'',
+        credit_card:this.creditCardList,
+        chq:this.chqList,
+        create_by: this.profile.rolename,
+        edit_by: this.profile.rolename
       };
       console.log(JSON.stringify(payload));
       api.createdeposit(
@@ -1319,6 +1392,11 @@ export default {
           this.transferPayment
         );
       }
+    },
+    chargeCal(){
+      this.creditPayment=parseInt(this.creditPrice)
+      console.log(this.creditPayment)
+      return this.creditPayment
     },
     totalCreditPayment(){
       return this.creditCardList.reduce((sum,item)=>{
@@ -1366,7 +1444,7 @@ export default {
     }
   },
   mounted() {
-    this.setDone('first', 'second')
+    // this.setDone('first', 'second')
     // this.setDone('second', 'third')
 
     console.log(this.profile);
