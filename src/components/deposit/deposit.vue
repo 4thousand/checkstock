@@ -1074,7 +1074,7 @@ export default {
     VueStripePayment
   },
   methods: {
-    showedit() {
+    showEditDetail() {
       if (this.docnoid == 0) {
         // alert('หนักหลัก')
         return;
@@ -1086,7 +1086,7 @@ export default {
       };
       this.isLoading = true
       console.log(payload);
-      api.detailquoall(
+      api.searchDepById(
         payload,
         result => {
             this.isLoading = false;
@@ -1272,28 +1272,6 @@ export default {
       let day = toTwoDigits(today.getDate());
       return `${year}-${month}-${day}`;
     },
-    setzero() {
-      if (this.cashPayment == null) {
-        this.cash = 0;
-      } else if (this.cashPayment != null) {
-        this.cash == this.cashPayment;
-      }
-      if (this.creditPayment == null) {
-        this.credit = 0;
-      } else if (this.creditPayment != null) {
-        this.credit == this.creditPayment;
-      }
-      if (this.checkPayment == null) {
-        this.cash = 0;
-      } else if (this.checkPayment != null) {
-        this.check == this.checkPayment;
-      }
-      if (this.transferPayment == null) {
-        this.transfer = 0;
-      } else if (this.transferPayment != null) {
-        this.transfer == this.transferPayment;
-      }
-    },
     payment_validation() {
       if (this.cashPaymentPart == false) {
         this.cashPayment = null;
@@ -1453,9 +1431,8 @@ export default {
   mounted() {
     // this.setDone('first', 'second')
     // this.setDone('second', 'third')
-    this.showedit()
+    this.showEditDetail()
     console.log(this.profile);
-    console.log(JSON.stringify(this.getDueDate(1)));
   }
 };
 </script>

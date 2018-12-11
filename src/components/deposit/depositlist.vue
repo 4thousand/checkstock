@@ -88,7 +88,8 @@ export default {
     checkval() {
       JSON.stringify(this.deplist);
     },
-    editdDepo(val) {
+    editDepo(val) {
+      console.log(val.id)
       this.$router.push({ name: "deposit", params: { id: val.id } });
     },
     convertToBaht(val) {
