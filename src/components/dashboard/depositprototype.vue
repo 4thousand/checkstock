@@ -1,4 +1,4 @@
-    <template>
+<template>
   <div>
     <md-steppers md-sync-route md-dynamic-height :md-active-step.sync="active">
       <md-step id="first" md-label="ฟอร์มใบรับเงินมัดจำ" :md-done.sync="first">

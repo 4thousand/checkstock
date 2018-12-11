@@ -60,7 +60,7 @@ export default new Router({
       component: newsale
     },
     {
-      path: '/deposit',
+      path: '/deposit/:id',
       name: 'deposit',
       component: deposit
     },
