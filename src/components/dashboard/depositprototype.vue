@@ -436,9 +436,8 @@
                           <div class="col-lg-7 col-md-12 col-12">
                             <div class="alert alert-info">
                               <a class="close" data-dismiss="alert" aria-label="close" @click="removeCreditCard(val,index)">&times;</a>
-                              <span class="fontsize">ชื่อหน้าบัตร : {{val.creditCardName}}</span> 
-                              <span class="fontsize">เลขบัตร : {{val.creditNumber}}</span> 
-                              <span class="fontsize">จำนวนเงิน : {{convertToBaht(val.creditPayment)+" บาท"}}</span> 
+                              <span class="fontsize">เลขบัตร : {{val.credit_card_no}}</span> 
+                              <span class="fontsize">จำนวนเงิน : {{convertToBaht(val.amount)+" บาท"}}</span> 
                             </div>
                           </div>
                         </div>
@@ -635,7 +634,7 @@
                       </div>
                       <div class="tax-bottom-part tax-button col-md-12 col-12">
                         <button
-                          :disabled="creditCardName==''||creditNumber==''||creditPayment==null||typeof(this.creditPayment)=='string'"
+                          :disabled="creditType==''||creditBank==''||creditNumber==''||creditPayment==null||typeof(this.creditPayment)=='string'"
                           @click="createCreditCard()"
                           class="btn btn-primary"
                         >
@@ -932,7 +931,7 @@
                     <div class="tax-bottom-part tax-button">
                       <button
                         :disabled="feeType==''||balance<0||payment==null||typeof(this.totalPayment)=='string'||totalPayment==null||(cashPaymentPart==true&&cashPayment==null)||((creditPaymentPart==true)&&(creditCardList==[])&&(checkPaymentPart==true&&(checkNumber&&checkBankName&&checkBankBranch&&chqPrize==''))&&(transferPaymentPart==true&&(transferName&&transferAccountNo&&bankTransfererName&&bankTransfererBanch&&receiveName&&bankReceiveAccountNo&&bankReceiveName&&bankReceiverBranch=='')))"
-                        @click="setDone('second', 'third'),createDepositDocApi()"
+                        @click="createDepositDocApi();"
                         class="btn btn-primary"
                       >
                         <span>บันทึก</span>
@@ -1086,7 +1085,7 @@ export default {
       first: false,
       second: false,
       third: false,
-      profile: JSON.parse(localStorage.Datauser)
+      profile: JSON.parse(localStorage.Datauser),
     };
   },
   components: {
@@ -1140,12 +1139,17 @@ export default {
     // },
     createCreditCard(){
       var creditcard = {
-        creditCardName: this.creditCardName,
-        creditNumber: this.creditNumber,
-        creditPayment:this.creditPayment
+        credit_type: this.creditType,
+        credit_card_no: this.creditNumber,
+        amount:this.creditPayment,
+        bank_id:parseInt(this.creditBank)
       };
       this.creditCardName=''
       this.creditNumber=''
+      this.validateCreditCardNo=''
+      this.creditBank=''
+      this.creditBranch=''
+      this.creditDate=null
       this.creditPrice=''
       this.creditPayment=''     
       console.log(JSON.stringify(creditcard));
@@ -1309,16 +1313,12 @@ export default {
         doc_no: this.serialNo,
         company_id: this.companyId,
         branch_id: parseInt(this.branchId),
-        // taxNo: this.taxNo,
         tax_type: parseInt(this.feeType),
         ar_id: parseInt(this.customerID),
         ar_name:this.customerName,
         ar_code: this.customerCode,
-        ar_bill_address: this.customerAddress,
-        ar_telephone: this.customerPhone,
-        // documentDate: this.documentDate,
-        // taxApplyDate: this.taxApplyDate,
-        // preemptionNo: this.preemptionNo,
+        // ar_bill_address: this.customerAddress,
+        // ar_telephone: this.customerPhone,
         sale_id: parseInt(this.profile.id),
         sale_name:this.profile.username,
         sale_code: this.profile.sale_code,
@@ -1327,36 +1327,19 @@ export default {
         depart_id: parseInt(this.department),
         bill_type: parseInt(this.saleType),
         tax_rate: this.taxrate,
-        ref_no:this.preemptionNo,
+        // ref_no:this.preemptionNo,
         my_description: this.infoNotice,
-        //   cashPaymentPart: this.cashPaymentPart,
         cash_amount: this.cashPayment,
         creditcard_amount: this.totalCreditPayment,
-        //   creditCardName: this.creditCardName,
-        //   creditNumber: this.creditNumber,
-        //   checkPaymentPart: this.checkPaymentPart,
-        //   checkBankName: this.checkBankName,
-        //   checkBankBranch: this.checkBankBranch,
-        //   checkNumber: this.checkNumber,
-        //   checkDate: this.checkDate,
-        chq_amount: this.checkPayment,
-        //   transferName: this.transferName,
-        //   transferAccountNo: this.transferAccountNo,
-        //   bankTransfererName: this.bankTransfererName,
-        //   bankTransfererBanch: this.bankTransfererBanch,
-        //   receiveName: this.receiveName,
-        //   bankReceiveAccountNo: this.bankReceiveAccountNo,
-        //   bankReceiveName: this.bankReceiveName,
-        //   bankReceiverBranch: this.bankReceiverBranch,
-        bank_amount: this.transferPayment,
-        //   balance: 0
+        // chq_amount: this.checkPayment,
+        // bank_amount: this.transferPayment,
         total_amount: this.payment,
-        scg_id:'',
-        job_no:'',
+        // scg_id:'',
+        // job_no:'',
         credit_card:this.creditCardList,
-        chq:this.chqList,
+        // chq:this.chqList,
         create_by: this.profile.rolename,
-        edit_by: this.profile.rolename
+        // edit_by: this.profile.rolename
       };
       console.log(JSON.stringify(payload));
       api.createdeposit(
@@ -1366,6 +1349,8 @@ export default {
           alertify.success(
             "บันทึกข้อมูลใบรับเงินมัดจำเรียบร้อย"
           );
+          console.log(this.checkD)
+          this.setDone('second','third')
         },
         error => {
           console.log(JSON.stringify(error));
@@ -1400,7 +1385,7 @@ export default {
     },
     totalCreditPayment(){
       return this.creditCardList.reduce((sum,item)=>{
-        return(sum+item.creditPayment)
+        return(sum+item.amount)
       },0)
     },
     payment_type() {
