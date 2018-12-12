@@ -1,13 +1,13 @@
 <template>
   <div>
-    <md-steppers md-sync-route md-dynamic-height :md-active-step.sync="active">
-      <md-step id="first" md-label="ฟอร์มใบรับเงินมัดจำ" :md-done.sync="first">
+    <md-steppers md-sync-route md-dynamic-height>
+      <md-step id="first" md-label="ฟอร์มใบรับเงินมัดจำ" >
         <div>
           <div class="row">
             <div class="col-12 col-md-12 col-lg-12 big-margin">
               <div class="card">
                 <div class="card-header deposit-header">
-                  <span>ใบรับเงินมัดจำ</span>
+                  <span>ใบรับเงินมัดจำ </span>
                 </div>
                 <div class="deposit-border">
                   <div class="row">
@@ -105,7 +105,6 @@
                             class="form-control disable-control"
                             disabled
                             v-model="serialNo"
-                            @change="createDepositNoApi"
                           >
                         </div>
                       </div>
@@ -120,7 +119,6 @@
                             type="text"
                             disabled
                             v-model="taxNo"
-                            @change="createDepositNoApi"
                             class="form-control disable-control"
                           >
                         </div>
@@ -323,7 +321,7 @@
           </div>
         </div>
       </md-step>
-      <md-step id="second" to md-label="ช่องทางการชำระเงิน" :md-done.sync="second">
+      <md-step id="second" to md-label="ช่องทางการชำระเงิน">
         <div>
           <div>
             <div class="row">
@@ -926,7 +924,7 @@
           </div>
         </div>
       </md-step>
-      <md-step id="third" to md-label="สรุปใบรับเงินมัดจำ" :md-done.sync="third">
+      <md-step id="third" to md-label="สรุปใบรับเงินมัดจำ">
         <div>
           <div>
             <div class="row">
@@ -1063,7 +1061,7 @@ export default {
         second: false,
         third: false,
         profile: JSON.parse(localStorage.Datauser),
-        isLoading: false
+        isLoading: false,
     };
   },
   components: {
@@ -1075,7 +1073,7 @@ export default {
   },
   methods: {
     showEditDetail() {
-      if (this.docnoid == 0) {
+      if (this.id == 0) {
         // alert('หนักหลัก')
         return;
       }
@@ -1091,8 +1089,9 @@ export default {
         result => {
             this.isLoading = false;
             console.log(JSON.stringify(result.data));
-
             this.serialNo = result.data.doc_no;
+            this.taxNo = result.data.doc_no;
+            console.log(this.serialNo)
             this.feeType = result.data.tax_type;
             this.branchId = result.data.branch_id;
             this.customerID = result.data.ar_id;
@@ -1110,14 +1109,16 @@ export default {
             this.taxRate = result.data.tax_type;
             this.datenow_datepicker = result.data.doc_date;
             this.creditCardList = result.data.credit_card;
+            console.log(this.creditCardList)
             this.cashPayment=result.data.cash_amount;
             this.infoNotice = result.data.my_description;
-            this.creater=result.data.create_by;
+            this.creator=result.data.create_by;
+            console.log(this.creator)
         },
         error => {
             this.isLoading = false;
             console.log(JSON.stringify(error));
-            alertify.error("ข้อมูลผิดพลาด detailquoall");
+            alertify.error("ข้อมูลผิดพลาด");
         }
       );
     },
@@ -1384,6 +1385,9 @@ export default {
       return this.creditPayment;
     },
     totalCreditPayment() {
+      if(this.creditCardList == null){
+        this.creditCardList = []
+      }
       return this.creditCardList.reduce((sum, item) => {
         return sum + item.amount;
       }, 0);
@@ -1431,8 +1435,11 @@ export default {
   mounted() {
     // this.setDone('first', 'second')
     // this.setDone('second', 'third')
-    this.showEditDetail()
+    this.id = this.$route.params.id
+    this.showEditDetail();
     console.log(this.profile);
+    console.log(this.id)
+    console.log(this.cashPayment)
   }
 };
 </script>
