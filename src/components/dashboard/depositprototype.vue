@@ -83,7 +83,12 @@
                           <span style="color:red">*</span> ชื่อลูกค้า :
                         </p>
                         <div class="col-md-8 col-12">
-                          <input type="text" disabled v-model="customerName" class="form-control disable-control">
+                          <input
+                            type="text"
+                            disabled
+                            v-model="customerName"
+                            class="form-control disable-control"
+                          >
                         </div>
                       </div>
                     </div>
@@ -199,14 +204,9 @@
                   <div class="row">
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
-                        <p class="article-set col-md-3 col-12">
-                          แผนก :
-                        </p>
+                        <p class="article-set col-md-3 col-12">แผนก :</p>
                         <div class="col-md-8 col-12">
-                          <select
-                            v-model="department"
-                            class="form-control"
-                          >
+                          <select v-model="department" class="form-control">
                             <option value="1">ค้าปลีกสาขา 1</option>
                             <option value="2">ค้าปลีกสาขา 2</option>
                             <option value="3">ค้าส่งและขายโครงการ</option>
@@ -218,14 +218,9 @@
                   <div class="row">
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
-                        <p class="article-set col-md-3 col-12">
-                          โครงการ :
-                        </p>
+                        <p class="article-set col-md-3 col-12">โครงการ :</p>
                         <div class="col-md-8 col-12">
-                          <select
-                            v-model="project"
-                            class="form-control"
-                          >
+                          <select v-model="project" class="form-control">
                             <option value="1">ม.ราชภัฎเชียงมใหม่ สะลวง-ขี้เหล็ก</option>
                             <option value="2">มาสด้า มหิดล</option>
                             <option value="3">อาคารพาณิชย์ซอยร้องขุ่นแยกหลุยส์</option>
@@ -238,14 +233,9 @@
                   <div class="row">
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
-                        <p class="article-set col-md-3 col-12">
-                          การจัดสรร :
-                        </p>
+                        <p class="article-set col-md-3 col-12">การจัดสรร :</p>
                         <div class="col-md-8 col-12">
-                          <select
-                            v-model="allocate"
-                            class="form-control"
-                          >
+                          <select v-model="allocate" class="form-control">
                             <option value="1">Renovate Drive Thru (S01)</option>
                             <option value="2">Renovate Showroom (S01)</option>
                             <option value="3">Renovate Office HR (S01)</option>
@@ -257,15 +247,9 @@
                   <div class="row">
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
-                        <p class="article-set col-md-3 col-12">
-                          หมายเหตุ :
-                        </p>
+                        <p class="article-set col-md-3 col-12">หมายเหตุ :</p>
                         <div class="col-md-8 col-12">
-                          <textarea
-                                class="form-control"
-                                v-model="infoNotice"
-                                rows="5"
-                              ></textarea>
+                          <textarea class="form-control" v-model="infoNotice" rows="5"></textarea>
                         </div>
                       </div>
                     </div>
@@ -295,7 +279,7 @@
             <md-dialog :md-active.sync="showDialog" :md-fullscreen="false">
               <md-dialog-content class="modal-content">
                 <div class="modal-header">
-                    <h4>ค้นหาลูกค้า</h4>
+                  <h4>ค้นหาลูกค้า</h4>
                   <button type="button" class="close" @click="showDialog = false">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -372,7 +356,12 @@
                             <span style="color:red">*</span> ราคารวม :
                           </p>
                           <div class="col-md-8 col-12">
-                            <input class="form-control" min="0" type="number" v-model.number="payment">
+                            <input
+                              class="form-control"
+                              min="0"
+                              type="number"
+                              v-model.number="payment"
+                            >
                           </div>
                         </div>
                       </div>
@@ -382,16 +371,28 @@
                         <div class="form-group row">
                           <div class style="margin-left:6%">
                             <span class="col-sm-12">
-                              <md-switch v-model="cashPaymentPart" @change="payment_validation">เงินสด</md-switch>
+                              <md-switch
+                                v-model="cashPaymentPart"
+                                @change="payment_validation"
+                              >เงินสด</md-switch>
                             </span>
                             <span class="col-sm-12">
-                              <md-switch v-model="creditPaymentPart" @change="payment_validation">บัตรเครดิต/บัตรเดบิต</md-switch>
+                              <md-switch
+                                v-model="creditPaymentPart"
+                                @change="payment_validation"
+                              >บัตรเครดิต/บัตรเดบิต</md-switch>
                             </span>
                             <span class="col-sm-12">
-                              <md-switch v-model="checkPaymentPart" @change="payment_validation">เช็ค</md-switch>
+                              <md-switch
+                                v-model="checkPaymentPart"
+                                @change="payment_validation"
+                              >เช็ค</md-switch>
                             </span>
                             <span class="col-sm-12">
-                              <md-switch v-model="transferPaymentPart" @change="payment_validation">เงินโอน</md-switch>
+                              <md-switch
+                                v-model="transferPaymentPart"
+                                @change="payment_validation"
+                              >เงินโอน</md-switch>
                             </span>
                             <span class="col-sm-12">
                               <md-switch v-model="QRPaymentPart">QR Code</md-switch>
@@ -425,25 +426,27 @@
                     <div class="row" v-if="creditPaymentPart==true">
                       <hr class="col-10">
                       <h4 class="payment-sub-header information-part col-12">บัตรเครดิต/บัตรเดบิต</h4>
-                     
-               
-                    <!-- v-for -->
+
+                      <!-- v-for -->
                       <div class="col-md-12 col-12" v-for="(val,index) in creditCardList">
                         <div class="form-group row">
-                          <p class="method-set col-lg-4 col-md-12 col-12">
-                            บัตรที่{{ index + 1}} :
-                          </p>
+                          <p class="method-set col-lg-4 col-md-12 col-12">บัตรที่{{ index + 1}} :</p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <div class="alert alert-info">
-                              <a class="close" data-dismiss="alert" aria-label="close" @click="removeCreditCard(val,index)">&times;</a>
-                              <span class="fontsize">เลขบัตร : {{val.credit_card_no}}</span> 
-                              <span class="fontsize">จำนวนเงิน : {{convertToBaht(val.amount)+" บาท"}}</span> 
+                              <a
+                                class="close"
+                                data-dismiss="alert"
+                                aria-label="close"
+                                @click="removeCreditCard(val,index)"
+                              >&times;</a>
+                              <span class="fontsize">เลขบัตร : {{val.credit_card_no}}</span>
+                              <span
+                                class="fontsize"
+                              >จำนวนเงิน : {{convertToBaht(val.amount)+" บาท"}}</span>
                             </div>
                           </div>
                         </div>
                       </div>
-
-                      
 
                       <div class="col-md-12 col-12">
                         <div class="form-group row">
@@ -480,10 +483,7 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
-                              <input
-                                class="form-control"
-                                v-model="validateCreditCardNo"
-                              >
+                              <input class="form-control" v-model="validateCreditCardNo">
                             </p>
                           </div>
                         </div>
@@ -495,10 +495,7 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
-                              <input
-                                class="form-control"
-                                v-model="creditBank"
-                              >
+                              <input class="form-control" v-model="creditBank">
                             </p>
                           </div>
                         </div>
@@ -510,10 +507,7 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
-                              <input
-                                class="form-control"
-                                v-model="creditBranch"
-                              >
+                              <input class="form-control" v-model="creditBranch">
                             </p>
                           </div>
                         </div>
@@ -542,11 +536,7 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
-                              <input
-                                class="form-control"
-                                type="number"
-                                v-model="creditPrice"
-                              >
+                              <input class="form-control" type="number" v-model="creditPrice">
                             </p>
                           </div>
                         </div>
@@ -558,10 +548,7 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
-                              <input
-                                class="form-control"
-                                v-model="creditType"
-                              >
+                              <input class="form-control" v-model="creditType">
                             </p>
                           </div>
                         </div>
@@ -573,11 +560,7 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
-                              <input
-                                class="form-control"
-                                v-model="cardCharge"
-                                @change="chargeCal"
-                              >
+                              <input class="form-control" v-model="cardCharge" @change="chargeCal">
                             </p>
                           </div>
                         </div>
@@ -589,11 +572,7 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
-                              <input
-                                class="form-control"
-                                v-model="cardChargePrice"
-                                disabled
-                              >
+                              <input class="form-control" v-model="cardChargePrice" disabled>
                             </p>
                           </div>
                         </div>
@@ -605,8 +584,10 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
-                              <input class="form-control" min="0" 
-                                v-model.number="creditPayment" 
+                              <input
+                                class="form-control"
+                                min="0"
+                                v-model.number="creditPayment"
                                 pattern="[0-9]"
                                 type="number"
                                 @change="payment_validation"
@@ -618,16 +599,10 @@
                       </div>
                       <div class="col-md-12 col-12">
                         <div class="form-group row">
-                          <p class="method-set col-lg-4 col-md-12 col-12">
-                            หมายเหตุ :
-                          </p>
+                          <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
-                              <textarea
-                                class="form-control"
-                                v-model.number="creditNotice"
-                                rows="5"
-                              ></textarea>
+                              <textarea class="form-control" v-model.number="creditNotice" rows="5"></textarea>
                             </p>
                           </div>
                         </div>
@@ -731,22 +706,16 @@
                       </div>
                       <div class="col-md-12 col-12">
                         <div class="form-group row">
-                          <p class="method-set col-lg-4 col-md-12 col-12">
-                            หมายเหตุ :
-                          </p>
+                          <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
-                              <textarea
-                                class="form-control"
-                                v-model.number="chqNotice"
-                                rows="5"
-                              ></textarea>
+                              <textarea class="form-control" v-model.number="chqNotice" rows="5"></textarea>
                             </p>
                           </div>
                         </div>
                       </div>
                     </div>
-                    
+
                     <div class="row" v-if="transferPaymentPart==true">
                       <hr class="col-10">
                       <h4 class="payment-sub-header information-part col-12">เงินโอน</h4>
@@ -903,7 +872,9 @@
                     <div class="row">
                       <div class="col-md-12">
                         <div class="form-group">
-                          <p class="tax-head">จำนวนเงินก่อนภาษี : {{ convertToBaht(payment_type) }} บาท</p>
+                          <p
+                            class="tax-head"
+                          >จำนวนเงินก่อนภาษี : {{ convertToBaht(payment_type) }} บาท</p>
                         </div>
                       </div>
                     </div>
@@ -930,7 +901,7 @@
                     </div>
                     <div class="tax-bottom-part tax-button">
                       <button
-                        :disabled="feeType==''||balance<0||payment==null||typeof(this.totalPayment)=='string'||totalPayment==null||(cashPaymentPart==true&&cashPayment==null)||((creditPaymentPart==true)&&(creditCardList==[])&&(checkPaymentPart==true&&(checkNumber&&checkBankName&&checkBankBranch&&chqPrize==''))&&(transferPaymentPart==true&&(transferName&&transferAccountNo&&bankTransfererName&&bankTransfererBanch&&receiveName&&bankReceiveAccountNo&&bankReceiveName&&bankReceiverBranch=='')))"
+                        :disabled="feeType==''||balance!=0||payment==null||typeof(this.totalPayment)=='string'||totalPayment==null||(cashPaymentPart==true&&cashPayment==null)||((creditPaymentPart==true)&&(creditCardList==[])&&(checkPaymentPart==true&&(checkNumber&&checkBankName&&checkBankBranch&&chqPrize==''))&&(transferPaymentPart==true&&(transferName&&transferAccountNo&&bankTransfererName&&bankTransfererBanch&&receiveName&&bankReceiveAccountNo&&bankReceiveName&&bankReceiverBranch=='')))"
                         @click="createDepositDocApi();"
                         class="btn btn-primary"
                       >
@@ -940,7 +911,22 @@
                     <div class="row tax-bottom-part">
                       <div class="col-md-12">
                         <div class="form-group">
-                          <p class="tax-head" style="color:red" :hidden="balance>=0">*ยอดชำระไม่เพียงพอ</p>
+                          <p
+                            class="tax-head"
+                            style="color:red"
+                            :hidden="balance>=0"
+                          >*ยอดชำระไม่เพียงพอ</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row tax-bottom-part">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <p
+                            class="tax-head"
+                            style="color:red"
+                            :hidden="balance<=0"
+                          >*ยอดชำระมากเกินไป</p>
                         </div>
                       </div>
                     </div>
@@ -1014,13 +1000,13 @@ export default {
       customerID: "",
       customerCode: "",
       customerName: "",
-      customerAddress:"",
-      customerPhone:'',
-      customerCreditDay:'',
-      customerDueDate:'',
+      customerAddress: "",
+      customerPhone: "",
+      customerCreditDay: "",
+      customerDueDate: "",
       documentDate: this.getDate(),
       taxApplyDate: this.getDate(),
-      creditDate:"",
+      creditDate: "",
       checkDate: "",
       transferDate: "",
       preemptionNo: "",
@@ -1029,7 +1015,7 @@ export default {
       employeeName: "",
       department: "",
       departmentData: [],
-      infoNotice:"",
+      infoNotice: "",
       taxrate: setting.data().setting_taxRate,
       click: false,
       searchCustomerInput: "",
@@ -1045,24 +1031,24 @@ export default {
       creditPayment: null,
       checkPayment: null,
       transferPayment: null,
-      payment:null,
+      payment: null,
       creditCardName: "",
       creditNumber: "",
-      validateCreditCardNo:"",
-      creditType:"",
-      creditBank:"",
-      creditBranch:'',
-      creditPrice:"",
-      cardCharge:"",
-      cardChargePrice:"",
-      creditNotice:"",
-      creditCardList:[],
+      validateCreditCardNo: "",
+      creditType: "",
+      creditBank: "",
+      creditBranch: "",
+      creditPrice: "",
+      cardCharge: "",
+      cardChargePrice: "",
+      creditNotice: "",
+      creditCardList: [],
       checkBankName: "",
       checkBankBranch: "",
       checkNumber: "",
-      chqPrize:"",
-      chqNotice:"",
-      chqList:[],
+      chqPrize: "",
+      chqNotice: "",
+      chqList: [],
       transferName: "",
       transferAccountNo: "",
       bankTransfererName: "",
@@ -1076,8 +1062,8 @@ export default {
       //setting.data().setting_saleType
       feeType: "",
       //setting.data().setting_feeType
-      project:"",
-      allocate:"",
+      project: "",
+      allocate: "",
       companyId: 1,
       branchId: "",
       showDialog: false,
@@ -1085,7 +1071,7 @@ export default {
       first: false,
       second: false,
       third: false,
-      profile: JSON.parse(localStorage.Datauser),
+      profile: JSON.parse(localStorage.Datauser)
     };
   },
   components: {
@@ -1137,26 +1123,26 @@ export default {
     //     }
     //   );
     // },
-    createCreditCard(){
+    createCreditCard() {
       var creditcard = {
         credit_type: this.creditType,
         credit_card_no: this.creditNumber,
-        amount:this.creditPayment,
-        bank_id:parseInt(this.creditBank)
+        amount: this.creditPayment,
+        bank_id: parseInt(this.creditBank)
       };
-      this.creditCardName=''
-      this.creditNumber=''
-      this.validateCreditCardNo=''
-      this.creditBank=''
-      this.creditBranch=''
-      this.creditDate=null
-      this.creditPrice=''
-      this.creditPayment=''     
+      this.creditCardName = "";
+      this.creditNumber = "";
+      this.validateCreditCardNo = "";
+      this.creditBank = "";
+      this.creditBranch = "";
+      this.creditDate = null;
+      this.creditPrice = "";
+      this.creditPayment = "";
       console.log(JSON.stringify(creditcard));
       this.creditCardList.push(creditcard);
       console.log(JSON.stringify(this.creditCardList));
     },
-    removeCreditCard(val,index){
+    removeCreditCard(val, index) {
       // console.log(val)
       this.creditCardList.splice(index);
     },
@@ -1194,8 +1180,8 @@ export default {
       this.customerName = val.name;
       this.customerAddress = val.address;
       this.customerPhone = val.telephone;
-      this.customerCreditDay=val.bill_credit;
-      this.customerDueDate=this.getDueDate(val.bill_credit);
+      this.customerCreditDay = val.bill_credit;
+      this.customerDueDate = this.getDueDate(val.bill_credit);
 
       this.showDialogCustomer = false;
     },
@@ -1238,74 +1224,70 @@ export default {
       let day = toTwoDigits(today.getDate());
       return `${year}-${month}-${day}`;
     },
-    getDueDate(val){
+    getDueDate(val) {
       const toTwoDigits = num => (num < 10 ? "0" + num : num);
       let today = new Date();
-      today.setDate(today.getDate()+val)
+      today.setDate(today.getDate() + val);
       let year = today.getFullYear();
       let month = toTwoDigits(today.getMonth() + 1);
       let day = toTwoDigits(today.getDate());
       return `${year}-${month}-${day}`;
     },
-    setzero(){
-      if(this.cashPayment==null){
-        this.cash=0;
+    setzero() {
+      if (this.cashPayment == null) {
+        this.cash = 0;
+      } else if (this.cashPayment != null) {
+        this.cash == this.cashPayment;
       }
-      else if(this.cashPayment!=null){
-        this.cash==this.cashPayment
+      if (this.creditPayment == null) {
+        this.credit = 0;
+      } else if (this.creditPayment != null) {
+        this.credit == this.creditPayment;
       }
-      if(this.creditPayment==null){
-        this.credit=0;
+      if (this.checkPayment == null) {
+        this.cash = 0;
+      } else if (this.checkPayment != null) {
+        this.check == this.checkPayment;
       }
-      else if(this.creditPayment!=null){
-        this.credit==this.creditPayment
-      }
-      if(this.checkPayment==null){
-        this.cash=0;
-      }
-      else if(this.checkPayment!=null){
-        this.check==this.checkPayment
-      }
-      if(this.transferPayment==null){
-        this.transfer=0;
-      }
-      else if(this.transferPayment!=null){
-        this.transfer==this.transferPayment
+      if (this.transferPayment == null) {
+        this.transfer = 0;
+      } else if (this.transferPayment != null) {
+        this.transfer == this.transferPayment;
       }
     },
-    payment_validation(){
-      if(this.cashPaymentPart==false){
-        this.cashPayment=null;
+    payment_validation() {
+      if (this.cashPaymentPart == false) {
+        this.cashPayment = null;
       }
-      if(this.creditPaymentPart==false){
-        this.creditCardName=null;
-        this.creditNumber=null;
-        this.validateCreditCardNo=null;
-        this.creditBank=null;
-        this.creditBranch=null;
-        this.creditDate="";
-        this.creditPrice="";
-        this.creditType=null;
-        this.cardCharge=null;
-        this.creditPayment=null;
-        this.creditNotice=null;
+      if (this.creditPaymentPart == false) {
+        this.creditCardName = null;
+        this.creditNumber = null;
+        this.validateCreditCardNo = null;
+        this.creditBank = null;
+        this.creditBranch = null;
+        this.creditDate = "";
+        this.creditPrice = "";
+        this.creditType = null;
+        this.cardCharge = null;
+        this.creditPayment = null;
+        this.creditNotice = null;
       }
-      if(this.checkPaymentPart==false){
-        this.checkNumber=null;
-        this.chqPrize=null;
-        this.checkDate=null;
-        this.checkBankName=null;
-        this.checkBankBranch=null;
-        this.checkPayment=null;
-        this.chqNotice=null;
+      if (this.checkPaymentPart == false) {
+        this.checkNumber = null;
+        this.chqPrize = null;
+        this.checkDate = null;
+        this.checkBankName = null;
+        this.checkBankBranch = null;
+        this.checkPayment = null;
+        this.chqNotice = null;
       }
-      if(this.transferPaymentPart==false){
-        this.transfer=null;
-        this.transferAccountNo=null;
-        this.bankTransfererName=null;
-        this.bankTransfererBanch=null;
-        this.receiveName=null
-        this.transferPayment=null;
+      if (this.transferPaymentPart == false) {
+        this.transfer = null;
+        this.transferAccountNo = null;
+        this.bankTransfererName = null;
+        this.bankTransfererBanch = null;
+        this.receiveName = null;
+        this.transferPayment = null;
       }
     },
     createDepositDocApi() {
@@ -1315,15 +1297,15 @@ export default {
         branch_id: parseInt(this.branchId),
         tax_type: parseInt(this.feeType),
         ar_id: parseInt(this.customerID),
-        ar_name:this.customerName,
+        ar_name: this.customerName,
         ar_code: this.customerCode,
         // ar_bill_address: this.customerAddress,
         // ar_telephone: this.customerPhone,
         sale_id: parseInt(this.profile.id),
-        sale_name:this.profile.username,
+        sale_name: this.profile.username,
         sale_code: this.profile.sale_code,
-        credit_day:this.customerCreditDay,
-        due_date:this.customerDueDate,
+        credit_day: this.customerCreditDay,
+        due_date: this.customerDueDate,
         depart_id: parseInt(this.department),
         bill_type: parseInt(this.saleType),
         tax_rate: this.taxrate,
@@ -1336,9 +1318,9 @@ export default {
         total_amount: this.payment,
         // scg_id:'',
         // job_no:'',
-        credit_card:this.creditCardList,
+        credit_card: this.creditCardList,
         // chq:this.chqList,
-        create_by: this.profile.rolename,
+        create_by: this.profile.rolename
         // edit_by: this.profile.rolename
       };
       console.log(JSON.stringify(payload));
@@ -1346,17 +1328,12 @@ export default {
         payload,
         result => {
           console.log(JSON.stringify(result));
-          alertify.success(
-            "บันทึกข้อมูลใบรับเงินมัดจำเรียบร้อย"
-          );
-          console.log(this.checkD)
-          this.setDone('second','third')
+          alertify.success("บันทึกข้อมูลใบรับเงินมัดจำเรียบร้อย");
+          this.setDone("second", "third");
         },
         error => {
           console.log(JSON.stringify(error));
-          alertify.error(
-            "การส่งข้อมูลผิดพลาด"
-          );
+          alertify.error("การส่งข้อมูลผิดพลาด");
         }
       );
     }
@@ -1368,8 +1345,13 @@ export default {
       // console.log(this.creditPayment);
       // console.log(this.checkPayment);
       // console.log(this.transferPayment);
-      
-      if (this.cashPayment!=null||this.creditPayment!=null||this.checkPayment!=null||this.transferPayment != null) {
+
+      if (
+        this.cashPayment != null ||
+        this.totalCreditPayment != null ||
+        this.checkPayment != null ||
+        this.transferPayment != null
+      ) {
         return (
           this.cashPayment +
           this.totalCreditPayment +
@@ -1378,15 +1360,15 @@ export default {
         );
       }
     },
-    chargeCal(){
-      this.creditPayment=parseInt(this.creditPrice)
-      console.log(this.creditPayment)
-      return this.creditPayment
+    chargeCal() {
+      this.creditPayment = parseInt(this.creditPrice);
+      console.log(this.creditPayment);
+      return this.creditPayment;
     },
-    totalCreditPayment(){
-      return this.creditCardList.reduce((sum,item)=>{
-        return(sum+item.amount)
-      },0)
+    totalCreditPayment() {
+      return this.creditCardList.reduce((sum, item) => {
+        return sum + item.amount;
+      }, 0);
     },
     payment_type() {
       if (this.feeType == "0") {
@@ -1421,11 +1403,11 @@ export default {
         return this.payment;
       }
     },
-    balance(){
+    balance() {
       // console.log(typeof(this.totalPayment))
       // console.log(typeof(this.cashPayment))
       // console.log(this.total_VAT)
-      return this.totalPayment-this.total_VAT
+      return this.totalPayment - this.total_VAT;
     }
   },
   mounted() {
@@ -1433,7 +1415,6 @@ export default {
     // this.setDone('second', 'third')
 
     console.log(this.profile);
-    console.log(JSON.stringify(this.getDueDate(1)));
   }
 };
 </script>
@@ -1544,7 +1525,7 @@ div {
   text-align: left !important;
 }
 
-.form-control:disabled{ 
+.form-control:disabled {
   text-align: left !important;
 }
 

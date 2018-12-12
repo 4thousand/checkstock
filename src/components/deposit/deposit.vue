@@ -1,13 +1,13 @@
 <template>
   <div>
-    <md-steppers md-sync-route md-dynamic-height>
-      <md-step id="first" md-label="ฟอร์มใบรับเงินมัดจำ" >
+    <md-steppers md-sync-route md-dynamic-height :md-active-step.sync="active">
+      <md-step id="first" md-label="ฟอร์มใบรับเงินมัดจำ">
         <div>
           <div class="row">
             <div class="col-12 col-md-12 col-lg-12 big-margin">
               <div class="card">
                 <div class="card-header deposit-header">
-                  <span>ใบรับเงินมัดจำ </span>
+                  <span>ใบรับเงินมัดจำ</span>
                 </div>
                 <div class="deposit-border">
                   <div class="row">
@@ -260,7 +260,7 @@
                         </p>
                         <div class="tax-bottom-part tax-head col-md-8 col-7">
                           <button
-                            :disabled="saleType==''||customerCode==''||customerName==''"
+                            :disabled="customerCode==''||customerName==''"
                             @click="setDone('first', 'second')"
                             class="btn btn-primary"
                           >
@@ -371,7 +371,7 @@
                             <span class="col-sm-12">
                               <md-switch
                                 v-model="cashPaymentPart"
-                                @change="payment_validation"
+                                @change="payment_validation,check_edit_payment"
                               >เงินสด</md-switch>
                             </span>
                             <span class="col-sm-12">
@@ -917,6 +917,17 @@
                         </div>
                       </div>
                     </div>
+                    <div class="row tax-bottom-part">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <p
+                            class="tax-head"
+                            style="color:red"
+                            :hidden="balance<=0"
+                          >*ยอดชำระมากเกินไป</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -977,96 +988,97 @@ import VueStripePayment from "vue-stripe-payment";
 import api from "../../service/service.js";
 import { ModelSelect } from "vue-search-select";
 import setting from "../../js/setting.js";
-import Loading from 'vue-loading-overlay';
+import Loading from "vue-loading-overlay";
 
 export default {
-    name: "deposit",
-    data() {
-        return {
-        serialNo: "",
-        taxNo: "",
-        id: "",
-        customerID: "",
-        customerCode: "",
-        customerName: "",
-        customerAddress: "",
-        customerPhone: "",
-        customerCreditDay: "",
-        customerDueDate: "",
-        documentDate: this.getDate(),
-        taxApplyDate: this.getDate(),
-        creditDate: "",
-        checkDate: "",
-        transferDate: "",
-        preemptionNo: "",
-        employeeID: "",
-        employeeCode: "",
-        employeeName: "",
-        department: "",
-        departmentData: [],
-        infoNotice: "",
-        taxrate: setting.data().setting_taxRate,
-        click: false,
-        searchCustomerInput: "",
-        searchEmployeeInput: "",
-        php: "http://" + document.domain,
-        customerDetail: [],
-        cashPaymentPart: false,
-        creditPaymentPart: false,
-        checkPaymentPart: false,
-        transferPaymentPart: false,
-        QRPaymentPart: false,
-        cashPayment: null,
-        creditPayment: null,
-        checkPayment: null,
-        transferPayment: null,
-        payment: null,
-        creditCardName: "",
-        creditNumber: "",
-        validateCreditCardNo: "",
-        creditType: "",
-        creditBank: "",
-        creditBranch: "",
-        creditPrice: "",
-        cardCharge: "",
-        cardChargePrice: "",
-        creditNotice: "",
-        creditCardList: [],
-        checkBankName: "",
-        checkBankBranch: "",
-        checkNumber: "",
-        chqPrize: "",
-        chqNotice: "",
-        chqList: [],
-        transferName: "",
-        transferAccountNo: "",
-        bankTransfererName: "",
-        bankTransfererBanch: "",
-        receiveName: "",
-        bankReceiveAccountNo: "",
-        bankReceiveName: "",
-        bankReceiverBranch: "",
-        billType: "0",
-        saleType: "",
-        //setting.data().setting_saleType
-        feeType: "",
-        //setting.data().setting_feeType
-        project: "",
-        allocate: "",
-        companyId: 1,
-        branchId: "",
-        showDialog: false,
-        active: "first",
-        first: false,
-        second: false,
-        third: false,
-        profile: JSON.parse(localStorage.Datauser),
-        isLoading: false,
+  name: "deposit",
+  data() {
+    return {
+      serialNo: "",
+      taxNo: "",
+      id: "",
+      customerID: "",
+      customerCode: "",
+      customerName: "",
+      customerAddress: "",
+      customerPhone: "",
+      customerCreditDay: "",
+      customerDueDate: "",
+      documentDate: this.getDate(),
+      taxApplyDate: this.getDate(),
+      creditDate: "",
+      checkDate: "",
+      transferDate: "",
+      preemptionNo: "",
+      employeeID: "",
+      employeeCode: "",
+      employeeName: "",
+      department: "",
+      departmentData: [],
+      infoNotice: "",
+      taxrate: setting.data().setting_taxRate,
+      click: false,
+      searchCustomerInput: "",
+      searchEmployeeInput: "",
+      php: "http://" + document.domain,
+      customerDetail: [],
+      cashPaymentPart: false,
+      creditPaymentPart: false,
+      checkPaymentPart: false,
+      transferPaymentPart: false,
+      QRPaymentPart: false,
+      cashPayment: null,
+      creditPayment: null,
+      checkPayment: null,
+      transferPayment: null,
+      payment: null,
+      creditCardName: "",
+      creditNumber: "",
+      validateCreditCardNo: "",
+      creditType: "",
+      creditBank: "",
+      creditBranch: "",
+      creditPrice: "",
+      cardCharge: "",
+      cardChargePrice: "",
+      creditNotice: "",
+      creditCardList: [],
+      checkBankName: "",
+      checkBankBranch: "",
+      checkNumber: "",
+      chqPrize: "",
+      chqNotice: "",
+      chqList: [],
+      transferName: "",
+      transferAccountNo: "",
+      bankTransfererName: "",
+      bankTransfererBanch: "",
+      receiveName: "",
+      bankReceiveAccountNo: "",
+      bankReceiveName: "",
+      bankReceiverBranch: "",
+      billType: "0",
+      saleType: "",
+      //setting.data().setting_saleType
+      feeType: "",
+      //setting.data().setting_feeType
+      project: "",
+      allocate: "",
+      companyId: 1,
+      branchId: "",
+      showDialog: false,
+      active: "first",
+      first: false,
+      second: false,
+      third: false,
+      profile: JSON.parse(localStorage.Datauser),
+      isLoading: false
     };
   },
   components: {
     VueCtkDateTimePicker,
-    ModelSelect,Loading
+    ModelSelect,
+    Loading
   },
   use: {
     VueStripePayment
@@ -1082,43 +1094,48 @@ export default {
       let payload = {
         id: parseInt(this.id)
       };
-      this.isLoading = true
+      this.isLoading = true;
       console.log(payload);
       api.searchDepById(
         payload,
         result => {
-            this.isLoading = false;
-            console.log(JSON.stringify(result.data));
-            this.serialNo = result.data.doc_no;
-            this.taxNo = result.data.doc_no;
-            console.log(this.serialNo)
-            this.feeType = result.data.tax_type;
-            this.branchId = result.data.branch_id;
-            this.customerID = result.data.ar_id;
-            this.customerName = result.data.ar_name;
-            this.customerCode = result.data.ar_code;
-            this.customerCreditDay = result.data.credit_day;
-            this.customerDueDate = result.data.due_date;
-            this.saleID = result.data.sale_id;
-            this.saleName = result.data.sale_name;
-            this.saleCode = result.data.sale_code;
-            this.saleType = result.data.bill_type;
-            //   this.customerAddress = result.data.ar_bill_address;
-            //   this.customerPhone = result.data.ar_telephone;
-            this.department = result.data.depert_id;
-            this.taxRate = result.data.tax_type;
-            this.datenow_datepicker = result.data.doc_date;
-            this.creditCardList = result.data.credit_card;
-            console.log(this.creditCardList)
-            this.cashPayment=result.data.cash_amount;
-            this.infoNotice = result.data.my_description;
-            this.creator=result.data.create_by;
-            console.log(this.creator)
+          this.isLoading = false;
+          console.log(result.data);
+          this.serialNo = result.data.doc_no;
+          this.taxNo = result.data.doc_no;
+          console.log(this.serialNo);
+          this.feeType = result.data.tax_type;
+          this.branchId = result.data.branch_id;
+          this.customerID = result.data.ar_id;
+          this.customerName = result.data.ar_name;
+          this.customerCode = result.data.ar_code;
+          this.customerCreditDay = result.data.credit_day;
+          this.customerDueDate = result.data.due_date;
+          this.saleID = result.data.sale_id;
+          this.saleName = result.data.sale_name;
+          this.saleCode = result.data.sale_code;
+          this.saleType = result.data.bill_type;
+          //   this.customerAddress = result.data.ar_bill_address;
+          //   this.customerPhone = result.data.ar_telephone;
+          this.department = result.data.depert_id;
+          this.taxRate = result.data.tax_type;
+          this.datenow_datepicker = result.data.doc_date;
+          this.creditCardList = result.data.credit_card;
+          if (this.creditCardList != null) {
+            this.creditPaymentPart = true;
+          }
+          this.cashPayment = result.data.cash_amount;
+          if (this.cashPayment != null) {
+            this.cashPaymentPart = true;
+          }
+          this.payment = result.data.total_amount;
+          this.infoNotice = result.data.my_description;
+          this.creator = result.data.create_by;
         },
         error => {
-            this.isLoading = false;
-            console.log(JSON.stringify(error));
-            alertify.error("ข้อมูลผิดพลาด");
+          this.isLoading = false;
+          console.log(JSON.stringify(error));
+          alertify.error("ข้อมูลผิดพลาด");
         }
       );
     },
@@ -1385,8 +1402,8 @@ export default {
       return this.creditPayment;
     },
     totalCreditPayment() {
-      if(this.creditCardList == null){
-        this.creditCardList = []
+      if (this.creditCardList == null) {
+        this.creditCardList = [];
       }
       return this.creditCardList.reduce((sum, item) => {
         return sum + item.amount;
@@ -1435,11 +1452,11 @@ export default {
   mounted() {
     // this.setDone('first', 'second')
     // this.setDone('second', 'third')
-    this.id = this.$route.params.id
+    this.id = this.$route.params.id;
     this.showEditDetail();
+    this.check_edit_payment();
     console.log(this.profile);
-    console.log(this.id)
-    console.log(this.cashPayment)
+    console.log(this.id);
   }
 };
 </script>
