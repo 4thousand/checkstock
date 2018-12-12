@@ -942,13 +942,30 @@
               <div class="col-12 col-md-12 col-lg-12 card-control big-margin">
                 <div class="card">
                   <div class="card-header deposit-header">
-                    <span>Invoice</span>
+                    <span>ใบเสร็จรับเงินมัดจำ</span>
                   </div>
                   <div class="deposit-border">
-                    <div>รหัสลูกค้า : {{customerCode}}</div>
-                    <div>ชื่อลูกค้า : {{customerName}}</div>
-                    <div>เลขที่เอกสาร : {{serialNo}}</div>
-                    <div>มูลค่ารวมภาษี : {{convertToBaht(totalPayment)}} บาท</div>
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="row">
+                        <div class="col-4">
+                          <div style="color:grey">บิลถึงลูกค้า</div>
+                          <div>รหัสลูกค้า : {{customerCode}}</div>
+                          <div>ชื่อลูกค้า : {{customerName}}</div>
+                        </div>
+                        <div class="col-4">
+                          <div style="color:grey">เลขที่เอกสาร</div>
+                          <div>{{serialNo}}</div>
+                        </div>
+                        <div class="col-4" style="text-align:right">
+                          <div style="color:grey">มูลค่ารวมภาษี</div>
+                          <div>
+                            <h2>{{convertToBaht(totalPayment)}} บาท</h2>
+                          </div>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
                     <div class="col-md-12">
                       <div class="form-group">
                         <div class="row" style="padding-top:3%">
@@ -1141,12 +1158,7 @@ export default {
     },
     setDone(id, index) {
       this[id] = true;
-
-      this.secondStepError = null;
-
-      if (index) {
         this.active = index;
-      }
     },
     check_date_p(e) {
       alert(e);

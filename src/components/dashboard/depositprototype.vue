@@ -944,7 +944,7 @@
               <div class="col-12 col-md-12 col-lg-12 card-control big-margin">
                 <div class="card">
                   <div class="card-header deposit-header">
-                    <span>Invoice</span>
+                    <span>ใบเสร็จรับเงินมัดจำ</span>
                   </div>
                   <div class="deposit-border">
                     <div>รหัสลูกค้า : {{customerCode}}</div>
@@ -1043,6 +1043,7 @@ export default {
       cardChargePrice: "",
       creditNotice: "",
       creditCardList: [],
+      checkBankId:"",
       checkBankName: "",
       checkBankBranch: "",
       checkNumber: "",
@@ -1130,6 +1131,7 @@ export default {
         amount: this.creditPayment,
         bank_id: parseInt(this.creditBank)
       };
+      this.creditType ="";
       this.creditCardName = "";
       this.creditNumber = "";
       this.validateCreditCardNo = "";
@@ -1141,6 +1143,21 @@ export default {
       console.log(JSON.stringify(creditcard));
       this.creditCardList.push(creditcard);
       console.log(JSON.stringify(this.creditCardList));
+    },
+    createChq(){
+      var chq={
+        chq_number: this.checkNumber,
+        chq_amount: this.checkPayment,
+        bank_id: parseInt(this.checkBankId)  ,
+        description: this.chqNotice   
+      };
+      this.checkBankId="",
+      this.checkBankName= "",
+      this.checkBankBranch= "",
+      this.checkNumber= "",
+      this.chqPrize= "",
+      this.chqNotice= "",
+      this.chqList.push(chq);
     },
     removeCreditCard(val, index) {
       // console.log(val)
@@ -1369,6 +1386,11 @@ export default {
       return this.creditCardList.reduce((sum, item) => {
         return sum + item.amount;
       }, 0);
+    },
+    totalChqPayment(){
+      return this.chqList.reduce((sum,item)=>{
+        return sum+item.chq_amount;
+      },0);
     },
     payment_type() {
       if (this.feeType == "0") {
