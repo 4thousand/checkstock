@@ -14,6 +14,7 @@ import newsaleorder from '@/components/saleorder/newsaleorder'
 import dashboard from '@/components/dashboard/dashboard'
 import utility from '@/components/utility/utility'
 import prototype from '@/components/dashboard/depositprototype'
+import design from '@/components/deposit/depositdesign'
 
 Vue.use(Router)
 
@@ -88,6 +89,11 @@ export default new Router({
       path: '/prototype',
       name: 'prototype',
       component: prototype
+    },
+    {
+      path: '/design',
+      name: 'depdesign',
+      component: design
     }
   ]
 })
