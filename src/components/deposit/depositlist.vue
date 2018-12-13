@@ -68,7 +68,8 @@ export default {
     return {
       msg: "",
       searchDepositDoc: "",
-      deplist: []
+      deplist: [],
+      profile: JSON.parse(localStorage.Datauser)
     };
   },
   methods: {
@@ -99,6 +100,7 @@ export default {
     },
     searchDepApi() {
       var payload = {
+        ar_id: parseInt(this.profile.id),
         keyword: parseInt(this.searchDepositDoc)
       };
 

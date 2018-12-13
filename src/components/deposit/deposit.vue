@@ -431,12 +431,18 @@
                           <p class="method-set col-lg-4 col-md-12 col-12">บัตรที่{{ index + 1}} :</p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <div class="alert alert-info">
+                              
                               <a
                                 class="close"
                                 data-dismiss="alert"
                                 aria-label="close"
                                 @click="removeCreditCard(val,index)"
                               >&times;</a>
+                              <a class="close">
+                                <i class="material-icons">
+                                  build
+                                </i>
+                              </a>
                               <span class="fontsize">เลขบัตร : {{val.credit_card_no}}</span>
                               <span
                                 class="fontsize"
@@ -628,7 +634,7 @@
                                 class="close"
                                 data-dismiss="alert"
                                 aria-label="close"
-                                @click="removeCreditCard(val,index)"
+                                @click="removeChq(val,index)"
                               >&times;</a>
                               <span class="fontsize">เลขบัตร : {{val.chq_number}}</span>
                               <span
@@ -977,21 +983,21 @@
                     <div class="row">
                       <div class="col-12">
                         <div class="row">
-                        <div class="col-4">
-                          <div style="color:grey">บิลถึงลูกค้า</div>
-                          <div>รหัสลูกค้า : {{customerCode}}</div>
-                          <div>ชื่อลูกค้า : {{customerName}}</div>
-                        </div>
-                        <div class="col-4">
-                          <div style="color:grey">เลขที่เอกสาร</div>
-                          <div>{{serialNo}}</div>
-                        </div>
-                        <div class="col-4" style="text-align:right">
-                          <div style="color:grey">มูลค่ารวมภาษี</div>
-                          <div>
-                            <h2>{{convertToBaht(totalPayment)}} บาท</h2>
+                          <div class="col-4">
+                            <div style="color:grey">บิลถึงลูกค้า</div>
+                            <div>รหัสลูกค้า : {{customerCode}}</div>
+                            <div>ชื่อลูกค้า : {{customerName}}</div>
                           </div>
-                        </div>
+                          <div class="col-4">
+                            <div style="color:grey">เลขที่เอกสาร</div>
+                            <div>{{serialNo}}</div>
+                          </div>
+                          <div class="col-4" style="text-align:right">
+                            <div style="color:grey">มูลค่ารวมภาษี</div>
+                            <div>
+                              <h2>{{convertToBaht(totalPayment)}} บาท</h2>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1043,6 +1049,7 @@ export default {
       serialNo: "",
       taxNo: "",
       id: "",
+      uuid:"",
       customerID: "",
       customerCode: "",
       customerName: "",
@@ -1148,6 +1155,8 @@ export default {
         result => {
           this.isLoading = false;
           console.log(result.data);
+          this.id = result.data.id;
+          this.uuid = result.data.uuid;
           this.serialNo = result.data.doc_no;
           this.taxNo = result.data.doc_no;
           console.log(this.serialNo);
@@ -1168,15 +1177,15 @@ export default {
           this.taxRate = result.data.tax_type;
           this.datenow_datepicker = result.data.doc_date;
           this.creditCardList = result.data.credit_card;
-          if (this.creditCardList != null&&this.creditCardList!=[]) {
+          if (this.creditCardList != null) {
             this.creditPaymentPart = true;
           }
           this.cashPayment = result.data.cash_amount;
-          if (this.checkPayment!=null&&this.cashPayment!=0) {
+          if (this.cashPayment!=null&&this.cashPayment!=0) {
             this.cashPaymentPart = true;
           }
           this.chqList =result.data.chq;
-          if(this.chqList!=null&&this.chqList!=[]){
+          if(this.chqList!=null){
             this.checkPaymentPart=true;
           }
           this.payment = result.data.total_amount;
@@ -1248,6 +1257,9 @@ export default {
     removeCreditCard(val, index) {
       // console.log(val)
       this.creditCardList.splice(index);
+    },
+    removeChq(val,index){
+      this.chqList.splice(index);
     },
     searchCustomerAllKeyApi() {
       var payload = {
@@ -1374,6 +1386,7 @@ export default {
     createDepositDocApi() {
       let payload = {
         id:this.id,
+        uuid:this.uuid,
         doc_no: this.serialNo,
         company_id: this.companyId,
         branch_id: parseInt(this.branchId),
@@ -1395,12 +1408,14 @@ export default {
         my_description: this.infoNotice,
         cash_amount: this.cashPayment,
         creditcard_amount: this.totalCreditPayment,
+        chq_amount: this.totalChqPayment,
         // chq_amount: this.checkPayment,
         // bank_amount: this.transferPayment,
         total_amount: this.payment,
         // scg_id:'',
         // job_no:'',
         credit_card: this.creditCardList,
+        chq:this.chqList,
         // chq:this.chqList,
         create_by: this.profile.rolename
         // edit_by: this.profile.rolename
