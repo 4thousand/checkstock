@@ -620,6 +620,26 @@
                     <div class="row" v-if="checkPaymentPart==true">
                       <hr class="col-10">
                       <h4 class="payment-sub-header information-part col-12">เช็ค</h4>
+                      <!-- v-for -->
+                      <div class="col-md-12 col-12" v-for="(val,index) in chqList">
+                        <div class="form-group row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">บัตรที่{{ index + 1}} :</p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <div class="alert alert-info">
+                              <a
+                                class="close"
+                                data-dismiss="alert"
+                                aria-label="close"
+                                @click="removeCreditCard(val,index)"
+                              >&times;</a>
+                              <span class="fontsize">เลขบัตร : {{val.chq_number}}</span>
+                              <span
+                                class="fontsize"
+                              >จำนวนเงิน : {{convertToBaht(val.chq_amount)+" บาท"}}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                       <div class="col-md-12 col-12">
                         <div class="form-group row">
                           <p class="method-set col-lg-4 col-md-12 col-12">
@@ -668,7 +688,7 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
-                              <input class="form-control" v-model="checkBankName">
+                              <input class="form-control" v-model="checkBankId">
                             </p>
                           </div>
                         </div>
@@ -713,6 +733,15 @@
                             </p>
                           </div>
                         </div>
+                      </div>
+                      <div class="tax-bottom-part tax-button col-md-12 col-12">
+                        <button
+                          :disabled="checkNumber==''||checkPayment==''||checkBankId==''||typeof(this.checkPayment)=='string'"
+                          @click="createChq()"
+                          class="btn btn-primary"
+                        >
+                          <span>เพิ่ม</span>
+                        </button>
                       </div>
                     </div>
 
@@ -1330,13 +1359,13 @@ export default {
         my_description: this.infoNotice,
         cash_amount: this.cashPayment,
         creditcard_amount: this.totalCreditPayment,
-        // chq_amount: this.checkPayment,
+        chq_amount: this.totalChqPayment,
         // bank_amount: this.transferPayment,
         total_amount: this.payment,
         // scg_id:'',
         // job_no:'',
         credit_card: this.creditCardList,
-        // chq:this.chqList,
+        chq:this.chqList,
         create_by: this.profile.rolename
         // edit_by: this.profile.rolename
       };
@@ -1366,13 +1395,13 @@ export default {
       if (
         this.cashPayment != null ||
         this.totalCreditPayment != null ||
-        this.checkPayment != null ||
+        this.totalChqPayment != null ||
         this.transferPayment != null
       ) {
         return (
           this.cashPayment +
           this.totalCreditPayment +
-          this.checkPayment +
+          this.totalChqPayment +
           this.transferPayment
         );
       }

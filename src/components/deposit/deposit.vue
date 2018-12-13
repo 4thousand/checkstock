@@ -618,6 +618,26 @@
                     <div class="row" v-if="checkPaymentPart==true">
                       <hr class="col-10">
                       <h4 class="payment-sub-header information-part col-12">เช็ค</h4>
+                      <!-- v-for -->
+                      <div class="col-md-12 col-12" v-for="(val,index) in chqList">
+                        <div class="form-group row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">บัตรที่{{ index + 1}} :</p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <div class="alert alert-info">
+                              <a
+                                class="close"
+                                data-dismiss="alert"
+                                aria-label="close"
+                                @click="removeCreditCard(val,index)"
+                              >&times;</a>
+                              <span class="fontsize">เลขบัตร : {{val.chq_number}}</span>
+                              <span
+                                class="fontsize"
+                              >จำนวนเงิน : {{convertToBaht(val.chq_amount)+" บาท"}}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                       <div class="col-md-12 col-12">
                         <div class="form-group row">
                           <p class="method-set col-lg-4 col-md-12 col-12">
@@ -666,7 +686,7 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
-                              <input class="form-control" v-model="checkBankName">
+                              <input class="form-control" v-model="checkBankId">
                             </p>
                           </div>
                         </div>
@@ -711,6 +731,15 @@
                             </p>
                           </div>
                         </div>
+                      </div>
+                      <div class="tax-bottom-part tax-button col-md-12 col-12">
+                        <button
+                          :disabled="checkNumber==''||checkPayment==''||checkBankId==''||typeof(this.checkPayment)=='string'"
+                          @click="createChq()"
+                          class="btn btn-primary"
+                        >
+                          <span>เพิ่ม</span>
+                        </button>
                       </div>
                     </div>
 
@@ -1060,6 +1089,7 @@ export default {
       cardChargePrice: "",
       creditNotice: "",
       creditCardList: [],
+      checkBankId:"",
       checkBankName: "",
       checkBankBranch: "",
       checkNumber: "",
@@ -1138,12 +1168,16 @@ export default {
           this.taxRate = result.data.tax_type;
           this.datenow_datepicker = result.data.doc_date;
           this.creditCardList = result.data.credit_card;
-          if (this.creditCardList != null) {
+          if (this.creditCardList != null&&this.creditCardList!=[]) {
             this.creditPaymentPart = true;
           }
           this.cashPayment = result.data.cash_amount;
-          if (this.cashPayment != null) {
+          if (this.checkPayment!=null&&this.cashPayment!=0) {
             this.cashPaymentPart = true;
+          }
+          this.chqList =result.data.chq;
+          if(this.chqList!=null&&this.chqList!=[]){
+            this.checkPaymentPart=true;
           }
           this.payment = result.data.total_amount;
           this.infoNotice = result.data.my_description;
@@ -1339,6 +1373,7 @@ export default {
     },
     createDepositDocApi() {
       let payload = {
+        id:this.id,
         doc_no: this.serialNo,
         company_id: this.companyId,
         branch_id: parseInt(this.branchId),
@@ -1396,14 +1431,18 @@ export default {
 
       if (
         this.cashPayment != null ||
-        this.creditPayment != null ||
-        this.checkPayment != null ||
+        this.totalCreditPayment != null ||
+        this.totalChqPayment != null ||
         this.transferPayment != null
       ) {
         return (
+          console.log(this.cashPayment),
+          console.log(this.totalCreditPayment),
+          console.log(this.totalChqPayment),
+          console.log(this.transferPayment),
           this.cashPayment +
           this.totalCreditPayment +
-          this.checkPayment +
+          this.totalChqPayment +
           this.transferPayment
         );
       }
@@ -1420,6 +1459,14 @@ export default {
       return this.creditCardList.reduce((sum, item) => {
         return sum + item.amount;
       }, 0);
+    },
+    totalChqPayment(){
+      if (this.chqList == null) {
+        this.chqList = [];
+      }
+      return this.chqList.reduce((sum,item)=>{
+        return sum+item.chq_amount;
+      },0);
     },
     payment_type() {
       if (this.feeType == "0") {
