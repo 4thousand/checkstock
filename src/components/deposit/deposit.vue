@@ -1258,6 +1258,15 @@ export default {
       // console.log(val)
       this.creditCardList.splice(index);
     },
+    createChq(){
+      var chq={
+        chq_number: this.checkNumber,
+        chq_amount: this.checkPayment,
+        bank_id: parseInt(this.checkBankId)  ,
+        description: this.chqNotice   
+      };
+      this.chqList.push(chq);
+    },
     removeChq(val,index){
       this.chqList.splice(index);
     },
