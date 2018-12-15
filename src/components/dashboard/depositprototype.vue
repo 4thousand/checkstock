@@ -53,7 +53,7 @@
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
                         <p class="article-set col-md-3 col-12">
-                          <span style="color:red">*</span> รหัสลูกค้า :
+                          <span style="color:red">*</span> ลูกค้า :
                         </p>
                         <div class="col-md-8 col-12">
                           <div class="input-group">

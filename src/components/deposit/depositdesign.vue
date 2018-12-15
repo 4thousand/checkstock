@@ -20,7 +20,6 @@
                           <select
                             v-model="branchId"
                             class="form-control"
-                            @change="createDepositNoApi"
                           >
                             <option value="1">นพดลพานิช สำนักงานใหญ่</option>
                             <option value="2">เอสซีจี โฮมโซลูชั่น (แยกต้นเปา)</option>
@@ -39,7 +38,6 @@
                         <div class="col-md-8 col-12">
                           <select
                             v-model="saleType"
-                            @change="createDepositNoApi"
                             class="form-control"
                           >
                             <option value="0">ขายหน้าร้าน</option>
@@ -97,38 +95,6 @@
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
                         <p class="article-set col-md-3 col-12">
-                          <span style="color:red">*</span> เลขที่ใบเงินมัดจำ :
-                        </p>
-                        <div class="col-md-8 col-12">
-                          <input
-                            type="text"
-                            class="form-control disable-control"
-                            disabled
-                            v-model="serialNo"
-                          >
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-12 col-12">
-                      <div class="form-group row">
-                        <p class="article-set col-md-3 col-12">
-                          <span style="color:red">*</span> เลขที่ใบกำกับภาษี :
-                        </p>
-                        <div class="col-md-8 col-12">
-                          <input
-                            type="text"
-                            disabled
-                            v-model="taxNo"
-                            class="form-control disable-control"
-                          >
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 col-12">
-                      <div class="form-group row">
-                        <p class="article-set col-md-3 col-12">
                           <span style="color:red">*</span> วันที่ออกเอกสาร :
                         </p>
                         <div class="col-md-8 col-12">
@@ -141,21 +107,6 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-12 col-12">
-                      <div class="form-group row">
-                        <p class="article-set col-md-3 col-12">
-                          <span style="color:red">*</span> วันที่ใบกำกับภาษี :
-                        </p>
-                        <div class="col-md-8 col-12">
-                          <vue-ctk-date-time-picker
-                            locale="th"
-                            format="YYYY-MM-DD"
-                            v-model="taxApplyDate"
-                            :disable-time="true"
-                          ></vue-ctk-date-time-picker>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                   <div class="row">
                     <div class="col-md-12 col-12">
@@ -163,38 +114,6 @@
                         <p class="article-set col-md-3 col-12">เลขที่ใบจอง :</p>
                         <div class="col-md-8 col-12">
                           <input type="text" v-model="preemptionNo" class="form-control" disabled>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-12 col-12">
-                      <div class="form-group row">
-                        <p class="article-set col-md-3 col-12">
-                          <span style="color:red">*</span> รหัสพนักงานขาย :
-                        </p>
-                        <div class="col-md-8 col-12">
-                          <input
-                            type="text"
-                            disabled
-                            v-model="profile.sale_code"
-                            class="form-control disable-control"
-                          >
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 col-12">
-                      <div class="form-group row">
-                        <p class="article-set col-md-3 col-12">
-                          <span style="color:red">*</span> ชื่อพนักงานขาย :
-                        </p>
-                        <div class="col-md-8 col-12">
-                          <input
-                            type="text"
-                            disabled
-                            v-model="profile.username"
-                            class="form-control disable-control"
-                          >
                         </div>
                       </div>
                     </div>
@@ -522,8 +441,8 @@
                     </div>
                     <div class="tax-bottom-part tax-button">
                       <button
-                        :disabled="feeType==''||balance<0||balance>0||payment==null"
-                        @click="createDepositDocApi();"
+                        :disabled="feeType==''||balance<0||balance>0||payment==null||payment==0"
+                        @click="creditDepoitNoApi(),createDepositDocApi();"
                         class="btn btn-primary"
                       >
                         <span>บันทึก</span>
@@ -561,11 +480,11 @@
         <md-dialog :md-active="showCredit">
           <md-dialog-content class="modal-content">
             <div class="modal-header">
-              <h4>บัตรเครดิต</h4>
+              <h4 style="margin-top:-20px">บัตรเครดิต</h4>
             </div>
             <div class="modal-body">
               <div class="col-md-12 col-12">
-                <div class="form-group row">
+                <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> ชื่อหน้าบัตร :
                   </p>
@@ -577,7 +496,7 @@
                 </div>
               </div>
               <div class="col-md-12 col-12">
-                <div class="form-group row">
+                <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> เลขที่เครดิต :
                   </p>
@@ -589,7 +508,7 @@
                 </div>
               </div>
               <div class="col-md-12 col-12">
-                <div class="form-group row">
+                <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> เลขที่อนุมัติ :
                   </p>
@@ -601,7 +520,7 @@
                 </div>
               </div>
               <div class="col-md-12 col-12">
-                <div class="form-group row">
+                <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> รหัสธนาคาร :
                   </p>
@@ -613,7 +532,7 @@
                 </div>
               </div>
               <div class="col-md-12 col-12">
-                <div class="form-group row">
+                <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> สาขาธนาคาร :
                   </p>
@@ -625,7 +544,7 @@
                 </div>
               </div>
               <div class="col-md-12 col-12">
-                <div class="form-group row">
+                <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> ยอดเงิน :
                   </p>
@@ -637,7 +556,7 @@
                 </div>
               </div>
               <div class="col-md-12 col-12">
-                <div class="form-group row">
+                <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> ประเภทบัตร :
                   </p>
@@ -649,7 +568,7 @@
                 </div>
               </div>
               <div class="col-md-12 col-12">
-                <div class="form-group row">
+                <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> ค่า Charge :
                   </p>
@@ -661,7 +580,7 @@
                 </div>
               </div>
               <div class="col-md-12 col-12">
-                <div class="form-group row">
+                <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
                   <div class="col-lg-7 col-md-12 col-12">
                     <p>
@@ -695,7 +614,7 @@
               <h4>เช็ค</h4>
             </div>
             <div class="modal-body">
-                <div class="form-group row">
+                <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> เลขที่เช็ค :
                   </p>
@@ -705,7 +624,7 @@
                     </p>
                   </div>
               </div>
-                <div class="form-group row">
+                <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> มูลค่าเช็ค :
                   </p>
@@ -715,7 +634,7 @@
                     </p>
                   </div>
                 </div>
-                <div class="form-group row">
+                <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> ธนาคาร :
                   </p>
@@ -725,7 +644,7 @@
                     </p>
                   </div>
                 </div>
-                <div class="form-group row">
+                <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> สาขา :
                   </p>
@@ -735,7 +654,7 @@
                     </p>
                   </div>
                 </div>
-                <div class="form-group row">
+                <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> จำนวนเงิน :
                   </p>
@@ -866,10 +785,8 @@ export default {
       customerCreditDay: "",
       customerDueDate: "",
       documentDate: this.getDate(),
-      taxApplyDate: this.getDate(),
       creditDate: "",
       checkDate: "",
-      transferDate: "",
       preemptionNo: "",
       employeeID: "",
       employeeCode: "",
