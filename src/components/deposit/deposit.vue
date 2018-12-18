@@ -1435,7 +1435,6 @@ export default {
         result => {
           console.log(JSON.stringify(result));
           alertify.success("บันทึกข้อมูลใบรับเงินมัดจำเรียบร้อย");
-          console.log(this.checkD);
           this.setDone("second", "third");
         },
         error => {
