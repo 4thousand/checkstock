@@ -679,13 +679,13 @@
               </div>
               <md-button class="md-raised md-primary" @click="setDone('third')">สิ้นสุด</md-button>
                     <!-- testprint -->
-              <form id="tax_report" :action="php + '/vue_sale/report_pdf/report_quotation.php'" method="post" target="_blank">
-			      		<input type="hidden" name="dataquotation">
+              <form id="tax_report" :action="php + '/vue_sale/report_pdf/report_sale.php'" method="post" target="_blank">
+			      		<input type="hidden" name="datasale">
                    <md-button type="submit" style="float: right; position: relative; top: -37px;" class="md-raised md-primary">Print</md-button>
                 <!-- <button type="submit">กด</button> -->
 			      	</form>
-              <form :action="php + '/vue_sale/report_pdf/report_quotationpdf.php'" method="post" target="_blank">
-			      		<input type="hidden" name="dataquotation">
+              <form :action="php + '/vue_sale/report_pdf/report_sale.php'" method="post" target="_blank">
+			      		<input type="hidden" name="datasale">
                    <md-button type="submit" style="float: right; position: relative; top: -37px;right: 10px;" class="md-raised md-primary">PDF</md-button>
                 <!-- <button type="submit">กด</button> -->
 			      	</form>
@@ -772,7 +772,7 @@
                         <span > กรุณาเลือกคลัง </span>
                        <div class="hovercolor" :class="'hover'+index" style="text-align:right;visibility:hidden;height:0;transition:all 0.5s cubic-bezier(0.47, 0.46, 0, 1.02) 0s;"  v-for="(value,index2) in stockall" :key="index2" >
                          <!--  -->
-                      <md-button @click="showdetail(val,value)" style="margin: 5px 0" class="md-raised md-primary"> คลังสินค้า : {{val.stk_location[index2].wh_code}} ชั้นเก็บ : {{val.stk_location[index2].shelf_code}} จำนวน : {{val.stk_location[index2].qty}} </md-button>
+                      <md-button @click="showdetail(val,value,index2)" style="margin: 5px 0" class="md-raised md-primary"> คลังสินค้า : {{val.stk_location[index2].wh_code}} ชั้นเก็บ : {{val.stk_location[index2].shelf_code}} จำนวน : {{val.stk_location[index2].qty}} </md-button>
                       </div>
                       </td>
                     </tr>

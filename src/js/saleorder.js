@@ -8,6 +8,7 @@ const toLower = text => {
     }
     return items;
   }
+
   import Loading from 'vue-loading-overlay';
   import 'vue-loading-overlay/dist/vue-loading.css';
   import Datepicker from 'vuejs-datepicker';
@@ -123,6 +124,7 @@ const toLower = text => {
 
       },
       searchstorecode(val){
+        
         // console.log(index)
         // console.log(this.selectunitcode_step2())
         console.log("*********>"+JSON.stringify(val))
@@ -180,6 +182,7 @@ const toLower = text => {
         console.log(this.stock_index)
           var index = this.stock_index
           console.log('index  :  '+index)
+
               if(this.billtype == 0){//สด  
                 this.dproducts[index].unit_code = val.unit_code
                 this.dproducts[index].price = val.sale_price_1
@@ -467,27 +470,27 @@ const toLower = text => {
 
 
           console.log(payload.subs.length)
-          document.getElementsByName('dataquotation')[0].value = JSON.stringify(
+          document.getElementsByName('datasale')[0].value = JSON.stringify(
             payload
           )
           
-          document.getElementsByName('dataquotation')[1].value = JSON.stringify(
+          document.getElementsByName('datasale')[1].value = JSON.stringify(
             payload
           )
-          this.isLoading = true
+          // this.isLoading = true
           console.log(JSON.stringify(payload))
-          api.createsale(payload,
-            (result) => {
-              this.isLoading = false
-              console.log(result)
-             alertify.success('บันทึกสำเร็จ ' + this.docno);
-           },
-            (error) => {
-              this.isLoading = false
-              console.log(JSON.stringify(error))
-              //Customerall
-              alertify.error('เกิดข้อผิดพลาด');
-           })
+          // api.createsale(payload,
+          //   (result) => {
+          //     this.isLoading = false
+          //     console.log(result)
+          //    alertify.success('บันทึกสำเร็จ ' + this.docno);
+          //  },
+          //   (error) => {
+          //     this.isLoading = false
+          //     console.log(JSON.stringify(error))
+          //     //Customerall
+          //     alertify.error('เกิดข้อผิดพลาด');
+          //  })
         }
         //บันทึก
   
@@ -644,7 +647,7 @@ const toLower = text => {
           })
   
       },
-      showdetail(val,stock) {
+      showdetail(val,stock,indexstock) {
         console.log("----->"+JSON.stringify(val))
 
         console.log(stock)
@@ -656,8 +659,8 @@ const toLower = text => {
             bar_code: val.bar_code,
             item_name: val.item_name,
             unit_code: val.unit_code,
-            wh_code: stock.wh_code,
-            shelf_code: stock.shelf_code,
+            // wh_code: stock.wh_code,
+            // shelf_code: stock.shelf_code,
             qty: 1,
             price: val.sale_price_1,
             discount_word: '0',
@@ -667,9 +670,9 @@ const toLower = text => {
             packing_rate_1: parseInt(val.rate_1),
             is_cancel: 0,
             stock_type: val.stock_type,//แก้
-            wh_code: val.stk_location[0].wh_code, //แก้ 
-            shelf_code: val.stk_location[0].shelf_code, //แก้
-            stocklimit: val.stk_location[0].qty,  //แก้
+            wh_code: val.stk_location[indexstock].wh_code, //แก้ 
+            shelf_code: val.stk_location[indexstock].shelf_code, //แก้
+            stocklimit: val.stk_location[indexstock].qty,  //แก้
           }
           this.dproducts.push(datashow)
           //close modal
@@ -683,8 +686,8 @@ const toLower = text => {
             bar_code: val.bar_code,
             item_name: val.item_name,
             unit_code: val.unit_code,
-            wh_code: stock.wh_code,
-            shelf_code: stock.shelf_code,
+            // wh_code: stock.wh_code,
+            // shelf_code: stock.shelf_code,
             qty: 1,
             price: val.sale_price_2,
             discount_word: '0',
@@ -694,9 +697,9 @@ const toLower = text => {
             packing_rate_1: parseInt(val.rate_1),
             is_cancel: 0,
             stock_type: val.stock_type, //แก้
-            wh_code: val.stk_location[0].wh_code, //แก้
-            shelf_code: val.stk_location[0].shelf_code, //แก้
-            stocklimit: val.stk_location[0].qty,  //แก้
+            wh_code: val.stk_location[indexstock].wh_code, //แก้
+            shelf_code: val.stk_location[indexstock].shelf_code, //แก้
+            stocklimit: val.stk_location[indexstock].qty,  //แก้
           } 
           this.dproducts.push(datashow)
           //close modal
