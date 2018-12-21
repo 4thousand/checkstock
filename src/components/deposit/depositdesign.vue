@@ -47,11 +47,11 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row">
+                  <div v-if="selectCustomer==false" class="row">
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
                         <p class="article-set col-md-3 col-12">
-                          <span style="color:red">*</span> รหัสลูกค้า :
+                          <span style="color:red">*</span> ค้นหาลูกค้า :
                         </p>
                         <div class="col-md-8 col-12">
                           <div class="input-group">
@@ -74,7 +74,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row">
+                  <div v-if="selectCustomer=true" class="row">
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
                         <p class="article-set col-md-3 col-12">
@@ -218,7 +218,7 @@
                       <tbody>
                         <tr
                           class="table-pointer"
-                          @click="searchCustomer(val),showDialog = false"
+                          @click="searchCustomer(val),showDialog = false,selectCustomer=true"
                           v-for="(val,index) in customerDetail"
                           style="text-align:center;cursor:pointer"
                         >
@@ -796,6 +796,7 @@ export default {
       infoNotice: "",
       taxrate: setting.data().setting_taxRate,
       click: false,
+      selectCustomer:false
       searchCustomerInput: "",
       searchEmployeeInput: "",
       php: "http://" + document.domain,
@@ -1188,7 +1189,7 @@ export default {
     }
   },
   mounted() {
-    this.setDone("first", "second");
+    // this.setDone("first", "second");
     // this.setDone('second', 'third')
     this.id = this.$route.params.id;
     this.showEditDetail();
