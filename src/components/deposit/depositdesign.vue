@@ -47,7 +47,7 @@
                       </div>
                     </div>
                   </div>
-                  <div v-if="selectCustomer==false" class="row">
+                  <div v-show="selectCustomer==false" class="row">
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
                         <p class="article-set col-md-3 col-12">
@@ -74,19 +74,29 @@
                       </div>
                     </div>
                   </div>
-                  <div v-if="selectCustomer=true" class="row">
+                  <div v-show="selectCustomer==true" class="row">
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
                         <p class="article-set col-md-3 col-12">
                           <span style="color:red">*</span> ชื่อลูกค้า :
                         </p>
                         <div class="col-md-8 col-12">
-                          <input
-                            type="text"
-                            disabled
-                            v-model="customerName"
-                            class="form-control disable-control"
-                          >
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              disabled
+                              v-model.number="customerName"
+                              class="form-control disable-control"
+                            >
+                            <div class="input-group-append">
+                              <button
+                                class="btn btn-danger icon-margin search-icon"
+                                @click="selectCustomer = false, customerCode='',customerName='',searchCustomerInput='',customerDetail=[]"
+                              >
+                                <md-icon class="search-icon">highlight_off</md-icon>
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -796,7 +806,7 @@ export default {
       infoNotice: "",
       taxrate: setting.data().setting_taxRate,
       click: false,
-      selectCustomer:false
+      selectCustomer:false,
       searchCustomerInput: "",
       searchEmployeeInput: "",
       php: "http://" + document.domain,
@@ -1193,6 +1203,7 @@ export default {
     // this.setDone('second', 'third')
     this.id = this.$route.params.id;
     this.showEditDetail();
+    console.log(this.selectCustomer)
     console.log(this.feeType)
     console.log(this.profile);
     console.log(this.id);
