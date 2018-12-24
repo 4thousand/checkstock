@@ -328,9 +328,9 @@
                               aria-label="close"
                               @click="removeCreditCard(val,index)"
                             >&times;</a>
-                            <a class="close">
-                              <i class="material-icons">build</i>
-                            </a>
+                            <a class="edit close"><i class="material-icons" @click="showEditCredit=true,pullCreditCard(index)">
+                              edit
+                            </i></a>
                             <span class="fontsize">เลขบัตร : {{val.credit_card_no}}</span>
                             <span class="fontsize">จำนวนเงิน : {{convertToBaht(val.amount)+" บาท"}}</span>
                           </div>
@@ -452,7 +452,7 @@
                     <div class="tax-bottom-part tax-button">
                       <button
                         :disabled="feeType==''||balance<0||balance>0||payment==null||payment==0"
-                        @click="creditDepoitNoApi(),createDepositDocApi();"
+                        @click="createDepositNoApi(),confirm=true;"
                         class="btn btn-primary"
                       >
                         <span>บันทึก</span>
@@ -618,6 +618,137 @@
           </md-dialog-content>
         </md-dialog>
 
+        <md-dialog :md-active="showEditCredit">
+          <md-dialog-content class="modal-content">
+            <div class="modal-header">
+              <h4 style="margin-top:-20px">บัตรเครดิต</h4>
+            </div>
+            <div class="modal-body">
+              <div class="col-md-12 col-12">
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">
+                    <span style="color:red">*</span> ชื่อหน้าบัตร :
+                  </p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <input class="form-control" v-model="creditCardName">
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-12">
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">
+                    <span style="color:red">*</span> เลขที่เครดิต :
+                  </p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <input class="form-control" v-model="creditNumber" v-payment:formatCardNumber>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-12">
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">
+                    <span style="color:red">*</span> เลขที่อนุมัติ :
+                  </p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <input class="form-control" v-model="validateCreditCardNo">
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-12">
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">
+                    <span style="color:red">*</span> รหัสธนาคาร :
+                  </p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <input class="form-control" v-model="creditBank">
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-12">
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">
+                    <span style="color:red">*</span> สาขาธนาคาร :
+                  </p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <input class="form-control" v-model="creditBranch">
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-12">
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">
+                    <span style="color:red">*</span> ยอดเงิน :
+                  </p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <input class="form-control" type="number" v-model="creditPrice">
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-12">
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">
+                    <span style="color:red">*</span> ประเภทบัตร :
+                  </p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <input class="form-control" v-model="creditType">
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-12">
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">
+                    <span style="color:red">*</span> ค่า Charge :
+                  </p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <input class="form-control" v-model="cardCharge" @change="chargeCal">
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-12">
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <textarea class="form-control" v-model.number="creditNotice" rows="3"></textarea>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                :disabled="creditType==''||creditBank==''||creditNumber==''||creditPayment==null||typeof(this.creditPayment)=='string'"
+                @click="editCreditCard(index),showEditCredit = false"
+                class="btn btn-success"
+                style="margin-top:25px"
+              >
+                <span>เพิ่ม</span>
+              </button>
+              <button
+                style="margin-top:25px"
+                class="btn btn-danger"
+                @click="showEditCredit = false"
+              >ยกเลิก</button>
+            </div>
+          </md-dialog-content>
+        </md-dialog>
+
         <md-dialog :md-active="showChq">
           <md-dialog-content class="modal-content">
             <div class="modal-header">
@@ -706,6 +837,15 @@
             </div>
           </md-dialog-content>
         </md-dialog>
+
+        <md-dialog :md-active="confirm">
+          <span>ยื่นยันการบันทึกข้อมูลใบรับเงินมัดจำ</span>
+          <div style="display:flex; align-items:center; justify-content:center;">
+            <button class="btn btn-success" @click="createDepositDocApi(),confirm=false">ตกลง</button>
+            <button class="btn btn-danger" @click="confirm=false">ยกเลิก</button>
+          </div>
+        </md-dialog>
+
       </md-step>
       <md-step id="third" to md-label="สรุปใบรับเงินมัดจำ">
         <div>
@@ -854,7 +994,9 @@ export default {
       branchId: "",
       showDialog: false,
       showCredit: false,
+      showEditCredit: false,
       showChq: false,
+      confirm: false,
       active: "first",
       first: false,
       second: false,
@@ -946,6 +1088,18 @@ export default {
       console.log(JSON.stringify(creditcard));
       this.creditCardList.push(creditcard);
       console.log(JSON.stringify(this.creditCardList));
+    },
+    pullCreditCard(index){
+      this.creditType=this.creditCardList[index].credit_type;
+      this.creditNumber=this.creditCardList[index].credit_card_no;
+      this.creditPayment=this.creditCardList[index].amount;
+      this.creditBank=parseInt(this.creditCardList[index].bank_id);
+    },
+    editCreditCard(index){
+      this.creditCardList[index].credit_type=this.creditType;
+      this.creditCardList[index].credit_card_no=this.creditNumber;
+      this.creditCardList[index].amount=this.creditPayment;
+      this.creditCardList[index].bank_id=parseInt(this.creditBank);
     },
     removeCreditCard(val, index) {
       // console.log(val)
@@ -1113,7 +1267,6 @@ export default {
         result => {
           console.log(JSON.stringify(result));
           alertify.success("บันทึกข้อมูลใบรับเงินมัดจำเรียบร้อย");
-          console.log(this.checkD);
           this.setDone("second", "third");
         },
         error => {
@@ -1199,7 +1352,7 @@ export default {
     }
   },
   mounted() {
-    // this.setDone("first", "second");
+    this.setDone("first", "second");
     // this.setDone('second', 'third')
     this.id = this.$route.params.id;
     this.showEditDetail();
@@ -1312,6 +1465,10 @@ div {
 
 .next-button {
   float: right;
+}
+
+.edit{
+  margin-right: 15px
 }
 
 .form-control[readonly] {
