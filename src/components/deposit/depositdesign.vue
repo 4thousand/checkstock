@@ -494,7 +494,7 @@
               <h4 style="margin-top:-20px">บัตรเครดิต</h4>
             </div>
             <div class="modal-body">
-              <div class="col-md-12 col-12">
+              <!-- <div class="col-md-12 col-12">
                 <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> ชื่อหน้าบัตร :
@@ -505,7 +505,7 @@
                     </p>
                   </div>
                 </div>
-              </div>
+              </div> -->
               <div class="col-md-12 col-12">
                 <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
@@ -542,7 +542,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-12 col-12">
+              <!-- <div class="col-md-12 col-12">
                 <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> สาขาธนาคาร :
@@ -553,7 +553,7 @@
                     </p>
                   </div>
                 </div>
-              </div>
+              </div> -->
               <div class="col-md-12 col-12">
                 <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
@@ -625,7 +625,7 @@
               <h4 style="margin-top:-20px">บัตรเครดิต</h4>
             </div>
             <div class="modal-body">
-              <div class="col-md-12 col-12">
+              <!-- <div class="col-md-12 col-12">
                 <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> ชื่อหน้าบัตร :
@@ -636,7 +636,7 @@
                     </p>
                   </div>
                 </div>
-              </div>
+              </div> -->
               <div class="col-md-12 col-12">
                 <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
@@ -786,7 +786,7 @@
                     </p>
                   </div>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> สาขา :
                   </p>
@@ -795,7 +795,7 @@
                       <input class="form-control" v-model="checkBankBranch">
                     </p>
                   </div>
-                </div>
+                </div> -->
                 <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> จำนวนเงิน :
@@ -875,7 +875,7 @@
                     </p>
                   </div>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> สาขา :
                   </p>
@@ -884,7 +884,7 @@
                       <input class="form-control" v-model="checkBankBranch">
                     </p>
                   </div>
-                </div>
+                </div> -->
                 <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> จำนวนเงิน :
@@ -1047,7 +1047,7 @@ export default {
       checkPayment: null,
       transferPayment: null,
       payment: null,
-      creditCardName: "",
+      // creditCardName: "",
       creditNumber: "",
       validateCreditCardNo: "",
       creditType: "",
@@ -1060,7 +1060,7 @@ export default {
       creditCardList: [],
       checkBankId: "",
       checkBankName: "",
-      checkBankBranch: "",
+      // checkBankBranch: "",
       checkNumber: "",
       chqPrize: "",
       chqNotice: "",
@@ -1313,7 +1313,7 @@ export default {
     },
     payment_validation() {
       if (this.showCredit == false) {
-        this.creditCardName = null;
+        // this.creditCardName = null;
         this.creditNumber = null;
         this.validateCreditCardNo = null;
         this.creditBank = null;
@@ -1330,7 +1330,7 @@ export default {
         this.chqPrize = null;
         this.checkDate = null;
         this.checkBankName = null;
-        this.checkBankBranch = null;
+        // this.checkBankBranch = null;
         this.checkPayment = null;
         this.chqNotice = null;
       }
