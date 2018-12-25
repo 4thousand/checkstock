@@ -319,8 +319,7 @@
                     <!-- v-for -->
                     <div class="col-md-12 col-12" v-for="(val,index) in creditCardList">
                       <div class="form-group row">
-                        <p class="method-set col-lg-4 col-md-12 col-12">บัตรที่{{ index + 1}} :</p>
-                        <div class="col-lg-7 col-md-12 col-12">
+                        <div class="col-lg-12 col-md-12 col-12">
                           <div class="alert alert-info">
                             <a
                               class="close"
@@ -354,8 +353,7 @@
                     <!-- v-for -->
                     <div class="col-md-12 col-12" v-for="(val,index) in chqList">
                       <div class="form-group row">
-                        <p class="method-set col-lg-4 col-md-12 col-12">บัตรที่{{ index + 1}} :</p>
-                        <div class="col-lg-7 col-md-12 col-12">
+                        <div class="col-lg-12 col-md-12 col-12">
                           <div class="alert alert-info">
                             <a
                               class="close"
@@ -363,6 +361,9 @@
                               aria-label="close"
                               @click="removeChq(val,index)"
                             >&times;</a>
+                            <a class="edit close"><i class="material-icons" @click="showEditChq=true,pullChq(index)">
+                              edit
+                            </i></a>
                             <span class="fontsize">เลขบัตร : {{val.chq_number}}</span>
                             <span
                               class="fontsize"
@@ -734,11 +735,11 @@
             <div class="modal-footer">
               <button
                 :disabled="creditType==''||creditBank==''||creditNumber==''||creditPayment==null||typeof(this.creditPayment)=='string'"
-                @click="editCreditCard(index),showEditCredit = false"
+                @click="editCreditCard(),showEditCredit = false"
                 class="btn btn-success"
                 style="margin-top:25px"
               >
-                <span>เพิ่ม</span>
+                <span>แก้ไข</span>
               </button>
               <button
                 style="margin-top:25px"
@@ -833,6 +834,95 @@
                 style="text-align:center"
                 class="btn btn-danger"
                 @click="showChq = false"
+              >ยกเลิก</button>
+            </div>
+          </md-dialog-content>
+        </md-dialog>
+
+        <md-dialog :md-active="showEditChq">
+          <md-dialog-content class="modal-content">
+            <div class="modal-header">
+              <h4>เช็ค</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">
+                    <span style="color:red">*</span> เลขที่เช็ค :
+                  </p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <input class="form-control" v-model="checkNumber">
+                    </p>
+                  </div>
+              </div>
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">
+                    <span style="color:red">*</span> มูลค่าเช็ค :
+                  </p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <input class="form-control" v-model="chqPrize">
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">
+                    <span style="color:red">*</span> ธนาคาร :
+                  </p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <input class="form-control" v-model="checkBankId">
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">
+                    <span style="color:red">*</span> สาขา :
+                  </p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <input class="form-control" v-model="checkBankBranch">
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">
+                    <span style="color:red">*</span> จำนวนเงิน :
+                  </p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <input
+                        class="form-control"
+                        min="0"
+                        v-model.number="checkPayment"
+                        pattern="[0-9]"
+                        type="number"
+                        @change="payment_validation"
+                      >
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <textarea class="form-control" v-model.number="chqNotice" rows="3"></textarea>
+                    </p>
+                  </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                :disabled="checkNumber==''||checkPayment==''||checkBankId==''||typeof(checkPayment)=='string'"
+                @click="editChq(),showEditChq = false"
+                class="btn btn-success"
+              >
+                <span>แก้ไข</span>
+              </button>
+              <button
+                style="text-align:center"
+                class="btn btn-danger"
+                @click="showEditChq = false"
               >ยกเลิก</button>
             </div>
           </md-dialog-content>
@@ -985,6 +1075,8 @@ export default {
       bankReceiverBranch: "",
       billType: "0",
       saleType: "",
+      eCreditPo:null,
+      eChqPo:null,
       //setting.data().setting_saleType
       feeType: "",
       //setting.data().setting_feeType
@@ -996,6 +1088,7 @@ export default {
       showCredit: false,
       showEditCredit: false,
       showChq: false,
+      showEditChq: false,
       confirm: false,
       active: "first",
       first: false,
@@ -1090,16 +1183,17 @@ export default {
       console.log(JSON.stringify(this.creditCardList));
     },
     pullCreditCard(index){
+      this.eCreditPo=index;
       this.creditType=this.creditCardList[index].credit_type;
       this.creditNumber=this.creditCardList[index].credit_card_no;
       this.creditPayment=this.creditCardList[index].amount;
       this.creditBank=parseInt(this.creditCardList[index].bank_id);
     },
-    editCreditCard(index){
-      this.creditCardList[index].credit_type=this.creditType;
-      this.creditCardList[index].credit_card_no=this.creditNumber;
-      this.creditCardList[index].amount=this.creditPayment;
-      this.creditCardList[index].bank_id=parseInt(this.creditBank);
+    editCreditCard(){
+      this.creditCardList[this.eCreditPo].credit_type=this.creditType;
+      this.creditCardList[this.eCreditPo].credit_card_no=this.creditNumber;
+      this.creditCardList[this.eCreditPo].amount=this.creditPayment;
+      this.creditCardList[this.eCreditPo].bank_id=parseInt(this.creditBank);
     },
     removeCreditCard(val, index) {
       // console.log(val)
@@ -1113,6 +1207,19 @@ export default {
         description: this.chqNotice   
       };
       this.chqList.push(chq);
+    },
+    pullChq(index){
+      this.eChqPo=index;
+      this.checkNumber=this.chqList[index].chq_number;
+      this.checkPayment=this.chqList[index].chq_amount;
+      this.checkBankId=parseInt(this.chqList[index].bank_id);
+      this.chqNotice=this.chqList[index].description;
+    },
+    editChq(){
+      this.chqList[this.eChqPo].chq_number= this.checkNumber;
+      this.chqList[this.eChqPo].chq_amount= this.checkPayment;
+      this.chqList[this.eChqPo].bank_id= parseInt(this.checkBankId);
+      this.chqList[this.eChqPo].description= this.chqNotice;
     },
     removeChq(val, index) {
       this.chqList.splice(index);
