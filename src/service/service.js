@@ -5,6 +5,8 @@ import Vueaxios from 'vue-axios'
 Vue.use(Vueaxios, axios)
 
 const URL = 'http://venus.nopadol.com'
+const telURL = 'https://sheetdb.io'
+const smsURL = 'https://api.apitel.co/sms'
 
 export default {
     signin (user, pass, success, error) {
@@ -163,5 +165,38 @@ export default {
         (response) => {
           error(response)
         })
-    }
+    },
+    callTel(success, error) {
+      Vue.axios.get(telURL + '/api/v1/x6r5jxmu9otla').then(
+          (response) => {
+              console.log(response.data)
+              success(response.data)
+          },
+          (response) => {
+              error(response)
+          }
+      )
+  },
+  testCallTel(success, error) {
+      Vue.axios.get(telURL + '/api/v1/e9cklwsj2nqwr').then(
+          (response) => {
+              console.log(response.data)
+              success(response.data)
+          },
+          (response) => {
+              error(response)
+          }
+      )
+  },
+  sendSMS(payload, success, error) {
+      Vue.axios.post(smsURL, payload).then(
+          (response) => {
+              console.log(response.data)
+              success(response.data)
+          },
+          (response) => {
+              error(response)
+          }
+      )
+  }
 }

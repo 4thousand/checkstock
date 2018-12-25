@@ -95,6 +95,11 @@ export default new Router({
       path: '/design',
       name: 'depdesign',
       component: design
+    },
+    {
+      path: '/sms',
+      name: 'sms',
+      component: sms
     }
   ]
 })
