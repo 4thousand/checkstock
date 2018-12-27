@@ -13,6 +13,7 @@ import vSelect from 'vue-select'
 import VueMoment from 'vue-moment'
 import moment from 'moment-timezone'
 import GSignInButton from 'vue-google-signin-button'
+import money from 'v-money'
 
 Vue.use(GSignInButton)
 Vue.use(VueMoment, {
@@ -23,6 +24,7 @@ Vue.use(VueHotkey)
 Vue.use(VueMaterial)
 Vue.config.productionTip = false
 Vue.component('v-select', vSelect)
+Vue.use(money, {precision: 4})
 
 /* eslint-disable no-new */
 new Vue({

@@ -19,6 +19,7 @@
     "jspdf-customfonts": "0.0.4-rc.4",
     "toastr": "^2.1.4",
     "v-hotkey": "^0.2.3",
+    "v-money": "^0.8.1",
     "vue": "^2.5.2",
     "vue-apexcharts": "^1.2.6",
     "vue-axios": "^2.1.3",
