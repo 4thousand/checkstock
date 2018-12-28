@@ -1,5 +1,22 @@
 <?php
-    $depositData=json_decode($_POST[])
+    $depositData=json_decode($_POST['depData'],true);
+    $customerCode=$depositData['ar_code'];
+    $customerName=$depositData['ar_name'];
+    $docno=$depositData['doc_no'];
+    $orderno=$depositData['doc_no'];
+    $cashTTA=$depositData['cash_amount'];
+    $creditTTA=$depositData['creditcard_amount'];
+    $chqTTA=$depositData['chq_amount'];
+    $totalPrice=$depositData['total_amount'];
+    $saleCode=$depositData['sale_code'];
+    $saleName=$depositData['sale_name'];
+    
+    $duedate=$depositData['due_date'];
+    $cutdatepart=explode('-',$duedate);
+    $dueday=$cutdatepart[2];
+    $duemonth=$cutdatepart[1];
+    $dueyear=$cutdatepart[0]+543;
+    $docday=$dueday.'/'.$duemonth.'/'.$dueyear;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -606,26 +623,26 @@
             <div class="customer_info">
                 <div class="settop">
                     <div class="address_padding">
-                        <span>รหัสลูกค้า :</span><span class="cus_no_space"> </span><span>ddd</span>
+                        <span>รหัสลูกค้า :</span><span class="cus_no_space"> </span><span><?php echo $customerCode ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>ชื่อลูกค้า :</span><span class="cus_name_space"> </span><span>ddd</span>
+                        <span>ชื่อลูกค้า :</span><span class="cus_name_space"> </span><span><?php echo $customerName ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>ที่อยู่ :<span class="cus_add_space"> </span>ddddddddddddddd</span>
+                        <span>ที่อยู่ :<span class="cus_add_space"> </span>test</span>
                     </div>
                 </div>
             </div>
             <div class="deposit_info">
                 <div class="settop">
                     <div class="address_padding">
-                        <span>เลขที่เอกสาร :</span><span class="depo_no"> </span><span>sss</span>
+                        <span>เลขที่เอกสาร :</span><span class="depo_no"> </span><span><?php echo $docno ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>วันที่ออกเอกสาร :</span><span class="depo_date"> </span><span>sss</span>
+                        <span>วันที่ออกเอกสาร :</span><span class="depo_date"> </span><span><?php echo $docday ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>เลขที่ใบสั่งจอง :</span><span class="order_no"> </span><span>sss</span>
+                        <span>เลขที่ใบสั่งจอง :</span><span class="order_no"> </span><span>123456</span>
                     </div>
                 </div>
             </div>
@@ -670,7 +687,7 @@
                     <span></span>
                 </div>
                 <div class="priceoftype">
-                    <span class="priceoftype_text">5,348.00</span>
+                    <span class="priceoftype_text"><?php echo $totalPrice ?></span>
                 </div>
             </div>
             <!-- วนลูป -->
@@ -741,7 +758,7 @@
                 </div>
                 <div class="b_total">
                     <div class="one_line">
-                        <span class="one_line_text">5,348.00</span>
+                        <span class="one_line_text"><?php echo $totalPrice ?></span>
                     </div>
                     <div class="two_line">
                         <span class="two_line_text">รวมเงินทั้งสิ้น
@@ -754,7 +771,17 @@
             <div class="final_payment">
                 <div class="cash_payment">
                     <span class="cash_payment_text">ชำระโดย
-                        : เงินโอน <span>5,348.00</span>
+                        <?php
+                            if($cashTTA>0){
+                                echo "<p>เงินสด : "+$cashTTA+"<p>"
+                            }
+                            if($creditTTA>0){
+                                echo "<p>บัตรเครดิต : "+$creditTTA+"<p>"
+                            }
+                            if($chqTTA>0){
+                                echo "<p>เงินสด : "+$chqTTA+"<p>"
+                            }
+                        ?>
                     </span>
                 </div>
             </div>
@@ -791,6 +818,9 @@
                     <span class="save_sig_text">ผู้บันทึกรายการ</span>
                 </div>
                 <div class="employ_sig">
+                    <?php
+                        echo "<p>"+$customerName+"</p>"
+                    ?>
                     <span class="employ_sig_text">พนักงานขาย</span>
                 </div>
                 <div class="depo_sig">
@@ -837,26 +867,26 @@
             <div class="customer_info">
                 <div class="settop">
                     <div class="address_padding">
-                        <span>รหัสลูกค้า :</span><span class="cus_no_space"> </span><span>ddd</span>
+                        <span>รหัสลูกค้า :</span><span class="cus_no_space"> </span><span><?php echo $customerCode ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>ชื่อลูกค้า :</span><span class="cus_name_space"> </span><span>ddd</span>
+                        <span>ชื่อลูกค้า :</span><span class="cus_name_space"> </span><span><?php echo $customerName ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>ที่อยู่ :<span class="cus_add_space"> </span>ddddddddddddddd</span>
+                        <span>ที่อยู่ :<span class="cus_add_space"> </span>test</span>
                     </div>
                 </div>
             </div>
             <div class="deposit_info">
                 <div class="settop">
                     <div class="address_padding">
-                        <span>เลขที่เอกสาร :</span><span class="depo_no"> </span><span>sss</span>
+                        <span>เลขที่เอกสาร :</span><span class="depo_no"> </span><span><?php echo $docno ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>วันที่ออกเอกสาร :</span><span class="depo_date"> </span><span>sss</span>
+                        <span>วันที่ออกเอกสาร :</span><span class="depo_date"> </span><span><?php echo $docday ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>เลขที่ใบสั่งจอง :</span><span class="order_no"> </span><span>sss</span>
+                        <span>เลขที่ใบสั่งจอง :</span><span class="order_no"> </span><span>123456</span>
                     </div>
                 </div>
             </div>
@@ -901,7 +931,7 @@
                     <span></span>
                 </div>
                 <div class="priceoftype">
-                    <span class="priceoftype_text">5,348.00</span>
+                    <span class="priceoftype_text"><?php echo $totalPrice ?></span>
                 </div>
             </div>
             <!-- วนลูป -->
@@ -971,7 +1001,7 @@
                 </div>
                 <div class="b_total">
                     <div class="one_line">
-                        <span class="one_line_text">5,348.00</span>
+                        <span class="one_line_text"><?php echo $totalPrice ?></span>
                     </div>
                     <div class="two_line">
                         <span class="two_line_text">รวมเงินทั้งสิ้น
@@ -984,7 +1014,17 @@
             <div class="final_payment">
                 <div class="cash_payment">
                     <span class="cash_payment_text">ชำระโดย
-                        : เงินโอน <span>5,348.00</span>
+                        <?php
+                            if($cashTTA>0){
+                                echo "<p>เงินสด : "+$cashTTA+"<p>"
+                            }
+                            if($creditTTA>0){
+                                echo "<p>บัตรเครดิต : "+$creditTTA+"<p>"
+                            }
+                            if($chqTTA>0){
+                                echo "<p>เงินสด : "+$chqTTA+"<p>"
+                            }
+                        ?>
                     </span>
                 </div>
             </div>
@@ -1021,6 +1061,9 @@
                     <span class="save_sig_text">ผู้บันทึกรายการ</span>
                 </div>
                 <div class="employ_sig">
+                    <?php
+                        echo "<p>"+$customerName+"</p>"
+                    ?>
                     <span class="employ_sig_text">พนักงานขาย</span>
                 </div>
                 <div class="depo_sig">

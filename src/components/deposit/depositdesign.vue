@@ -605,7 +605,7 @@
                         v-model="creditNumber"
                         maxlength="4"
                         @keypress="isNumber(event)"
-                      >>
+                      >
                     </p>
                   </div>
                 </div>
@@ -915,6 +915,7 @@
                               method="post"
                               target="_blank"
                             >
+                              <input type="hidden" name="depData">
                               <button type="submit" class="btn btn-primary search-icon">Print</button>
                             </form>
                           </div>
@@ -1342,6 +1343,7 @@ export default {
           alertify.error("การส่งข้อมูลผิดพลาด");
         }
       );
+      document.getElementsByName('depData')[0].value = JSON.stringify(payload)
     }
   },
   computed: {
