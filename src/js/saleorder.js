@@ -117,6 +117,20 @@ const toLower = text => {
       isLoading: false,
       fullPage: true,
       index:0,
+      contact:'',
+      //ข้อมูลลูกค้า
+      cus_name:'',
+      cus_timetorecive:'',
+      cus_regis:'',
+      cus_transport:'',
+      cus_etc:'',
+      //ที่อยู่ลูกค้า
+      cus_address:'',
+      cus_district:'',
+      cus_canton:'',
+      cus_province:'',
+      cus_post:'',
+      cus_tel:'',
     }),
    
     methods: {
@@ -461,9 +475,22 @@ const toLower = text => {
             assert_status: parseInt(this.answer_cus),
             depart_id: parseInt(this.iddepartment),
             project_id: parseInt(this.idprojectC),
+            contact: this.contact, //ไม่มีฟิลรับ
             allocate_id: 0,
             is_cancel: 0,
             creator_by: this.creator_by,
+            // ข้อมูล cus ยังไม่มีฟิลรับ จาก database
+            cus_name:this.cus_name,
+            cus_timetorecive:this.cus_timetorecive,
+            cus_regis:this.cus_regis,
+            cus_transport:this.cus_transport,
+            cus_etc:this.cus_etc,
+            cus_address:this.cus_address,
+            cus_district:this.cus_district,
+            cus_canton:this.cus_canton,
+            cus_province:this.cus_province,
+            cus_post:this.cus_post,
+            cus_tel:this.cus_tel,
             subs: this.dproducts,
           }
           console.log("payload : "+payload)

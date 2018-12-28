@@ -192,7 +192,7 @@
   
                   <div class="md-layout-item md-size-10 md-xsmall-size-100" style="text-align:right;">
                     <span class="md-title subnotop">
-                                     0
+                                     0.00
                                     </span>
   
                   </div>
@@ -328,8 +328,8 @@
                         </div> 
                         <div class="md-layout-item md-size-50 md-small-size-100">
                           <md-field>
-                            <label for="last-name">รหัสผู้ติดต่อ</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name" />
+                            <label for="last-name">รหัสผู้ติดต่อ // ไม่มีฟิลรับ</label>
+                            <md-input v-model="contact" name="last-name" id="last-name" autocomplete="family-name"/>
                           </md-field>
                           <md-button style="min-width: 50px;" class="buttonemp" @click="tests">
                             <md-icon>search</md-icon>
@@ -491,7 +491,8 @@
                     <md-card-actions>
                     </md-card-actions>
                   </md-card>
-                    <md-card class="md-layout-item md-size-90 md-small-size-100" :style="{height: docheight}" style="transition:all 0.5s;margin-bottom:8px;">
+
+                    <!-- <md-card class="md-layout-item md-size-90 md-small-size-100" :style="{height: docheight}" style="transition:all 0.5s;margin-bottom:8px;">
                     <md-card-header>
                       <div class="md-title ">กลุ่มเอกสาร
                         <md-switch @change="isshowdoc_fuc" style="position:absolute;right:0;" v-model="isshowdocument">{{ convertshowdoc(isshowdocument) }}</md-switch>
@@ -539,42 +540,49 @@
                     </md-card-content>
                     <md-card-actions>
                     </md-card-actions>
-                  </md-card>
+                  </md-card> -->
   
-                  <md-card class="md-layout-item md-size-90 md-small-size-100">
+                  <md-card class="md-layout-item md-size-90 md-small-size-100" style="margin-bottom:8px">
                     <md-card-header>
-                      <div class="md-title ">เรื่อง</div>
+                      <div class="md-title ">ข้อมูลลูกค้า</div>
                     </md-card-header>
                     <md-card-content>
                       <div class="md-layout md-gutter">
-                        <div class="md-layout-item md-small-size-100">
+                        <div class="md-layout-item md-small-size-50">
                           <md-field>
-                            <label for="first-name subnotop">เรื่อง</label>
-                            <md-input name="first-name" id="first-name" autocomplete="given-name" />
+                            <label for="first-name subnotop">ผู้รับสินค้า</label>
+                            <md-input name="first-name" id="first-name" v-model="cus_name" />
                           </md-field>
                         </div>
+                               <div class="md-layout-item md-small-size-50">
+                          <md-field>
+                            <label for="last-name">เวลาที่รับ</label>
+                            <md-input name="last-name" v-model="cus_timetorecive" id="last-name" autocomplete="family-name" />
+                          </md-field>
+                        </div>
+                    
                       </div>
                       <div class="md-layout md-gutter">
-                        <div class="md-layout-item md-small-size-100">
+                        <div class="md-layout-item md-small-size-50">
                           <md-field>
-                            <label for="last-name subnotop">สิ่งที่ส่งมาด้วย</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name" />
+                            <label for="last-name subnotop">ทะเบียนลูกค้า</label>
+                            <md-input name="last-name" id="last-name" autocomplete="family-name" v-model="cus_regis" />
                           </md-field>
                         </div>
-                      </div>
+                         <div class="md-layout-item md-small-size-50">
+                          <md-field>
+                            <label for="last-name">สถานที่ขนส่ง</label>
+                            <md-input name="last-name" v-model="cus_transport" id="last-name" autocomplete="family-name" />
+                          </md-field>
+                        </div>
+                          </div>
+
+                 
                       <div class="md-layout md-gutter">
                         <div class="md-layout-item md-small-size-100">
                           <md-field>
                             <label for="last-name">หมายเหตุ</label>
-                            <md-input name="last-name" v-model="my_description" id="last-name" autocomplete="family-name" />
-                          </md-field>
-                        </div>
-                      </div>
-                      <div class="md-layout md-gutter">
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="last-name">หมายเหตุ</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name" />
+                            <md-input name="last-name" id="last-name" v-model="cus_etc" autocomplete="family-name" />
                           </md-field>
                         </div>
                       </div>
@@ -582,13 +590,79 @@
                     <md-card-actions>
                     </md-card-actions>
                   </md-card>
+
+                  <transition name="fade">
+                  <md-card v-show="is_condition_send == '1'" class="md-layout-item md-size-90 md-small-size-100">
+                    <md-card-header>
+                      <div class="md-title ">ที่อยู่ลูกค้า</div>
+                    </md-card-header>
+                    <md-card-content>
+                      
+                      <div class="md-layout md-gutter">
+                        <div class="md-layout-item md-small-size-100">
+                          <md-field>
+                            <label for="first-name subnotop">ที่อยู่ (เลขที่, ตึก, ชื่อถนน)</label>
+                            <md-input name="first-name" id="first-name" v-model="cus_address" autocomplete="given-name" />
+                          </md-field>
+                        </div>
+                      </div>
+
+                 
+
+                      <div class="md-layout md-gutter">
+                         <div class="md-layout-item md-small-size-50">
+                          <md-field>
+                            <label for="last-name">ตำบล/แขวง</label>
+                            <md-input name="last-name" v-model="cus_district" id="last-name" autocomplete="family-name" />
+                          </md-field>
+                        </div>
+                        <div class="md-layout-item md-small-size-50">
+                          <md-field>
+                            <label for="last-name subnotop">อำเภอ/เขต</label>
+                            <md-input name="last-name" id="last-name" v-model="cus_canton" autocomplete="family-name" />
+                          </md-field>
+                        </div>
+                        </div>
+
+                      <div class="md-layout md-gutter">
+                          <div class="md-layout-item md-small-size-50">
+                          <md-field>
+                            <label for="last-name">จังหวัด</label>
+                            <md-input name="last-name" v-model="cus_province" id="last-name" autocomplete="family-name" />
+                          </md-field>
+                        </div>
+                        <div class="md-layout-item md-small-size-50">
+                          <md-field>
+                            <label for="last-name">รหัสไปรษณีย์</label>
+                            <md-input name="last-name" id="last-name" v-model="cus_post" autocomplete="family-name" />
+                          </md-field>
+                        </div>
+                      </div>
+                      
+                       <div class="md-layout md-gutter">
+                          <div class="md-layout-item md-xlarge-size-50 md-large-size-50 md-xsmall-size-50 md-small-size-50 md-medium-size-50">
+                          <md-field>
+                            <label for="last-name">เบอร์โทรศัพท์ผู้รับสินค้า</label>
+                            <md-input name="last-name" v-model="cus_tel" id="last-name" autocomplete="family-name" />
+                          </md-field>
+                        </div>
+                      </div>
+
+
+                    </md-card-content>
+                    <md-card-actions>
+                    </md-card-actions>
+                  </md-card>
+                  </transition>
+
+
+                  
                 </form>
               </div>
               <md-button style="float:right;right: 50px;" class="md-raised md-primary" @click="setDone('second', 'third')">บันทึก</md-button>
             </md-step>
   
             <md-step id="third" md-label="Third Step" :md-done.sync="third">
-  
   
               <div class="md-layout md-gutter">
                 <md-toolbar style="padding:30px 0" class="md-primary">
@@ -679,16 +753,17 @@
               </div>
               <md-button class="md-raised md-primary" @click="setDone('third')">สิ้นสุด</md-button>
                     <!-- testprint -->
-              <form id="tax_report" :action="php + '/vue_sale/report_pdf/report_sale.php'" method="post" target="_blank">
+              <form v-show="tablecode == 'SO'" id="tax_report" :action="php + '/vue_sale/report_pdf/report_sale.php'" method="post" target="_blank">
 			      		<input type="hidden" name="datasale">
-                   <md-button type="submit" style="float: right; position: relative; top: -37px;" class="md-raised md-primary">Print</md-button>
-                <!-- <button type="submit">กด</button> -->
+                   <!-- <span style="float:right;">ปริ้นใบสั่งขาย :</span> -->
+                     <md-button type="submit" style="float: right; position: relative; top: -37px;" class="md-raised md-primary">Print ใบสั่งขาย</md-button>
 			      	</form>
-              <form :action="php + '/vue_sale/report_pdf/report_sale.php'" method="post" target="_blank">
+            
+              <form v-show="tablecode == 'RO'" :action="php + '/vue_sale/report_pdf/report_ro.php'" method="post" target="_blank"> -->
 			      		<input type="hidden" name="datasale">
-                   <md-button type="submit" style="float: right; position: relative; top: -37px;right: 10px;" class="md-raised md-primary">PDF</md-button>
-                <!-- <button type="submit">กด</button> -->
-			      	</form>
+                   <md-button type="submit" style="float: right; position: relative; top: -37px;right: 10px;" class="md-raised md-primary">Print ใบสั่งจอง</md-button>
+			      </form>
+
       <!-- testprint -->
             </md-step>
           </md-steppers>
@@ -1008,4 +1083,12 @@
 </script>
 
 <style src="./saleorder.css">
+</style>
+<style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
 </style>
