@@ -17,10 +17,7 @@
                           <span style="color:red">*</span> สาขาที่ขาย :
                         </p>
                         <div class="col-md-8 col-12">
-                          <select
-                            v-model="branchId"
-                            class="form-control"
-                          >
+                          <select v-model="branchId" class="form-control">
                             <option value="1">นพดลพานิช สำนักงานใหญ่</option>
                             <option value="2">เอสซีจี โฮมโซลูชั่น (แยกต้นเปา)</option>
                             <option value="3">Home Expert Paint Shop</option>
@@ -36,10 +33,7 @@
                           <span style="color:red">*</span> ประเภทการขาย :
                         </p>
                         <div class="col-md-8 col-12">
-                          <select
-                            v-model="saleType"
-                            class="form-control"
-                          >
+                          <select v-model="saleType" class="form-control">
                             <option value="0">ขายหน้าร้าน</option>
                             <option value="1">ขายโครงการ</option>
                           </select>
@@ -47,11 +41,11 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row">
+                  <div v-show="selectCustomer==false" class="row">
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
                         <p class="article-set col-md-3 col-12">
-                          <span style="color:red">*</span> รหัสลูกค้า :
+                          <span style="color:red">*</span> ค้นหาลูกค้า :
                         </p>
                         <div class="col-md-8 col-12">
                           <div class="input-group">
@@ -74,19 +68,29 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row">
+                  <div v-show="selectCustomer==true" class="row">
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
                         <p class="article-set col-md-3 col-12">
                           <span style="color:red">*</span> ชื่อลูกค้า :
                         </p>
                         <div class="col-md-8 col-12">
-                          <input
-                            type="text"
-                            disabled
-                            v-model="customerName"
-                            class="form-control disable-control"
-                          >
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              disabled
+                              v-model.number="customerName"
+                              class="form-control disable-control"
+                            >
+                            <div class="input-group-append">
+                              <button
+                                class="btn btn-danger icon-margin search-icon"
+                                @click="selectCustomer = false, customerCode='',customerName='',searchCustomerInput='',customerDetail=[]"
+                              >
+                                <md-icon class="search-icon">highlight_off</md-icon>
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -218,7 +222,7 @@
                       <tbody>
                         <tr
                           class="table-pointer"
-                          @click="searchCustomer(val),showDialog = false"
+                          @click="searchCustomer(val),showDialog = false,selectCustomer=true"
                           v-for="(val,index) in customerDetail"
                           style="text-align:center;cursor:pointer"
                         >
@@ -273,12 +277,7 @@
                             <span style="color:red">*</span> ราคารวม :
                           </p>
                           <div class="col-md-8 col-12">
-                            <input
-                              class="form-control"
-                              min="0"
-                              type="number"
-                              v-model.number="payment"
-                            >
+                            <money class="form-control" min="0" v-model.number="payment" v-bind="money" @keypress="isNumber(event)"></money>
                           </div>
                         </div>
                       </div>
@@ -292,12 +291,7 @@
                             <span style="color:red">*</span> จำนวนเงิน :
                           </p>
                           <div class="col-md-8 col-12">
-                            <input
-                              class="form-control"
-                              min="0"
-                              type="number"
-                              v-model.number="cashPayment"
-                            >
+                            <money class="form-control" min="0" v-model.number="cashPayment" v-bind="money" @keypress="isNumber(event)"></money>
                           </div>
                         </div>
                       </div>
@@ -309,8 +303,7 @@
                     <!-- v-for -->
                     <div class="col-md-12 col-12" v-for="(val,index) in creditCardList">
                       <div class="form-group row">
-                        <p class="method-set col-lg-4 col-md-12 col-12">บัตรที่{{ index + 1}} :</p>
-                        <div class="col-lg-7 col-md-12 col-12">
+                        <div class="col-lg-12 col-md-12 col-12">
                           <div class="alert alert-info">
                             <a
                               class="close"
@@ -318,8 +311,11 @@
                               aria-label="close"
                               @click="removeCreditCard(val,index)"
                             >&times;</a>
-                            <a class="close">
-                              <i class="material-icons">build</i>
+                            <a class="edit close">
+                              <i
+                                class="material-icons"
+                                @click="showEditCredit=true,pullCreditCard(index)"
+                              >edit</i>
                             </a>
                             <span class="fontsize">เลขบัตร : {{val.credit_card_no}}</span>
                             <span class="fontsize">จำนวนเงิน : {{convertToBaht(val.amount)+" บาท"}}</span>
@@ -344,8 +340,7 @@
                     <!-- v-for -->
                     <div class="col-md-12 col-12" v-for="(val,index) in chqList">
                       <div class="form-group row">
-                        <p class="method-set col-lg-4 col-md-12 col-12">บัตรที่{{ index + 1}} :</p>
-                        <div class="col-lg-7 col-md-12 col-12">
+                        <div class="col-lg-12 col-md-12 col-12">
                           <div class="alert alert-info">
                             <a
                               class="close"
@@ -353,6 +348,12 @@
                               aria-label="close"
                               @click="removeChq(val,index)"
                             >&times;</a>
+                            <a class="edit close">
+                              <i
+                                class="material-icons"
+                                @click="showEditChq=true,pullChq(index)"
+                              >edit</i>
+                            </a>
                             <span class="fontsize">เลขบัตร : {{val.chq_number}}</span>
                             <span
                               class="fontsize"
@@ -382,12 +383,7 @@
                             <span style="color:red">*</span> จำนวนเงิน :
                           </p>
                           <div class="col-md-8 col-12">
-                            <input
-                              class="form-control"
-                              min="0"
-                              type="number"
-                              v-model.number="transferPayment"
-                            >
+                            <money class="form-control" min="0" v-model.number="transferPayment" v-bind="money" @keypress="isNumber(event)"></money>
                           </div>
                         </div>
                       </div>
@@ -442,7 +438,7 @@
                     <div class="tax-bottom-part tax-button">
                       <button
                         :disabled="feeType==''||balance<0||balance>0||payment==null||payment==0"
-                        @click="creditDepoitNoApi(),createDepositDocApi();"
+                        @click="createDepositNoApi(),confirm=true;"
                         class="btn btn-primary"
                       >
                         <span>บันทึก</span>
@@ -486,23 +482,18 @@
               <div class="col-md-12 col-12">
                 <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
-                    <span style="color:red">*</span> ชื่อหน้าบัตร :
-                  </p>
-                  <div class="col-lg-7 col-md-12 col-12">
-                    <p>
-                      <input class="form-control" v-model="creditCardName">
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-12 col-12">
-                <div class="row">
-                  <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> เลขที่เครดิต :
                   </p>
                   <div class="col-lg-7 col-md-12 col-12">
                     <p>
-                      <input class="form-control" v-model="creditNumber" v-payment:formatCardNumber>
+                      <input
+                        class="form-control"
+                        type="text"
+                        v-model.number="creditNumber"
+                        maxlength="4"
+                        @keypress="isNumber(event)"
+                        @keyup.enter="getFocus('cr_ref_no')"
+                      >
                     </p>
                   </div>
                 </div>
@@ -514,7 +505,7 @@
                   </p>
                   <div class="col-lg-7 col-md-12 col-12">
                     <p>
-                      <input class="form-control" v-model="validateCreditCardNo">
+                      <input id="cr_ref_no" class="form-control" v-model="validateCreditCardNo" maxlength="6" @keypress="isNumber(event)" ref="refNo" @keyup.enter="getFocus('bank_no')">
                     </p>
                   </div>
                 </div>
@@ -526,7 +517,7 @@
                   </p>
                   <div class="col-lg-7 col-md-12 col-12">
                     <p>
-                      <input class="form-control" v-model="creditBank">
+                      <input id="bank_no" class="form-control" v-model="creditBank" @keyup.enter="getFocus('cr_type')">
                     </p>
                   </div>
                 </div>
@@ -534,11 +525,11 @@
               <div class="col-md-12 col-12">
                 <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
-                    <span style="color:red">*</span> สาขาธนาคาร :
+                    <span style="color:red">*</span> ประเภทบัตร :
                   </p>
                   <div class="col-lg-7 col-md-12 col-12">
                     <p>
-                      <input class="form-control" v-model="creditBranch">
+                      <input id="cr_type" class="form-control" v-model="creditType" @keyup.enter="getFocus('credit_price')">
                     </p>
                   </div>
                 </div>
@@ -550,7 +541,95 @@
                   </p>
                   <div class="col-lg-7 col-md-12 col-12">
                     <p>
-                      <input class="form-control" type="number" v-model="creditPrice">
+                      <money id="credit_price" class="form-control" min="0" v-model.number="creditPrice" v-bind="money" @keypress="isNumber(event)" v-on:keyup.native.enter="getFocus('cr_charge')"></money>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-12">
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">ค่า Charge :</p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <input id="cr_charge" class="form-control" v-model="cardCharge" @change="chargeCal" @keyup.enter="getFocus('cr_notice')">
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-12">
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <textarea id="cr_notice" class="form-control" v-model.number="creditNotice" rows="2" ref="crNotice" @keyup.enter="createCreditCard(),showCredit = false"></textarea>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                :disabled="creditType==''||creditBank==''||(creditNumber.length<4)||(validateCreditCardNo.length<6)||creditPayment==null||typeof(this.creditPayment)=='string'||creditPayment==0"
+                @click="createCreditCard(),showCredit = false"
+                @keyup.enter="createCreditCard(),showCredit = false"
+                ref="crButton"
+                class="btn btn-success"
+                style="margin-top:25px"
+              >
+                <span>เพิ่ม</span>
+              </button>
+              <button
+                style="margin-top:25px"
+                class="btn btn-danger"
+                @click="showCredit = false"
+              >ยกเลิก</button>
+            </div>
+          </md-dialog-content>
+        </md-dialog>
+
+        <md-dialog :md-active="showEditCredit">
+          <md-dialog-content class="modal-content">
+            <div class="modal-header">
+              <h4 style="margin-top:-20px">บัตรเครดิต</h4>
+            </div>
+            <div class="modal-body">
+              <div class="col-md-12 col-12">
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">
+                    <span style="color:red">*</span> เลขที่เครดิต :
+                  </p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <input
+                        class="form-control"
+                        v-model="creditNumber"
+                        maxlength="4"
+                        @keypress="isNumber(event)"
+                      >>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-12">
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">
+                    <span style="color:red">*</span> เลขที่อนุมัติ :
+                  </p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <input class="form-control" v-model="validateCreditCardNo" maxlength="6" @keypress="isNumber(event)">
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-12">
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">
+                    <span style="color:red">*</span> รหัสธนาคาร :
+                  </p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <input id="bank_no" class="form-control" v-model="creditBank">
                     </p>
                   </div>
                 </div>
@@ -570,8 +649,18 @@
               <div class="col-md-12 col-12">
                 <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
-                    <span style="color:red">*</span> ค่า Charge :
+                    <span style="color:red">*</span> ยอดเงิน :
                   </p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <money class="form-control" min="0" v-model.number="creditPrice" v-bind="money" @keypress="isNumber(event)"></money>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-12">
+                <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">ค่า Charge :</p>
                   <div class="col-lg-7 col-md-12 col-12">
                     <p>
                       <input class="form-control" v-model="cardCharge" @change="chargeCal">
@@ -592,17 +681,17 @@
             </div>
             <div class="modal-footer">
               <button
-                :disabled="creditType==''||creditBank==''||creditNumber==''||creditPayment==null||typeof(this.creditPayment)=='string'"
-                @click="createCreditCard(),showCredit = false"
+                :disabled="creditType==''||creditBank==''||creditNumber.length!=4||validateCreditCardNo.length!=6||creditPayment==null||typeof(this.creditPayment)=='string'||creditNumber==0"
+                @click="editCreditCard(),showEditCredit = false"
                 class="btn btn-success"
                 style="margin-top:25px"
               >
-                <span>เพิ่ม</span>
+                <span>แก้ไข</span>
               </button>
               <button
                 style="margin-top:25px"
                 class="btn btn-danger"
-                @click="showCredit = false"
+                @click="showEditCredit = false"
               >ยกเลิก</button>
             </div>
           </md-dialog-content>
@@ -614,37 +703,37 @@
               <h4>เช็ค</h4>
             </div>
             <div class="modal-body">
-                <div class="row">
-                  <p class="method-set col-lg-4 col-md-12 col-12">
-                    <span style="color:red">*</span> เลขที่เช็ค :
+              <div class="row">
+                <p class="method-set col-lg-4 col-md-12 col-12">
+                  <span style="color:red">*</span> เลขที่เช็ค :
+                </p>
+                <div class="col-lg-7 col-md-12 col-12">
+                  <p>
+                    <input class="form-control" v-model="checkNumber" range>
                   </p>
-                  <div class="col-lg-7 col-md-12 col-12">
-                    <p>
-                      <input class="form-control" v-model="checkNumber">
-                    </p>
-                  </div>
+                </div>
               </div>
-                <div class="row">
-                  <p class="method-set col-lg-4 col-md-12 col-12">
-                    <span style="color:red">*</span> มูลค่าเช็ค :
+              <div class="row">
+                <p class="method-set col-lg-4 col-md-12 col-12">
+                  <span style="color:red">*</span> มูลค่าเช็ค :
+                </p>
+                <div class="col-lg-7 col-md-12 col-12">
+                  <p>
+                    <money class="form-control" min="0" v-model.number="chqPrize" v-bind="money" @keypress="isNumber(event)"></money>
                   </p>
-                  <div class="col-lg-7 col-md-12 col-12">
-                    <p>
-                      <input class="form-control" v-model="chqPrize">
-                    </p>
-                  </div>
                 </div>
-                <div class="row">
-                  <p class="method-set col-lg-4 col-md-12 col-12">
-                    <span style="color:red">*</span> ธนาคาร :
+              </div>
+              <div class="row">
+                <p class="method-set col-lg-4 col-md-12 col-12">
+                  <span style="color:red">*</span> ธนาคาร :
+                </p>
+                <div class="col-lg-7 col-md-12 col-12">
+                  <p>
+                    <input class="form-control" v-model="checkBankId">
                   </p>
-                  <div class="col-lg-7 col-md-12 col-12">
-                    <p>
-                      <input class="form-control" v-model="checkBankId">
-                    </p>
-                  </div>
                 </div>
-                <div class="row">
+              </div>
+              <!-- <div class="row">
                   <p class="method-set col-lg-4 col-md-12 col-12">
                     <span style="color:red">*</span> สาขา :
                   </p>
@@ -653,36 +742,29 @@
                       <input class="form-control" v-model="checkBankBranch">
                     </p>
                   </div>
-                </div>
-                <div class="row">
-                  <p class="method-set col-lg-4 col-md-12 col-12">
-                    <span style="color:red">*</span> จำนวนเงิน :
+              </div>-->
+              <div class="row">
+                <p class="method-set col-lg-4 col-md-12 col-12">
+                  <span style="color:red">*</span> จำนวนเงิน :
+                </p>
+                <div class="col-lg-7 col-md-12 col-12">
+                  <p>
+                    <money class="form-control" min="0" v-model.number="checkPayment" v-bind="money" @keypress="isNumber(event)"></money>
                   </p>
-                  <div class="col-lg-7 col-md-12 col-12">
-                    <p>
-                      <input
-                        class="form-control"
-                        min="0"
-                        v-model.number="checkPayment"
-                        pattern="[0-9]"
-                        type="number"
-                        @change="payment_validation"
-                      >
-                    </p>
-                  </div>
                 </div>
-                <div class="form-group row">
-                  <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
-                  <div class="col-lg-7 col-md-12 col-12">
-                    <p>
-                      <textarea class="form-control" v-model.number="chqNotice" rows="3"></textarea>
-                    </p>
-                  </div>
+              </div>
+              <div class="form-group row">
+                <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
+                <div class="col-lg-7 col-md-12 col-12">
+                  <p>
+                    <textarea class="form-control" v-model.number="chqNotice" rows="2"></textarea>
+                  </p>
                 </div>
+              </div>
             </div>
             <div class="modal-footer">
               <button
-                :disabled="checkNumber==''||checkPayment==''||checkBankId==''||typeof(checkPayment)=='string'"
+                :disabled="checkNumber==''||checkPayment==''||checkBankId==''||typeof(checkPayment)=='string'||checkPayment==0"
                 @click="createChq(),showChq = false"
                 class="btn btn-success"
               >
@@ -695,6 +777,96 @@
               >ยกเลิก</button>
             </div>
           </md-dialog-content>
+        </md-dialog>
+
+        <md-dialog :md-active="showEditChq">
+          <md-dialog-content class="modal-content">
+            <div class="modal-header">
+              <h4>เช็ค</h4>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <p class="method-set col-lg-4 col-md-12 col-12">
+                  <span style="color:red">*</span> เลขที่เช็ค :
+                </p>
+                <div class="col-lg-7 col-md-12 col-12">
+                  <p>
+                    <input class="form-control" v-model="checkNumber">
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <p class="method-set col-lg-4 col-md-12 col-12">
+                  <span style="color:red">*</span> มูลค่าเช็ค :
+                </p>
+                <div class="col-lg-7 col-md-12 col-12">
+                  <p>
+                    <money class="form-control" min="0" v-model.number="chqPrize" v-bind="money" @keypress="isNumber(event)"></money>
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <p class="method-set col-lg-4 col-md-12 col-12">
+                  <span style="color:red">*</span> ธนาคาร :
+                </p>
+                <div class="col-lg-7 col-md-12 col-12">
+                  <p>
+                    <input class="form-control" v-model="checkBankId">
+                  </p>
+                </div>
+              </div>
+              <!-- <div class="row">
+                  <p class="method-set col-lg-4 col-md-12 col-12">
+                    <span style="color:red">*</span> สาขา :
+                  </p>
+                  <div class="col-lg-7 col-md-12 col-12">
+                    <p>
+                      <input class="form-control" v-model="checkBankBranch">
+                    </p>
+                  </div>
+              </div>-->
+              <div class="row">
+                <p class="method-set col-lg-4 col-md-12 col-12">
+                  <span style="color:red">*</span> จำนวนเงิน :
+                </p>
+                <div class="col-lg-7 col-md-12 col-12">
+                  <p>
+                    <money class="form-control" min="0" v-model.number="checkPayment" v-bind="money" @keypress="isNumber(event)"></money>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
+                <div class="col-lg-7 col-md-12 col-12">
+                  <p>
+                    <textarea class="form-control" v-model.number="chqNotice" rows="3"></textarea>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                :disabled="checkNumber==''||checkPayment==''||checkBankId==''||typeof(checkPayment)=='string'||checkPayment==0"
+                @click="editChq(),showEditChq = false"
+                class="btn btn-success"
+              >
+                <span>แก้ไข</span>
+              </button>
+              <button
+                style="text-align:center"
+                class="btn btn-danger"
+                @click="showEditChq = false"
+              >ยกเลิก</button>
+            </div>
+          </md-dialog-content>
+        </md-dialog>
+
+        <md-dialog :md-active="confirm">
+          <span>ยื่นยันการบันทึกข้อมูลใบรับเงินมัดจำ</span>
+          <div style="display:flex; align-items:center; justify-content:center;">
+            <button class="btn btn-success" @click="createDepositDocApi(),confirm=false">ตกลง</button>
+            <button class="btn btn-danger" @click="confirm=false">ยกเลิก</button>
+          </div>
         </md-dialog>
       </md-step>
       <md-step id="third" to md-label="สรุปใบรับเงินมัดจำ">
@@ -768,6 +940,7 @@ import api from "../../service/service.js";
 import { ModelSelect } from "vue-search-select";
 import setting from "../../js/setting.js";
 import Loading from "vue-loading-overlay";
+import {Money} from 'v-money';
 
 export default {
   name: "deposit",
@@ -796,22 +969,23 @@ export default {
       infoNotice: "",
       taxrate: setting.data().setting_taxRate,
       click: false,
+      selectCustomer: false,
       searchCustomerInput: "",
       searchEmployeeInput: "",
       php: "http://" + document.domain,
       customerDetail: [],
       QRPaymentPart: false,
-      cashPayment: null,
-      creditPayment: null,
-      checkPayment: null,
-      transferPayment: null,
-      payment: null,
-      creditCardName: "",
+      cashPayment: 0,
+      creditPayment: 0,
+      checkPayment: 0,
+      transferPayment: 0,
+      payment: 0,
+      // creditCardName: "",
       creditNumber: "",
       validateCreditCardNo: "",
       creditType: "",
       creditBank: "",
-      creditBranch: "",
+      // creditBranch: "",
       creditPrice: "",
       cardCharge: "",
       cardChargePrice: "",
@@ -819,7 +993,7 @@ export default {
       creditCardList: [],
       checkBankId: "",
       checkBankName: "",
-      checkBankBranch: "",
+      // checkBankBranch: "",
       checkNumber: "",
       chqPrize: "",
       chqNotice: "",
@@ -834,6 +1008,8 @@ export default {
       bankReceiverBranch: "",
       billType: "0",
       saleType: "",
+      eCreditPo: null,
+      eChqPo: null,
       //setting.data().setting_saleType
       feeType: "",
       //setting.data().setting_feeType
@@ -843,24 +1019,49 @@ export default {
       branchId: "",
       showDialog: false,
       showCredit: false,
+      showEditCredit: false,
       showChq: false,
+      showEditChq: false,
+      confirm: false,
       active: "first",
       first: false,
       second: false,
       third: false,
       profile: JSON.parse(localStorage.Datauser),
-      isLoading: false
+      isLoading: false,
+      money: {
+          decimal: '.',
+          thousands: ',',
+          prefix: '',
+          suffix: ' บาท',
+          precision: 2,
+          masked: false
+        }
     };
   },
   components: {
     VueCtkDateTimePicker,
     ModelSelect,
-    Loading
+    Loading,
+    Money
   },
   use: {
     VueStripePayment
   },
   methods: {
+    isNumber: function(evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+      if (
+        charCode > 31 &&
+        (charCode < 48 || charCode > 57) &&
+        charCode !== 46
+      ) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
     showEditDetail() {
       if (this.id == 0) {
         // alert('หนักหลัก')
@@ -936,18 +1137,44 @@ export default {
       this.creditCardList.push(creditcard);
       console.log(JSON.stringify(this.creditCardList));
     },
+    pullCreditCard(index) {
+      this.eCreditPo = index;
+      this.creditType = this.creditCardList[index].credit_type;
+      this.creditNumber = this.creditCardList[index].credit_card_no;
+      this.creditPayment = this.creditCardList[index].amount;
+      this.creditBank = parseInt(this.creditCardList[index].bank_id);
+    },
+    editCreditCard() {
+      this.creditCardList[this.eCreditPo].credit_type = this.creditType;
+      this.creditCardList[this.eCreditPo].credit_card_no = this.creditNumber;
+      this.creditCardList[this.eCreditPo].amount = this.creditPayment;
+      this.creditCardList[this.eCreditPo].bank_id = parseInt(this.creditBank);
+    },
     removeCreditCard(val, index) {
       // console.log(val)
       this.creditCardList.splice(index);
     },
-    createChq(){
-      var chq={
+    createChq() {
+      var chq = {
         chq_number: this.checkNumber,
         chq_amount: this.checkPayment,
-        bank_id: parseInt(this.checkBankId)  ,
-        description: this.chqNotice   
+        bank_id: parseInt(this.checkBankId),
+        description: this.chqNotice
       };
       this.chqList.push(chq);
+    },
+    pullChq(index) {
+      this.eChqPo = index;
+      this.checkNumber = this.chqList[index].chq_number;
+      this.checkPayment = this.chqList[index].chq_amount;
+      this.checkBankId = parseInt(this.chqList[index].bank_id);
+      this.chqNotice = this.chqList[index].description;
+    },
+    editChq() {
+      this.chqList[this.eChqPo].chq_number = this.checkNumber;
+      this.chqList[this.eChqPo].chq_amount = this.checkPayment;
+      this.chqList[this.eChqPo].bank_id = parseInt(this.checkBankId);
+      this.chqList[this.eChqPo].description = this.chqNotice;
     },
     removeChq(val, index) {
       this.chqList.splice(index);
@@ -1041,11 +1268,11 @@ export default {
     },
     payment_validation() {
       if (this.showCredit == false) {
-        this.creditCardName = null;
+        // this.creditCardName = null;
         this.creditNumber = null;
         this.validateCreditCardNo = null;
         this.creditBank = null;
-        this.creditBranch = null;
+        // this.creditBranch = null;
         this.creditDate = "";
         this.creditPrice = "";
         this.creditType = null;
@@ -1058,10 +1285,16 @@ export default {
         this.chqPrize = null;
         this.checkDate = null;
         this.checkBankName = null;
-        this.checkBankBranch = null;
+        // this.checkBankBranch = null;
         this.checkPayment = null;
         this.chqNotice = null;
       }
+    },
+    checkLength(){
+      return console.log(this.creditNumber.length)
+    },
+    getFocus(id) {
+      document.getElementById(id).focus();
     },
     createDepositDocApi() {
       let payload = {
@@ -1102,7 +1335,6 @@ export default {
         result => {
           console.log(JSON.stringify(result));
           alertify.success("บันทึกข้อมูลใบรับเงินมัดจำเรียบร้อย");
-          console.log(this.checkD);
           this.setDone("second", "third");
         },
         error => {
@@ -1114,7 +1346,6 @@ export default {
   },
   computed: {
     totalPayment() {
-
       if (
         this.cashPayment != null ||
         this.totalCreditPayment != null ||
@@ -1185,6 +1416,9 @@ export default {
     },
     balance() {
       return this.totalPayment - this.total_VAT;
+    },
+    checkLength(){
+      return console.log(this.validateCreditCardNo.length)
     }
   },
   mounted() {
@@ -1192,9 +1426,11 @@ export default {
     // this.setDone('second', 'third')
     this.id = this.$route.params.id;
     this.showEditDetail();
-    console.log(this.feeType)
+    console.log(this.selectCustomer);
+    console.log(this.feeType);
     console.log(this.profile);
     console.log(this.id);
+    console.log(this.creditNumber.length);
   }
 };
 </script>
@@ -1300,6 +1536,10 @@ div {
 
 .next-button {
   float: right;
+}
+
+.edit {
+  margin-right: 15px;
 }
 
 .form-control[readonly] {

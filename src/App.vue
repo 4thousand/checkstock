@@ -55,13 +55,22 @@
               
 
               <md-list-item md-expand>
-                <md-icon>monetization_on</md-icon>
+                <md-icon>store</md-icon>
                 <span class="md-list-item-text">Cashier</span>
 
                 <md-list slot="md-expand">
                   <md-list-item @click="goindex('/depositlist')" class="md-inset"><md-icon style="position:absolute;  left: 16px;">assignment</md-icon><span class="md-list-item-text">ใบรับเงินมัดจำ</span></md-list-item>
                   <md-list-item @click="goindex('/index')" class="md-inset"><md-icon style="position:absolute;  left: 16px;">payment</md-icon><span class="md-list-item-text">ออกบิลขาย</span></md-list-item>
                   <md-list-item @click="goindex('/index')" class="md-inset"> <md-icon style="position:absolute;  left: 16px;">receipt</md-icon> <span class="md-list-item-text">ระบบขายหน้าร้าน</span></md-list-item>
+                </md-list>
+              </md-list-item>
+
+              <md-list-item md-expand v-if(permission)>
+                <md-icon>monetization_on</md-icon>
+                <span class="md-list-item-text">การตลาด</span>
+
+                <md-list slot="md-expand">
+                  <md-list-item @click="goindex('/sms')" class="md-inset"><md-icon style="position:absolute;  left: 16px;">sms</md-icon><span class="md-list-item-text">ระบบ SMS</span></md-list-item>
                 </md-list>
               </md-list-item>
 
@@ -213,6 +222,7 @@ export default {
     icon: "",
     sale_code: "",
     company_name: "",
+    permission:"",
     selectedEmployee: null,
     employees: [
       "Jim Halpert",
@@ -279,6 +289,11 @@ export default {
         this.topicmenucolor = "#f4c20d";
         this.topicmenu = "ใบรับเงินมัดจำ";
         this.icon = "assignment";
+      }
+      if (this.$route.fullPath.search("sms") == 1) {
+        this.topicmenucolor = "red";
+        this.topicmenu = "ระบบ SMS";
+        this.icon = "sms";
       }
     },
     toggleMenu() {

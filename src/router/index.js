@@ -15,6 +15,7 @@ import dashboard from '@/components/dashboard/dashboard'
 import utility from '@/components/utility/utility'
 import prototype from '@/components/dashboard/depositprototype'
 import design from '@/components/deposit/depositdesign'
+import sms from '@/components/mk/sms'
 
 Vue.use(Router)
 
@@ -94,6 +95,11 @@ export default new Router({
       path: '/design',
       name: 'depdesign',
       component: design
+    },
+    {
+      path: '/sms',
+      name: 'sms',
+      component: sms
     }
   ]
 })
