@@ -911,7 +911,7 @@
                           </div>
                           <div class="tax-bottom-part print-button col-4">
                             <form
-                              :action="php + '/vue_sale/report_pdf/report_deposit.html'"
+                              :action="php + '/vue_sale/report_pdf/report_deposit.php'"
                               method="post"
                               target="_blank"
                             >
