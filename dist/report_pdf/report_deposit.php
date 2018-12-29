@@ -687,7 +687,7 @@
                     <span></span>
                 </div>
                 <div class="priceoftype">
-                    <span class="priceoftype_text"><?php echo $totalPrice; ?></span>
+                    <span class="priceoftype_text"><?php echo number_format((float)$totalPrice,2,'.',''); ?></span>
                 </div>
             </div>
             <!-- วนลูป -->
