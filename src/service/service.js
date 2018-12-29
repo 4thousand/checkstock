@@ -7,6 +7,7 @@ Vue.use(Vueaxios, axios)
 const URL = 'http://venus.nopadol.com'
 const telURL = 'https://sheetdb.io'
 const smsURL = 'https://api.apitel.co/sms'
+const test = 'http://192.168.0.83:8080/v2/atm/auth'
 
 export default {
     signin (user, pass, success, error) {
@@ -198,5 +199,16 @@ export default {
               error(response)
           }
       )
-  }
+  },
+  tester(payload, success, error) {
+    Vue.axios.post(test, payload).then(
+        (response) => {
+            console.log(response.data)
+            success(response.data)
+        },
+        (response) => {
+            error(response)
+        }
+    )
+}
 }

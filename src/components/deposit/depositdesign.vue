@@ -17,7 +17,7 @@
                           <span style="color:red">*</span> สาขาที่ขาย :
                         </p>
                         <div class="col-md-8 col-12">
-                          <select v-model="branchId" class="form-control">
+                          <select id="branch" v-model="branchId" class="form-control" @click="getFocus('saleType')">
                             <option value="1">นพดลพานิช สำนักงานใหญ่</option>
                             <option value="2">เอสซีจี โฮมโซลูชั่น (แยกต้นเปา)</option>
                             <option value="3">Home Expert Paint Shop</option>
@@ -33,7 +33,7 @@
                           <span style="color:red">*</span> ประเภทการขาย :
                         </p>
                         <div class="col-md-8 col-12">
-                          <select v-model="saleType" class="form-control">
+                          <select id="saletype" v-model="saleType" class="form-control">
                             <option value="0">ขายหน้าร้าน</option>
                             <option value="1">ขายโครงการ</option>
                           </select>
@@ -170,7 +170,7 @@
                       <div class="form-group row">
                         <p class="article-set col-md-3 col-12">หมายเหตุ :</p>
                         <div class="col-md-8 col-12">
-                          <textarea class="form-control" v-model="infoNotice" rows="5"></textarea>
+                          <textarea id="depNotice" class="form-control" v-model="infoNotice" rows="5"></textarea>
                         </div>
                       </div>
                     </div>
@@ -206,8 +206,11 @@
                 <div class="modal-body">
                   <label>รหัสลูกค้า</label>
                   <input
+                    id="searchCT"
                     class="form-control"
-                    @keyup.enter="searchCustomerAllKeyApi"
+                    v-autofocus
+                    @keypress="searchCustomerAllKeyApi"
+                    @keydown="searchCustomerAllKeyApi"
                     v-model="searchCustomerInput"
                   >
                   <div class="table-responsive">
@@ -491,6 +494,7 @@
                         type="text"
                         v-model.number="creditNumber"
                         maxlength="4"
+                        v-autofocus
                         @keypress="isNumber(event)"
                         @keyup.enter="getFocus('cr_ref_no')"
                       >

@@ -17,6 +17,8 @@
                           <span style="color:red">*</span> สาขาที่ขาย :
                         </p>
                         <div class="col-md-8 col-12">
+                          <button @click="tpost()"
+                          >3333</button>
                           <select
                             v-model="branchId"
                             class="form-control"
@@ -1335,6 +1337,20 @@ export default {
         this.receiveName = null;
         this.transferPayment = null;
       }
+    },
+    tpost(){
+      let payload={
+        vending_uuid:"87679e4093644ede9c8479b56585e429"
+      }
+      api.tester(
+        payload,
+        result => {
+          console.log(JSON.stringify(result));
+        },
+        error => {
+          console.log(JSON.stringify(error));
+        }
+      );
     },
     createDepositDocApi() {
       let payload = {

@@ -623,10 +623,10 @@
             <div class="customer_info">
                 <div class="settop">
                     <div class="address_padding">
-                        <span>รหัสลูกค้า :</span><span class="cus_no_space"> </span><span><?php echo $customerCode ?></span>
+                        <span>รหัสลูกค้า :</span><span class="cus_no_space"> </span><span><?php echo $customerCode; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>ชื่อลูกค้า :</span><span class="cus_name_space"> </span><span><?php echo $customerName ?></span>
+                        <span>ชื่อลูกค้า :</span><span class="cus_name_space"> </span><span><?php echo $customerName; ?></span>
                     </div>
                     <div class="address_padding">
                         <span>ที่อยู่ :<span class="cus_add_space"> </span>test</span>
@@ -636,10 +636,10 @@
             <div class="deposit_info">
                 <div class="settop">
                     <div class="address_padding">
-                        <span>เลขที่เอกสาร :</span><span class="depo_no"> </span><span><?php echo $docno ?></span>
+                        <span>เลขที่เอกสาร :</span><span class="depo_no"> </span><span><?php echo $docno; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>วันที่ออกเอกสาร :</span><span class="depo_date"> </span><span><?php echo $docday ?></span>
+                        <span>วันที่ออกเอกสาร :</span><span class="depo_date"> </span><span><?php echo $docday; ?></span>
                     </div>
                     <div class="address_padding">
                         <span>เลขที่ใบสั่งจอง :</span><span class="order_no"> </span><span>123456</span>
@@ -687,7 +687,7 @@
                     <span></span>
                 </div>
                 <div class="priceoftype">
-                    <span class="priceoftype_text"><?php echo $totalPrice ?></span>
+                    <span class="priceoftype_text"><?php echo $totalPrice; ?></span>
                 </div>
             </div>
             <!-- วนลูป -->
@@ -758,7 +758,7 @@
                 </div>
                 <div class="b_total">
                     <div class="one_line">
-                        <span class="one_line_text"><?php echo $totalPrice ?></span>
+                        <span class="one_line_text"><?php echo $totalPrice; ?></span>
                     </div>
                     <div class="two_line">
                         <span class="two_line_text">รวมเงินทั้งสิ้น
@@ -773,13 +773,13 @@
                     <span class="cash_payment_text">ชำระโดย
                         <?php
                             if($cashTTA>0){
-                                echo "<p>เงินสด : "+$cashTTA+"<p>"
+                                echo "<p>เงินสด : "+$cashTTA+"<p>";
                             }
                             if($creditTTA>0){
-                                echo "<p>บัตรเครดิต : "+$creditTTA+"<p>"
+                                echo "<p>บัตรเครดิต : "+$creditTTA+"<p>";
                             }
                             if($chqTTA>0){
-                                echo "<p>เงินสด : "+$chqTTA+"<p>"
+                                echo "<p>เงินสด : "+$chqTTA+"<p>";
                             }
                         ?>
                     </span>
@@ -819,7 +819,7 @@
                 </div>
                 <div class="employ_sig">
                     <?php
-                        echo "<p>"+$customerName+"</p>"
+                        echo "<p>"+$customerName+"</p>";
                     ?>
                     <span class="employ_sig_text">พนักงานขาย</span>
                 </div>
@@ -867,10 +867,10 @@
             <div class="customer_info">
                 <div class="settop">
                     <div class="address_padding">
-                        <span>รหัสลูกค้า :</span><span class="cus_no_space"> </span><span><?php echo $customerCode ?></span>
+                        <span>รหัสลูกค้า :</span><span class="cus_no_space"> </span><span><?php echo $customerCode; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>ชื่อลูกค้า :</span><span class="cus_name_space"> </span><span><?php echo $customerName ?></span>
+                        <span>ชื่อลูกค้า :</span><span class="cus_name_space"> </span><span><?php echo $customerName; ?></span>
                     </div>
                     <div class="address_padding">
                         <span>ที่อยู่ :<span class="cus_add_space"> </span>test</span>
@@ -880,10 +880,10 @@
             <div class="deposit_info">
                 <div class="settop">
                     <div class="address_padding">
-                        <span>เลขที่เอกสาร :</span><span class="depo_no"> </span><span><?php echo $docno ?></span>
+                        <span>เลขที่เอกสาร :</span><span class="depo_no"> </span><span><?php echo $docno; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>วันที่ออกเอกสาร :</span><span class="depo_date"> </span><span><?php echo $docday ?></span>
+                        <span>วันที่ออกเอกสาร :</span><span class="depo_date"> </span><span><?php echo $docday; ?></span>
                     </div>
                     <div class="address_padding">
                         <span>เลขที่ใบสั่งจอง :</span><span class="order_no"> </span><span>123456</span>
@@ -931,7 +931,7 @@
                     <span></span>
                 </div>
                 <div class="priceoftype">
-                    <span class="priceoftype_text"><?php echo $totalPrice ?></span>
+                    <span class="priceoftype_text"><?php echo $totalPrice; ?></span>
                 </div>
             </div>
             <!-- วนลูป -->
@@ -1001,7 +1001,7 @@
                 </div>
                 <div class="b_total">
                     <div class="one_line">
-                        <span class="one_line_text"><?php echo $totalPrice ?></span>
+                        <span class="one_line_text"><?php echo $totalPrice; ?></span>
                     </div>
                     <div class="two_line">
                         <span class="two_line_text">รวมเงินทั้งสิ้น
@@ -1016,13 +1016,13 @@
                     <span class="cash_payment_text">ชำระโดย
                         <?php
                             if($cashTTA>0){
-                                echo "<p>เงินสด : "+$cashTTA+"<p>"
+                                echo "<p>เงินสด : "+$cashTTA+"<p>";
                             }
                             if($creditTTA>0){
-                                echo "<p>บัตรเครดิต : "+$creditTTA+"<p>"
+                                echo "<p>บัตรเครดิต : "+$creditTTA+"<p>";
                             }
                             if($chqTTA>0){
-                                echo "<p>เงินสด : "+$chqTTA+"<p>"
+                                echo "<p>เงินสด : "+$chqTTA+"<p>";
                             }
                         ?>
                     </span>
@@ -1062,7 +1062,7 @@
                 </div>
                 <div class="employ_sig">
                     <?php
-                        echo "<p>"+$customerName+"</p>"
+                        echo "<p>"+$customerName+"</p>";
                     ?>
                     <span class="employ_sig_text">พนักงานขาย</span>
                 </div>

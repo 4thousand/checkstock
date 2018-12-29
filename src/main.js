@@ -14,6 +14,7 @@ import VueMoment from 'vue-moment'
 import moment from 'moment-timezone'
 import GSignInButton from 'vue-google-signin-button'
 import money from 'v-money'
+import autofocus from 'vue-autofocus-directive';
 
 Vue.use(GSignInButton)
 Vue.use(VueMoment, {
@@ -25,6 +26,7 @@ Vue.use(VueMaterial)
 Vue.config.productionTip = false
 Vue.component('v-select', vSelect)
 Vue.use(money, {precision: 4})
+Vue.directive('autofocus', autofocus);
 
 /* eslint-disable no-new */
 new Vue({
