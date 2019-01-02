@@ -2,11 +2,14 @@
     $depositData=json_decode($_POST['depData'],true);
     $customerCode=$depositData['ar_code'];
     $customerName=$depositData['ar_name'];
+    $customerAddress=$depositData['ar_bill_address'];
+    $customerPhone=$depositData['ar_telephone']
     $docno=$depositData['doc_no'];
     $orderno=$depositData['doc_no'];
     $cashTTA=$depositData['cash_amount'];
     $creditTTA=$depositData['creditcard_amount'];
     $chqTTA=$depositData['chq_amount'];
+    $bankTTA=$depositData['bank_amount'];
     $totalPrice=$depositData['total_amount'];
     $saleCode=$depositData['sale_code'];
     $saleName=$depositData['sale_name'];
@@ -629,7 +632,8 @@
                         <span>ชื่อลูกค้า :</span><span class="cus_name_space"> </span><span><?php echo $customerName; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>ที่อยู่ :<span class="cus_add_space"> </span>test</span>
+                        <span>ที่อยู่ :<span class="cus_add_space"> </span><?php echo $customerAddress; ?></span>
+                        <span>เบอร์โทร :<span class="cus_add_space"> </span><?php echo $customerPhone; ?></span>
                     </div>
                 </div>
             </div>
@@ -687,7 +691,7 @@
                     <span></span>
                 </div>
                 <div class="priceoftype">
-                    <span class="priceoftype_text"><?php echo $totalPrice; ?></span>
+                    <span class="priceoftype_text"><?php echo number_format((float)$totalPrice,2,'.',''); ?></span>
                 </div>
             </div>
             <!-- วนลูป -->
@@ -781,6 +785,9 @@
                             if($chqTTA>0){
                                 echo "<p>เงินสด : "+$chqTTA+"<p>";
                             }
+                            if($bankTTA>0){
+                                echo "<p>เงินสด : "+$bankTTA+"<p>";
+                            }
                         ?>
                     </span>
                 </div>
@@ -873,7 +880,8 @@
                         <span>ชื่อลูกค้า :</span><span class="cus_name_space"> </span><span><?php echo $customerName; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>ที่อยู่ :<span class="cus_add_space"> </span>test</span>
+                        <span>ที่อยู่ :<span class="cus_add_space"> </span><?php echo $customerAddress; ?></span>
+                        <span>เบอร์โทร :<span class="cus_add_space"> </span><?php echo $customerPhone; ?></span>
                     </div>
                 </div>
             </div>
@@ -1023,6 +1031,9 @@
                             }
                             if($chqTTA>0){
                                 echo "<p>เงินสด : "+$chqTTA+"<p>";
+                            }
+                            if($bankTTA>0){
+                                echo "<p>เงินสด : "+$bankTTA+"<p>";
                             }
                         ?>
                     </span>
