@@ -839,7 +839,7 @@
                     <span class="receive_sig_text">ผู้รับเงิน</span>
                 </div>
                 <div class="baht_sig">
-                    <span class="baht_sig_text">ห้าพันสามร้อยสี่สิบแปดบาทถ้วน</span>
+                    <span class="baht_sig_text"><span id="showThaiBaht"></span></span>
                 </div>
             </div>
         </div>
@@ -1085,15 +1085,19 @@
                     <span class="receive_sig_text">ผู้รับเงิน</span>
                 </div>
                 <div class="baht_sig">
-                    <span class="baht_sig_text">ห้าพันสามร้อยสี่สิบแปดบาทถ้วน</span>
+                    <span class="baht_sig_text"><span id="showThaiBaht"></span></span>
                 </div>
             </div>
         </div>
     </div>
 
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="convertthaimoney.js"></script>
+    <script>
+        var thaiBaht="<?php echo $totalPrice ?>";
+        thaiBaht=ArabicNumberToText(thaiBaht)
+        document.getElementById("showThaiBaht").innerHTML = thaiBaht;
+    </script>
 </body>
 
 </html>
