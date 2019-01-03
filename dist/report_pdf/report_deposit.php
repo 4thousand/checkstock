@@ -643,13 +643,13 @@
             <div class="deposit_info">
                 <div class="settop">
                     <div class="address_padding">
-                        <span>เลขที่เอกสาร :</span> <span class="depo_no"></span><span><?php echo $docno; ?></span>
+                        <span>เลขที่เอกสาร :</span><span class="depo_no"> </span><span><?php echo $docno; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>วันที่ออกเอกสาร :</span> <span class="depo_date"></span><span><?php echo $docday; ?></span>
+                        <span>วันที่ออกเอกสาร :</span><span class="depo_date"> </span><span><?php echo $docday; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>เลขที่ใบสั่งจอง :</span> <span class="order_no"></span><span>123456</span>
+                        <span>เลขที่ใบสั่งจอง :</span><span class="order_no"> </span><span>123456</span>
                     </div>
                 </div>
             </div>
