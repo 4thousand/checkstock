@@ -19,7 +19,7 @@
     
     $duedate=$depositData['due_date'];
     $cutdatepart=explode('-',$duedate);
-    $dueday=$cutdatepart[2];
+    $dueday=$cutdatepart[2]-1;
     $duemonth=$cutdatepart[1];
     $dueyear=$cutdatepart[0]+543;
     $docday=$dueday.'/'.$duemonth.'/'.$dueyear;
