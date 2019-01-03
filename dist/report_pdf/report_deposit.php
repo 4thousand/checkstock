@@ -3,7 +3,7 @@
     $customerCode=$depositData['ar_code'];
     $customerName=$depositData['ar_name'];
     $customerAddress=$depositData['ar_bill_address'];
-    $customerPhone=$depositData['ar_telephone']
+    $customerPhone=$depositData['ar_telephone'];
     $docno=$depositData['doc_no'];
     $orderno=$depositData['doc_no'];
     $cashTTA=$depositData['cash_amount'];
@@ -691,7 +691,7 @@
                     <span></span>
                 </div>
                 <div class="priceoftype">
-                    <span class="priceoftype_text"><?php echo number_format((float)$totalPrice,2,'.',''); ?></span>
+                    <span class="priceoftype_text"></span>
                 </div>
             </div>
             <!-- วนลูป -->
@@ -762,7 +762,7 @@
                 </div>
                 <div class="b_total">
                     <div class="one_line">
-                        <span class="one_line_text"><?php echo $totalPrice; ?></span>
+                        <span class="one_line_text"><?php echo number_format((float)$totalPrice,2,'.',''); ?></span>
                     </div>
                     <div class="two_line">
                         <span class="two_line_text">รวมเงินทั้งสิ้น
