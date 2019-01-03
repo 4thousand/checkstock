@@ -783,13 +783,13 @@
                                 echo "<p>เงินสด : ",number_format((float)$cashTTA,2,'.',''),"<p>";
                             }
                             if($creditTTA>0){
-                                echo "<p>บัตรเครดิต : ",echo number_format((float)$creditTTA,2,'.',''),"<p>";
+                                echo "<p>บัตรเครดิต : ",number_format((float)$creditTTA,2,'.',''),"<p>";
                             }
                             if($chqTTA>0){
-                                echo "<p>เช็ค : ",echo number_format((float)$chqTTA,2,'.',''),"<p>";
+                                echo "<p>เช็ค : ",number_format((float)$chqTTA,2,'.',''),"<p>";
                             }
                             if($bankTTA>0){
-                                echo "<p>เงินโอน : ",echo number_format((float)$bankTTA,2,'.',''),"<p>";
+                                echo "<p>เงินโอน : ",number_format((float)$bankTTA,2,'.',''),"<p>";
                             }
                         ?>
                     </span>
