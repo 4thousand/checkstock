@@ -629,10 +629,10 @@
             <div class="customer_info">
                 <div class="settop">
                     <div class="address_padding">
-                        <span>รหัสลูกค้า :</span> <span class="cus_no_space"></span><span><?php echo $customerCode; ?></span>
+                        <span>รหัสลูกค้า :</span><span class="cus_no_space"> </span><span><?php echo $customerCode; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>ชื่อลูกค้า :</span> <span class="cus_name_space"></span><span><?php echo $customerName; ?></span>
+                        <span>ชื่อลูกค้า :</span><span class="cus_name_space"> </span><span><?php echo $customerName; ?></span>
                     </div>
                     <div class="address_padding">
                         <span>ที่อยู่ : <span class="cus_add_space"></span><?php echo $customerAddress; ?></span>
