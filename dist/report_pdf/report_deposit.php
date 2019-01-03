@@ -1085,7 +1085,7 @@
                     <span class="receive_sig_text">ผู้รับเงิน</span>
                 </div>
                 <div class="baht_sig">
-                    <span class="baht_sig_text"><span id="showThaiBaht"></span></span>
+                    <span class="baht_sig_text"><span id="copyShowThaiBaht"></span></span>
                 </div>
             </div>
         </div>
@@ -1097,6 +1097,7 @@
         var thaiBaht="<?php echo $totalPrice ?>";
         thaiBaht=ArabicNumberToText(thaiBaht)
         document.getElementById("showThaiBaht").innerHTML = thaiBaht;
+        document.getElementById("copyShowThaiBaht").innerHTML = thaiBaht;
     </script>
 </body>
 
