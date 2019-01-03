@@ -13,6 +13,9 @@
     $totalPrice=$depositData['total_amount'];
     $saleCode=$depositData['sale_code'];
     $saleName=$depositData['sale_name'];
+    $taxRate=$depositData['tax_rate'];
+    $priceExtendTax=$totalPrice*(100/(100+$taxRate));
+    $tax=$totalPrice-$priceExtendTax;
     
     $duedate=$depositData['due_date'];
     $cutdatepart=explode('-',$duedate);
@@ -640,13 +643,13 @@
             <div class="deposit_info">
                 <div class="settop">
                     <div class="address_padding">
-                        <span>เลขที่เอกสาร :</span><span class="depo_no"> </span><span><?php echo $docno; ?></span>
+                        <span>เลขที่เอกสาร :</span><span class="depo_no"></span><span><?php echo $docno; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>วันที่ออกเอกสาร :</span><span class="depo_date"> </span><span><?php echo $docday; ?></span>
+                        <span>วันที่ออกเอกสาร :</span><span class="depo_date"></span><span><?php echo $docday; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>เลขที่ใบสั่งจอง :</span><span class="order_no"> </span><span>123456</span>
+                        <span>เลขที่ใบสั่งจอง :</span><span class="order_no"></span><span>123456</span>
                     </div>
                 </div>
             </div>
@@ -691,7 +694,7 @@
                     <span></span>
                 </div>
                 <div class="priceoftype">
-                    <span class="priceoftype_text"></span>
+                    <span class="priceoftype_text"><?php echo number_format((float)$totalPrice,2,'.',''); ?></span>
                 </div>
             </div>
             <!-- วนลูป -->
@@ -744,7 +747,7 @@
             <div class="cal_part">
                 <div class="b_tax">
                     <div class="one_line">
-                        <span class="one_line_text">4998.13</span>
+                        <span class="one_line_text"><?php echo number_format((float)$priceExtendTax,2,'.',''); ?></span>
                     </div>
                     <div class="two_line">
                         <span class="two_line_text">จำนวนเงินก่อนภาษี
@@ -753,7 +756,7 @@
                 </div>
                 <div class="b_vat">
                     <div class="one_line">
-                        <span class="one_line_text">349.87</span>
+                        <span class="one_line_text"><?php echo number_format((float)$tax,2,'.',''); ?></span>
                     </div>
                     <div class="two_line">
                         <span class="two_line_text">ภาษีมูลค่าเพิ่ม
@@ -777,16 +780,16 @@
                     <span class="cash_payment_text">ชำระโดย
                         <?php
                             if($cashTTA>0){
-                                echo "<p>เงินสด : "+$cashTTA+"<p>";
+                                echo "<p>เงินสด : ",$cashTTA,"<p>";
                             }
                             if($creditTTA>0){
-                                echo "<p>บัตรเครดิต : "+$creditTTA+"<p>";
+                                echo "<p>บัตรเครดิต : ",$creditTTA,"<p>";
                             }
                             if($chqTTA>0){
-                                echo "<p>เงินสด : "+$chqTTA+"<p>";
+                                echo "<p>เงินสด : ",$chqTTA,"<p>";
                             }
                             if($bankTTA>0){
-                                echo "<p>เงินสด : "+$bankTTA+"<p>";
+                                echo "<p>เงินสด : ",$bankTTA,"<p>";
                             }
                         ?>
                     </span>
@@ -880,8 +883,8 @@
                         <span>ชื่อลูกค้า :</span><span class="cus_name_space"> </span><span><?php echo $customerName; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>ที่อยู่ :<span class="cus_add_space"> </span><?php echo $customerAddress; ?></span>
-                        <span>เบอร์โทร :<span class="cus_add_space"> </span><?php echo $customerPhone; ?></span>
+                        <span>ที่อยู่ :<span class="cus_add_space"></span><?php echo $customerAddress; ?></span>
+                        <span>เบอร์โทร :<span class="cus_add_space"></span><?php echo $customerPhone; ?></span>
                     </div>
                 </div>
             </div>
@@ -939,7 +942,7 @@
                     <span></span>
                 </div>
                 <div class="priceoftype">
-                    <span class="priceoftype_text"><?php echo $totalPrice; ?></span>
+                    <span class="priceoftype_text"><?php echo number_format((float)$totalPrice,2,'.',''); ?></span>
                 </div>
             </div>
             <!-- วนลูป -->
@@ -991,7 +994,7 @@
             <div class="cal_part">
                 <div class="b_tax">
                     <div class="one_line">
-                        <span class="one_line_text">4998.13</span>
+                        <span class="one_line_text"><?php echo number_format((float)$priceExtendTax,2,'.',''); ?></span>
                     </div>
                     <div class="two_line">
                         <span class="two_line_text">จำนวนเงินก่อนภาษี
@@ -1000,7 +1003,7 @@
                 </div>
                 <div class="b_vat">
                     <div class="one_line">
-                        <span class="one_line_text">349.87</span>
+                        <span class="one_line_text"><?php echo number_format((float)$tax,2,'.',''); ?></span>
                     </div>
                     <div class="two_line">
                         <span class="two_line_text">ภาษีมูลค่าเพิ่ม
@@ -1009,7 +1012,7 @@
                 </div>
                 <div class="b_total">
                     <div class="one_line">
-                        <span class="one_line_text"><?php echo $totalPrice; ?></span>
+                        <span class="one_line_text"><?php echo number_format((float)$totalPrice,2,'.',''); ?></span>
                     </div>
                     <div class="two_line">
                         <span class="two_line_text">รวมเงินทั้งสิ้น
@@ -1024,16 +1027,16 @@
                     <span class="cash_payment_text">ชำระโดย
                         <?php
                             if($cashTTA>0){
-                                echo "<p>เงินสด : "+$cashTTA+"<p>";
+                                echo "<p>เงินสด : ",$cashTTA,"<p>";
                             }
                             if($creditTTA>0){
-                                echo "<p>บัตรเครดิต : "+$creditTTA+"<p>";
+                                echo "<p>เงินสด : ",$creditTTA,"<p>";
                             }
                             if($chqTTA>0){
-                                echo "<p>เงินสด : "+$chqTTA+"<p>";
+                                echo "<p>เงินสด : ",$chqTTA,"<p>";
                             }
                             if($bankTTA>0){
-                                echo "<p>เงินสด : "+$bankTTA+"<p>";
+                                echo "<p>เงินสด : ",$bankTTA,"<p>";
                             }
                         ?>
                     </span>
@@ -1073,7 +1076,7 @@
                 </div>
                 <div class="employ_sig">
                     <?php
-                        echo "<p>"+$customerName+"</p>";
+                        echo "<p>",$customerName,"</p>";
                     ?>
                     <span class="employ_sig_text">พนักงานขาย</span>
                 </div>
