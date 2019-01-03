@@ -780,16 +780,16 @@
                     <span class="cash_payment_text"><p style='margin-bottom:5px'>ชำระโดย</p></span>
                     <?php
                             if($cashTTA>0){
-                                echo "<p style='margin-bottom:5px'>เงินสด : ",number_format((float)$cashTTA,2,'.',''),"</p>";
+                                echo "<p class='cash_payment_text' style='margin-bottom:5px'>เงินสด : ",number_format((float)$cashTTA,2,'.',''),"</p>";
                             }
                             if($creditTTA>0){
-                                echo "<p style='margin-bottom:5px'>บัตรเครดิต : ",number_format((float)$creditTTA,2,'.',''),"</p>";
+                                echo "<p class='cash_payment_text' style='margin-bottom:5px'>บัตรเครดิต : ",number_format((float)$creditTTA,2,'.',''),"</p>";
                             }
                             if($chqTTA>0){
-                                echo "<p style='margin-bottom:5px'>เช็ค : ",number_format((float)$chqTTA,2,'.',''),"</p>";
+                                echo "<p class='cash_payment_text' style='margin-bottom:5px'>เช็ค : ",number_format((float)$chqTTA,2,'.',''),"</p>";
                             }
                             if($bankTTA>0){
-                                echo "<p style='margin-bottom:5px'>เงินโอน : ",number_format((float)$bankTTA,2,'.',''),"</p>";
+                                echo "<p class='cash_payment_text' style='margin-bottom:5px'>เงินโอน : ",number_format((float)$bankTTA,2,'.',''),"</p>";
                             }
                         ?>
                 </div>
@@ -1026,16 +1026,16 @@
                     <span class="cash_payment_text"><p style='margin-bottom:5px'>ชำระโดย</p></span>
                     <?php
                             if($cashTTA>0){
-                                echo "<p style='margin-bottom:5px'>เงินสด : ",number_format((float)$cashTTA,2,'.',''),"</p>";
+                                echo "<p class='cash_payment_text' style='margin-bottom:5px'>เงินสด : ",number_format((float)$cashTTA,2,'.',''),"</p>";
                             }
                             if($creditTTA>0){
-                                echo "<p style='margin-bottom:5px'>บัตรเครดิต : ",number_format((float)$creditTTA,2,'.',''),"</p>";
+                                echo "<p class='cash_payment_text' style='margin-bottom:5px'>บัตรเครดิต : ",number_format((float)$creditTTA,2,'.',''),"</p>";
                             }
                             if($chqTTA>0){
-                                echo "<p style='margin-bottom:5px'>เช็ค : ",number_format((float)$chqTTA,2,'.',''),"</p>";
+                                echo "<p class='cash_payment_text' style='margin-bottom:5px'>เช็ค : ",number_format((float)$chqTTA,2,'.',''),"</p>";
                             }
                             if($bankTTA>0){
-                                echo "<p style='margin-bottom:5px'>เงินโอน : ",number_format((float)$bankTTA,2,'.',''),"</p>";
+                                echo "<p class='cash_payment_text' style='margin-bottom:5px'>เงินโอน : ",number_format((float)$bankTTA,2,'.',''),"</p>";
                             }
                         ?>
                 </div>
