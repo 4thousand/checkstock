@@ -777,8 +777,8 @@
             <!-- วิธีการชำระเงิน -->
             <div class="final_payment">
                 <div class="cash_payment">
-                    <span class="cash_payment_text"><p style='margin-bottom:5px'>ชำระโดย</p>
-                        <?php
+                    <span class="cash_payment_text"><p style='margin-bottom:5px'>ชำระโดย</p></span>
+                    <?php
                             if($cashTTA>0){
                                 echo "<p style='margin-bottom:5px'>เงินสด : ",number_format((float)$cashTTA,2,'.',''),"</p>";
                             }
@@ -792,7 +792,6 @@
                                 echo "<p style='margin-bottom:5px'>เงินโอน : ",number_format((float)$bankTTA,2,'.',''),"</p>";
                             }
                         ?>
-                    </span>
                 </div>
             </div>
             <div class="doc_notict">
@@ -1024,8 +1023,8 @@
             <!-- วิธีการชำระเงิน -->
             <div class="final_payment">
                 <div class="cash_payment">
-                    <span class="cash_payment_text"><p style='margin-bottom:5px'>ชำระโดย</p>
-                        <?php
+                    <span class="cash_payment_text"><p style='margin-bottom:5px'>ชำระโดย</p></span>
+                    <?php
                             if($cashTTA>0){
                                 echo "<p style='margin-bottom:5px'>เงินสด : ",number_format((float)$cashTTA,2,'.',''),"</p>";
                             }
@@ -1039,7 +1038,6 @@
                                 echo "<p style='margin-bottom:5px'>เงินโอน : ",number_format((float)$bankTTA,2,'.',''),"</p>";
                             }
                         ?>
-                    </span>
                 </div>
             </div>
             <div class="doc_notict">
