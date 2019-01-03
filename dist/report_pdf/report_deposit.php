@@ -829,7 +829,7 @@
                 </div>
                 <div class="employ_sig">
                     <?php
-                        echo "<p>","<span class='employ_sig_text' style='position: absolute'>",$customerName,"</span>","</p>";
+                        echo "<p>","<span class='employ_sig_text' style='position: absolute;top: 8px;right: 5px;'>",$customerName,"</span>","</p>";
                     ?>
                     <span class="employ_sig_text">พนักงานขาย</span>
                 </div>
@@ -1076,7 +1076,7 @@
                 </div>
                 <div class="employ_sig">
                     <?php
-                        echo "<p>","<span class='employ_sig_text' style='position: absolute'>",$customerName,"</span>","</p>";
+                        echo "<p>","<span class='employ_sig_text' style='position: absolute;top: 8px;right: 5px;'>",$customerName,"</span>","</p>";
                     ?>
                     <span class="employ_sig_text">พนักงานขาย</span>
                 </div>
