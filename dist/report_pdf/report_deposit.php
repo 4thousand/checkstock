@@ -629,10 +629,10 @@
             <div class="customer_info">
                 <div class="settop">
                     <div class="address_padding">
-                        <span>รหัสลูกค้า : </span><span class="cus_no_space"></span><span><?php echo $customerCode; ?></span>
+                        <span>รหัสลูกค้า :</span> <span class="cus_no_space"></span><span><?php echo $customerCode; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>ชื่อลูกค้า : </span><span class="cus_name_space"></span><span><?php echo $customerName; ?></span>
+                        <span>ชื่อลูกค้า :</span> <span class="cus_name_space"></span><span><?php echo $customerName; ?></span>
                     </div>
                     <div class="address_padding">
                         <span>ที่อยู่ : <span class="cus_add_space"></span><?php echo $customerAddress; ?></span>
@@ -643,13 +643,13 @@
             <div class="deposit_info">
                 <div class="settop">
                     <div class="address_padding">
-                        <span>เลขที่เอกสาร : </span><span class="depo_no"></span><span><?php echo $docno; ?></span>
+                        <span>เลขที่เอกสาร :</span> <span class="depo_no"></span><span><?php echo $docno; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>วันที่ออกเอกสาร : </span><span class="depo_date"></span><span><?php echo $docday; ?></span>
+                        <span>วันที่ออกเอกสาร :</span> <span class="depo_date"></span><span><?php echo $docday; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>เลขที่ใบสั่งจอง : </span><span class="order_no"></span><span>123456</span>
+                        <span>เลขที่ใบสั่งจอง :</span> <span class="order_no"></span><span>123456</span>
                     </div>
                 </div>
             </div>
@@ -829,7 +829,7 @@
                 </div>
                 <div class="employ_sig">
                     <?php
-                        echo "<p>"+$customerName+"</p>";
+                        echo "<p>","<span class="employ_sig_text">",$customerName,"</span>","</p>";
                     ?>
                     <span class="employ_sig_text">พนักงานขาย</span>
                 </div>
@@ -883,8 +883,8 @@
                         <span>ชื่อลูกค้า :</span><span class="cus_name_space"> </span><span><?php echo $customerName; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>ที่อยู่ :<span class="cus_add_space"></span><?php echo $customerAddress; ?></span>
-                        <span>เบอร์โทร :<span class="cus_add_space"></span><?php echo $customerPhone; ?></span>
+                        <span>ที่อยู่ : <span class="cus_add_space"></span><?php echo $customerAddress; ?></span>
+                        <span>เบอร์โทร : <span class="cus_add_space"></span><?php echo $customerPhone; ?></span>
                     </div>
                 </div>
             </div>
@@ -1076,7 +1076,7 @@
                 </div>
                 <div class="employ_sig">
                     <?php
-                        echo "<p>",$customerName,"</p>";
+                        echo "<p>","<span class="employ_sig_text">",$customerName,"</span>","</p>";
                     ?>
                     <span class="employ_sig_text">พนักงานขาย</span>
                 </div>
