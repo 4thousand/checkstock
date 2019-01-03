@@ -279,7 +279,7 @@
                             <span style="color:red">*</span> ราคารวม :
                           </p>
                           <div class="col-md-8 col-12">
-                            <money id="total_pay" class="form-control" min="0" v-model.number="payment" v-bind="money" @keypress="isNumber(event)" v-on:keyup.native.down="getFocus('cash_pay')"></money>
+                            <money id="total_pay" class="form-control" min="0" v-model.number="payment" v-bind="money" @keypress="isNumber(event)" v-on:keyup.native.enter="getFocus('cash_pay')" v-on:keyup.native.down="getFocus('cash_pay')"></money>
                           </div>
                         </div>
                       </div>
@@ -293,7 +293,7 @@
                             <span style="color:red">*</span> จำนวนเงิน :
                           </p>
                           <div class="col-md-8 col-12">
-                            <money id="cash_pay" class="form-control" min="0" v-model.number="cashPayment" v-bind="money" @keypress="isNumber(event)" v-on:keyup.native.up="getFocus('total_pay')" v-on:keyup.native.down="getFocus('add_cr')"></money>
+                            <money id="cash_pay" class="form-control" min="0" v-model.number="cashPayment" v-bind="money" @keypress="isNumber(event)" v-on:keyup.native.enter="getFocus('add_cr')" v-on:keyup.native.up="getFocus('total_pay')" v-on:keyup.native.down="getFocus('add_cr')"></money>
                           </div>
                         </div>
                       </div>
@@ -385,7 +385,7 @@
                             <span style="color:red">*</span> จำนวนเงิน :
                           </p>
                           <div class="col-md-8 col-12">
-                            <money id="bank_pay" class="form-control" min="0" v-model.number="transferPayment" v-bind="money" @keypress="isNumber(event)" v-on:keyup.native.up="getFocus('add_chq')" v-on:keyup.native.down="getFocus('add_doc')"></money>
+                            <money id="bank_pay" class="form-control" min="0" v-model.number="transferPayment" v-bind="money" @keypress="isNumber(event)"  v-on:keyup.native.enter="getFocus('add_doc')" v-on:keyup.native.up="getFocus('add_chq')" v-on:keyup.native.down="getFocus('add_doc')"></money>
                           </div>
                         </div>
                       </div>
@@ -441,7 +441,8 @@
                       <button
                         id="add_doc"
                         :disabled="feeType==''||balance<0||balance>0||payment==null||payment==0"
-                        @keyup.=""  
+                        @keyup.left="getFocus('bank_pay')"  
+                        @keyup.up="getFocus('bank_pay')" 
                         @click="createDepositNoApi(),confirm=true;"
                         class="btn btn-primary"
                       >
