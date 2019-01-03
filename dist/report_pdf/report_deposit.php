@@ -629,27 +629,27 @@
             <div class="customer_info">
                 <div class="settop">
                     <div class="address_padding">
-                        <span>รหัสลูกค้า :</span><span class="cus_no_space"> </span><span><?php echo $customerCode; ?></span>
+                        <span>รหัสลูกค้า : </span><span class="cus_no_space"></span><span><?php echo $customerCode; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>ชื่อลูกค้า :</span><span class="cus_name_space"> </span><span><?php echo $customerName; ?></span>
+                        <span>ชื่อลูกค้า : </span><span class="cus_name_space"></span><span><?php echo $customerName; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>ที่อยู่ :<span class="cus_add_space"> </span><?php echo $customerAddress; ?></span>
-                        <span>เบอร์โทร :<span class="cus_add_space"> </span><?php echo $customerPhone; ?></span>
+                        <span>ที่อยู่ : <span class="cus_add_space"></span><?php echo $customerAddress; ?></span>
+                        <span>เบอร์โทร : <span class="cus_add_space"></span><?php echo $customerPhone; ?></span>
                     </div>
                 </div>
             </div>
             <div class="deposit_info">
                 <div class="settop">
                     <div class="address_padding">
-                        <span>เลขที่เอกสาร :</span><span class="depo_no"></span><span><?php echo $docno; ?></span>
+                        <span>เลขที่เอกสาร : </span><span class="depo_no"></span><span><?php echo $docno; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>วันที่ออกเอกสาร :</span><span class="depo_date"></span><span><?php echo $docday; ?></span>
+                        <span>วันที่ออกเอกสาร : </span><span class="depo_date"></span><span><?php echo $docday; ?></span>
                     </div>
                     <div class="address_padding">
-                        <span>เลขที่ใบสั่งจอง :</span><span class="order_no"></span><span>123456</span>
+                        <span>เลขที่ใบสั่งจอง : </span><span class="order_no"></span><span>123456</span>
                     </div>
                 </div>
             </div>
@@ -780,16 +780,16 @@
                     <span class="cash_payment_text">ชำระโดย
                         <?php
                             if($cashTTA>0){
-                                echo "<p>เงินสด : ",$cashTTA,"<p>";
+                                echo "<p>เงินสด : ",number_format((float)$cashTTA,2,'.',''),"<p>";
                             }
                             if($creditTTA>0){
-                                echo "<p>บัตรเครดิต : ",$creditTTA,"<p>";
+                                echo "<p>บัตรเครดิต : ",echo number_format((float)$creditTTA,2,'.',''),"<p>";
                             }
                             if($chqTTA>0){
-                                echo "<p>เงินสด : ",$chqTTA,"<p>";
+                                echo "<p>เช็ค : ",echo number_format((float)$chqTTA,2,'.',''),"<p>";
                             }
                             if($bankTTA>0){
-                                echo "<p>เงินสด : ",$bankTTA,"<p>";
+                                echo "<p>เงินโอน : ",echo number_format((float)$bankTTA,2,'.',''),"<p>";
                             }
                         ?>
                     </span>
@@ -1027,16 +1027,16 @@
                     <span class="cash_payment_text">ชำระโดย
                         <?php
                             if($cashTTA>0){
-                                echo "<p>เงินสด : ",$cashTTA,"<p>";
+                                echo "<p>เงินสด : ",number_format((float)$cashTTA,2,'.',''),"<p>";
                             }
                             if($creditTTA>0){
-                                echo "<p>เงินสด : ",$creditTTA,"<p>";
+                                echo "<p>บัตรเครดิต : ",echo number_format((float)$creditTTA,2,'.',''),"<p>";
                             }
                             if($chqTTA>0){
-                                echo "<p>เงินสด : ",$chqTTA,"<p>";
+                                echo "<p>เช็ค : ",echo number_format((float)$chqTTA,2,'.',''),"<p>";
                             }
                             if($bankTTA>0){
-                                echo "<p>เงินสด : ",$bankTTA,"<p>";
+                                echo "<p>เงินโอน : ",echo number_format((float)$bankTTA,2,'.',''),"<p>";
                             }
                         ?>
                     </span>
