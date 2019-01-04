@@ -21,10 +21,15 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
+    // {
+    //   path: '/index',
+    //   name: 'index',
+    //   component: index
+    // },
     {
       path: '/index',
       name: 'index',
-      component: index
+      component: dashboard
     },
     {
       path: '/',
@@ -76,11 +81,7 @@ export default new Router({
       name: 'newsaleorder',
       component: newsaleorder
     },
-    {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: dashboard
-    },
+  
     {
       path: '/utility',
       name: 'utility',
