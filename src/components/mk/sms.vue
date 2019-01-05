@@ -49,7 +49,9 @@
                 label="ข้อความที่จะส่ง"
                 class="form-control"
                 v-model="SMSMessage"
+                maxlength="60"
               ></textarea>
+              {{SMSMessage.length+"/60"}}
             </div>
           </div>
         </div>

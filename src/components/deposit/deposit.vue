@@ -85,7 +85,7 @@
                             <div class="input-group-append">
                               <button
                                 class="btn btn-danger icon-margin search-icon"
-                                @click="selectCustomer = false, customerCode='',customerName='',searchCustomerInput='',customerDetail=[]"
+                                @click="selectCustomer = false, customerCode='',customerName='',searchCustomerInput='',customerDetail=[],reserveNo='',selectReserve=false"
                               >
                                 <md-icon class="search-icon">highlight_off</md-icon>
                               </button>
@@ -112,12 +112,57 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row">
+                  <div v-show="selectReserve==false" class="row">
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
-                        <p class="article-set col-md-3 col-12">เลขที่ใบจอง :</p>
+                        <p class="article-set col-md-3 col-12">
+                          <span style="color:red">*</span> ค้นหาเลขที่ใบสั่งจอง :
+                        </p>
                         <div class="col-md-8 col-12">
-                          <input type="text" v-model="preemptionNo" class="form-control" disabled>
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              disabled
+                              v-model="reserveNo"
+                              class="form-control disable-control"
+                            >
+                            <div class="input-group-append">
+                              <button
+                                class="btn btn-primary icon-margin search-icon"
+                                :disabled="customerName==''"
+                                @click="showReserve = true"
+                              >
+                                <md-icon class="search-icon">search</md-icon>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-show="selectReserve==true" class="row">
+                    <div class="col-md-12 col-12">
+                      <div class="form-group row">
+                        <p class="article-set col-md-3 col-12">
+                          <span style="color:red">*</span> เลขที่ใบสั่งจอง :
+                        </p>
+                        <div class="col-md-8 col-12">
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              disabled
+                              v-model="reserveNo"
+                              class="form-control disable-control"
+                            >
+                            <div class="input-group-append">
+                              <button
+                                class="btn btn-danger icon-margin search-icon"
+                                @click="selectReserve = false, reserveNo='',searchReserveInput='',reserveDetail=[]"
+                              >
+                                <md-icon class="search-icon">highlight_off</md-icon>
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -169,7 +214,7 @@
                         </p>
                         <div class="tax-bottom-part tax-head col-md-8 col-7">
                           <button
-                            :disabled="customerCode==''||customerName==''"
+                            :disabled="customerCode==''||customerName==''||reserveNo==''"
                             @click="setDone('first', 'second')"
                             class="btn btn-primary"
                           >
@@ -229,6 +274,54 @@
                 </div>
               </md-dialog-content>
             </md-dialog>
+
+            <md-dialog :md-active.sync="showReserve" :md-fullscreen="false">
+              <md-dialog-content class="modal-content">
+                <div class="modal-header">
+                  <h4>ค้นหาใบสั่งจอง</h4>
+                  <button type="button" class="close" @click="showReserve = false">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <label>ใบสั่งจอง</label>
+                  <input
+                    id="searchRS"
+                    class="form-control"
+                    v-autofocus
+                    @keyup.enter="searchReserveKeyApi"
+                    v-model="searchReserveInput"
+                  >
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead align="center">
+                        <tr>
+                          <th>ลำดับ</th>
+                          <th class="md-xsmall-hide">เลขใบสั่งจอง</th>
+                          <th>ชื่อลูกค้า</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          class="table-pointer"
+                          @click="searchReserve(val),showReserve = false,selectReserve=true"
+                          v-for="(val,index) in reserveDetail"
+                          style="text-align:center;cursor:pointer"
+                        >
+                          <td>{{index+1}}</td>
+                          <td class="md-xsmall-hide">{{val.doc_no}}</td>
+                          <td>{{val.ar_name}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <md-dialog-actions>
+                    <md-button class="md-primary" @click="showReserve = false">Close</md-button>
+                  </md-dialog-actions>
+                </div>
+              </md-dialog-content>
+            </md-dialog>
+
           </div>
         </div>
       </md-step>
@@ -956,10 +1049,13 @@ export default {
       taxrate: setting.data().setting_taxRate,
       click: false,
       selectCustomer: false,
+      selectReserve: false,
       searchCustomerInput: "",
-      searchEmployeeInput: "",
+      searchReserveInput: "",
       php: "http://" + document.domain,
+      reserveNo:"",
       customerDetail: [],
+      reserveDetail:[],
       QRPaymentPart: false,
       cashPayment: 0,
       creditPayment: 0,
@@ -985,6 +1081,7 @@ export default {
       bankAccount:"",
       bankTransDate:"",
       bankTransList:[],
+      bankNotice:"",
       billType: "0",
       saleType: "0",//setting.data().setting_saleType
       eCreditPo: null,
@@ -996,6 +1093,7 @@ export default {
       companyId: 1,
       branchId: "1",//setting.data().setting_branchId
       showDialog: false,
+      showReserve: false,
       showCredit: false,
       showChq: false,
       showBank: false,
@@ -1228,6 +1326,34 @@ export default {
         }
       );
     },
+    searchReserveKeyApi(){
+      var payload = {
+        ar_id: this.customerID,
+        keyword: this.searchReserveInput
+      };
+
+      api.searchReserveByKeyword(
+        payload,
+        result => {
+          console.log(JSON.stringify(result.data));
+          if (result.data.length == 0) {
+            this.reserveDetail = result.data;
+            alertify.error("ไม่มีข้อมูลเลขใบสั่งจอง");
+            return;
+          }
+          if (result.data.length > 0) {
+            this.reserveDetail = result.data;
+            alertify.success(
+              "พบเลขใบสั่งจองจำนวน " + result.data.length + " ใบ"
+            );
+            return;
+          }
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    },
     searchCustomer(val) {
       console.log(JSON.stringify(val));
       this.customerID = val.id;
@@ -1239,6 +1365,9 @@ export default {
       this.customerDueDate = this.getDueDate(val.bill_credit);
 
       this.showDialogCustomer = false;
+    },
+    searchReserve(val){
+      this.reserveNo=val.doc_no;
     },
     createDepositNoApi() {
       let payload = {
@@ -1339,7 +1468,7 @@ export default {
         depart_id: parseInt(this.department),
         bill_type: parseInt(this.saleType),
         tax_rate: this.taxrate,
-        // ref_no:this.preemptionNo,
+        ref_no:this.reserveNo,
         my_description: this.infoNotice,
         cash_amount: this.cashPayment,
         creditcard_amount: this.totalCreditPayment,
