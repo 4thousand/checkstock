@@ -14,6 +14,8 @@ import dashboard from '@/components/dashboard/dashboard'
 import utility from '@/components/utility/utility'
 import dp from '@/components/deposit/deposit'
 import sms from '@/components/mk/sms'
+import quolist from '@/components/quotation/quotationlist'
+import solist from '@/components/saleorder/saleorderlist'
 
 Vue.use(Router)
 
@@ -89,6 +91,16 @@ export default new Router({
       path: '/sms',
       name: 'sms',
       component: sms
+    },
+    {
+      path: '/quolist',
+      name: 'quolist',
+      component: quolist
+    },
+    {
+      path: '/solist',
+      name: 'solist',
+      component: solist
     }
   ]
 })

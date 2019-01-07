@@ -2,18 +2,18 @@ import api from "../service/service.js"
 
 export default {
   name: 'quotation',
-  data () {
+  data() {
     return {
-     msg:'',
-     star:true,
-     Search:'',
-     sale_code:JSON.parse(localStorage.Datauser),
-     dataall:[],
-     keyword_showalldoc:'',
+      msg: '',
+      star: true,
+      Search: '',
+      sale_code: JSON.parse(localStorage.Datauser),
+      dataall: [],
+      keyword_showalldoc: '',
     }
   },
   methods: {
-    changeColor () {
+    changeColor() {
       alert('sadasd')
     },
     convertToBaht(val) {
@@ -21,33 +21,55 @@ export default {
       // console.log(typeof result)
       return result;
     },
-    seedetail(val){
-        console.log(JSON.stringify(val))
-        
-        this.$router.push({ name : 'quotation', params : { id: val.id}});
+    goindex(val) {
+      // localStorage.iddocno = 0
+      this.showNavigation = false;
+
+      if (val == "/sale") {
+        this.$router.push({ name: "newsale", params: { id: 0 } });
+        return;
+      }
+
+      if (val == "/saleorder") {
+        this.$router.push({ name: "newsaleorder", params: { id: 0 } });
+        return;
+      }
+
+      if (val == "/quotation") {
+        // this.topicmenu = 'ใบเสนอราคา'
+        this.$router.push({ name: "newquo", params: { id: 0 } });
+        return;
+      }
+
+      this.$router.push(val);
     },
-    showalldoc () {
-        var payload = {
-            sale_code : this.sale_code.sale_code,
-            keyword: this.keyword_showalldoc
-        }
-        // v
-        console.log(JSON.stringify(payload))
-        api.showdocall(payload,
-            (result) => {
-            console.log(JSON.stringify(result.data))
-               this.dataall = result.data
-            },
-            (error) => {
-               console.log(JSON.stringify(error))
-               alertify.error('Data ข้อมูลผิดพลาด');
-              //  alertify.success('Error login');
-              // this.cload()
-            })
+    seedetail(val) {
+      console.log(JSON.stringify(val))
+
+      this.$router.push({ name: 'quotation', params: { id: val.id } });
+    },
+    showalldoc() {
+      var payload = {
+        sale_code: this.sale_code.sale_code,
+        keyword: this.keyword_showalldoc
+      }
+      // v
+      console.log(JSON.stringify(payload))
+      api.showdocall(payload,
+        (result) => {
+          console.log(JSON.stringify(result.data))
+          this.dataall = result.data
+        },
+        (error) => {
+          console.log(JSON.stringify(error))
+          alertify.error('Data ข้อมูลผิดพลาด');
+          //  alertify.success('Error login');
+          // this.cload()
+        })
     },
   },
-  mounted () {
-      this.showalldoc()
+  mounted() {
+    this.showalldoc()
     // console.log(JSON.stringify(this.payload))
   }
 }
