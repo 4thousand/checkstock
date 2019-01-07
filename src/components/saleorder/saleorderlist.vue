@@ -53,8 +53,69 @@
     </md-speed-dial>
   </div>
 </template>
-<script src="../../js/index.js">
-  
+<script>
+  import api from "../../service/service.js"
+
+export default {
+  name: 'quotation',
+  data() {
+    return {
+      msg: '',
+      star: true,
+      Search: '',
+      sale_code: JSON.parse(localStorage.Datauser),
+      dataall: [],
+      keyword_showalldoc: '',
+    }
+  },
+  methods: {
+    convertToBaht(val) {
+      var result = numeral(val).format("0,0.00");
+      // console.log(typeof result)
+      return result;
+    },
+    goindex(val) {
+      // localStorage.iddocno = 0
+      this.showNavigation = false;
+
+      if (val == "/saleorder") {
+        // this.topicmenu = 'ใบเสนอราคา'
+        this.$router.push({ name: "saleorder", params: { id: 0 } });
+        return;
+      }
+
+      this.$router.push(val);
+    },
+    seedetail(val) {
+      console.log(JSON.stringify(val))
+
+      this.$router.push({ name: 'quotation', params: { id: val.id } });
+    },
+    showalldoc() {
+      var payload = {
+        sale_code: this.sale_code.sale_code,
+        keyword: this.keyword_showalldoc
+      }
+      // v
+      console.log(JSON.stringify(payload))
+      api.showdocall(payload,
+        (result) => {
+          console.log(JSON.stringify(result.data))
+          this.dataall = result.data
+        },
+        (error) => {
+          console.log(JSON.stringify(error))
+          alertify.error('Data ข้อมูลผิดพลาด');
+          //  alertify.success('Error login');
+          // this.cload()
+        })
+    },
+  },
+  mounted() {
+    this.showalldoc()
+    // console.log(JSON.stringify(this.payload))
+  }
+}
 </script>
 <style >
 

@@ -718,6 +718,7 @@
                       <th>ลำดับ</th>
                       <th id="colorselectorder">รหัสลูกค้า</th>
                       <th id="colorselectgroup">ชื่อลูกค้า</th>
+                      <th>ที่อยู่</th>
                     </tr>
                   </thead>
                   <tbody id="valuetable">
@@ -725,6 +726,7 @@
                       <td>{{index+1}}</td>
                       <td>{{val.code}}</td>
                       <td>{{val.name}}</td>
+                      <td>{{val.address}}</td>
                     </tr>
                   </tbody>
                 </table>

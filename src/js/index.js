@@ -37,7 +37,7 @@ export default {
 
       if (val == "/quotation") {
         // this.topicmenu = 'ใบเสนอราคา'
-        this.$router.push({ name: "newquo", params: { id: 0 } });
+        this.$router.push({ name: "newquotation", params: { id: 0 } });
         return;
       }
 

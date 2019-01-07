@@ -116,7 +116,7 @@
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
                         <p class="article-set col-md-3 col-12">
-                          <span style="color:red">*</span> ค้นหาเลขที่ใบสั่งจอง :
+                          ค้นหาเลขที่ใบสั่งจอง :
                         </p>
                         <div class="col-md-8 col-12">
                           <div class="input-group">
@@ -144,7 +144,7 @@
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
                         <p class="article-set col-md-3 col-12">
-                          <span style="color:red">*</span> เลขที่ใบสั่งจอง :
+                          เลขที่ใบสั่งจอง :
                         </p>
                         <div class="col-md-8 col-12">
                           <div class="input-group">
@@ -181,7 +181,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row">
+                  <!-- <div class="row">
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
                         <p class="article-set col-md-3 col-12">โครงการ :</p>
@@ -195,7 +195,7 @@
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="row">
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
@@ -214,7 +214,7 @@
                         </p>
                         <div class="tax-bottom-part tax-head col-md-8 col-7">
                           <button
-                            :disabled="customerCode==''||customerName==''||reserveNo==''"
+                            :disabled="customerCode==''||customerName==''"
                             @click="setDone('first', 'second')"
                             class="btn btn-primary"
                           >
@@ -250,6 +250,7 @@
                           <th>ลำดับ</th>
                           <th class="md-xsmall-hide">รหัสลูกค้า</th>
                           <th>ชื่อลูกค้า</th>
+                          <th>ที่อยู่</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -262,6 +263,7 @@
                           <td>{{index+1}}</td>
                           <td class="md-xsmall-hide">{{val.code}}</td>
                           <td>{{val.name}}</td>
+                          <td>{{val.address}}</td>
                         </tr>
                       </tbody>
                     </table>
