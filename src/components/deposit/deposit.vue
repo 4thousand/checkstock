@@ -1239,7 +1239,7 @@ export default {
       this.creditCardList[this.eCreditPo].bank_id = parseInt(this.creditBank);
     },
     removeCreditCard(val, index) {
-      // console.log(val)
+      console.log(index)
       this.creditCardList.splice(index,1);
     },
     createChq() {
@@ -1299,7 +1299,8 @@ export default {
       this.bankTransList[eBankPo].bank_amount=this.bankPayment;
     },
     removeBank(val, index) {
-      this.bankTransList.splice(index,1);
+      console.log(index)
+      this.bankTransList.slice(index);
     },
     searchCustomerAllKeyApi() {
       var payload = {
@@ -1618,7 +1619,7 @@ export default {
     }
   },
   mounted() {
-    // this.setDone("first", "second");
+    this.setDone("first", "second");
     // this.setDone('second', 'third');
     this.id = this.$route.params.id;
     this.showEditDetail();
