@@ -65,7 +65,7 @@
                 </md-list>
               </md-list-item>
 
-              <md-list-item md-expand v-if(permission)>
+              <md-list-item md-expand>
                 <md-icon>monetization_on</md-icon>
                 <span class="md-list-item-text">การตลาด</span>
 

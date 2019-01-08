@@ -2,7 +2,7 @@
   <div ref="testDiv" class="quotation">
      <loading :active.sync="isLoading" 
         :can-cancel="true" 
-        :on-cancel="onCancel"
+  
         :is-full-page="fullPage"></loading>
     <div ref="testDiv" class="fluid-container">
       <div>
@@ -147,11 +147,11 @@
                       <md-button class="md-primary md-raised">เพิ่มข้อมูลสินค้า</md-button>
                     </md-table-empty-state>
   
-                    <md-table-row slot="md-table-row"  slot-scope="{ item }">
+                    <md-table-row @click="checkval(item)" slot="md-table-row"  slot-scope="{ item }">
                       <md-table-cell md-label="รหัสสินค้า" md-sort-by="item_code" md-numeric><input type="text" class="datatable" disabled v-model="item.item_code"></md-table-cell>
                       <md-table-cell md-label="ชื่อสินค้า" md-sort-by="item_name"><input type="text" class="datatable" disabled v-model="item.item_name"></md-table-cell>
                       <md-table-cell md-label="หน่วยนับ" md-sort-by="unit_code"><input  type="text" style="padding-right: 31px !important;" class="datatable" v-model="item.unit_code.trim()"><div @click="searchunticode(item)"><md-icon class="search_unitcode">arrow_drop_down</md-icon></div></md-table-cell>
-                      <md-table-cell md-label="จำนวน" md-sort-by="qty"><input type="text" class="datatable" @keyup="calculatedata(item)" v-model="item.qty"></md-table-cell>
+                      <md-table-cell md-label="จำนวน" md-sort-by="qty"><input type="text" class="datatable" @keyup="calculatedata(item)" v-model.number="item.qty"></md-table-cell>
                       <md-table-cell md-label="ราคา/หน่วย" md-sort-by="price"><input type="text" class="datatable" @keyup="calculatedata(item)" style="width:100%" v-model="item.price"></md-table-cell>
                       <!-- <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 1" md-sort-by="price2"><input type="text" class="datatable" @keyup="calculatedata(item)" style="width:100%" v-model.number="item.price2"></md-table-cell> -->
                       <md-table-cell md-label="ส่วนลด" md-sort-by="discount_word"><input type="text" class="datatable" @keyup="calculatedata(item)" v-model="item.discount_word"></md-table-cell>
@@ -796,12 +796,12 @@
                       <td @click="showdetail(val)" v-show="billtype == 1">{{val.sale_price_2}}</td>
                       <td><md-button @click="findstock(val,index)" style="height:18px;" class="md-primary">{{ val.stk_qty }} </md-button></td>
                     </tr>
-                    <tr >
+                    <!-- <tr >
                       <td  colspan="10" >
                        <div :class="'hover'+index" style="text-align:right;visibility:hidden;height:0;transition:all 0.5s cubic-bezier(0.47, 0.46, 0, 1.02) 0s;"  v-for="(value,index2) in stockall" >
                        คลังสินค้า : {{val.stk_location[index2].wh_code}} ชั้นเก็บ : {{val.stk_location[index2].shelf_code}} จำนวน : {{val.stk_location[index2].qty}} <br>
                       </div></td>
-                    </tr>
+                    </tr> -->
                   </tbody>
                 </table>
               </div>

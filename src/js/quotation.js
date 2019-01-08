@@ -100,9 +100,11 @@ export default {
     stockall:[],
     isLoading: false,
     fullPage: true,
-    onCancel:"",
   }),
   methods: {
+    checkval(val){
+      console.log(val)
+    },
     searchunticode(val){
       // console.log(index)
       // console.log(this.selectunitcode_step2())
@@ -414,16 +416,16 @@ export default {
         )
 
         console.log(JSON.stringify(payload))
-        // api.savequotation(payload,
-        //   (result) => {
-        //     console.log(result)
-        //    alertify.success('บันทึกสำเร็จ ' + this.docno);
-        //  },
-        //   (error) => {
-        //     console.log(JSON.stringify(error))
-        //     //Customerall
-        //     alertify.error('เกิดข้อผิดพลาด');
-        //  })
+        api.savequotation(payload,
+          (result) => {
+            console.log(result)
+           alertify.success('บันทึกสำเร็จ ' + this.docno);
+         },
+          (error) => {
+            console.log(JSON.stringify(error))
+            //Customerall
+            alertify.error('เกิดข้อผิดพลาด');
+         })
       }
       //บันทึก
 
