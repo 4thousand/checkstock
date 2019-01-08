@@ -47,8 +47,8 @@
                 <span class="md-list-item-text">งานขาย</span>
 
                 <md-list slot="md-expand">
-                  <md-list-item @click="goindex('/quotation')" class="md-inset"><md-icon style="position:absolute;  left: 16px;">move_to_inbox</md-icon><span class="md-list-item-text">ใบเสนอราคา</span></md-list-item>
-                  <md-list-item @click="goindex('/saleorder')" class="md-inset"><md-icon style="position:absolute;  left: 16px;">send</md-icon><span class="md-list-item-text">ใบสั่งขาย </span></md-list-item>
+                  <md-list-item @click="goindex('/quolist')" class="md-inset"><md-icon style="position:absolute;  left: 16px;">move_to_inbox</md-icon><span class="md-list-item-text">ใบเสนอราคา</span></md-list-item>
+                  <md-list-item @click="goindex('/solist')" class="md-inset"><md-icon style="position:absolute;  left: 16px;">send</md-icon><span class="md-list-item-text">ใบสั่งขาย </span></md-list-item>
                   <md-list-item class="md-inset"> <md-icon style="position:absolute;  left: 16px;">inbox</md-icon> <span class="md-list-item-text" style="position:relative"> ใบ BackOrder</span></md-list-item>
                 </md-list>
               </md-list-item>
@@ -250,14 +250,9 @@ export default {
   methods: {
     changetopicmenu() {
       //  alert(this.$route.fullPath.search("quotation"))
-      if (this.$route.fullPath.search("quotation") == 1) {
+      if (this.$route.fullPath.search("quolist") == 1) {
         this.topicmenucolor = "green";
         this.topicmenu = "ใบเสนอราคา";
-        this.icon = "bookmark";
-      }
-      if (this.$route.fullPath.search("newquotation") == 1) {
-        this.topicmenucolor = "green";
-        this.topicmenu = "สร้าง ใบเสนอราคา";
         this.icon = "bookmark";
       }
       if (this.$route.fullPath.search("index") == 1) {
@@ -270,9 +265,9 @@ export default {
         this.topicmenu = "Setting";
         this.icon = "build";
       }
-      if (this.$route.fullPath.search("newsale") == 1) {
+      if (this.$route.fullPath.search("solist") == 1) {
         this.topicmenucolor = "#795548";
-        this.topicmenu = "สร้าง ใบสั่งขาย";
+        this.topicmenu = "ใบสั่งขาย";
         this.icon = "bookmark_border";
       }
       if (this.$route.fullPath.search("deposit") == 1) {

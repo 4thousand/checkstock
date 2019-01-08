@@ -29,14 +29,13 @@
                   </div>
                   <div :class="attention" class="md-layout-item md-size-25 md-xsmall-size-100">
                     <!-- :class="disablebilltype+'0'" -->
-                    <span ref="focustype" :class="disablebilltype+'0'" class="md-title sub">
+                    <span ref="focustype" class="md-title sub">
                                       ประเภทเสนอราคา
                                     </span>
                     <!-- v-show="disablebilltype"   -->
-                    <md-icon v-show="disablebilltype" style="position:relative;top:10px;color:black">lock</md-icon>
                     <md-field>
                       <!-- :disabled="disablebilltype" -->
-                      <md-select @input="showdocno" :disabled="disablebilltype" v-model="billtype" name="country" id="country" placeholder="กรุณาเลือก">
+                      <md-select @input="showdocno" v-model="billtype" name="country" id="country" placeholder="กรุณาเลือก">
                         <md-option value="0">ขายสินค้าเงินสด</md-option>
                         <md-option value="1">ขายสินค้าเงินเชื่อ</md-option>
                       </md-select>
@@ -151,6 +150,7 @@
                       <md-table-cell md-label="ส่วนลด" md-sort-by="discount_word"><input type="text" class="datatable" @keyup="calculatedata(item)" v-model="item.discount_word"></md-table-cell>
                       <md-table-cell md-label="จำนวนเงิน" md-sort-by="item_amount"><input type="text" disabled class="datatable" v-model.number="item.item_amount"></md-table-cell>
                       <!-- <md-table-cell md-label="เงื่อนไขการขนส่ง" md-sort-by="because">{{ item.because }}</md-table-cell> -->
+                      <md-table-cell md-label=""><md-icon class="search-icon">highlight_off</md-icon></md-table-cell>
                     </md-table-row>
                   </md-table>
                 </div>
@@ -785,6 +785,7 @@
                       <th>ลำดับ</th>
                       <th id="colorselectorder">รหัสลูกค้า</th>
                       <th id="colorselectgroup">ชื่อลูกค้า</th>
+                      <th>ที่อยู่</th>
                     </tr>
                   </thead>
                   <tbody id="valuetable">
@@ -792,6 +793,7 @@
                       <td>{{index+1}}</td>
                       <td>{{val.code}}</td>
                       <td>{{val.name}}</td>
+                      <td>{{val.address}}</td>
                     </tr>
                   </tbody>
                 </table>

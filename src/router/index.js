@@ -7,15 +7,15 @@ import sale from '@/components/quotation/quotation'
 import setting from '@/components/setting'
 import newquo from '@/components/quotation/newquo'
 import newsale from '@/components/sale/newsale'
-import deposit from '@/components/deposit/deposit'
 import depositlist from '@/components/deposit/depositlist'
 import saleorder from '@/components/saleorder/saleorder'
 import newsaleorder from '@/components/saleorder/newsaleorder'
 import dashboard from '@/components/dashboard/dashboard'
 import utility from '@/components/utility/utility'
-import prototype from '@/components/dashboard/depositprototype'
-import design from '@/components/deposit/depositdesign'
+import dp from '@/components/deposit/deposit'
 import sms from '@/components/mk/sms'
+import quolist from '@/components/quotation/quotationlist'
+import solist from '@/components/saleorder/saleorderlist'
 
 Vue.use(Router)
 
@@ -67,11 +67,6 @@ export default new Router({
       component: newsale
     },
     {
-      path: '/deposit/:id',
-      name: 'deposit',
-      component: deposit
-    },
-    {
       path: '/depositlist',
       name: 'depositlist',
       component: depositlist
@@ -88,19 +83,24 @@ export default new Router({
       component: utility
     },
     {
-      path: '/prototype',
-      name: 'prototype',
-      component: prototype
-    },
-    {
-      path: '/design',
-      name: 'depdesign',
-      component: design
+      path: '/dp/:id',
+      name: 'dp',
+      component: dp
     },
     {
       path: '/sms',
       name: 'sms',
       component: sms
+    },
+    {
+      path: '/quolist',
+      name: 'quolist',
+      component: quolist
+    },
+    {
+      path: '/solist',
+      name: 'solist',
+      component: solist
     }
   ]
 })

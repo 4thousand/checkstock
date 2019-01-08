@@ -37,7 +37,7 @@
                     <span
                       style="position: relative;font-size: .875rem;color: #5f6368;"
                       class="md-subheading"
-                    >{{ 'รหัสลูกค้า : '+val.ar_code + ' ชื่อลูกค้า :' + val.ar_name }}</span>
+                    >{{ 'รหัสลูกค้า : '+val.ar_code + ' ชื่อลูกค้า : ' + val.ar_name }}</span>
                   </div>
                   <div class="col-12 col-md-12">
                     <span
@@ -53,7 +53,7 @@
       </div>
 
       <md-speed-dial class="md-bottom-right">
-        <md-speed-dial-target @click="goindex('/prototype')">
+        <md-speed-dial-target @click="createDepo">
           <md-icon>add</md-icon>
         </md-speed-dial-target>
       </md-speed-dial>
@@ -63,7 +63,7 @@
 <script>
 import api from "../../service/service.js";
 export default {
-  name: 'deposit',
+  name: 'dp',
   data() {
     return {
       msg: "",
@@ -73,25 +73,15 @@ export default {
     };
   },
   methods: {
-    goindex(val) {
-      // localStorage.iddocno = 0
-
-      if (val == "/deposit") {
-        this.$router.push({ name: "deposit" });
-        return;
-      }
-
-      if (val == "/prototype") {
-        this.$router.push({ name: "prototype" });
-        return;
-      }
-    },
     checkval() {
       JSON.stringify(this.deplist);
     },
+    createDepo() {
+      this.$router.push({ name: "dp", params: { id: 0 } });
+    },
     editDepo(val) {
       console.log(val.id)
-      this.$router.push({ name: "deposit", params: { id: val.id } });
+      this.$router.push({ name: "dp", params: { id: val.id } });
     },
     convertToBaht(val) {
       var result = numeral(val).format("0,0.00");
