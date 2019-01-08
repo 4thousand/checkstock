@@ -59,6 +59,9 @@ const toLower = text => {
       percal: false, //true == % , false == บาท
       caldiscount: 0,
       keywordemp: '',
+
+
+
       // page 2
       bill_credit: 0,
       DueDate_cal: '',
@@ -637,6 +640,52 @@ const toLower = text => {
             alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
           })
       },
+      searchProduct(){
+        let payload = {
+          keyword: this.keywordproduct
+        }
+        this.isLoading = true
+        console.log(payload)
+        api.searchbykeyword(payload,
+          (result) => {
+            this.isLoading = false
+            console.log(result.data)
+            console.log(result.data.length)
+            //this.showDialogproduct = true
+            
+            this.dataproductDialog = result.data
+          },
+          (error) => {
+            this.isLoading = false
+            console.log(JSON.stringify(error))
+            alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
+          })
+      },
+      selectedProduct(index){
+        var product={
+          id:this.dataproductDialog[index].id,
+          item_code:this.dataproductDialog[index].item_code,
+          item_name:this.dataproductDialog[index].item_name,
+          bar_code:this.dataproductDialog[index].bar_code,
+          unit_code:this.dataproductDialog[index].unit_code,
+          sale_price_1:this.dataproductDialog[index].sale_price_1,
+          sale_price_2:this.dataproductDialog[index].sale_price_2,
+          rate_1:this.dataproductDialog[index].rate_1,
+          pic_path_1:this.dataproductDialog[index].pic_path_1
+        }
+        this.dproducts.push(product)
+        console.log(this.dproducts)
+        this.showDialogproduct = false
+      },
+      removeProduct(index){
+        console.log(JSON.stringify(index))
+        console.log(JSON.stringify(this.dproducts))
+        this.dproducts.slice(index,1);
+        console.log(JSON.stringify(this.dproducts.splice(index)))
+        console.log(JSON.stringify(this.dproducts))
+        this.searched=this.dproducts;
+        console.log("test")
+      },
       showdocno() {
         if (this.docnoid != 0) {
           // alert('หน้าแก้ไข')
@@ -690,6 +739,8 @@ const toLower = text => {
             // shelf_code: stock.shelf_code,
             qty: 1,
             price: val.sale_price_1,
+            sale_price_1: val.sale_price_1,
+            sale_price_2: val.sale_price_2,
             discount_word: '0',
             discount_amount: 0,
             item_amount: val.sale_price_1 * 1,
@@ -705,7 +756,8 @@ const toLower = text => {
           //close modal
           this.showDialogproduct = false
           alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
-        } else if (this.billtype == 1) {
+        } 
+        else if (this.billtype == 1) {
           var datashow = {
             index: this.index++,
             item_id: val.id,
@@ -717,6 +769,8 @@ const toLower = text => {
             // shelf_code: stock.shelf_code,
             qty: 1,
             price: val.sale_price_2,
+            sale_price_1: val.sale_price_1,
+            sale_price_2: val.sale_price_2,
             discount_word: '0',
             discount_amount: 0,
             item_amount: val.sale_price_2 * 1,
@@ -848,6 +902,20 @@ const toLower = text => {
             console.log(JSON.stringify(error))
             alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
           })
+      },
+      changePriceType(){
+        for(var i=0;i<this.dproducts.length;i++){
+          if(this.billtype==0){
+            this.dproducts[i].price=this.dproducts[i].sale_price_1
+            this.dproducts[i].item_amount=this.dproducts[i].sale_price_1
+          }
+          if(this.billtype==1){
+            this.dproducts[i].price=this.dproducts[i].sale_price_2
+            this.dproducts[i].item_amount=this.dproducts[i].sale_price_2
+          }
+          console.log(JSON.stringify(this.dproducts))
+        }
+        
       },
       selectcus_step2(val) {
         console.log(JSON.stringify(val))

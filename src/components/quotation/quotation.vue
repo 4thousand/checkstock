@@ -157,6 +157,7 @@
                       <md-table-cell md-label="ส่วนลด" md-sort-by="discount_word"><input type="text" class="datatable" @keyup="calculatedata(item)" v-model="item.discount_word"></md-table-cell>
                       <md-table-cell md-label="จำนวนเงิน" md-sort-by="item_amount"><input type="text" disabled class="datatable" v-model.number="item.item_amount"></md-table-cell>
                       <!-- <md-table-cell md-label="เงื่อนไขการขนส่ง" md-sort-by="because">{{ item.because }}</md-table-cell> -->
+                      <md-table-cell md-label=""><md-icon class="search-icon">highlight_off</md-icon></md-table-cell>
                     </md-table-row>
                   </md-table>
                 </div>

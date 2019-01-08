@@ -392,7 +392,7 @@
                               class="close"
                               data-dismiss="alert"
                               aria-label="close"
-                              @click="removeCreditCard(val,index)"
+                              @click="removeCreditCard(index)"
                             >&times;</a>
                             <a class="edit close">
                               <i
@@ -429,7 +429,7 @@
                               class="close"
                               data-dismiss="alert"
                               aria-label="close"
-                              @click="removeChq(val,index)"
+                              @click="removeChq(index)"
                             >&times;</a>
                             <a class="edit close">
                               <i
@@ -468,7 +468,7 @@
                               class="close"
                               data-dismiss="alert"
                               aria-label="close"
-                              @click="removeBank(val,index)"
+                              @click="removeBank(index)"
                             >&times;</a>
                             <a class="edit close">
                               <i
@@ -1238,9 +1238,9 @@ export default {
       this.creditCardList[this.eCreditPo].amount = this.creditPayment;
       this.creditCardList[this.eCreditPo].bank_id = parseInt(this.creditBank);
     },
-    removeCreditCard(val, index) {
+    removeCreditCard(index) {
       console.log(index)
-      this.creditCardList.splice(index,1);
+      this.creditCardList.slice(index);
     },
     createChq() {
       var chq = {
@@ -1271,8 +1271,8 @@ export default {
       this.chqList[this.eChqPo].bank_id = parseInt(this.checkBankId);
       this.chqList[this.eChqPo].description = this.chqNotice;
     },
-    removeChq(val, index) {
-      this.chqList.splice(index,1);
+    removeChq(index) {
+      this.chqList.slice(index);
     },
     createBank(){
       var bank={
@@ -1298,7 +1298,7 @@ export default {
       this.bankTransList[eBankPo].bank_date=this.bankTransDate;
       this.bankTransList[eBankPo].bank_amount=this.bankPayment;
     },
-    removeBank(val, index) {
+    removeBank(index) {
       console.log(index)
       this.bankTransList.slice(index);
     },

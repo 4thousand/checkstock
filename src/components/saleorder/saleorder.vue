@@ -35,7 +35,7 @@
                     <!-- v-show="disablebilltype"   -->
                     <md-field>
                       <!-- :disabled="disablebilltype" -->
-                      <md-select @input="showdocno" v-model="billtype" name="country" id="country" placeholder="กรุณาเลือก">
+                      <md-select @input="showdocno(),changePriceType()" v-model="billtype" name="country" id="country" placeholder="กรุณาเลือก">
                         <md-option value="0">ขายสินค้าเงินสด</md-option>
                         <md-option value="1">ขายสินค้าเงินเชื่อ</md-option>
                       </md-select>
@@ -150,7 +150,7 @@
                       <md-table-cell md-label="ส่วนลด" md-sort-by="discount_word"><input type="text" class="datatable" @keyup="calculatedata(item)" v-model="item.discount_word"></md-table-cell>
                       <md-table-cell md-label="จำนวนเงิน" md-sort-by="item_amount"><input type="text" disabled class="datatable" v-model.number="item.item_amount"></md-table-cell>
                       <!-- <md-table-cell md-label="เงื่อนไขการขนส่ง" md-sort-by="because">{{ item.because }}</md-table-cell> -->
-                      <md-table-cell md-label=""><md-icon class="search-icon">highlight_off</md-icon></md-table-cell>
+                      <md-table-cell md-label=""><button @click="removeProduct(item.index)"><md-icon class="search-icon">highlight_off</md-icon></button></md-table-cell>
                     </md-table-row>
                   </md-table>
                 </div>
