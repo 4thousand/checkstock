@@ -679,12 +679,12 @@ const toLower = text => {
       },
       removeProduct(index){
         console.log(JSON.stringify(index))
-        console.log(JSON.stringify(this.dproducts))
-        this.dproducts.slice(index,1);
-        console.log(JSON.stringify(this.dproducts.splice(index)))
-        console.log(JSON.stringify(this.dproducts))
-        this.searched=this.dproducts;
-        console.log("test")
+      console.log(JSON.stringify(this.dproducts))
+      this.dproducts.splice(index,1);
+      // console.log(JSON.stringify(this.dproducts.splice(index)))
+      console.log(JSON.stringify(this.dproducts))
+      this.searched=this.dproducts;
+      console.log("test")
       },
       showdocno() {
         if (this.docnoid != 0) {

@@ -542,6 +542,15 @@ export default {
           alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
         })
     },
+    removeProduct(index){
+      console.log(JSON.stringify(index))
+      console.log(JSON.stringify(this.dproducts))
+      this.dproducts.slice(index,1);
+      console.log(JSON.stringify(this.dproducts.splice(index)))
+      console.log(JSON.stringify(this.dproducts))
+      this.searched=this.dproducts;
+      console.log("test")
+    },
     showdocno() {
       if (this.docnoid != 0) {
         // alert('หน้าแก้ไข')
@@ -599,6 +608,8 @@ export default {
           unit_code: val.unit_code,
           qty: 1,
           price: val.sale_price_1,
+          sale_price_1: val.sale_price_1,
+          sale_price_2: val.sale_price_2,
           discount_word: '0',
           discount_amount: 0,
           item_amount: val.sale_price_1 * 1,
@@ -619,6 +630,8 @@ export default {
           unit_code: val.unit_code,
           qty: 1,
           price: val.sale_price_2,
+          sale_price_1: val.sale_price_1,
+          sale_price_2: val.sale_price_2,
           discount_word: '0',
           discount_amount: 0,
           item_amount: val.sale_price_2 * 1,
@@ -855,8 +868,19 @@ export default {
       } else if (val.length != undefined) {
         return val.substring(0, 10)
       }
-
-    
+  },
+  changePriceType(){
+    for(var i=0;i<this.dproducts.length;i++){
+      if(this.billtype==0){
+        this.dproducts[i].price=this.dproducts[i].sale_price_1
+        this.dproducts[i].item_amount=this.dproducts[i].sale_price_1
+      }
+      if(this.billtype==1){
+        this.dproducts[i].price=this.dproducts[i].sale_price_2
+        this.dproducts[i].item_amount=this.dproducts[i].sale_price_2
+      }
+      console.log(JSON.stringify(this.dproducts))
+    }
   },
   changevaluetest(){
     this.tablecode = 'QT'
