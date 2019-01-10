@@ -1169,11 +1169,6 @@ const toLower = text => {
       }
     },
     mounted () {
-      if(this.$route.fullPath.search("sale") == 1){
-        if(this.$route.params.id == 0){
-          alert('ใบสั่งขายยังเพิ่มไม่ได้')
-        }
-      }
       this.docnoid = this.$route.params.id
       // if (this.docnoid == 0) {
       //   // location.reload()
