@@ -100,8 +100,12 @@ export default {
       console.log(JSON.stringify(payload))
       api.showdocall(payload,
         (result) => {
-          console.log(JSON.stringify(result.data))
-          this.dataall = result.data
+          for(var i=0;i<result.data.length;i++){
+            if(result.data[i].module=='SaleOrder'){
+              this.dataall.push(result.data[i])
+            }
+          }
+          console.log(JSON.stringify(this.dataall))
         },
         (error) => {
           console.log(JSON.stringify(error))

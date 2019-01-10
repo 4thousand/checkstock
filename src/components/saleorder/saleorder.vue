@@ -13,7 +13,7 @@
               <md-card-content>
                 <div class="md-layout md-gutter">
                   <div class="md-layout-item md-size-15 md-xsmall-size-100" style="text-align:right;">
-                    <md-button style="position: relative;top: 50%;transform: translateY(-50%);" class="md-raised md-primary"><span>ค้นหา</span> </md-button>
+                    <!-- <md-button style="position: relative;top: 50%;transform: translateY(-50%);" class="md-raised md-primary"><span>ค้นหา</span> </md-button> -->
                   </div>
                   <div class="md-layout-item md-size-20 md-xsmall-size-100">
                     <span class="md-title sub">

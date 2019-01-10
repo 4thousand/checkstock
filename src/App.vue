@@ -49,7 +49,6 @@
                 <md-list slot="md-expand">
                   <md-list-item @click="goindex('/quolist')" class="md-inset"><md-icon style="position:absolute;  left: 16px;">move_to_inbox</md-icon><span class="md-list-item-text">ใบเสนอราคา</span></md-list-item>
                   <md-list-item @click="goindex('/solist')" class="md-inset"><md-icon style="position:absolute;  left: 16px;">send</md-icon><span class="md-list-item-text">ใบสั่งขาย </span></md-list-item>
-                  <md-list-item class="md-inset"> <md-icon style="position:absolute;  left: 16px;">inbox</md-icon> <span class="md-list-item-text" style="position:relative"> ใบ BackOrder</span></md-list-item>
                 </md-list>
               </md-list-item>
               
@@ -255,6 +254,11 @@ export default {
         this.topicmenu = "ใบเสนอราคา";
         this.icon = "bookmark";
       }
+      if (this.$route.fullPath.search("quotation") == 1) {
+        this.topicmenucolor = "green";
+        this.topicmenu = "ใบเสนอราคา";
+        this.icon = "bookmark";
+      }
       if (this.$route.fullPath.search("index") == 1) {
         this.topicmenucolor = "#448aff";
         this.topicmenu = "หน้าหลัก";
@@ -266,6 +270,11 @@ export default {
         this.icon = "build";
       }
       if (this.$route.fullPath.search("solist") == 1) {
+        this.topicmenucolor = "#795548";
+        this.topicmenu = "ใบสั่งขาย";
+        this.icon = "bookmark_border";
+      }
+      if (this.$route.fullPath.search("saleorder") == 1) {
         this.topicmenucolor = "#795548";
         this.topicmenu = "ใบสั่งขาย";
         this.icon = "bookmark_border";

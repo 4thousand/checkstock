@@ -13,7 +13,7 @@
               <md-card-content>
                 <div class="md-layout md-gutter">
                   <div class="md-layout-item md-size-15 md-xsmall-size-100" style="text-align:right;">
-                    <md-button style="position: relative;top: 50%;transform: translateY(-50%);" class="md-raised md-primary"><span>ค้นหา</span> </md-button>
+                    <!-- <md-button style="position: relative;top: 50%;transform: translateY(-50%);" class="md-raised md-primary"><span>ค้นหา</span> </md-button> -->
                   </div>
                   <div class="md-layout-item md-size-20 md-xsmall-size-100">
                     <span class="md-title sub">
@@ -29,11 +29,10 @@
   
                   <div :class="attention" class="md-layout-item md-size-25 md-xsmall-size-100">
                     <!-- :class="disablebilltype+'0'" -->
-                    <span ref="focustype" :class="disablebilltype+'0'" class="md-title sub">
+                    <span ref="focustype" class="md-title sub">
                                       ประเภทเสนอราคา
                                     </span>
                     <!-- v-show="disablebilltype"   -->
-                    <md-icon v-show="disablebilltype" style="position:relative;top:10px;color:black">lock</md-icon>
   
                     <md-field>
                       <!-- :disabled="disablebilltype" -->
