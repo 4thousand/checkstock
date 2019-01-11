@@ -48,7 +48,7 @@ const toLower = text => {
       detailcusall: [],
       tablecode: 'SO',
       billtype: '',
-      taxtype: '',
+      taxtype: 1,
       docno: 'ไม่มีข้อมูล',
       keywordproduct: '',
       showDialogproduct: false,
@@ -417,13 +417,13 @@ const toLower = text => {
             var sale_name = res[1]
           }
   
-          if (this.taxtype == 'ภาษีแยกนอก') {
-            tax_type = 0
-          } else if (this.taxtype == 'ภาษีรวมใน') {
-            tax_type = 1
-          } else if (this.taxtype == 'ภาษีอัตราศูนย์') {
-            tax_type = 2
-          }
+          // if (this.taxtype == 'ภาษีแยกนอก') {
+          //   tax_type = 0
+          // } else if (this.taxtype == 'ภาษีรวมใน') {
+          //   tax_type = 1
+          // } else if (this.taxtype == 'ภาษีอัตราศูนย์') {
+          //   tax_type = 2
+          // }
   
           if (this.percal) {
             percent = '%'
@@ -564,6 +564,7 @@ const toLower = text => {
               this.idcus = result.data[0].id
               this.detailcus = result.data[0].name
               this.searchcus = result.data[0].code
+              this.creditday
             } else if (result.data.length > 1) {
               this.detailcusall = result.data
               this.showDialogcus = true
@@ -857,6 +858,9 @@ const toLower = text => {
         console.log("**** qty *****"+JSON.stringify(val.qty))
 
       },
+      getFocus(id) {
+        document.getElementById(id).focus();
+      },
       convertmoney(val) {
         // console.log(val)
         var number = numeral(val).format('0,0.00');
@@ -1119,7 +1123,7 @@ const toLower = text => {
         }, 0)
       },
       dif_fee() {
-        if (this.taxtype == 'ภาษีแยกนอก' || this.taxtype == 'ภาษีรวมใน') {
+        if (this.taxtype == 0 || this.taxtype == 1) {
           if (!this.percal) {
             return (this.totalprice - this.caldiscount) - (((this.totalprice - this.caldiscount) * 100) / 107)
   
@@ -1129,12 +1133,12 @@ const toLower = text => {
             return percent - ((percent * 100) / 107)
           }
         }
-        if (this.taxtype == 'ภาษีอัตราศูนย์') {
+        if (this.taxtype == 2) {
           return 0
         }
       },
       cal_totalprice() {
-        if (this.taxtype == 'ภาษีรวมใน') {
+        if (this.taxtype == 1) {
           if (!this.percal) {
             return this.totalprice - this.caldiscount
           }
@@ -1142,7 +1146,7 @@ const toLower = text => {
             return this.totalprice - (this.totalprice * this.caldiscount / 100)
           }
         }
-        if (this.taxtype == 'ภาษีแยกนอก') {
+        if (this.taxtype == 0) {
           if (!this.percal) {
             return this.totalprice + this.dif_fee
           }
@@ -1150,7 +1154,7 @@ const toLower = text => {
             return this.totalprice + this.dif_fee
           }
         }
-        if (this.taxtype == 'ภาษีอัตราศูนย์') {
+        if (this.taxtype == 2) {
           if (!this.percal) {
             return this.totalprice
           }

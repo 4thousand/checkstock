@@ -1619,7 +1619,7 @@ export default {
     }
   },
   mounted() {
-    this.setDone("first", "second");
+    // this.setDone("first", "second");
     // this.setDone('second', 'third');
     this.id = this.$route.params.id;
     this.showEditDetail();

@@ -482,7 +482,11 @@ background-color: transparent;
       top: -20px;
     }
     }
-  
+    @media (max-width: 600px) {
+      .md-ripple .md-stepper-label {
+        display: none;
+      }
+    }
   /*
    mobile
   */

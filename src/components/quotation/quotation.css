@@ -412,6 +412,11 @@ table#searchitem{
 /*
  mobile
 */
+@media (max-width: 600px) {
+  .md-ripple .md-stepper-label {
+    display: none;
+  }
+}
 @media (max-width: 575px){
   #notop_mobile{
     top: 0;
