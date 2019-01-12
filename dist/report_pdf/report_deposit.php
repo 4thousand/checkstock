@@ -1071,8 +1071,12 @@
                         หากมีการยกเลิก</span>
                 </div>
                 <div class="other_notict">
+                <span class="other_notict_text">*
+                        </span>
                 </div>
                 <div class="other_notict">
+                <span class="other_notict_text">*
+                        </span>
                 </div>
             </div>
 
