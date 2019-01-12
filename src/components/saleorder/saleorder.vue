@@ -578,7 +578,7 @@
                     </md-card-header>
                     <md-card-content>
                       <div class="md-layout md-gutter">
-                        <div class="md-layout-item md-small-size-100">
+                        <div class="md-layout-item md-small-size-100 md-layout-item md-xlarge-size-50">
                           <md-field>
                             <label for="first-name subnotop">ยืนราคา</label>
                             <md-input
@@ -590,14 +590,14 @@
                           </md-field>
                           <label class="abright" for="first-name subnotop">วัน</label>
                         </div>
-                        <div class="md-layout-item md-small-size-100">
+                        <div class="md-layout-item md-small-size-100 md-xlarge-size-50">
                           <md-field>
                             <label for="last-name subnotop">ลูกค้าต้องตอบรับภายใน</label>
                             <md-input name="last-name" id="last-name" autocomplete="family-name"/>
                           </md-field>
                           <label class="abright" for="first-name subnotop">วัน</label>
                         </div>
-                        <div class="md-layout-item md-small-size-100">
+                        <div class="md-layout-item md-small-size-100 md-large-size-50 md-xlarge-size-50">
                           <md-field>
                             <label for="last-name">เอกสารหมดอายุภายใน</label>
                             <md-input
