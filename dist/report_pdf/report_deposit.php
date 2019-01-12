@@ -682,7 +682,7 @@
                     <span class="notype_text">1.</span>
                 </div>
                 <div class="descript_type">
-                    <span class="descript_type_text">เงินรับมัดจำเพื่อเป็นค่าสินค้านี้</span>
+                    <span class="descript_type_text">เงินรับมัดจำเพื่อเป็นค่าสินค้า</span>
                 </div>
                 <div class="descript_type_blank">
                     <span></span>
@@ -720,7 +720,7 @@
                     <span class="depoblank_last_text"></span>
                 </div>
             </div> -->
-            <div class="deposit_product">
+            <!-- <div class="deposit_product">
                 <div class="depoblank">
                     <span class="depoblank_text"></span>
                 </div>
@@ -741,7 +741,7 @@
                 <div class="depoblank_last">
                     <span class="depoblank_last_text"></span>
                 </div>
-            </div>
+            </div> -->
             
 
             <div class="cal_part">
@@ -819,6 +819,10 @@
                     <span class="other_notict_text">*
                         สินค้าพิเศษไม่รับคืน หรือแลกเปลี่ยน เงินรับมัดจำนี้บริษัทสงวนสิทธิ์ในการไม่คืน
                         หากมีการยกเลิก</span>
+                </div>
+                <div class="other_notict">
+                </div>
+                <div class="other_notict">
                 </div>
             </div>
 
@@ -929,7 +933,7 @@
                     <span class="notype_text">1.</span>
                 </div>
                 <div class="descript_type">
-                    <span class="descript_type_text">เงินรับมัดจำเพื่อเป็นค่าสินค้านี้</span>
+                    <span class="descript_type_text">เงินรับมัดจำเพื่อเป็นค่าสินค้า</span>
                 </div>
                 <div class="descript_type_blank">
                     <span></span>
@@ -945,7 +949,7 @@
                 </div>
             </div>
             <!-- วนลูป -->
-            <div class="deposit_product">
+            <!-- <div class="deposit_product">
                 <div class="depoblank">
                     <span class="depoblank_text"></span>
                 </div>
@@ -988,7 +992,7 @@
                 <div class="depoblank_last">
                     <span class="depoblank_last_text"></span>
                 </div>
-            </div>
+            </div> -->
 
             <div class="cal_part">
                 <div class="b_tax">
@@ -1065,6 +1069,10 @@
                     <span class="other_notict_text">*
                         สินค้าพิเศษไม่รับคืน หรือแลกเปลี่ยน เงินรับมัดจำนี้บริษัทสงวนสิทธิ์ในการไม่คืน
                         หากมีการยกเลิก</span>
+                </div>
+                <div class="other_notict">
+                </div>
+                <div class="other_notict">
                 </div>
             </div>
 
