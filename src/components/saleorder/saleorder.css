@@ -41,10 +41,11 @@ background-color: transparent;
   .abright{
       position: absolute; right: 30px; top: 50%; transform: translateY(-50%);
     }
+
       .md-table-head:nth-child(1) {
         width: 10% !important;
-        min-width: 137px;
-        max-width: 137px;
+        min-width: 100px;
+        max-width: 100px;
       }
       
       .md-table-head:nth-child(2) {
@@ -52,22 +53,24 @@ background-color: transparent;
         max-width: 345px;
         min-width: 345px;
       }
-      
+
       .md-table-head:nth-child(3) {
         width: 10% !important;
-        max-width: 120px;
-        min-width: 120px;
+        max-width: 100px;
+        min-width: 100px;
       }
+
       .md-table-head:nth-child(4){
-        max-width: 120px;
-        min-width: 120px;
+        max-width: 100px;
+        min-width: 100px;
         text-align: center;
       }
       
       .md-table-head:nth-child(5) {
         width: 12% !important;
-        max-width: 165px;
-        min-width: 165px;
+        max-width: 70px;
+        min-width: 70px;
+        text-align: center;
       }
       
       .md-table-head:nth-child(6) {
@@ -78,28 +81,29 @@ background-color: transparent;
       
       .md-table-head:nth-child(7) {
         width: 6% !important;
-        max-width: 82px;
-        min-width: 82px;
+        max-width: 100px;
+        min-width: 100px;
       }
-
+      
       .md-table-head:nth-child(8) {
         width: 5% !important;
         max-width: 68px;
         min-width: 68px;
+        text-align: center;
       }
-
+      
       .md-table-head:nth-child(9) {
         width: 11% !important;
-        max-width: 153px;
-        min-width: 153px;
+        max-width: 82px;
+        min-width: 82px;
       }
-
+      
       .md-table-head:nth-child(10) {
         width: 15% !important;
-        max-width: 153px;
-        min-width: 153px;
+        max-width: 3px;
+        min-width: 3px;
+        text-align: center;
       }
-
 
       /* .md-table-head:nth-child(8) {
         width: 10% !important;
@@ -107,8 +111,8 @@ background-color: transparent;
       
       .md-table-cell:nth-child(1) {
         width: 10% !important;
-        min-width: 137px;
-        max-width: 137px;
+        min-width: 100px;
+        max-width: 100px;
       }
       
       .md-table-cell:nth-child(2) {
@@ -119,20 +123,20 @@ background-color: transparent;
 
       .md-table-cell:nth-child(3) {
         width: 10% !important;
-        max-width: 120px;
-        min-width: 120px;
+        max-width: 100px;
+        min-width: 100px;
       }
 
       .md-table-cell:nth-child(4){
-        max-width: 120px;
-        min-width: 120px;
+        max-width: 100px;
+        min-width: 100px;
         text-align: center;
       }
       
       .md-table-cell:nth-child(5) {
         width: 12% !important;
-        max-width: 165px;
-        min-width: 165px;
+        max-width: 70px;
+        min-width: 70px;
         text-align: center;
       }
       
@@ -144,8 +148,8 @@ background-color: transparent;
       
       .md-table-cell:nth-child(7) {
         width: 6% !important;
-        max-width: 82px;
-        min-width: 82px;
+        max-width: 100px;
+        min-width: 100px;
       }
       
       .md-table-cell:nth-child(8) {
@@ -157,14 +161,14 @@ background-color: transparent;
       
       .md-table-cell:nth-child(9) {
         width: 11% !important;
-        max-width: 153px;
-        min-width: 153px;
+        max-width: 82px;
+        min-width: 82px;
       }
       
       .md-table-cell:nth-child(10) {
         width: 15% !important;
-        max-width: 153px;
-        min-width: 153px;
+        max-width: 3px;
+        min-width: 3px;
         text-align: center;
       }
 

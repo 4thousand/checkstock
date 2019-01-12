@@ -546,7 +546,7 @@
                             </md-tooltip>
                           </md-avatar>
                         </div>
-                        <div class="md-layout-item md-size-100 md-small-size-100">
+                        <div class="md-layout-item md-size-50 md-small-size-100">
                           <md-field>
                             <label for="last-name">โครงการ</label>
                             <md-input
@@ -563,6 +563,12 @@
                               <md-icon style="color:white;">keyboard</md-icon>รหัสโครงการ หรือ ชื่อโครงการ + Enter
                             </md-tooltip>
                           </md-avatar>
+                        </div>
+                        <div class="md-layout-item md-size-50 md-small-size-100">
+                          <md-field>
+                            <label for="last-name">Job ID (Optional)</label>
+                            <md-input/>
+                          </md-field>
                         </div>
                       </div>
                     </md-card-content>

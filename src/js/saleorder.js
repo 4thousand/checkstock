@@ -377,10 +377,10 @@ const toLower = text => {
       // newUser() {
       //   this.$refs.addproduct.$el.focus()
       // },
-      searchOnTable() {
-        this.searched = searchByName(this.dproducts, this.search);
-        console.log(this.searched)
-      },
+      // searchOnTable() {
+      //   this.searched = searchByName(this.dproducts, this.search);
+      //   console.log(this.searched)
+      // },
       tests() {
         alert("ค้นหาข้อมูล Waiting ...");
       },
@@ -677,13 +677,19 @@ const toLower = text => {
         this.showDialogproduct = false
       },
       removeProduct(index){
-        console.log(JSON.stringify(index))
-      console.log(JSON.stringify(this.dproducts))
-      this.dproducts.splice(index,1);
-      // console.log(JSON.stringify(this.dproducts.splice(index)))
-      console.log(JSON.stringify(this.dproducts))
-      this.searched=this.dproducts;
-      console.log("test")
+        // console.log(JSON.stringify(this.dproducts.length))
+        // this.searchProductInObject(this.dproducts,index)
+        console.log(JSON.stringify(this.searchProductInObject(this.dproducts,index)))
+        this.dproducts.splice(this.searchProductInObject(this.dproducts,index),1)
+
+      },
+      searchProductInObject(arraytosearch, valuetosearch) {
+        for (var i = 0; i < arraytosearch.length; i++) {
+          if (arraytosearch[i].index == valuetosearch) {
+            return i;
+          }
+        }
+        return null;
       },
       showdocno() {
         if (this.docnoid != 0) {

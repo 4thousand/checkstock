@@ -22,7 +22,7 @@
               <div class="md-layout-item md-xlarge-size-95  md-large-size-95 md-xsmall-size-85 md-small-size-90 md-medium-size-95">
                 <div class="row">
                   <div class="col-12">
-                    <span class="md-title">{{ val.doc_no}}</span>
+                    <span class="md-title">{{val.doc_no}}</span>
                     <md-icon v-show="val.is_confirm == 1" style="float:right;color:green">check_circle_outline</md-icon>
                     <md-icon v-show="val.is_cancel == 1" style="float:right;color:red;">cancel</md-icon>
                     <span class="md-title datehover" style="float:right;font-size: .875rem;color: #5f6368;float:right;margin-right:10px">{{val.doc_date.substring(0, 10)}}</span>

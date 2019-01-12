@@ -543,13 +543,19 @@ export default {
         })
     },
     removeProduct(index){
-      console.log(JSON.stringify(index))
-      console.log(JSON.stringify(this.dproducts))
-      this.dproducts.slice(index,1);
-      console.log(JSON.stringify(this.dproducts.splice(index)))
-      console.log(JSON.stringify(this.dproducts))
-      this.searched=this.dproducts;
-      console.log("test")
+      // console.log(JSON.stringify(this.dproducts.length))
+      // this.searchProductInObject(this.dproducts,index)
+      console.log(JSON.stringify(this.searchProductInObject(this.dproducts,index)))
+      this.dproducts.splice(this.searchProductInObject(this.dproducts,index),1)
+
+    },
+    searchProductInObject(arraytosearch, valuetosearch) {
+      for (var i = 0; i < arraytosearch.length; i++) {
+        if (arraytosearch[i].index == valuetosearch) {
+          return i;
+        }
+      }
+      return null;
     },
     showdocno() {
       if (this.docnoid != 0) {

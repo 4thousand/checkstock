@@ -536,6 +536,12 @@
                             </md-tooltip>
                           </md-avatar>
                         </div>
+                        <div class="md-layout-item md-size-50 md-small-size-100">
+                          <md-field>
+                            <label for="last-name">Job ID (Optional)</label>
+                            <md-input/>
+                          </md-field>
+                        </div>
                       </div>
                     </md-card-content>
                     <md-card-actions></md-card-actions>
