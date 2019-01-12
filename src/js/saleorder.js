@@ -55,15 +55,13 @@ const toLower = text => {
       dataproductDialog: [],
       disablebilltype: false,
       datenow_datepicker: Date.now(),
+      follow_date: Date.now(),
       attention: '',
       percal: false, //true == % , false == บาท
       caldiscount: 0,
       keywordemp: '',
-
-
-
       // page 2
-      bill_credit: 0,
+      bill_credit: '',
       DueDate_cal: '',
       Deliver_date: 0,
       DueDate_date: '',

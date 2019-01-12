@@ -650,6 +650,7 @@
                               style="float:left;position:relative;top:28px;margin-right:5px;"
                             >calendar_today</md-icon>
                             <datepicker
+                              v-model="follow_date"
                               calendar-class="calendarfollowcus"
                               input-class="form-control"
                               style="position:relative;top:15px;width: 80%;"
