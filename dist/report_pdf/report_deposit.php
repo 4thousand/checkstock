@@ -504,7 +504,7 @@
 
         .doc_notict {
             width: 100%;
-            height: 200px;
+            height: 250px;
             border-bottom: 1px solid #bbb;
         }
 
@@ -1071,12 +1071,10 @@
                         หากมีการยกเลิก</span>
                 </div>
                 <div class="other_notict">
-                <span class="other_notict_text">*
-                        </span>
+
                 </div>
                 <div class="other_notict">
-                <span class="other_notict_text">*
-                        </span>
+
                 </div>
             </div>
 
