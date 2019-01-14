@@ -47,6 +47,7 @@ export default {
     tablecode: '',
     billtype: '',
     taxtype: 1,
+    mockdocno:'',
     docno: 'ไม่มีข้อมูล',
     keywordproduct: '',
     showDialogproduct: false,
@@ -590,6 +591,11 @@ export default {
             this.docno = 'ไม่มีข้อมูล'
             return
           }
+          this.mockdocno='';
+          for(var i=0;i<(result.length-4);i++){
+            this.mockdocno+=result.charAt(i);
+          }
+          this.mockdocno+="XXXX";
           this.docno = result
 
         },

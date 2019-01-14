@@ -65,7 +65,7 @@
                   >
                     <md-field>
                       <label>เลขที่เอกสาร</label>
-                      <md-input disabled v-model="docno"></md-input>
+                      <md-input disabled v-model="mockdocno"></md-input>
                     </md-field>
                   </div>
                 </div>
@@ -867,7 +867,7 @@
               <md-button
                 style="float:right;right: 50px;"
                 class="md-raised md-primary"
-                @click="setDone('second', 'third')"
+                @click="setDone('second', 'third'),showdocno"
               >บันทึก</md-button>
             </md-step>
 
