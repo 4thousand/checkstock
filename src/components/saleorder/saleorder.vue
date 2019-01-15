@@ -1169,7 +1169,7 @@
               </form>
 
               <form
-                v-show="tablecode == 'RO'"
+                v-show="tablecode == 'SO'"
                 :action="php + '/vue_sale/report_pdf/report_sale_a5.php'"
                 method="post"
                 target="_blank"
