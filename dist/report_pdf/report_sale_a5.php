@@ -524,12 +524,12 @@ setlocale(LC_MONETARY, 'en_US');
 
             </div>
         </div>
-        <div style="height: 170px;border: 1px solid black;border-radius: 5px">
+        <div style="height: 140px;border: 1px solid black;border-radius: 5px">
             <!--            border-right: 1px dashed grey;-->
             <div style="float:left;position: relative;padding-top: 5px;padding-left: 5px;width: 35%;height: 60%;">
 
-                <span style="font-size: 0.65rem;font-weight: bold;white-space: nowrap;line-height: 1.5"><span style="font-weight: 100">หมายเหตุ : </span>* สินค้าเหลือน้อยห โปรดแจ้ง Section Manager(ขายปลีก) ก่อนนำสินค้าไปขาย</span>
-                <span style="font-size: 0.65rem;font-weight: bold;white-space: nowrap;line-height: 1.5;padding-left: 50px;"> * สินค้าสั่งพิเศษ ลูกค้าไม่รับตามกำหนดเกิน 30 วัน จะคิดค่าบริการคลัง 1% ของมูลค่าสินค้า</span>
+                <span style="font-size: 0.65rem;font-weight: bold;white-space: nowrap;line-height: 1.5"><span style="font-weight: 100">หมายเหตุ : </span>* สินค้าเหลือน้อย โปรดแจ้ง Section Manager(ขายปลีก) ก่อนนำสินค้าไปขาย</span>
+                <span style="font-size: 0.65rem;font-weight: bold;white-space: nowrap;line-height: 1.5;padding-left: 52px;"> * สินค้าสั่งพิเศษ ลูกค้าไม่รับตามกำหนดเกิน 30 วัน จะคิดค่าบริการคลัง 1% ของมูลค่าสินค้า</span>
                 <!--
                 <div style="position:absolute;bottom: -10px">
                     <div style="margin-bottom: 8px">
