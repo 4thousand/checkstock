@@ -353,7 +353,7 @@
             </div>
 
             <div id="counttable" style="width: 100%;height: calc(100% - 25px);border-bottom: 1px solid black;">
-                <div style="position: relative;width: 2.5%;height: 100%;border-right: 1px dashed grey;float: left">
+                <div style="position: relative;width: 2.5%;height: 100%;border-right: 1px dashed grey;float: left;position: relative;line-height: 20px;text-align: center">
                     <span style="font-size: 0.5rem;">
                         <?php $line = $i + 1; echo $line; ?>
                     </span>
