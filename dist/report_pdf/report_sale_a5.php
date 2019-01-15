@@ -358,45 +358,65 @@
                         <?php $line = $i + 1; echo $line; ?>
                     </span>
                 </div>
-                <div style="width: 5.5% ;position: relative;height: 100%;border-right: 1px dashed grey;float: left">
-
+                <div style="width: 5.5% ;position: relative;height: 100%;border-right: 1px dashed grey;float: left;line-height: 20px;padding-left: 5px">
+                    <span style="font-size: 0.5rem;">
+                        <?php echo $detail[$i]['wh_code']; ?> /
+                        <?php echo $detail[$i]['shelf_code']; ?>
+                    </span>
                 </div>
 
-                <div style="width: 18.5%;height: 100%;border-right: 1px dashed grey;position: relative;float: left">
-
+                <div style="width: 18.5%;height: 100%;border-right: 1px dashed grey;position: relative;float: left;line-height: 20px;padding-left: 5px">
+                    <span style="font-size: 0.5rem;">
+                        <?php echo $detail[$i]['item_code']; ?>
+                        <?php echo $detail[$i]['item_name']; ?>
+                    </span>
                 </div>
-                <div style="width: 6.5%;height: 100%;border-right: 1px dashed grey;position: relative;float: left">
-
+                <div style="width: 6.5%;height: 100%;border-right: 1px dashed grey;position: relative;float: left;line-height: 20px;padding-left: 5px">
+                    <span style="font-size: 0.5rem;margin-right: 5px">
+                        <?php echo money_format("%!n",2000); ?>
+                    </span>
                 </div>
                 <div style="width: 6%;height: 100%;border-right: 1px dashed grey;position: relative;float: left">
-
+                    <span style="font-size: 0.5rem;margin-right: 5px">
+                        <?php echo money_format("%!n",$detail[$i]['qty']); ?>
+                    </span>
                 </div>
                 <div style="width: 6.5%;height: 100%;position: relative;border-right: 1px dashed grey;float: left">
-
+                    <span style="font-size: 0.5rem;margin-right: 5px"></span>
                 </div>
                 <div style="width: 6%;height: 100%;position: relative;border-right: 1px dashed grey;float: left">
-
+                    <span style="font-size: 0.5rem;margin-right: 5px"></span>
                 </div>
                 <div style="width: 8.5%;height: 100%;position: relative;border-right: 1px dashed grey;float: left">
-
+                    <span style="font-size: 0.5rem;margin-right: 5px"></span>
                 </div>
                 <div style="width: 6.5%;height: 100%;position: relative;border-right: 1px dashed grey;float: left">
-
+                    <span style="font-size: 0.5rem;margin-right: 5px"></span>
                 </div>
                 <div style="width: 5.5%;height: 100%;position: relative;border-right: 1px dashed grey;float: left">
-
+                    <span style="font-size: 0.5rem;margin-right: 5px">
+                        <?php echo $detail[$i]['unit_code']; ?>
+                    </span>
                 </div>
                 <div style="width: 7%;height: 100%;position: relative;border-right: 1px dashed grey;float: left">
-
+                    <span style="font-size: 0.5rem;margin-right: 5px">
+                        <?php echo money_format("%!n",$detail[$i]['price']); ?>
+                    </span>
                 </div>
                 <div style="width: 6.5%;height: 100%;position: relative;border-right: 1px dashed grey;float: left">
-
+                    <span style="font-size: 0.5rem;margin-right: 5px">
+                            
+                    </span>
                 </div>
                 <div style="width: 6.5%;height: 100%;position: relative;border-right: 1px dashed grey;float: left">
-
+                    <span style="font-size: 0.5rem;margin-right: 5px">
+                        <?php echo money_format("%!n",$detail[$i]['discount_amount']); ?>
+                    </span>
                 </div>
                 <div style="width: 8%;height: 100%;position: relative;float: left">
-
+                    <span style="font-size: 0.5rem;margin-right: 5px">
+                        <?php echo money_format("%!n",$detail[$i]['item_amount']); ?>
+                    </span>
                 </div>
 
                 <?php 
