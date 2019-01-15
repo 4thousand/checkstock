@@ -149,7 +149,7 @@
         </div>
         <div style="float: left;padding-top: 12px">
             <span style="display: block;font-size: 0.6rem;line-height: 20px;font-weight: bold">** ไม่ใช่ใบเสร็จรับเงิน พนักงานขายไม่มีสิทธิ์เรียกเก็บเงินจากเอกสารนี้ ***</span>
-            <span style="display: block;font-size: 0.6rem;line-height: 20px;font-weight: bold">*** กรุณาเรียกใบเสร็จทุกครั้งที่ชำระงิน ***</span>
+            <span style="display: block;font-size: 0.6rem;line-height: 20px;font-weight: bold">*** กรุณาเรียกใบเสร็จทุกครั้งที่ชำระเงิน ***</span>
         </div>
         <div style="display: block;float: right;;text-align: right;top: 2px;margin-top: 16px;margin-right: 5px;position: relative">
             <div>
@@ -170,8 +170,8 @@
             <div class="settop" style="width: 95%;height: 5%">
                 <div>
                     <span style="font-size:0.6rem;">ชื่อลูกค้า</span> <span style="text-decoration:underline">
-                        <?php echo $data['ar_code']; ?>
-                        <?php echo $data['ar_name']; ?>
+                    <span style="font-size:0.6rem;"><?php echo $data['ar_code']; ?></span>
+                    <span style="font-size:0.6rem;"><?php echo $data['ar_name']; ?></span>
                     </span>
                 </div>  
             </div>
@@ -269,8 +269,8 @@
 
 
             <div style="float: right;width: 33%;height: 100%;border: 1px solid black;border-radius: 8px;position:relative">
-                <div style="position: absolute;
-                    width: 178px;
+                <div style="position: relative;
+                    width: 158px;
                     height: 10px;
                     background: white;
                     z-index: 99;
@@ -279,10 +279,10 @@
                 <svg id="code128"></svg>
                 <div class="settop">
                     <div style="height:20%;padding-right: 5px;text-align: right">
-                        <span style="font-size: 0.88rem">เลขที่ใบสั่งขาย</span>
+                        <span style="font-size: 0.8rem">เลขที่ใบสั่งขาย</span>
                     </div>
                     <div style="height:20%;padding-right: 5px;text-align: right">
-                        <span style="font-size: 1.2rem">
+                        <span style="font-size: 1rem">
                             <?php echo $data['doc_no']; ?></span>
                     </div>
                     <div style="height:15%;padding-right: 5px;text-align: right;padding-right: 5px">
