@@ -352,6 +352,12 @@
                 </div>
             </div>
 
+            <?php 
+                $count = count($data['subs']);
+                $detail = $data['subs'];
+                for($i = 0; $i < $count; $i++){
+
+            ?>
             <div id="counttable" style="width: 100%;height: calc(100% - 25px);border-bottom: 1px solid black;">
                 <div style="position: relative;width: 2.5%;height: 100%;border-right: 1px dashed grey;float: left;position: relative;line-height: 20px;text-align: center">
                     <span style="font-size: 0.5rem;">
@@ -418,13 +424,15 @@
                         <?php echo money_format("%!n",$detail[$i]['item_amount']); ?>
                     </span>
                 </div>
-
+            </div>
+            <?php } ?>
                 <?php 
             $count = count($data['subs']);
             $detail = $data['subs'];
             for($i = 0; $i < $count; $i++){
 
             ?>
+            <div>
                 <div style="position: relative;min-height: 20px;width: 100%;float: left">
                     <div style="width: 2.5%;float:left;position: relative;line-height: 20px;text-align: center">
                         <span style="font-size: 0.5rem;">
