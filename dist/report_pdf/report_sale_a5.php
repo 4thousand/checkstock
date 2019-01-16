@@ -427,6 +427,83 @@
             </div>
             <?php } ?>
                 
+            <div>
+                <div style="position: relative;min-height: 20px;width: 100%;float: left">
+                    <div style="width: 2.5%;float:left;position: relative;line-height: 20px;text-align: center">
+                        <span style="font-size: 0.5rem;">
+                            
+                        </span>
+                    </div>
+                    <div style="width: 5.5%;float:left;position: relative;line-height: 20px;padding-left: 5px">
+                        <span style="font-size: 0.5rem;">
+                            
+                        </span>
+                    </div>
+
+                    <div style="width: 18.5%;float:left;position: relative;line-height: 20px;padding-left: 5px">
+                     <span style="font-size: 0.5rem;">
+                            
+                        </span>
+                    </div>
+                    <!-- น้ำหนัก กก.-->
+                    <div style="width: 6.5%;float:left;position: relative;line-height: 20px;padding-left: 5px">
+                        <span style="font-size: 0.5rem;margin-right: 5px">
+                            
+                        </span>
+                    </div>
+                        <!-- QTY -->
+                    <div style="width: 6%;float:left;position: relative;text-align: right;line-height: 20px">
+                        <span style="font-size: 0.5rem;margin-right: 5px">
+                            
+                        </span>
+                    </div>
+                        <!-- ถึงจุดสั่งซื้อ -->
+                    <div style="width: 6.5%;float:left;position: relative;text-align: right;line-height: 20px">
+                        <span style="font-size: 0.5rem;margin-right: 5px"></span>
+                    </div>
+                        <!-- onhand --> 
+                    <div style="width: 6%;float:left;position: relative;text-align: right;line-height: 20px">
+                        <span style="font-size: 0.5rem;margin-right: 5px"></span>
+                    </div>
+                        <!-- Qtyออกบอล(จอง) -->
+                    <div style="width: 8.5%;float:left;position: relative;text-align: right;line-height: 20px">
+                        <span style="font-size: 0.5rem;margin-right: 5px"></span>
+                    </div>
+                        <!-- Qty ที่ค้างส่ง --> 
+                    <div style="width: 6.5%;float:left;position: relative;text-align: right;line-height: 20px">
+                        <span style="font-size: 0.5rem;margin-right: 5px"></span>
+                    </div>
+                        <!-- หน่วยนับ --> 
+                    <div style="width: 5.5%;float:left;position: relative;text-align: right;line-height: 20px">
+                        <span style="font-size: 0.5rem;margin-right: 5px">
+                        
+                        </span>
+                    </div>
+                        <!-- ราคาต่อหน่วย -->
+                    <div style="width: 7%;float:left;position: relative;text-align: right;line-height: 20px">
+                        <span style="font-size: 0.5rem;margin-right: 5px">
+                        
+                        </span>
+                    </div>
+                        <!-- ราคารวม -->  
+                    <div style="width: 6.5%;float:left;position: relative;text-align: right;line-height: 20px">
+                        <span style="font-size: 0.5rem;margin-right: 5px">
+
+                        </span>
+                    </div>
+                        <!-- ส่วนลดรวม -->   
+                    <div style="width: 6.5%;float:left;position: relative;text-align: right;line-height: 20px">
+                        <span style="font-size: 0.5rem;margin-right: 5px">
+                         
+                        </span>
+                    </div> 
+                        <!-- ยอดจองคงเหลือ -->  
+                    <div style="width: 8%;float:left;position: relative;text-align: right;line-height: 20px">
+                        <span style="font-size: 0.5rem;margin-right: 5px">
+
+                        </span>
+                    </div>
+                </div>
 
                 <!-- รวมทั้งหมด -->
 <!--
