@@ -278,7 +278,7 @@
                 </div>
                 <svg id="code128"></svg>
                 <div class="settop">
-                    <div style="height:30%;padding-right: 5px;text-align: right">
+                    <div style="height:20%;padding-right: 5px;text-align: right">
                         <span style="font-size: 0.75rem">เลขที่ใบสั่งขาย</span>
                     </div>
                     <div style="height:20%;padding-right: 5px;text-align: right">
@@ -636,7 +636,7 @@
             inputthaimoney.innerHTML = thaimoney;
             //
             var docno = document.getElementById('barcodedocno').value
-            JsBarcode("#code128", docno,{wigth:1,height:80});
+            JsBarcode("#code128", docno);
             //
             //    function sizepage(){
             //        document.getElementById('heightproduct').style.height = document.getElementById('valuepage').value
