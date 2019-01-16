@@ -415,7 +415,7 @@
                             <?php echo $detail[$i]['shelf_code']; ?></span>
                     </div>
 
-                    <div style="width: 20%;float:left;position: relative;line-height: 20px;padding-left: 5px">
+                    <div style="width: 18.5%;float:left;position: relative;line-height: 20px;padding-left: 5px">
                      <span style="font-size: 0.5rem;">
                             <?php echo $detail[$i]['item_code']; ?>
                             <?php echo $detail[$i]['item_name']; ?></span>
@@ -426,7 +426,7 @@
                             <?php echo money_format("%!n",2000); ?></span>
                     </div>
                         <!-- QTY -->
-                    <div style="width: 6.5%;float:left;position: relative;text-align: right;line-height: 20px">
+                    <div style="width: 6%;float:left;position: relative;text-align: right;line-height: 20px">
                         <span style="font-size: 0.5rem;margin-right: 5px">
                             <?php echo money_format("%!n",$detail[$i]['qty']); ?>
                         </span>
@@ -436,11 +436,11 @@
                         <span style="font-size: 0.5rem;margin-right: 5px"></span>
                     </div>
                         <!-- onhand --> 
-                    <div style="width: 6.5%;float:left;position: relative;text-align: right;line-height: 20px">
+                    <div style="width: 6%;float:left;position: relative;text-align: right;line-height: 20px">
                         <span style="font-size: 0.5rem;margin-right: 5px"></span>
                     </div>
                         <!-- Qtyออกบอล(จอง) -->
-                    <div style="width: 6.5%;float:left;position: relative;text-align: right;line-height: 20px">
+                    <div style="width: 8.5%;float:left;position: relative;text-align: right;line-height: 20px">
                         <span style="font-size: 0.5rem;margin-right: 5px"></span>
                     </div>
                         <!-- Qty ที่ค้างส่ง --> 
@@ -448,13 +448,13 @@
                         <span style="font-size: 0.5rem;margin-right: 5px"></span>
                     </div>
                         <!-- หน่วยนับ --> 
-                    <div style="width: 6.5%;float:left;position: relative;text-align: right;line-height: 20px">
+                    <div style="width: 5.5%;float:left;position: relative;text-align: right;line-height: 20px">
                         <span style="font-size: 0.5rem;margin-right: 5px">
                         <?php echo $detail[$i]['unit_code']; ?>
                         </span>
                     </div>
                         <!-- ราคาต่อหน่วย -->
-                    <div style="width: 6.5%;float:left;position: relative;text-align: right;line-height: 20px">
+                    <div style="width: 7%;float:left;position: relative;text-align: right;line-height: 20px">
                         <span style="font-size: 0.5rem;margin-right: 5px">
                         <?php echo money_format("%!n",$detail[$i]['price']); ?>
                         </span>
@@ -472,7 +472,7 @@
                         </span>
                     </div> 
                         <!-- ยอดจองคงเหลือ -->  
-                    <div style="width: 6.5%;float:left;position: relative;text-align: right;line-height: 20px">
+                    <div style="width: 8%;float:left;position: relative;text-align: right;line-height: 20px">
                         <span style="font-size: 0.5rem;margin-right: 5px">
                         <?php echo money_format("%!n",$detail[$i]['item_amount']); ?>
                         </span>
