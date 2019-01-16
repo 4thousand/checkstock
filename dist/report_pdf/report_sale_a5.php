@@ -140,12 +140,13 @@
                 <img src="logo.jpg" style="width: 160px; height: 72px; position: absolute; left: 45px; top: 16px;">
                 <!--                <svg id="code128"></svg>-->
             </div>
-            <span style="position: absolute; left: 18.1rem; font-weight: bold; top: 77px;">RunNumber :
-                <?php echo $data['doc_no']; ?></span>
+            <span style="position: absolute; left: 13.5rem; font-weight: bold; top: 77px;"><span style="font-size:0.6rem;padding-left: 20px">RunNumber :</span>
+            <span style="font-size:0.6rem;padding-left: 20px"><?php echo $data['doc_no']; ?></span></span>
 
-            <span style="position: absolute; left: 28.5rem; top: 77px;">รหัสลูกค้า :
-                <?php echo $data['ar_code']; ?>
-                <?php echo $data['ar_name']; ?> <span style="font-size:0.7rem;padding-left: 20px"> เอกสารภายใน ไม่ใช้กับลูกค้า</span></span>
+            <span style="position: absolute; left: 25.5rem; top: 77px;"><span style="font-size:0.6rem;padding-left: 20px">รหัสลูกค้า :</span>
+                <span style="font-size:0.6rem;padding-left: 20px"><?php echo $data['ar_code']; ?></span>
+                <span style="font-size:0.6rem;padding-left: 20px"><?php echo $data['ar_name']; ?></span> 
+                <span style="font-size:0.6rem;padding-left: 20px"> เอกสารภายใน ไม่ใช้กับลูกค้า</span></span>
         </div>
         <div style="float: left;padding-top: 12px">
             <span style="display: block;font-size: 0.6rem;line-height: 20px;font-weight: bold">** ไม่ใช่ใบเสร็จรับเงิน พนักงานขายไม่มีสิทธิ์เรียกเก็บเงินจากเอกสารนี้ ***</span>
