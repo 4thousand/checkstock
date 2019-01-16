@@ -635,7 +635,7 @@
             inputthaimoney.innerHTML = thaimoney;
             //
             var docno = document.getElementById('barcodedocno').value
-            JsBarcode("#code128", docno);
+            JsBarcode("#code128", docno,{height:25});
             //
             //    function sizepage(){
             //        document.getElementById('heightproduct').style.height = document.getElementById('valuepage').value
