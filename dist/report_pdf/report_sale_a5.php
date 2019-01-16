@@ -270,7 +270,7 @@
 
             <div style="float: right;width: 40%;height: 100%;border: 1px solid black;border-radius: 8px;position:relative">
                 <div style="position: relative;
-                    width: 58px;
+                    width: 178px;
                     height: 10px;
                     background: white;
                     z-index: 99;
@@ -283,7 +283,7 @@
                     </div>
                     <div style="height:20%;padding-right: 5px;text-align: right">
                         <span style="font-size: 1rem">
-                            
+                            <?php echo $data['doc_no']; ?>
                         </span>
                     </div>
                     <div style="height:15%;padding-right: 5px;text-align: right;padding-right: 5px">
