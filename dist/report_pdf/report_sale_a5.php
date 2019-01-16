@@ -270,7 +270,7 @@
 
             <div style="float: right;width: 33%;height: 100%;border: 1px solid black;border-radius: 8px;position:relative">
                 <div style="position: relative;
-                    width: 128px;
+                    width: 58px;
                     height: 10px;
                     background: white;
                     z-index: 99;
