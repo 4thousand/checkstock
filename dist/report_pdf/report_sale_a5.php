@@ -278,7 +278,7 @@
                 </div>
                 <svg id="code128"></svg>
                 <div class="settop">
-                    <div style="height:25%;padding-right: 5px;text-align: right">
+                    <div style="height:30%;padding-right: 5px;text-align: right">
                         <span style="font-size: 0.75rem">เลขที่ใบสั่งขาย</span>
                     </div>
                     <div style="height:20%;padding-right: 5px;text-align: right">
