@@ -89,7 +89,7 @@ export default {
     seedetail(val) {
       console.log(JSON.stringify(val))
 
-      this.$router.push({ name: 'quotation', params: { id: val.id } });
+      this.$router.push({ name: 'saleorder', params: { id: val.id } });
     },
     showalldoc() {
       var payload = {

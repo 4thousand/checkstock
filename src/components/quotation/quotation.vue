@@ -1044,6 +1044,9 @@
           <md-dialog-title>เลือกลูกค้า</md-dialog-title>
           <md-tabs md-dynamic-height>
             <md-tab md-label>
+              <md-field>
+                <md-input v-model="searchcus" @keyup="searchCustomerRT" @keydown="searchCustomerRT" @input="searchCustomerRT"></md-input>
+              </md-field>
               <div class="table-responsive" style="overflow-y: auto;">
                 <table class="table table-hover">
                   <thead align="center">
@@ -1083,30 +1086,11 @@
       <div>
         <md-dialog :md-active.sync="showDialogproduct">
           <md-dialog-title>ค้นหาสินค้า</md-dialog-title>
-
-          <!--             
-             <md-dialog-title style="padding-left:25px;padding-top:0;padding-right:0;" v-if="hovershow_stock == true">คลังสินค้า {{ namestock }}</md-dialog-title>
-              <div v-if="hovershow_stock == true"  class="table-responsive" style="overflow-y: auto;">
-                <table id="searchitem" class="table table-hover">
-                  <thead align="center">
-                    <tr>
-                    
-                      <th style="white-space: nowrap;padding: 0rem;">คลัง</th>
-                         <td style="white-space: nowrap;padding: 0rem;">ชั้นเก็บ</td>
-                      <td style="white-space: nowrap;padding: 0rem;">จำนวน</td>
-                    </tr>
-                  </thead>
-                  <tbody id="valuetable">
-                    <tr v-for="(stock2,index) in stockobj" style="transition:all 1s;text-align:center;cursor:pointer">
-                      <td style="white-space: nowrap;padding: 0rem;transition:all 1s; ">{{ stock2.wh_code}}</td>
-                     <td style="white-space: nowrap;padding: 0rem; transition:all 1s; ">{{ stock2.shelf_code}}</td>
-                      <td style="white-space: nowrap;padding: 0rem;transition:all 1s; ">{{stock2.qty}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-          </div>-->
           <md-tabs id="none" md-dynamic-height>
             <md-tab md-label>
+              <md-field>
+                <md-input v-model="keywordproduct" @keyup="addproductrt" @keydown="addproductrt" @input="addproductrt"></md-input>
+              </md-field>
               <div class="table-responsive" style="overflow-y: auto;">
                 <table class="table table-hover">
                   <thead align="center">

@@ -382,7 +382,8 @@ const toLower = text => {
       //   console.log(this.searched)
       // },
       tests() {
-        alert("ค้นหาข้อมูล Waiting ...");
+        alert(JSON.stringify(this.objuser.menu[0].is_create));
+        console.log(JSON.stringify(this.objuser.menu))
       },
       setDone(id, index) {
 
@@ -578,6 +579,38 @@ const toLower = text => {
             // this.cload()
           })
       },
+      searchCustomerRT() {
+        var payload = {
+          keyword: this.searchcus
+        }
+  
+        api.Customerall(payload,
+          (result) => {
+            console.log(JSON.stringify(result.data))
+            // console.log(result.data.length)
+            if (result.data.length == 0) {
+              alertify.error('ไม่มีข้อมูลลูกค้านี้');
+              return
+            }
+            if (result.data.length == 1) {
+              this.idcus = result.data[0].id
+              this.detailcus = result.data[0].name
+              this.searchcus = result.data[0].code
+              this.creditday
+            } else if (result.data.length > 1) {
+              this.detailcusall = result.data
+              this.showDialogcus = true
+            }
+          },
+          (error) => {
+            this.isLoading = false
+            console.log(JSON.stringify(error))
+            //Customerall
+            alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
+            //  alertify.success('Error login');
+            // this.cload()
+          })
+      },
       C_customer(val) {
         console.log(JSON.stringify(val))
         this.idcus = val.id
@@ -635,6 +668,45 @@ const toLower = text => {
           },
           (error) => {
             this.isLoading = false
+            console.log(JSON.stringify(error))
+            alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
+          })
+      },
+      addproductrt(){
+        console.log(this.keywordproduct)
+        // alert(this.billtype)
+        // alert('d')
+        if (this.billtype === '' && this.billtype !== 0 && this.billtype !== 1) {
+          if (this.attention == 'wobble-hor-bottom') {
+            this.attention = 'wobble-hor-bottom2'
+          } else {
+            this.attention = 'wobble-hor-bottom'
+          }
+          return
+        }
+  
+        if (!this.keywordproduct) {
+          return
+        }
+        
+        let payload = {
+          keyword: this.keywordproduct
+        }
+        console.log(payload)
+        api.searchbykeyword(payload,
+          (result) => {
+            console.log(result.data)
+            console.log(result.data.length)
+            this.showDialogproduct = true
+            
+            this.dataproductDialog = result.data
+            console.log(this.dataproductDialog)
+            this.stockall = result.data[0].stk_location
+            console.log(this.stockall)
+            console.log('billtype : ' + this.billtype)
+            this.$refs.addproduct.$el.focus()
+          },
+          (error) => {
             console.log(JSON.stringify(error))
             alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
           })
@@ -715,6 +787,11 @@ const toLower = text => {
               this.docno = 'ไม่มีข้อมูล'
               return
             }
+            this.mockdocno='';
+            for(var i=0;i<(result.length-4);i++){
+              this.mockdocno+=result.charAt(i);
+            }
+            this.mockdocno+="XXXX";
             this.docno = result
   
           },

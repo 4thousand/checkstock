@@ -69,7 +69,7 @@
                   >
                     <md-field>
                       <label>เลขที่เอกสาร</label>
-                      <md-input disabled v-model="docno"></md-input>
+                      <md-input disabled v-model="mockdocno"></md-input>
                     </md-field>
                   </div>
                 </div>
@@ -276,6 +276,7 @@
                           class="datatable"
                           @keyup="calculatedata(item)"
                           v-model="item.discount_word"
+                          :disabled="objuser.menu[1].is_update==0"
                         >
                       </md-table-cell>
                       <md-table-cell md-label="จำนวนเงิน" md-sort-by="item_amount">
@@ -1195,6 +1196,9 @@
           <md-dialog-title>เลือกลูกค้า</md-dialog-title>
           <md-tabs md-dynamic-height>
             <md-tab md-label>
+              <md-field>
+                <md-input v-model="searchcus" @keyup="searchCustomerRT" @keydown="searchCustomerRT" @input="searchCustomerRT"></md-input>
+              </md-field>
               <div class="table-responsive" style="overflow-y: auto;">
                 <table class="table table-hover">
                   <thead align="center">
@@ -1236,6 +1240,9 @@
           <md-dialog-title>ค้นหาสินค้า</md-dialog-title>
           <md-tabs id="none" md-dynamic-height>
             <md-tab md-label>
+              <md-field>
+                <md-input v-model="keywordproduct" @keyup="addproductrt" @keydown="addproductrt" @input="addproductrt"></md-input>
+              </md-field>
               <div class="table-responsive" style="overflow-y: auto;">
                 <table class="table table-hover">
                   <thead align="center">
