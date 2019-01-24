@@ -2,35 +2,44 @@
   <div id="app">
     <transition name="slide-fade">
       <div v-if="this.$route.path != '/'" class="page-container">
-          <div class="page-container md-layout-column">
-          <md-toolbar :style="{background: topicmenucolor}" style="transition:all 1s;" class="md-primary">
+        <div class="page-container md-layout-column">
+          <md-toolbar
+            :style="{background: topicmenucolor}"
+            style="transition:all 1s;"
+            class="md-primary"
+          >
             <md-button class="md-icon-button" @click="showNavigation = true">
               <md-icon>menu</md-icon>
             </md-button>
-             <md-icon  class="md-size-1x md-xsmall-hide" style="margin-left:10px;margin-right:10px;">{{icon}} </md-icon> <span style="margin-left: 14px;" class="md-title">{{topicmenu}}</span>
-            
-      <!-- <md-autocomplete style="margin-left:30px;width: 45vw;" 
+            <md-icon
+              class="md-size-1x md-xsmall-hide"
+              style="margin-left:10px;margin-right:10px;"
+            >{{icon}}</md-icon>
+            <span style="margin-left: 14px;" class="md-title">{{topicmenu}}</span>
+
+            <!-- <md-autocomplete style="margin-left:30px;width: 45vw;" 
       v-model="selectedEmployee"
       :md-options="employees"
       md-layout="box"
       md-dense>
       <label>Employees</label>
-    </md-autocomplete> -->
-
+            </md-autocomplete>-->
             <div class="md-toolbar-section-end">
               <md-button @click="showSidepanel = true">
-                <md-icon class="md-size-1x md-xsmall-hide" style="margin-right:10px">account_balance </md-icon> 
-                  <span class="md-xsmall-hide" style="margin-right:20px"> {{ company_name }}</span>
-                <md-icon class="md-size-1x">account_circle</md-icon><span class="md-xsmall-hide" style="margin-right:10px"></span><span class="md-xsmall-hide">{{ name }}</span>
+                <md-icon class="md-size-1x md-xsmall-hide" style="margin-right:10px">account_balance</md-icon>
+                <span class="md-xsmall-hide" style="margin-right:20px">{{ company_name }}</span>
+                <md-icon class="md-size-1x">account_circle</md-icon>
+                <span class="md-xsmall-hide" style="margin-right:10px"></span>
+                <span class="md-xsmall-hide">{{ name }}</span>
               </md-button>
             </div>
           </md-toolbar>
-  
+
           <md-drawer :md-active.sync="showNavigation">
             <md-toolbar class="md-transparent" md-elevation="0">
               <span class="md-title">Menu</span>
             </md-toolbar>
-  
+
             <md-list>
               <md-list-item @click="goindex('/index')">
                 <md-icon>home</md-icon>
@@ -40,27 +49,44 @@
               <!-- <md-list-item @click="goindex('/quotation')">
                 <md-icon>move_to_inbox</md-icon>
                 <span class="md-list-item-text">ใบเสนอราคา</span>
-              </md-list-item> -->
-
+              </md-list-item>-->
               <md-list-item md-expand>
                 <md-icon>add</md-icon>
                 <span class="md-list-item-text">งานขาย</span>
 
                 <md-list slot="md-expand">
-                  <md-list-item @click="goindex('/quolist')" class="md-inset"><md-icon style="position:absolute;  left: 16px;">move_to_inbox</md-icon><span class="md-list-item-text">ใบเสนอราคา</span></md-list-item>
-                  <md-list-item @click="goindex('/solist')" class="md-inset"><md-icon style="position:absolute;  left: 16px;">send</md-icon><span class="md-list-item-text">ใบสั่งขาย </span></md-list-item>
+                  <md-list-item @click="goindex('/quolist')" class="md-inset">
+                    <md-icon style="position:absolute;  left: 16px;">move_to_inbox</md-icon>
+                    <span class="md-list-item-text">ใบเสนอราคา</span>
+                  </md-list-item>
+                  <md-list-item @click="goindex('/solist')" class="md-inset">
+                    <md-icon style="position:absolute;  left: 16px;">send</md-icon>
+                    <span class="md-list-item-text">ใบสั่งขาย</span>
+                  </md-list-item>
+                  <md-list-item @click="goindex('/invoice')" class="md-inset">
+                    <md-icon style="position:absolute;  left: 16px;">send</md-icon>
+                    <span class="md-list-item-text">ใบแจ้งหนี้</span>
+                  </md-list-item>
                 </md-list>
               </md-list-item>
-              
 
               <md-list-item md-expand>
                 <md-icon>store</md-icon>
                 <span class="md-list-item-text">Cashier</span>
 
                 <md-list slot="md-expand">
-                  <md-list-item @click="goindex('/depositlist')" class="md-inset"><md-icon style="position:absolute;  left: 16px;">assignment</md-icon><span class="md-list-item-text">ใบรับเงินมัดจำ</span></md-list-item>
-                  <md-list-item @click="goindex('/index')" class="md-inset"><md-icon style="position:absolute;  left: 16px;">payment</md-icon><span class="md-list-item-text">ออกบิลขาย</span></md-list-item>
-                  <md-list-item @click="goindex('/index')" class="md-inset"> <md-icon style="position:absolute;  left: 16px;">receipt</md-icon> <span class="md-list-item-text">ระบบขายหน้าร้าน</span></md-list-item>
+                  <md-list-item @click="goindex('/depositlist')" class="md-inset">
+                    <md-icon style="position:absolute;  left: 16px;">assignment</md-icon>
+                    <span class="md-list-item-text">ใบรับเงินมัดจำ</span>
+                  </md-list-item>
+                  <md-list-item @click="goindex('/index')" class="md-inset">
+                    <md-icon style="position:absolute;  left: 16px;">payment</md-icon>
+                    <span class="md-list-item-text">ออกบิลขาย</span>
+                  </md-list-item>
+                  <md-list-item @click="goindex('/index')" class="md-inset">
+                    <md-icon style="position:absolute;  left: 16px;">receipt</md-icon>
+                    <span class="md-list-item-text">ระบบขายหน้าร้าน</span>
+                  </md-list-item>
                 </md-list>
               </md-list-item>
 
@@ -69,7 +95,10 @@
                 <span class="md-list-item-text">การตลาด</span>
 
                 <md-list slot="md-expand">
-                  <md-list-item @click="goindex('/sms')" class="md-inset"><md-icon style="position:absolute;  left: 16px;">sms</md-icon><span class="md-list-item-text">ระบบ SMS</span></md-list-item>
+                  <md-list-item @click="goindex('/sms')" class="md-inset">
+                    <md-icon style="position:absolute;  left: 16px;">sms</md-icon>
+                    <span class="md-list-item-text">ระบบ SMS</span>
+                  </md-list-item>
                 </md-list>
               </md-list-item>
 
@@ -78,8 +107,14 @@
                 <span class="md-list-item-text">ระบบทะเบียน</span>
 
                 <md-list slot="md-expand">
-                  <md-list-item @click="goindex('/utility')" class="md-inset"><md-icon style="position:absolute; left: 16px;">add_shopping_cart</md-icon><span class="md-list-item-text">จัดการสินค้า</span></md-list-item>
-                  <md-list-item @click="goindex('/index')" class="md-inset"><md-icon style="position:absolute; left: 16px;">person_add</md-icon><span class="md-list-item-text">จัดการลูกค้า</span></md-list-item>
+                  <md-list-item @click="goindex('/utility')" class="md-inset">
+                    <md-icon style="position:absolute; left: 16px;">add_shopping_cart</md-icon>
+                    <span class="md-list-item-text">จัดการสินค้า</span>
+                  </md-list-item>
+                  <md-list-item @click="goindex('/index')" class="md-inset">
+                    <md-icon style="position:absolute; left: 16px;">person_add</md-icon>
+                    <span class="md-list-item-text">จัดการลูกค้า</span>
+                  </md-list-item>
                 </md-list>
               </md-list-item>
 
@@ -92,67 +127,68 @@
                 <md-icon>build</md-icon>
                 <span class="md-list-item-text">Utility</span>
               </md-list-item>
-  
+
               <!-- <md-list-item>
                 <md-icon>delete</md-icon>
                 <span class="md-list-item-text">ใบ BackOrder</span>
-              </md-list-item> -->
-           
-              <md-list-item  @click="goindex('/setting')">
+              </md-list-item>-->
+              <md-list-item @click="goindex('/setting')">
                 <md-icon>settings</md-icon>
                 <span class="md-list-item-text">Setting</span>
               </md-list-item>
-                 <md-divider></md-divider>
-                <md-list-item to="/" >
+              <md-divider></md-divider>
+              <md-list-item to="/">
                 <md-icon>exit_to_app</md-icon>
                 <span class="md-list-item-text">Logout</span>
               </md-list-item>
-                 <md-divider></md-divider>
-
+              <md-divider></md-divider>
             </md-list>
           </md-drawer>
-  
+
           <md-drawer class="md-right" :md-active.sync="showSidepanel">
             <md-toolbar class="md-transparent" md-elevation="0">
-            
-              <md-icon class="md-size-1x" style="position: absolute;
-         left: 20px;">account_circle</md-icon>
+              <md-icon
+                class="md-size-1x"
+                style="position: absolute;
+         left: 20px;"
+              >account_circle</md-icon>
               <span style="position:absolute;left:43px;" class="md-title">Profile</span>
-
             </md-toolbar>
-  
+
             <md-list>
               <md-avatar style="    min-width: 128px;
         min-height: 128px;" class="md-large">
                 <img v-show="pic_path" :src="pic_path" alt="People">
-                 <img v-show="!pic_path" src="https://www.ankarsrum.com/wp-content/uploads/2018/01/no-image-icon-.png" alt="People">
-                
-                  <!-- <img v-show="!pic_path" src="https://www.talokla.com/wp-content/uploads/2018/04/single-lady01.jpg" alt="People"> -->
+                <img
+                  v-show="!pic_path"
+                  src="https://www.ankarsrum.com/wp-content/uploads/2018/01/no-image-icon-.png"
+                  alt="People"
+                >
+
+                <!-- <img v-show="!pic_path" src="https://www.talokla.com/wp-content/uploads/2018/04/single-lady01.jpg" alt="People"> -->
               </md-avatar>
-  
+
               <div class="md-list-item-content md-ripple md-disabled" style="margin-top:20px">
                 <md-icon style="margin-right: 16px;" class="md-primary">chat_bubble</md-icon>
                 <span style="white-space: inherit;" class="md-list-item-text">{{name}}</span>
               </div>
 
-               <md-list-item>
+              <md-list-item>
                 <md-icon style="margin-right: 15px !important;" class="md-primary">build</md-icon>
                 <div class="md-list-item-text">
                   <span>{{role}}</span>
                 </div>
               </md-list-item>
-  
+
               <md-list-item>
                 <md-icon style="margin-right: 15px !important;" class="md-primary">phone</md-icon>
-  
+
                 <div class="md-list-item-text">
                   <span>(650) 555-1234</span>
                   <span>Mobile</span>
                 </div>
-  
-  
               </md-list-item>
-  
+
               <md-list-item>
                 <md-icon style="margin-right: 15px !important;" class="md-primary">business_center</md-icon>
                 <div class="md-list-item-text">
@@ -172,19 +208,20 @@
                 </div>
               </md-list-item>
               <md-list-item>
-  
-                <md-button to="/" style="position: relative; left: 28px;" class="md-raised md-accent">Logout</md-button>
-  
+                <md-button
+                  to="/"
+                  style="position: relative; left: 28px;"
+                  class="md-raised md-accent"
+                >Logout</md-button>
               </md-list-item>
             </md-list>
           </md-drawer>
-  
+
           <md-content style="background: #f4f5f7;">
             <transition name="slide-fade">
               <router-view/>
             </transition>
           </md-content>
-  
         </div>
       </div>
     </transition>
@@ -192,10 +229,9 @@
     <transition name="slide-fade">
       <login v-if="this.$route.path == '/'"></login>
     </transition>
-  
+
     <!-- v-show="this.$route.path != '/login'" -->
     <!--  -->
-  
   </div>
 </template>
 
@@ -221,7 +257,7 @@ export default {
     icon: "",
     sale_code: "",
     company_name: "",
-    permission:"",
+    permission: "",
     selectedEmployee: null,
     employees: [
       "Jim Halpert",
@@ -279,8 +315,13 @@ export default {
         this.topicmenu = "ใบสั่งขาย";
         this.icon = "bookmark_border";
       }
+      if (this.$route.fullPath.search("invoice") == 1) {
+        this.topicmenucolor = "#6c7b94";
+        this.topicmenu = "ใบแจ้งหนี้";
+        this.icon = "bookmark_border";
+      }
       if (this.$route.fullPath.search("deposit") == 1) {
-        this.topicmenucolor = "#f4c20d";
+        this.topicmenucolor = "#f4c2sd";
         this.topicmenu = "ใบรับเงินมัดจำ";
         this.icon = "assignment";
       }
@@ -467,7 +508,9 @@ tr th {
   (
     primary: md-get-palette-color(blue, A200),
     // The primary color of your application accent: md-get-palette-color(orange, A200),
+
       // The accent or secondary color theme: dark / / This can be dark or light
+
   )
 );
 @import "~vue-material/dist/theme/all";

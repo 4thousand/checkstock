@@ -29,7 +29,7 @@ export default {
       })
   },
   Customerall(payload, success, error) {
-    payload.keyword=payload.keyword.replace(" ","%")
+    payload.keyword = payload.keyword.replace(" ", "%")
     Vue.axios.post(URL + ':8081/customer/v1/search/keyword', payload).then(
       (response) => {
         success(response.data)
@@ -61,7 +61,7 @@ export default {
   },
   searchbykeyword(payload, success, error) {
     console.log(JSON.stringify(payload))
-    payload.keyword=payload.keyword.replace(" ","%")
+    payload.keyword = payload.keyword.replace(" ", "%")
     console.log(JSON.stringify(payload.keyword))
     Vue.axios.post(URL + ':8081/product/v1/search/keyword', JSON.stringify(payload)).then(
       (response) => {
@@ -83,6 +83,7 @@ export default {
   savequotation(payload, success, error) {
     Vue.axios.post(URL + ':8081/sales/v1/quo/new', JSON.stringify(payload)).then(
       (response) => {
+        console.log("บันทึก")
         success(response.data)
       },
       (response) => {
@@ -99,7 +100,7 @@ export default {
       })
   },
   searchdepartment(payload, success, error) {
-    payload.keyword=payload.keyword.replace(" ","%")
+    payload.keyword = payload.keyword.replace(" ", "%")
     Vue.axios.post(URL + ':8081/env/v1/department/search/keyword', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
@@ -109,7 +110,7 @@ export default {
       })
   },
   searchproject(payload, success, error) {
-    payload.keyword=payload.keyword.replace(" ","%")
+    payload.keyword = payload.keyword.replace(" ", "%")
     Vue.axios.post(URL + ':8081/env/v1/project/search/keyword', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
@@ -119,7 +120,7 @@ export default {
       })
   },
   searchAllocate(payload, success, error) {
-    payload.keyword=payload.keyword.replace(" ","%")
+    payload.keyword = payload.keyword.replace(" ", "%")
     Vue.axios.post(URL + ':8081/env/v1/allocate/search/keyword', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
@@ -156,7 +157,7 @@ export default {
       })
   },
   searchDepByKeyword(payload, success, error) {
-    payload.keyword=payload.keyword.replace(" ","%")
+    payload.keyword = payload.keyword.replace(" ", "%")
     Vue.axios.post(URL + ':8081/sales/v1/dep/search/keyword', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
@@ -165,8 +166,8 @@ export default {
         error(response)
       })
   },
-  searchReserveByKeyword(payload, success, error){
-    payload.keyword=payload.keyword.replace(" ","%")
+  searchReserveByKeyword(payload, success, error) {
+    payload.keyword = payload.keyword.replace(" ", "%")
     Vue.axios.post(URL + ':8081/sales/v1/dep/reserve/search', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)

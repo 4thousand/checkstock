@@ -1,6 +1,7 @@
 <template>
   <div ref="testDiv" class="quotation">
     <loading :active.sync="isLoading" :can-cancel="true" :is-full-page="fullPage"></loading>
+
     <div ref="testDiv" class="fluid-container">
       <div>
         <div class="container-fluid">
@@ -21,7 +22,7 @@
                     <!-- <md-button style="position: relative;top: 50%;transform: translateY(-50%);" class="md-raised md-primary"><span>ค้นหา</span> </md-button> -->
                   </div>
                   <div class="md-layout-item md-size-20 md-small-size-100">
-                    <span class="md-title sub">เลขที่ใบเสนอราคา</span>
+                    <span class="md-title sub">ประเภทการชำระเงิน</span>
                     <md-field>
                       <md-select
                         v-hotkey="keymap"
@@ -31,27 +32,8 @@
                         name="country"
                         id="country"
                       >
-                        <md-option value="QT">ใบเสนอราคา</md-option>
-                        <md-option value="BO">ใบสั่งซื้อล่วงหน้า (BackOrder)</md-option>
-                      </md-select>
-                    </md-field>
-                  </div>
-
-                  <div :class="attention" class="md-layout-item md-size-25 md-small-size-100">
-                    <!-- :class="disablebilltype+'0'" -->
-                    <span ref="focustype" class="md-title sub">ประเภทเสนอราคา</span>
-                    <!-- v-show="disablebilltype"   -->
-                    <md-field>
-                      <!-- :disabled="disablebilltype" -->
-                      <md-select
-                        @input="showdocno(),changePriceType()"
-                        v-model="billtype"
-                        name="country"
-                        id="country"
-                        placeholder="กรุณาเลือก"
-                      >
-                        <md-option value="0">ขายสินค้าเงินสด</md-option>
-                        <md-option value="1">ขายสินค้าเงินเชื่อ</md-option>
+                        <md-option value="QT">เงินสด</md-option>
+                        <md-option value="BO">เงินเชื่อ</md-option>
                       </md-select>
                     </md-field>
                   </div>
@@ -72,7 +54,7 @@
                 <!--docno mockdocno-->
                 <div class="md-layout md-gutter">
                   <div class="md-layout-item md-size-10 md-small-size-100"></div>
-                  <div class="md-layout-item md-size-45 md-small-size-100">
+                  <div class="md-layout-item md-size-20 md-small-size-100">
                     <span class="md-title sub">ประเภทภาษี</span>
                     <md-field>
                       <md-select
@@ -87,35 +69,15 @@
                       </md-select>
                     </md-field>
                   </div>
-
                   <div
-                    id="changetop_mobile"
-                    style="position:relative"
+                    id="notop_mobile"
+                    style="position: relative; top: 25px;"
                     class="md-layout-item md-size-40 md-small-size-100"
                   >
-                    <span class="md-title sub">วันที่ออก</span>
-                    <div style="position:relative;height:100%;">
-                      <md-icon
-                        style="float:left;position:relative;top:28px;margin-right:10px;"
-                      >calendar_today</md-icon>
-                      <datepicker
-                        v-model="datenow_datepicker"
-                        input-class="form-control tc"
-                        style="position:relative;top:15px;"
-                        :language="languages[language]"
-                        format="d MMMM yyyy"
-                      ></datepicker>
-                    </div>
-                  </div>
-                  <!--  -->
-                </div>
-
-                <div class="md-layout md-gutter md-title">
-                  <div class="md-layout-item md-size-10 md-small-size-100"></div>
-                  <div class="md-layout-item md-size-40 md-small-size-90">
                     <md-field>
-                      <md-icon>account_circle</md-icon>
                       <label>รหัสลูกค้า</label>
+                      <md-icon>account_circle</md-icon>
+
                       <md-input required @keyup.enter="fsearchcus" v-model="searchcus"></md-input>
 
                       <md-avatar style="position:absolute;right:0;top:10px">
@@ -124,17 +86,22 @@
                           <md-icon style="color:white;">keyboard</md-icon>รหัสลูกค้า หรือ ชื่อ + Enter
                         </md-tooltip>
                       </md-avatar>
-                      <!-- <md-icon>info</md-icon> -->
                     </md-field>
                   </div>
                   <div
                     class="md-size-5 md-small-size-5"
-                    style="margin-left:-15px;margin-right:35px"
+                    style="margin-left:-15px;margin-right:35px;     margin-top: 20px;"
                   >
                     <md-button @click="fsearchcus" class="md-icon-button md-raised md productadd">
                       <md-icon>add</md-icon>
                     </md-button>
                   </div>
+                  <!--  -->
+                </div>
+
+                <div class="md-layout md-gutter md-title">
+                  <div class="md-layout-item md-size-10 md-small-size-100"></div>
+
                   <div
                     style="position: relative; top: 4px;"
                     class="md-layout-item md-size-40 md-small-size-100"
@@ -206,20 +173,35 @@
 
                     <md-table-row @click="checkval(item)" slot="md-table-row" slot-scope="{ item }">
                       <md-table-cell md-label="รหัสสินค้า" md-sort-by="item_code" md-numeric>
-                        <input type="text" class="datatable" disabled v-model="item.item_code">
+                        <input
+                          type="text"
+                          class="datatable"
+                          disabled
+                          v-model="item.item_code"
+                          style="  border: none;
+  border-bottom:2px solid #ded8d8; background-color: #FFF;"
+                        >
                       </md-table-cell>
                       <md-table-cell md-label="ชื่อสินค้า" md-sort-by="item_name">
-                        <input type="text" class="datatable" disabled v-model="item.item_name">
+                        <input
+                          type="text"
+                          class="datatable"
+                          disabled
+                          v-model="item.item_name"
+                          style="  border: none;
+  border-bottom:2px solid #ded8d8; background-color: #FFF;"
+                        >
                       </md-table-cell>
                       <md-table-cell md-label="หน่วยนับ" md-sort-by="unit_code">
                         <input
                           type="text"
-                          style="padding-right: 31px !important;"
+                          style="padding-right: 31px !important;  border: none;
+  border-bottom:2px solid #ded8d8; background-color: #FFF;"
                           class="datatable"
                           v-model="item.unit_code"
                         >
-                        <div @click="searchunticode(item)">
-                          <md-icon class="search_unitcode">arrow_drop_down</md-icon>
+                        <div @click="searchunticode(item) ">
+                          <md-icon class="search_unitcode" style="    border: none;">arrow_drop_down</md-icon>
                         </div>
                       </md-table-cell>
                       <md-table-cell md-label="จำนวน" md-sort-by="qty">
@@ -228,6 +210,8 @@
                           class="datatable"
                           @keyup="calculatedata(item)"
                           v-model.number="item.qty"
+                          style="  border: none;
+  border-bottom:2px solid #ded8d8; background-color: #FFF;"
                         >
                       </md-table-cell>
                       <md-table-cell md-label="ราคา/หน่วย" md-sort-by="price">
@@ -236,7 +220,8 @@
                           disabled
                           class="datatable"
                           @keyup="calculatedata(item)"
-                          style="width:100%"
+                          style="width:100%;border: none;
+  border-bottom:2px solid #ded8d8; background-color: #FFF;"
                           v-model="item.price"
                         >
                       </md-table-cell>
@@ -247,6 +232,8 @@
                           class="datatable"
                           @keyup="calculatedata(item)"
                           v-model="item.discount_word"
+                          style="  border: none;
+  border-bottom:2px solid #ded8d8; background-color: #FFF;"
                         >
                       </md-table-cell>
                       <md-table-cell md-label="จำนวนเงิน" md-sort-by="item_amount">
@@ -255,6 +242,8 @@
                           disabled
                           class="datatable"
                           v-model.number="item.item_amount"
+                          style="  border: none;
+  border-bottom:2px solid #ded8d8; background-color: #FFF;"
                         >
                       </md-table-cell>
                       <!-- <md-table-cell md-label="เงื่อนไขการขนส่ง" md-sort-by="because">{{ item.because }}</md-table-cell> -->
@@ -437,216 +426,41 @@
               <div style="display:inline-block">
                 <form class="md-layout" style="justify-content: center;">
                   <md-card
-                    style="margin-right:8px;margin-bottom:8px;"
-                    class="md-layout-item md-size-90 md-small-size-100"
-                  >
-                    <md-card-header>
-                      <div class="md-title">พนักงาน</div>
-                    </md-card-header>
-                    <md-card-content>
-                      <div class="md-layout md-gutter">
-                        <div class="md-layout-item md-small-size-100" style="position:relative">
-                          <md-field>
-                            <label for="first-name subnotop">รหัสพนักงานขาย</label>
-                            <md-input
-                              name="first-name"
-                              ref="codesale"
-                              @keyup.enter="searchsale_step2"
-                              v-model="salecode"
-                              id="first-name"
-                              autocomplete="given-name"
-                            />
-                          </md-field>
-                          <md-avatar style="position: absolute; top: 15px;right:10px;">
-                            <md-icon style="color:grey">info</md-icon>
-                            <md-tooltip md-direction="top">
-                              <md-icon style="color:white;">keyboard</md-icon>รหัสพนักงาน หรือ ชื่อพนักงาน + Enter
-                            </md-tooltip>
-                          </md-avatar>
-                          <!-- <md-button style="min-width: 50px;" class="buttonemp" @click="focussearchcus">
-                            <md-icon>clear</md-icon>
-                          </md-button>-->
-                        </div>
-                        <div class="md-layout-item md-size-50 md-small-size-100">
-                          <md-field>
-                            <label for="last-name subnotop">แผนก</label>
-                            <md-input
-                              name="last-name"
-                              id="last-name"
-                              @keyup.enter="searchdepart_step2"
-                              v-model="department"
-                              autocomplete="family-name"
-                            />
-                          </md-field>
-                          <md-avatar style="position: absolute; top: 15px;right:10px;">
-                            <md-icon style="color:grey">info</md-icon>
-                            <md-tooltip md-direction="top">
-                              <md-icon style="color:white;">keyboard</md-icon>รหัสแผนก หรือ ชื่อแผนก + Enter
-                            </md-tooltip>
-                          </md-avatar>
-                        </div>
-                        <div class="md-layout-item md-size-50 md-small-size-100">
-                          <md-field>
-                            <label for="last-name">รหัสผู้ติดต่อ</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name"/>
-                          </md-field>
-                          <md-button style="min-width: 50px;" class="buttonemp" @click="tests">
-                            <md-icon>search</md-icon>
-                          </md-button>
-                        </div>
-                        <div class="md-layout-item md-size-50 md-small-size-100">
-                          <md-field>
-                            <label for="last-name">การจัดสรร</label>
-                            <md-input
-                              name="last-name"
-                              id="last-name"
-                              @keyup.enter="searchAllocate"
-                              v-model="Allocate"
-                              autocomplete="family-name"
-                            />
-                          </md-field>
-                          <md-avatar style="position: absolute; top: 15px;right:10px;">
-                            <md-icon style="color:grey">info</md-icon>
-                            <md-tooltip md-direction="top">
-                              <md-icon style="color:white;">keyboard</md-icon>รหัสการจัดสรร หรือ ชื่อการจัดสรร + Enter
-                            </md-tooltip>
-                          </md-avatar>
-                        </div>
-                        <div class="md-layout-item md-size-100 md-small-size-100">
-                          <md-field>
-                            <label for="last-name">โครงการ</label>
-                            <md-input
-                              name="last-name"
-                              id="last-name"
-                              @keyup.enter="searchproject_step2"
-                              v-model="project"
-                              autocomplete="family-name"
-                            />
-                          </md-field>
-                          <md-avatar style="position: absolute; top: 15px;right:10px;">
-                            <md-icon style="color:grey">info</md-icon>
-                            <md-tooltip md-direction="top">
-                              <md-icon style="color:white;">keyboard</md-icon>รหัสโครงการ หรือ ชื่อโครงการ + Enter
-                            </md-tooltip>
-                          </md-avatar>
-                        </div>
-                        <div class="md-layout-item md-size-50 md-small-size-100">
-                          <md-field>
-                            <label for="last-name">Job ID (Optional)</label>
-                            <md-input/>
-                          </md-field>
-                        </div>
-                      </div>
-                    </md-card-content>
-                    <md-card-actions></md-card-actions>
-                  </md-card>
-
-                  <md-card
                     style="margin-bottom:8px;margin-right:8px;"
                     class="md-layout-item md-size-45 md-small-size-100"
                   >
-                    <md-card-header>
-                      <div class="md-title">ยืนราคา</div>
-                    </md-card-header>
-                    <md-card-content>
-                      <div class="md-layout md-gutter">
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="first-name subnotop">ยืนราคา</label>
-                            <md-input
-                              name="first-name"
-                              v-model="validity"
-                              id="first-name"
-                              autocomplete="given-name"
-                            />
-                          </md-field>
-                          <label class="abright" for="first-name subnotop">วัน</label>
-                        </div>
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="last-name subnotop">ลูกค้าต้องตอบรับภายใน</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name"/>
-                          </md-field>
-                          <label class="abright" for="first-name subnotop">วัน</label>
-                        </div>
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="last-name">เอกสารหมดอายุภายใน</label>
-                            <md-input
-                              @keyup="calexpiredate"
-                              v-model="expire_date"
-                              name="last-name"
-                              id="last-name"
-                              autocomplete="family-name"
-                            />
-                          </md-field>
-                          <label class="abright" for="first-name subnotop">วัน</label>
-                        </div>
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="last-name">ส่งมอบภายใน</label>
-                            <md-input
-                              name="last-name"
-                              @keyup="calDeliverdate"
-                              v-model="Deliver_date"
-                              id="last-name"
-                              autocomplete="family-name"
-                            />
-                          </md-field>
-                          <label class="abright" for="first-name subnotop">วัน</label>
-                        </div>
-                        <div class="md-layout-item md-size-50 md-xsmall-size-100">
-                          <md-field>
-                            <label for="last-name">เครดิต(วัน)</label>
-                            <md-input
-                              disabled
-                              v-model="bill_credit"
-                              name="last-name"
-                              id="last-name"
-                              autocomplete="family-name"
-                            />
-                          </md-field>
-                          <label class="abright" for="first-name subnotop">วัน</label>
-                        </div>
-
+                    <md-table v-model="searched" md-card md-fixed-header style="text-align:left">
+                      <md-table-toolbar>
                         <div
-                          style="position:relative;top:-30px;"
-                          class="md-layout-item md-size-50 md-xsmall-size-100"
-                        >
-                          <span
-                            class="md-title subnotop"
-                            style="position: relative; top: 20px;"
-                          >วันที่เริ่มตามลูกค้า</span>
-                          <div style="position:relative;">
-                            <md-icon
-                              style="float:left;position:relative;top:28px;margin-right:5px;"
-                            >calendar_today</md-icon>
-                            <datepicker
-                              calendar-class="calendarfollowcus"
-                              input-class="form-control"
-                              style="position:relative;top:15px;width: 80%;"
-                              :language="languages[language]"
-                              format="d MMMM yyyy"
-                            ></datepicker>
-                          </div>
-                        </div>
-                        <div class="md-layout-item md-size-50 md-xsmall-size-100">
-                          <span class="md-title sub" style="font-size: 18px;">เงื่อนไขการขนส่ง</span>
-                          <md-field>
-                            <md-select
-                              placeholder="กรุณาเลือก"
-                              v-model="is_condition_send"
-                              name="condition_send"
-                              id="condition_send"
-                            >
-                              <md-option value="0">รับเอง</md-option>
-                              <md-option value="1">ส่งให้</md-option>
-                            </md-select>
-                          </md-field>
-                        </div>
-                      </div>
-                    </md-card-content>
-                    <md-card-actions></md-card-actions>
+                          style="float:left;position:relative;top:13px;margin-right:10px"
+                        >วิธีชำระเงิน</div>
+                      </md-table-toolbar>
+                      <md-table-row @click="checkval(item)">
+                        <md-table-cell md-sort-by="item_code" md-numeric style="text-align:left">
+                          <label>เงินสด</label>
+                        </md-table-cell>
+                      </md-table-row>
+                      <md-table-row>
+                        <md-table-cell md-sort-by="item_code" md-numeric style="text-align:left">
+                          <label>บัตร</label>
+                        </md-table-cell>
+                      </md-table-row>
+                      <md-table-row>
+                        <md-table-cell md-sort-by="item_code" md-numeric style="text-align:left">
+                          <label>โอน</label>
+                        </md-table-cell>
+                      </md-table-row>
+                      <md-table-row>
+                        <md-table-cell md-sort-by="item_code" md-numeric style="text-align:left">
+                          <label>เช็ค</label>
+                        </md-table-cell>
+                      </md-table-row>
+                      <md-table-row>
+                        <md-table-cell md-sort-by="item_code" md-numeric style="text-align:left">
+                          <label>พร้อมเพรย์</label>
+                        </md-table-cell>
+                      </md-table-row>
+                    </md-table>
                   </md-card>
 
                   <md-card
@@ -654,108 +468,9 @@
                     class="md-layout-item md-size-45 md-small-size-100"
                   >
                     <md-card-header>
-                      <div class="md-title">วันที่หมดอายุ</div>
+                      <div class="md-title">ชำระเงินสด</div>
                     </md-card-header>
-                    <md-card-content>
-                      <div class="md-layout md-gutter">
-                        <div
-                          style="position:relative;top:-30px"
-                          class="md-layout-item md-size-100 md-xsmall-size-100"
-                        >
-                          <span
-                            class="md-title subnotop"
-                            style="position: relative; top: 20px;"
-                          >วันที่หมดอายุ</span>
-                          <div style="position:relative;">
-                            <md-icon
-                              style="float:left;position:relative;top:28px;margin-right:5px;"
-                            >calendar_today</md-icon>
-                            <datepicker
-                              @input="calexpire_Date"
-                              v-model="expiredate_cal"
-                              input-class="form-control"
-                              style="position:relative;top:15px;width: 80%;"
-                              :language="languages[language]"
-                              format="d MMMM yyyy"
-                            ></datepicker>
-                          </div>
-                        </div>
-                        <!--  -->
-                        <div
-                          style="position:relative;top:-30px"
-                          class="md-layout-item md-size-100 md-xsmall-size-100"
-                        >
-                          <span
-                            class="md-title subnotop"
-                            style="position: relative; top: 20px;"
-                          >ลงวันที่</span>
-                          <div style="position:relative;">
-                            <md-icon
-                              style="float:left;position:relative;top:28px;margin-right:5px;"
-                            >calendar_today</md-icon>
-                            <datepicker
-                              @input="calDueDate_date"
-                              v-model="DueDate_date"
-                              input-class="form-control tc"
-                              style="position:relative;top:15px;width: 80%;"
-                              :language="languages[language]"
-                              format="d MMMM yyyy"
-                            ></datepicker>
-                          </div>
-                        </div>
-                        <!--  -->
-                        <div
-                          style="position:relative;top:-30px"
-                          class="md-layout-item md-size-100 md-xsmall-size-100"
-                        >
-                          <span
-                            class="md-title subnotop"
-                            style="position: relative;top:20px"
-                          >วันที่ครบกำหนด</span>
-                          <md-icon style="position:relative;top:15px;color:black">lock</md-icon>
-
-                          <div style="position:relative;">
-                            <md-icon
-                              style="float:left;position:relative;top:28px;margin-right:5px;"
-                            >calendar_today</md-icon>
-                            <datepicker
-                              disabled
-                              v-model="DueDate_cal"
-                              input-class="form-control tc"
-                              style="position:relative;top:15px;width: 80%;"
-                              :language="languages[language]"
-                              format="d MMMM yyyy"
-                            ></datepicker>
-                          </div>
-                        </div>
-                        <!--  -->
-                        <div
-                          style="position:relative;top:-15px"
-                          class="md-layout-item md-size-50 md-xsmall-size-100"
-                        >
-                          <span class="md-title sub" style="font-size: 18px;">คำตอบจากลูกค้า</span>
-                          <md-field>
-                            <md-select
-                              placeholder="กรุณาเลือก"
-                              v-model="answer_cus"
-                              name="condition_send"
-                              id="condition_send"
-                            >
-                              <md-option value="0">รอตอบกลับ</md-option>
-                              <md-option value="1">ตอบกลับแล้ว</md-option>
-                              <md-option value="2">ไม่รับในราคา</md-option>
-                            </md-select>
-                          </md-field>
-                        </div>
-                        <div class="md-layout-item md-size-50 md-xsmall-size-100" style="top:16px">
-                          <md-field>
-                            <label for="last-name">รูปแบบการสั่งซื้อสินค้า</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name"/>
-                          </md-field>
-                        </div>
-                        <!--  -->
-                      </div>
-                    </md-card-content>
+                    
                     <md-card-actions></md-card-actions>
                   </md-card>
                   <md-card
@@ -814,48 +529,6 @@
                     </md-card-content>
                     <md-card-actions></md-card-actions>
                   </md-card>
-
-                  <!-- <md-card class="md-layout-item md-size-90 md-small-size-100">
-                    <md-card-header>
-                      <div class="md-title ">เรื่อง</div>
-                    </md-card-header>
-                    <md-card-content>
-                      <div class="md-layout md-gutter">
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="first-name subnotop">เรื่อง</label>
-                            <md-input name="first-name" id="first-name" autocomplete="given-name" />
-                          </md-field>
-                        </div>
-                      </div>
-                      <div class="md-layout md-gutter">
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="last-name subnotop">สิ่งที่ส่งมาด้วย</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name" />
-                          </md-field>
-                        </div>
-                      </div>
-                      <div class="md-layout md-gutter">
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="last-name">หมายเหตุ1</label>
-                            <md-input name="last-name" v-model="my_description" id="last-name" autocomplete="family-name" />
-                          </md-field>
-                        </div>
-                      </div>
-                      <div class="md-layout md-gutter">
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="last-name">หมายเหตุ2</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name" />
-                          </md-field>
-                        </div>
-                      </div>
-                    </md-card-content>
-                    <md-card-actions>
-                    </md-card-actions>
-                  </md-card>-->
                 </form>
               </div>
               <md-button
@@ -1357,8 +1030,8 @@
   </div>
 </template>
 
-<script src="../../js/quotation.js">
+<script src="../../js/invoice.js">
 </script>
 
-<style  src="./quotation.css">
+<style  src="./invoice.css">
 </style>

@@ -119,11 +119,7 @@
                     <md-field>
                       <md-icon>account_circle</md-icon>
                       <label>รหัสลูกค้า</label>
-                      <md-input
-                        required
-                        @keyup.enter="fsearchcus"
-                        v-model="searchcus"
-                      ></md-input>
+                      <md-input required @keyup.enter="fsearchcus" v-model="searchcus"></md-input>
 
                       <md-avatar style="position:absolute;right:0;top:10px">
                         <md-icon>info</md-icon>
@@ -133,11 +129,11 @@
                       </md-avatar>
                     </md-field>
                   </div>
-                  <div class="md-size-5 md-small-size-5" style="margin-left:-15px;margin-right:35px">
-                    <md-button
-                      @click="fsearchcus"
-                      class="md-icon-button md-raised md productadd"
-                    >
+                  <div
+                    class="md-size-5 md-small-size-5"
+                    style="margin-left:-15px;margin-right:35px"
+                  >
+                    <md-button @click="fsearchcus" class="md-icon-button md-raised md productadd">
                       <md-icon>add</md-icon>
                     </md-button>
                   </div>
@@ -201,15 +197,14 @@
                           v-model="search"
                           @input="searchOnTable"
                         />
-                      </md-field> -->
+                      </md-field>-->
                     </md-table-toolbar>
 
                     <md-table-empty-state
                       style="width:100% !important;"
                       md-label="ไม่พบสินค้า"
                       :md-description="`ไม่มีสินค้า  '${search}' ในระบบกรุณาตรวจสอบใหม่อีกครั้ง`"
-                    >
-                    </md-table-empty-state>
+                    ></md-table-empty-state>
 
                     <md-table-row @click="checkitem" slot="md-table-row" slot-scope="{ item }">
                       <!-- <md-table-cell md-label="ลำดับ" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell> -->
@@ -585,7 +580,9 @@
                     </md-card-header>
                     <md-card-content>
                       <div class="md-layout md-gutter">
-                        <div class="md-layout-item md-small-size-100 md-layout-item md-xlarge-size-50">
+                        <div
+                          class="md-layout-item md-small-size-100 md-layout-item md-xlarge-size-50"
+                        >
                           <md-field>
                             <label for="first-name subnotop">ยืนราคา</label>
                             <md-input
@@ -604,7 +601,9 @@
                           </md-field>
                           <label class="abright" for="first-name subnotop">วัน</label>
                         </div>
-                        <div class="md-layout-item md-small-size-100 md-large-size-50 md-xlarge-size-50">
+                        <div
+                          class="md-layout-item md-small-size-100 md-large-size-50 md-xlarge-size-50"
+                        >
                           <md-field>
                             <label for="last-name">เอกสารหมดอายุภายใน</label>
                             <md-input
@@ -1104,6 +1103,7 @@
                     <tbody id="valuetable">
                       <tr
                         v-for="(val,index) in dproducts"
+                        :key="index"
                         style="width:100%;cursor:pointer;border-bottom: 1px rgba(0,0,0,0.25) solid;text-align:center"
                       >
                         <td>{{index+1}}</td>
@@ -1197,7 +1197,12 @@
           <md-tabs md-dynamic-height>
             <md-tab md-label>
               <md-field>
-                <md-input v-model="searchcus" @keyup="searchCustomerRT" @keydown="searchCustomerRT" @input="searchCustomerRT"></md-input>
+                <md-input
+                  v-model="searchcus"
+                  @keyup="searchCustomerRT"
+                  @keydown="searchCustomerRT"
+                  @input="searchCustomerRT"
+                ></md-input>
               </md-field>
               <div class="table-responsive" style="overflow-y: auto;">
                 <table class="table table-hover">
@@ -1214,6 +1219,7 @@
                     <tr
                       @click="C_customer(val)"
                       v-for="(val,index) in detailcusall"
+                      :key="index"
                       style="text-align:center;cursor:pointer"
                     >
                       <td>{{index+1}}</td>
@@ -1241,7 +1247,12 @@
           <md-tabs id="none" md-dynamic-height>
             <md-tab md-label>
               <md-field>
-                <md-input v-model="keywordproduct" @keyup="addproductrt" @keydown="addproductrt" @input="addproductrt"></md-input>
+                <md-input
+                  v-model="keywordproduct"
+                  @keyup="addproductrt"
+                  @keydown="addproductrt"
+                  @input="addproductrt"
+                ></md-input>
               </md-field>
               <div class="table-responsive" style="overflow-y: auto;">
                 <table class="table table-hover">
@@ -1259,7 +1270,7 @@
                       <th style="white-space: nowrap;">อัตราส่วน</th>
                     </tr>
                   </thead>
-                  <tbody v-for="(val,index) in dataproductDialog" id="valuetable">
+                  <tbody v-for="(val,index) in dataproductDialog" id="valuetable" :key="index">
                     <tr @click="findstock(val,index)" style="text-align:center;cursor:pointer">
                       <td>{{index+1}}</td>
                       <td v-show="val.pic_path_1">
@@ -1340,6 +1351,7 @@
                     <tr
                       @click="selectcus_step2(val)"
                       v-for="(val,index) in searchsaleobj"
+                      :key="index"
                       style="text-align:center;cursor:pointer"
                     >
                       <td>{{index+1}}</td>
@@ -1377,6 +1389,7 @@
                     <tr
                       @click="selectdepart_step2(val)"
                       v-for="(val,index) in objdepart"
+                      :key="index"
                       style="text-align:center;cursor:pointer"
                     >
                       <td>{{index+1}}</td>
@@ -1414,6 +1427,7 @@
                     <tr
                       @click="selectproject_step2(val)"
                       v-for="(val,index) in objproject"
+                      :key="index"
                       style="text-align:center;cursor:pointer"
                     >
                       <td>{{index+1}}</td>
@@ -1450,6 +1464,7 @@
                     <tr
                       @click="selectAllocate_step2(val)"
                       v-for="(val,index) in objAllocate"
+                      :key="index"
                       style="text-align:center;cursor:pointer"
                     >
                       <td>{{index+1}}</td>
@@ -1487,6 +1502,7 @@
                   <tbody id="valuetable">
                     <tr
                       v-for="(val,index) in unitcode_obj"
+                      :key="index"
                       @click="selectunitcode_step2(val)"
                       style="text-align:center;cursor:pointer"
                     >
@@ -1526,6 +1542,7 @@
                   <tbody id="valuetable">
                     <tr
                       v-for="(val,index) in stock_obj"
+                      :key="index"
                       @click="selectwarehousecode(val)"
                       style="text-align:center;cursor:pointer"
                     >

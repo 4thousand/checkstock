@@ -257,7 +257,7 @@
                         <tr
                           class="table-pointer"
                           @click="searchCustomer(val),showDialog = false,selectCustomer=true"
-                          v-for="(val,index) in customerDetail"
+                          v-for="(val,index) in customerDetail" :key="index"
                           style="text-align:center;cursor:pointer"
                         >
                           <td>{{index+1}}</td>
@@ -305,7 +305,7 @@
                         <tr
                           class="table-pointer"
                           @click="searchReserve(val),showReserve = false,selectReserve=true"
-                          v-for="(val,index) in reserveDetail"
+                          v-for="(val,index) in reserveDetail" :key="index"
                           style="text-align:center;cursor:pointer"
                         >
                           <td>{{index+1}}</td>
@@ -384,7 +384,7 @@
                     <h4 class="payment-sub-header information-part col-12">บัตรเครดิต/บัตรเดบิต</h4>
 
                     <!-- v-for -->
-                    <div class="col-md-12 col-12" v-for="(val,index) in creditCardList">
+                    <div class="col-md-12 col-12" v-for="(val,index) in creditCardList" :key="index">
                       <div class="form-group row">
                         <div class="col-lg-12 col-md-12 col-12">
                           <div class="alert alert-info">
@@ -421,7 +421,7 @@
                     <hr class="col-10">
                     <h4 class="payment-sub-header information-part col-12">เช็ค</h4>
                     <!-- v-for -->
-                    <div class="col-md-12 col-12" v-for="(val,index) in chqList">
+                    <div class="col-md-12 col-12" v-for="(val,index) in chqList" :key="index">
                       <div class="form-group row">
                         <div class="col-lg-12 col-md-12 col-12">
                           <div class="alert alert-info">
@@ -460,7 +460,7 @@
                     <hr class="col-10">
                     <h4 class="payment-sub-header information-part col-12">เงินโอน</h4>
                     <!-- v-for -->
-                    <div class="col-md-12 col-12" v-for="(val,index) in bankTransList">
+                    <div class="col-md-12 col-12" v-for="(val,index) in bankTransList" :key="index">
                       <div class="form-group row">
                         <div class="col-lg-12 col-md-12 col-12">
                           <div class="alert alert-info">

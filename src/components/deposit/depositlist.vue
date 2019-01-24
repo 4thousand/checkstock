@@ -10,7 +10,7 @@
         </md-field>
       </div>
 
-      <div v-for="val in deplist">
+      <div v-for="(val,index) in deplist" :key="index">
         <div
           @click="editDepo(val)"
           class="col-12 showhover"

@@ -4,7 +4,7 @@ const toLower = text => {
 
 const searchByName = (items, term) => {
   if (term) {
-    return items.filter(item => toLower(item.item_name).includes(toLower(term)) || toLower(item.unit_code).includes(toLower(term))  );
+    return items.filter(item => toLower(item.item_name).includes(toLower(term)) || toLower(item.unit_code).includes(toLower(term)));
   }
   return items;
 }
@@ -29,6 +29,7 @@ export default {
     selectedDate: null,
     date: "",
     search: [],
+    searched: '',
     search: '',
     objuser: JSON.parse(localStorage.Datauser),
     dproducts: [],
@@ -47,7 +48,7 @@ export default {
     tablecode: '',
     billtype: '',
     taxtype: 1,
-    mockdocno:'',
+    mockdocno: '',
     docno: 'ไม่มีข้อมูล',
     keywordproduct: '',
     showDialogproduct: false,
@@ -80,33 +81,33 @@ export default {
     answer_cus: '',
     company_id: localStorage.company_id,
     php: 'http://' + document.domain,
-    ar_bill_address:'',
-    ar_telephone:'',
-    department:'',
-    searchdepart:false,
-    objdepart:[],
-    project:'',
-    idprojectC:'',
-    searchproject:false,
-    objproject:[],
-    Allocate:'',
-    searchAllocate_m:false,
-    objAllocate:[],
-    Allocateid:'',
-    searchunitcode_m:false,
-    unitcode_obj:[],
-    thisunticode:[],
-    stockobj:[],
-    namestock:'',
-    stockall:[],
+    ar_bill_address: '',
+    ar_telephone: '',
+    department: '',
+    searchdepart: false,
+    objdepart: [],
+    project: '',
+    idprojectC: '',
+    searchproject: false,
+    objproject: [],
+    Allocate: '',
+    searchAllocate_m: false,
+    objAllocate: [],
+    Allocateid: '',
+    searchunitcode_m: false,
+    unitcode_obj: [],
+    thisunticode: [],
+    stockobj: [],
+    namestock: '',
+    stockall: [],
     isLoading: false,
     fullPage: true,
   }),
   methods: {
-    checkval(val){
+    checkval(val) {
       console.log(val)
     },
-    searchunticode(val){
+    searchunticode(val) {
       // console.log(index)
       // console.log(this.selectunitcode_step2())
       console.log(JSON.stringify(val))
@@ -120,7 +121,7 @@ export default {
           this.isLoading = false
           console.log(JSON.stringify(result.data))
           this.unitcode_obj = result.data
-           this.searchunitcode_m = true
+          this.searchunitcode_m = true
         },
         (error) => {
           this.isLoading = false
@@ -128,33 +129,33 @@ export default {
           alertify.error('Data ข้อมูล Unit code ผิดพลาด');
         })
     },
-    selectunitcode_step2(val){
+    selectunitcode_step2(val) {
       console.log(JSON.stringify(val))
       this.searchunitcode_m = false
       var index = this.findWithAttr(this.dproducts, 'item_name', val.item_name)
-          if(this.billtype == 0){//สด  
-            this.dproducts[index].unit_code = val.unit_code
-            this.dproducts[index].price = val.sale_price_1
-            this.dproducts[index].packing_rate_1 = val.rate_1
-            this.dproducts[index].item_amount = (this.dproducts[index].price * this.dproducts[index].qty)-this.dproducts[index].discount_word
-          }
-          if(this.billtype == 1){//เชื่อ
-            this.dproducts[index].unit_code = val.unit_code
-            this.dproducts[index].price = val.sale_price_2
-            this.dproducts[index].packing_rate_1 = val.rate_1
-            this.dproducts[index].item_amount = (this.dproducts[index].price * this.dproducts[index].qty)-this.dproducts[index].discount_word
-          }
-     
+      if (this.billtype == 0) {//สด  
+        this.dproducts[index].unit_code = val.unit_code
+        this.dproducts[index].price = val.sale_price_1
+        this.dproducts[index].packing_rate_1 = val.rate_1
+        this.dproducts[index].item_amount = (this.dproducts[index].price * this.dproducts[index].qty) - this.dproducts[index].discount_word
+      }
+      if (this.billtype == 1) {//เชื่อ
+        this.dproducts[index].unit_code = val.unit_code
+        this.dproducts[index].price = val.sale_price_2
+        this.dproducts[index].packing_rate_1 = val.rate_1
+        this.dproducts[index].item_amount = (this.dproducts[index].price * this.dproducts[index].qty) - this.dproducts[index].discount_word
+      }
+
     },
-     findWithAttr(array, attr, value) {
-      for(var i = 0; i < array.length; i += 1) {
-          if(array[i][attr] === value) {
-              return i;
-          }
+    findWithAttr(array, attr, value) {
+      for (var i = 0; i < array.length; i += 1) {
+        if (array[i][attr] === value) {
+          return i;
+        }
       }
       return -1;
     },
-    searchAllocate(){
+    searchAllocate() {
       let payload = {
         keyword: this.Allocate
       }
@@ -172,7 +173,7 @@ export default {
           if (result.data.length == 1) {
             this.Allocateid = result.data[0].id
             this.Allocate = result.data[0].name
-            
+
           } else if (result.data.length > 1) {
             this.searchAllocate_m = true
             this.objAllocate = result.data
@@ -184,12 +185,12 @@ export default {
           alertify.error('Data ข้อมูลการจัดสรรผิดพลาด');
         })
     },
-    selectAllocate_step2(val){
+    selectAllocate_step2(val) {
       this.Allocateid = val.id
       this.Allocate = val.name
       this.searchAllocate_m = false
     },
-    searchproject_step2(){
+    searchproject_step2() {
       let payload = {
         keyword: this.project
       }
@@ -205,7 +206,7 @@ export default {
             return
           }
           if (result.data.length == 1) {
-            this.project = result.data[0].code +' '+result.data[0].name
+            this.project = result.data[0].code + ' ' + result.data[0].name
             this.idprojectC = result.data[0].id
           } else if (result.data.length > 1) {
             this.searchproject = true
@@ -218,13 +219,13 @@ export default {
           alertify.error('Data ข้อมูลโครงการผิดพลาด');
         })
     },
-    selectproject_step2(val){
+    selectproject_step2(val) {
       // console.log(val)
       this.idprojectC = val.id
-       this.project =  val.code+' '+val.name
-       this.searchproject = false
+      this.project = val.code + ' ' + val.name
+      this.searchproject = false
     },
-    searchdepart_step2(){
+    searchdepart_step2() {
       let payload = {
         keyword: this.department
       }
@@ -242,7 +243,7 @@ export default {
           if (result.data.length == 1) {
             this.iddepartment = result.data[0].id
             this.department = result.data[0].name
-            
+
           } else if (result.data.length > 1) {
             this.searchdepart = true
             this.objdepart = result.data
@@ -254,7 +255,7 @@ export default {
           alertify.error('Data ข้อมูลแผนกผิดพลาด');
         })
     },
-    selectdepart_step2(val){
+    selectdepart_step2(val) {
       this.iddepartment = val.id
       this.searchdepart = false
       this.department = val.name
@@ -269,7 +270,7 @@ export default {
     },
     calexpire_Date() {
       var date1 = new Date(this.expiredate_cal);
-      this.expiredate_cal = (date1.getMonth() + 1) + '/' +  date1.getDate() + '/' +  date1.getFullYear()
+      this.expiredate_cal = (date1.getMonth() + 1) + '/' + date1.getDate() + '/' + date1.getFullYear()
       var date2 = new Date();
       var timeDiff = Math.abs(date2.getTime() - date1.getTime());
       var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
@@ -282,8 +283,8 @@ export default {
       this.expiredate_cal = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
     },
     calDueDate_date() {
-      var date1 = new Date(this.DueDate_date); 
-      this.DueDate_date =  (date1.getMonth() + 1) + '/' +  date1.getDate() + '/' +  date1.getFullYear()
+      var date1 = new Date(this.DueDate_date);
+      this.DueDate_date = (date1.getMonth() + 1) + '/' + date1.getDate() + '/' + date1.getFullYear()
       // alert(this.DueDate_date)
       var date2 = new Date();
       var timeDiff = Math.abs(date2.getTime() - date1.getTime());
@@ -363,10 +364,10 @@ export default {
           branch_id: this.branch_id,
           doc_no: this.docno,
           //norecord
-           ar_bill_address: this.ar_bill_address,
-           ar_telephone: this.ar_telephone,
-           datenow_datepicker: this.datenow_datepicker,
-           dif_fee: this.dif_fee,
+          ar_bill_address: this.ar_bill_address,
+          ar_telephone: this.ar_telephone,
+          datenow_datepicker: this.datenow_datepicker,
+          dif_fee: this.dif_fee,
           //norecord
           doc_type,
           ar_id: this.idcus,
@@ -406,12 +407,12 @@ export default {
           creator_by: this.creator_by,
           subs: this.dproducts
         }
-        
+
         console.log(payload.subs.length)
         document.getElementsByName('dataquotation')[0].value = JSON.stringify(
           payload
         )
-        
+
         document.getElementsByName('dataquotation')[1].value = JSON.stringify(
           payload
         )
@@ -419,14 +420,14 @@ export default {
         console.log(JSON.stringify(payload))
         api.savequotation(payload,
           (result) => {
-            console.log(result)
-           alertify.success('บันทึกสำเร็จ ' + this.docno);
-         },
+            console.log(result.val())
+            alertify.success('บันทึกสำเร็จ ' + this.docno);
+          },
           (error) => {
             console.log(JSON.stringify(error))
             //Customerall
             alertify.error('เกิดข้อผิดพลาด');
-         })
+          })
       }
       //บันทึก
 
@@ -521,7 +522,7 @@ export default {
       this.idcus = val.id
       this.searchcus = val.code
       this.detailcus = val.name
-      
+
       this.showDialogcus = false
       //bill_credit
       this.bill_credit = val.bill_credit
@@ -532,7 +533,7 @@ export default {
       this.DueDate_cal = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
       console.log(this.DueDate_cal)
       this.$refs.addproduct.$el.focus()
-      
+
     },
     addproduct() {
       console.log(this.keywordproduct)
@@ -550,7 +551,7 @@ export default {
       if (!this.keywordproduct) {
         return
       }
-      
+
       let payload = {
         keyword: this.keywordproduct
       }
@@ -562,7 +563,7 @@ export default {
           console.log(result.data)
           console.log(result.data.length)
           this.showDialogproduct = true
-          
+
           this.dataproductDialog = result.data
           this.stockall = result.data[0].stk_location
           console.log(this.stockall)
@@ -575,7 +576,7 @@ export default {
           alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
         })
     },
-    addproductrt(){
+    addproductrt() {
       console.log(this.keywordproduct)
       // alert(this.billtype)
       // alert('d')
@@ -591,7 +592,7 @@ export default {
       if (!this.keywordproduct) {
         return
       }
-      
+
       let payload = {
         keyword: this.keywordproduct
       }
@@ -601,7 +602,7 @@ export default {
           console.log(result.data)
           console.log(result.data.length)
           this.showDialogproduct = true
-          
+
           this.dataproductDialog = result.data
           console.log(this.dataproductDialog)
           this.stockall = result.data[0].stk_location
@@ -614,11 +615,11 @@ export default {
           alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
         })
     },
-    removeProduct(index){
+    removeProduct(index) {
       // console.log(JSON.stringify(this.dproducts.length))
       // this.searchProductInObject(this.dproducts,index)
-      console.log(JSON.stringify(this.searchProductInObject(this.dproducts,index)))
-      this.dproducts.splice(this.searchProductInObject(this.dproducts,index),1)
+      console.log(JSON.stringify(this.searchProductInObject(this.dproducts, index)))
+      this.dproducts.splice(this.searchProductInObject(this.dproducts, index), 1)
 
     },
     searchProductInObject(arraytosearch, valuetosearch) {
@@ -637,14 +638,14 @@ export default {
       if (!this.tablecode || !this.billtype) {
         return
       }
- 
-      if(this.dproducts.length > 0 ){
-      
-      // var test;
-      // for (let x = 0; x < this.dproducts.length; x++) {
-      //   test +=  this.dproducts[x].bar_code
-      // }
-      // console.log(test)
+
+      if (this.dproducts.length > 0) {
+
+        // var test;
+        // for (let x = 0; x < this.dproducts.length; x++) {
+        //   test +=  this.dproducts[x].bar_code
+        // }
+        // console.log(test)
       }
 
       this.disablebilltype = true
@@ -662,11 +663,11 @@ export default {
             this.docno = 'ไม่มีข้อมูล'
             return
           }
-          this.mockdocno='';
-          for(var i=0;i<(result.length-4);i++){
-            this.mockdocno+=result.charAt(i);
+          this.mockdocno = '';
+          for (var i = 0; i < (result.length - 4); i++) {
+            this.mockdocno += result.charAt(i);
           }
-          this.mockdocno+="XXXX";
+          this.mockdocno += "XXXX";
           this.docno = result
 
         },
@@ -734,49 +735,49 @@ export default {
     calculatedata(val) {
       val.discount_word = val.discount_word.toString()
       console.log(val.discount_word)
-  
-      if(val.discount_word.search(",") < 0){
-      if(val.discount_word.slice(-1) == '%'){
-        var cutper = parseInt(val.discount_word.slice(0, -1))
-        val.item_amount = val.qty*(val.price - (val.price * cutper)/100)
-        val.discount_amount = (val.price * val.qty) - ((val.price - ((val.price * cutper)/100))*val.qty)
+
+      if (val.discount_word.search(",") < 0) {
+        if (val.discount_word.slice(-1) == '%') {
+          var cutper = parseInt(val.discount_word.slice(0, -1))
+          val.item_amount = val.qty * (val.price - (val.price * cutper) / 100)
+          val.discount_amount = (val.price * val.qty) - ((val.price - ((val.price * cutper) / 100)) * val.qty)
+          console.log(val.discount_word) // ตัวอักษร
+          console.log(val.discount_amount) // ส่วนต่าง
+          return
+        } else {
+          val.discount_amount = (val.price * val.qty) - ((val.price - val.discount_word) * val.qty)
+        }
+        console.log(JSON.stringify(val))
+        if (this.billtype == 0) {//เงินสด
+          val.item_amount = val.qty * (val.price - val.discount_word)
+        } else if (this.billtype == 1) {//เงินเชื่อ
+          val.item_amount = val.qty * (val.price - val.discount_word)
+        }
         console.log(val.discount_word) // ตัวอักษร
         console.log(val.discount_amount) // ส่วนต่าง
-        return
-      }else{
-        val.discount_amount = (val.price * val.qty) - ((val.price - val.discount_word)*val.qty)
-      }
-      console.log(JSON.stringify(val))
-      if (this.billtype == 0) {//เงินสด
-        val.item_amount = val.qty * (val.price - val.discount_word)
-      } else if (this.billtype == 1) {//เงินเชื่อ
-        val.item_amount = val.qty * (val.price - val.discount_word)
-      }
-      console.log(val.discount_word) // ตัวอักษร
-      console.log(val.discount_amount) // ส่วนต่าง
-     }else if(val.discount_word.search(",") >= 0){
+      } else if (val.discount_word.search(",") >= 0) {
         var res = val.discount_word.split(",")
-        if(res[0].slice(-1) == '%'){
+        if (res[0].slice(-1) == '%') {
           var cutper = parseInt(res[0].slice(0, -1))
-          val.item_amount =  val.price - (val.price  * cutper)/100
-          var diff1 =  (val.price  * cutper)/100
-          console.log('diff1 : '+diff1)
-        }else{
-          var diff1 = val.price -(val.price - res[0])
+          val.item_amount = val.price - (val.price * cutper) / 100
+          var diff1 = (val.price * cutper) / 100
+          console.log('diff1 : ' + diff1)
+        } else {
+          var diff1 = val.price - (val.price - res[0])
           console.log(diff1)
           val.item_amount = val.price - res[0]
         }
-        if(res[1].slice(-1) == '%'){
-           let cutper1 = parseInt(res[1].slice(0, -1))
-           val.item_amount = val.qty *(val.item_amount -( val.item_amount * cutper1)/100)
-           var diff2 = ((val.price - diff1)*cutper1)/100
-           console.log('diff2 : '+diff2)
-           val.discount_amount = (diff1 + diff2)*val.qty
-           console.log(val.discount_amount)
-        }else{
-          var diff2 = val.price -(val.price - res[1])
-          val.discount_amount = (diff1 + diff2)*val.qty
-          val.item_amount = (val.price * val.qty)- val.discount_amount
+        if (res[1].slice(-1) == '%') {
+          let cutper1 = parseInt(res[1].slice(0, -1))
+          val.item_amount = val.qty * (val.item_amount - (val.item_amount * cutper1) / 100)
+          var diff2 = ((val.price - diff1) * cutper1) / 100
+          console.log('diff2 : ' + diff2)
+          val.discount_amount = (diff1 + diff2) * val.qty
+          console.log(val.discount_amount)
+        } else {
+          var diff2 = val.price - (val.price - res[1])
+          val.discount_amount = (diff1 + diff2) * val.qty
+          val.item_amount = (val.price * val.qty) - val.discount_amount
           console.log(val.discount_amount)
         }
         return
@@ -869,13 +870,13 @@ export default {
             doc_type = 'QT'
           }
 
-          if (result.data.tax_type == 0) {
-            tax_type = 'ภาษีแยกนอก'
-          } else if (result.data.tax_type == 1) {
-            tax_type = 'ภาษีรวมใน'
-          } else if (result.data.tax_type == 2) {
-            tax_type = 'ภาษีอัตราศูนย์'
-          }
+          /*      if (result.data.tax_type == 0) {
+                 tax_type = 'ภาษีแยกนอก'
+               } else if (result.data.tax_type == 1) {
+                 tax_type = 'ภาษีรวมใน'
+               } else if (result.data.tax_type == 2) {
+                 tax_type = 'ภาษีอัตราศูนย์'
+               } */
           // this.dproducts = []
           this.disablebilltype = true
           this.tablecode = doc_type
@@ -884,12 +885,13 @@ export default {
           this.ar_bill_address = result.data.ar_bill_address
           this.ar_telephone = result.data.ar_telephone
           this.docno = result.data.doc_no
-          this.taxtype = tax_type
+          this.taxtype = result.data.tax_type
           this.datenow_datepicker = result.data.doc_date
           this.idcus = result.data.ar_id
           this.searchcus = result.data.ar_code
           this.detailcus = result.data.ar_name
           var datasubs = result.data.subs
+
           console.log(datasubs.length)
           for (let x = 0; x < datasubs.length; x++) {
             var data = {
@@ -949,33 +951,33 @@ export default {
         if (mm < 10) {
           mm = '0' + mm;
         }
-         today = yyyy + '-' + mm + '-' + dd;
-         return today
+        today = yyyy + '-' + mm + '-' + dd;
+        return today
       } else if (val.length != undefined) {
         return val.substring(0, 10)
       }
-  },
-  changePriceType(){
-    for(var i=0;i<this.dproducts.length;i++){
-      if(this.billtype==0){
-        this.dproducts[i].price=this.dproducts[i].sale_price_1
-        this.dproducts[i].item_amount=this.dproducts[i].sale_price_1
+    },
+    changePriceType() {
+      for (var i = 0; i < this.dproducts.length; i++) {
+        if (this.billtype == 0) {
+          this.dproducts[i].price = this.dproducts[i].sale_price_1
+          this.dproducts[i].item_amount = this.dproducts[i].sale_price_1
+        }
+        if (this.billtype == 1) {
+          this.dproducts[i].price = this.dproducts[i].sale_price_2
+          this.dproducts[i].item_amount = this.dproducts[i].sale_price_2
+        }
+        console.log(JSON.stringify(this.dproducts))
       }
-      if(this.billtype==1){
-        this.dproducts[i].price=this.dproducts[i].sale_price_2
-        this.dproducts[i].item_amount=this.dproducts[i].sale_price_2
-      }
-      console.log(JSON.stringify(this.dproducts))
-    }
-  },
-  changevaluetest(){
-    this.tablecode = 'QT'
-  },
-  changevaluetest2(){
-    this.tablecode = 'BO'
-  },
-  findstock(val,index){
- 
+    },
+    changevaluetest() {
+      this.tablecode = 'QT'
+    },
+    changevaluetest2() {
+      this.tablecode = 'BO'
+    },
+    findstock(val, index) {
+
       console.log(index)
       // console.log(this.stockall.length)
       // for (let i = 0; i < this.stockall.length ; i++) {
@@ -987,42 +989,42 @@ export default {
       // }
 
       for (let i = 0; i < this.stockall.length; i++) {
-        document.getElementsByClassName('hover'+index)[i].style.visibility = 'visible';
-        document.getElementsByClassName('hover'+index)[i].style.height = '20px';
+        document.getElementsByClassName('hover' + index)[i].style.visibility = 'visible';
+        document.getElementsByClassName('hover' + index)[i].style.height = '20px';
       }
       return
-        
-    
-    this.namestock = ''
-    this.stockobj = []
-    console.log(val.item_code)
-    var payload = {
-      item_code : val.item_code
-     }
-     this.isLoading = true
-    api.searchunitcode(payload,
-      (result) => {
-        this.isLoading = false
-        console.log(result)
-        console.log(JSON.stringify(result.data))
-        console.log(JSON.stringify(result.data.stock))
-        this.namestock = result.data[0].item_name
-        this.stockobj = result.data[0].stk_location
-        console.log(result.data[0].stk_location.length)
-      },
-      (error) => {
-        this.isLoading = false
-        console.log(JSON.stringify(error))
-        alertify.error('Data ข้อมูล ค้นหาคลัง ผิดพลาด');
-      })
-    // alert('ทดสอบ')
-  }
+
+
+      this.namestock = ''
+      this.stockobj = []
+      console.log(val.item_code)
+      var payload = {
+        item_code: val.item_code
+      }
+      this.isLoading = true
+      api.searchunitcode(payload,
+        (result) => {
+          this.isLoading = false
+          console.log(result)
+          console.log(JSON.stringify(result.data))
+          console.log(JSON.stringify(result.data.stock))
+          this.namestock = result.data[0].item_name
+          this.stockobj = result.data[0].stk_location
+          console.log(result.data[0].stk_location.length)
+        },
+        (error) => {
+          this.isLoading = false
+          console.log(JSON.stringify(error))
+          alertify.error('Data ข้อมูล ค้นหาคลัง ผิดพลาด');
+        })
+      // alert('ทดสอบ')
+    }
   },
   created() {
     this.searched = this.dproducts;
   },
   computed: {
-    keymap () {
+    keymap() {
       return {
         'ctrl+shift+1': this.changevaluetest,
         'ctrl+shift+2': this.changevaluetest2,
@@ -1083,7 +1085,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     this.docnoid = this.$route.params.id
     // if (this.docnoid == 0) {
     //   // location.reload()

@@ -58,7 +58,7 @@
             <div class="card">
               <div class="card-body">
                 <h4 class="card-title">รายการ Backlog</h4>
-                <div v-for="val in dataall">
+                <div v-for="(val, index) in dataall" :key="index">
                   <div
                     @click="seedetail(val)"
                     class="col-12 showhover"
@@ -393,7 +393,7 @@ export default {
   visibility: visible;
 }
 
-.apexcharts-toolbar{
+.apexcharts-toolbar {
   z-index: 0 !important;
 }
 
@@ -416,7 +416,7 @@ h4 {
   font-family: "Kanit", sans-serif !important;
 }
 
-.card-text{
+.card-text {
   font-size: 14px !important;
 }
 

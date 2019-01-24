@@ -38,7 +38,7 @@
               >
                 <div class="row">
                   <div class="col-12">
-                    <span class="md-title">{{val.doc_no}}</span>
+                    <span class="md-title">{{ val.doc_no}}</span>
                     <md-icon
                       v-show="val.is_confirm == 1"
                       style="float:right;color:green"
@@ -55,7 +55,7 @@
                       class="md-subheading"
                     >{{ 'รหัสลูกค้า : '+val.ar_code + ' ชื่อลูกค้า :' + val.ar_name + ' พนักงานขาย :' +val.sale_name +' รวมมูลค่าสินค้าทั้งหมด : '+convertToBaht(val.total_amount) +" บาท"}}</span>
                     <div
-                      @click="val.total_amount =! val.total_amount"
+                      @click="val.total_amount = !val.total_amount"
                       v-show="val.total_amount"
                       style="float:right;"
                       class="starhover"
@@ -80,7 +80,7 @@
       <!-- ข้อมูลใบเสนอราคา -->
     </div>
     <md-speed-dial class="md-bottom-right">
-      <md-speed-dial-target @click="goindex('/quotation')">
+      <md-speed-dial-target @click="goindex('/invoicedetiall')">
         <md-icon>add</md-icon>
       </md-speed-dial-target>
     </md-speed-dial>
@@ -120,9 +120,9 @@ export default {
       // localStorage.iddocno = 0
       this.showNavigation = false;
 
-      if (val == "/quotation") {
+      if (val == "/saleorder") {
         // this.topicmenu = 'ใบเสนอราคา'
-        this.$router.push({ name: "quotation", params: { id: 0 } });
+        this.$router.push({ name: "saleorder", params: { id: 0 } });
         return;
       }
 
@@ -131,7 +131,7 @@ export default {
     seedetail(val) {
       console.log(JSON.stringify(val));
 
-      this.$router.push({ name: "quotation", params: { id: val.id } });
+      this.$router.push({ name: "saleorder", params: { id: val.id } });
     },
     showalldoc() {
       var payload = {
@@ -144,7 +144,8 @@ export default {
         payload,
         result => {
           for (var i = 0; i < result.data.length; i++) {
-            if (result.data[i].module == "BackOrder") {
+            console.log(JSON.stringify(result.data[i].module));
+            if (result.data[i].module == "SaleOrder") {
               this.dataall.push(result.data[i]);
             }
           }
@@ -165,5 +166,5 @@ export default {
   }
 };
 </script>
-<style >
+<style  src="./invoice.css">
 </style>

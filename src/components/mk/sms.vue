@@ -27,7 +27,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(val,index) in infoData">
+              <tr v-for="(val,index) in infoData" :key="index">
                 <td>{{ val.name }}</td>
                 <td>{{ val.tel }}</td>
                 <td>{{ val.point }}</td>
@@ -58,7 +58,11 @@
       </div>
       <div class="row">
         <div class="col-12" style="margin-bottom:10px">
-          <button class="btn btn-success float-right" @click="sendSMS()" :disabled="SMSMessage==''||chSearchTel==false">
+          <button
+            class="btn btn-success float-right"
+            @click="sendSMS()"
+            :disabled="SMSMessage==''||chSearchTel==false"
+          >
             <span>ส่ง SMS</span>
           </button>
           <button class="btn btn-warning float-right" style="margin-right:10px" @click="getTel()">
@@ -77,7 +81,7 @@ export default {
       selectSheet: 1,
       infoData: [],
       checkSelect: true,
-      chSearchTel:false,
+      chSearchTel: false,
       SMSMessage: ""
     };
   },
@@ -95,7 +99,7 @@ export default {
         result => {
           console.log(JSON.stringify(result));
           this.infoData = result;
-          this.chSearchTel=true;
+          this.chSearchTel = true;
         },
         error => {
           console.log(JSON.stringify(error));
