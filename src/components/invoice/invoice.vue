@@ -80,7 +80,7 @@
       <!-- ข้อมูลใบเสนอราคา -->
     </div>
     <md-speed-dial class="md-bottom-right">
-      <md-speed-dial-target @click="goindex('/invoicedetiall')">
+      <md-speed-dial-target @click="goindex('/invoicedetail')">
         <md-icon>add</md-icon>
       </md-speed-dial-target>
     </md-speed-dial>
@@ -90,7 +90,7 @@
 import api from "../../service/service.js";
 
 export default {
-  name: "quotation",
+  name: "invoicedetail",
   data() {
     return {
       msg: "",
@@ -120,9 +120,9 @@ export default {
       // localStorage.iddocno = 0
       this.showNavigation = false;
 
-      if (val == "/saleorder") {
+      if (val == "/invoicedetail") {
         // this.topicmenu = 'ใบเสนอราคา'
-        this.$router.push({ name: "saleorder", params: { id: 0 } });
+        this.$router.push({ name: "invoicedetail", params: { id: 0 } });
         return;
       }
 

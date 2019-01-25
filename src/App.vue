@@ -50,32 +50,47 @@
                 <md-icon>move_to_inbox</md-icon>
                 <span class="md-list-item-text">ใบเสนอราคา</span>
               </md-list-item>-->
-              <md-list-item md-expand v-if="userPermission.menu[0].is_read==1||userPermission.menu[1].is_read==1||userPermission.menu[2].is_read==1||userPermission.menu[3].is_read==1">
+              <md-list-item
+                md-expand
+                v-if="userPermission.menu[0].is_read==1||userPermission.menu[1].is_read==1||userPermission.menu[2].is_read==1||userPermission.menu[3].is_read==1"
+              >
                 <md-icon>add</md-icon>
                 <span class="md-list-item-text">งานขาย</span>
 
                 <md-list slot="md-expand">
-                  <md-list-item @click="goindex('/quolist')" class="md-inset" v-if="userPermission.menu[0].is_read==1">
+                  <md-list-item
+                    @click="goindex('/quolist')"
+                    class="md-inset"
+                    v-if="userPermission.menu[0].is_read==1"
+                  >
                     <md-icon style="position:absolute;  left: 16px;">move_to_inbox</md-icon>
                     <span class="md-list-item-text">ใบเสนอราคา</span>
                   </md-list-item>
-                  <md-list-item @click="goindex('/solist')" class="md-inset" v-if="userPermission.menu[1].is_read==1">
+                  <md-list-item
+                    @click="goindex('/solist')"
+                    class="md-inset"
+                    v-if="userPermission.menu[1].is_read==1"
+                  >
                     <md-icon style="position:absolute;  left: 16px;">send</md-icon>
                     <span class="md-list-item-text">ใบสั่งขาย</span>
                   </md-list-item>
                   <md-list-item @click="goindex('/invoice')" class="md-inset">
                     <md-icon style="position:absolute;  left: 16px;">send</md-icon>
-                    <span class="md-list-item-text">ใบแจ้งหนี้</span>
+                    <span class="md-list-item-text">ใบวางบิล</span>
                   </md-list-item>
                 </md-list>
               </md-list-item>
 
-              <md-list-item md-expand  v-if="userPermission.menu[4].is_read==1">
+              <md-list-item md-expand v-if="userPermission.menu[4].is_read==1">
                 <md-icon>store</md-icon>
                 <span class="md-list-item-text">Cashier</span>
 
                 <md-list slot="md-expand">
-                  <md-list-item @click="goindex('/depositlist')" class="md-inset" v-if="userPermission.menu[4].is_read==1">
+                  <md-list-item
+                    @click="goindex('/depositlist')"
+                    class="md-inset"
+                    v-if="userPermission.menu[4].is_read==1"
+                  >
                     <md-icon style="position:absolute;  left: 16px;">assignment</md-icon>
                     <span class="md-list-item-text">ใบรับเงินมัดจำ</span>
                   </md-list-item>
@@ -246,7 +261,7 @@ export default {
     Login
   },
   data: () => ({
-    userPermission:JSON.parse(localStorage.Datauser),
+    userPermission: JSON.parse(localStorage.Datauser),
     menuVisible: false,
     showSidepanel: false,
     showNavigation: false,
@@ -318,7 +333,7 @@ export default {
       }
       if (this.$route.fullPath.search("invoice") == 1) {
         this.topicmenucolor = "#6c7b94";
-        this.topicmenu = "ใบแจ้งหนี้";
+        this.topicmenu = "ใบวางบิล";
         this.icon = "bookmark_border";
       }
       if (this.$route.fullPath.search("deposit") == 1) {
@@ -356,6 +371,11 @@ export default {
 
       if (val == "/sale") {
         this.$router.push({ name: "newsale", params: { id: 0 } });
+        return;
+      }
+
+      if (val == "/invoice") {
+        this.$router.push({ name: "invoice", params: { id: 0 } });
         return;
       }
 
@@ -417,8 +437,6 @@ export default {
       1000
     );
 
-
-
     if (val == "/quotation") {
       // this.topicmenu = 'ใบเสนอราคา'
       this.$router.push({ name: "newquo", params: { id: 0 } });
@@ -426,7 +444,6 @@ export default {
     }
 
     this.$router.push(val);
-    
   }
 };
 </script>

@@ -42,7 +42,7 @@ export default new Router({
       component: invoice
     },
     {
-      path: '/invoice/:id',
+      path: '/invoicedetail/:id',
       name: 'invoicedetail',
       component: invoicedetail
     },

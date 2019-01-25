@@ -104,9 +104,13 @@ export default {
         namestock: '',
         stockall: [],
         isLoading: false,
-        fullPage: true,
+        fullPage: true, turnselected: 1,
     }),
     methods: {
+        turnselect(ck) {
+            this.turnselected = ck;
+            console.log(this.turnselected)
+        },
         checkval(val) {
             console.log(val)
         },
