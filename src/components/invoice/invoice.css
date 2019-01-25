@@ -146,7 +146,7 @@ table#searchitem{
         font-weight: 700;
         font-size: 1.075rem;
       }
-      
+   
       span,
       label,
       input {
@@ -394,6 +394,61 @@ table#searchitem{
     .search_unitcode:hover{
    transform: scale(1.25)
       }
+      .vs-tabs-position-left .con-ul-tabs {
+        float: left;
+        height: 100%;
+        display: block;
+        width: 40%;
+    }
+    .con-vs-tabs {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      float: left;
+  }
+  
+  .vs-tabs--ul.ul-tabs-fixed li {
+    width: 100%;
+    /* float: left; */
+}
+.con-vs-tabs .con-slot-tabs {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  width: 60%;
+  float: left;
+}
+.con-vs-slider, .vs-tabs--content {
+  position: relative;
+  width: 100%;
+  display: block;
+}
+.vs-tabs--li button {
+  text-align: left;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: block;
+  position: relative;
+  width: 100%;
+  background: transparent;
+  margin: 0;
+  padding: 10px;
+  border: 0;
+  cursor: pointer;
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
+}
+
+
+.boxrightonsale{
+  width: 100%;
+  min-height: 100%;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
+}
+.vs-tabs--content {
+  padding: 0px;
+
+}
     /* .md-button .md-ripple:nth-child(2){
       width: 53px;
     } */
@@ -416,6 +471,49 @@ table#searchitem{
     .md-ripple .md-stepper-label {
       display: none;
     }
+    
+    .vs-tabs-position-left .con-ul-tabs {
+      float: left;
+      height: 100%;
+      display: block;
+      width: 100%;
+  }
+  .con-vs-tabs {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    float: none;
+}
+
+.vs-tabs--ul.ul-tabs-fixed li {
+  width: 100%;
+
+}
+.con-vs-tabs .con-slot-tabs {
+
+width: 100%;
+float: none;
+}
+.con-vs-slider, .vs-tabs--content {
+position: relative;
+width: 100%;
+display: block;
+}
+.vs-tabs--li button {
+text-align: left;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+display: block;
+position: relative;
+width: 100%;
+background: transparent;
+margin: 0;
+padding: 10px;
+border: 0;
+cursor: pointer;
+-webkit-transition: all .2s ease;
+transition: all .2s ease;
+}
   }
   @media (max-width: 575px){
     #notop_mobile{

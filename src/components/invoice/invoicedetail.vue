@@ -423,114 +423,111 @@
               :md-done.sync="second"
             >
               <!--  -->
-              <div style="display:inline-block">
+              <div style="display:inline-block;width: 100%; ">
                 <form class="md-layout" style="justify-content: center;">
                   <md-card
-                    style="margin-bottom:8px;margin-right:8px;"
-                    class="md-layout-item md-size-45 md-small-size-100"
-                  >
-                    <md-table v-model="searched" md-card md-fixed-header style="text-align:left">
-                      <md-table-toolbar>
-                        <div
-                          style="float:left;position:relative;top:13px;margin-right:10px"
-                        >วิธีชำระเงิน</div>
-                      </md-table-toolbar>
-                      <md-table-row @click="checkval(item)">
-                        <md-table-cell md-sort-by="item_code" md-numeric style="text-align:left">
-                          <label>เงินสด</label>
-                        </md-table-cell>
-                      </md-table-row>
-                      <md-table-row>
-                        <md-table-cell md-sort-by="item_code" md-numeric style="text-align:left">
-                          <label>บัตร</label>
-                        </md-table-cell>
-                      </md-table-row>
-                      <md-table-row>
-                        <md-table-cell md-sort-by="item_code" md-numeric style="text-align:left">
-                          <label>โอน</label>
-                        </md-table-cell>
-                      </md-table-row>
-                      <md-table-row>
-                        <md-table-cell md-sort-by="item_code" md-numeric style="text-align:left">
-                          <label>เช็ค</label>
-                        </md-table-cell>
-                      </md-table-row>
-                      <md-table-row>
-                        <md-table-cell md-sort-by="item_code" md-numeric style="text-align:left">
-                          <label>พร้อมเพรย์</label>
-                        </md-table-cell>
-                      </md-table-row>
-                    </md-table>
-                  </md-card>
-
-                  <md-card
-                    style="margin-bottom:8px;"
-                    class="md-layout-item md-size-45 md-small-size-100"
-                  >
-                    <md-card-header>
-                      <div class="md-title">ชำระเงินสด</div>
-                    </md-card-header>
-                    
-                    <md-card-actions></md-card-actions>
-                  </md-card>
-                  <md-card
+                    style="margin-bottom:8px;margin-right:8px; width:100%"
                     class="md-layout-item md-size-90 md-small-size-100"
-                    :style="{height: docheight}"
-                    style="transition:all 0.5s;margin-bottom:8px;"
                   >
                     <md-card-header>
-                      <div class="md-title">กลุ่มเอกสาร
-                        <md-switch
-                          @change="isshowdoc_fuc"
-                          style="position:absolute;right:0;"
-                          v-model="isshowdocument"
-                        >{{ convertshowdoc(isshowdocument) }}</md-switch>
-                      </div>
+                      <div class="md-title">วิธีชำระเงิน</div>
                     </md-card-header>
-                    <md-card-content v-if="isshowdocument">
-                      <div class="md-layout md-gutter">
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="first-name subnotop">เอกสาร</label>
-                            <md-input name="first-name" id="first-name" autocomplete="given-name"/>
-                          </md-field>
-                        </div>
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="last-name subnotop">รหัสสกุลเงิน</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name"/>
-                          </md-field>
-                        </div>
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="last-name">อัตราแลกเปลี่ยน</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name"/>
-                          </md-field>
-                        </div>
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="last-name">อัตราภาษีมูลค่าเพิ่ม</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name"/>
-                          </md-field>
-                        </div>
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="last-name">ยอดเงินบาทสุทธิ</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name"/>
-                          </md-field>
-                        </div>
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="last-name">ค่าขนส่ง</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name"/>
-                          </md-field>
-                        </div>
-                      </div>
-                    </md-card-content>
-                    <md-card-actions></md-card-actions>
+
+                    <vs-tabs vs-position="left" style="display:block;">
+                      <vs-tab vs-label="ชำระด้วยเงินสด" @click="turnselect(1)">
+                        <md-card
+                          style="margin-bottom:8px;margin-right:8px; width:100%;padding:10px"
+                          class="md-layout-item md-size-100 md-small-size-100"
+                        >
+                          <md-card-header>
+                            <div class="md-title">ชำระด้วยเงินสด</div>
+                          </md-card-header>
+                          <div style="width:100%;height:20px; margin-top:10px; margin-bottom:10px">
+                            <div style="float:left;width:40%">ภาษีมูลค่าสินค้า</div>
+                            <div style="float:right;width:40%;text-align:right;">
+                              <div style="float:left">{{ convertmoney(totalprice) }}</div>
+                              <div style="width:20px; float:right;">บาท</div>
+                            </div>
+                          </div>
+                          <div style="width:100%;height:20px;margin-top:10px; margin-bottom:10px">
+                            <div style="float:left;width:40%">มูลค่าสินค้ายกเว้นภาษี</div>
+                            <div style="float:right;width:40%;text-align:right;">
+                              <div style="float:left">0</div>
+                              <div style="width:20px; float:right;">บาท</div>
+                            </div>
+                          </div>
+                          <div style="width:100%;height:20px;margin-top:10px; margin-bottom:10px">
+                            <div style="float:left;width:40%">ส่วนลด</div>
+                            <div style="float:right;width:40%;text-align:right;">
+                              <div style="float:left" v-show="percal">{{ caldiscount }}</div>
+                              <div style="float:left" v-show="!percal">{{ caldiscount }}</div>
+                              <div style="width:20px; float:right;">บาท</div>
+                            </div>
+                          </div>
+                          <div style="width:100%;height:20px;margin-top:10px; margin-bottom:10px">
+                            <div style="float:left;width:40%">ภาษีมูลค่าเพิ่ม</div>
+                            <div style="float:right;width:40%;text-align:right;">
+                              <div style="float:left">{{ convertmoney(dif_fee) }}</div>
+                              <div style="width:20px; float:right;">บาท</div>
+                            </div>
+                          </div>
+                          <div style="width:100%;height:20px;margin-top:10px; margin-bottom:10px">
+                            <div style="float:left;width:40%">มูลค่ารวมภาษี</div>
+                            <div style="float:right;width:40%;text-align:right;">
+                              <div style="float:left">{{ convertmoney(cal_totalprice) }}</div>
+                              <div style="width:20px; float:right;">บาท</div>
+                            </div>
+                          </div>
+                          <div style="width:100%;height:20px;margin-top:10px; margin-bottom:10px">
+                            <div style="float:left;width:40%">มูลค่าสุทธิ</div>
+                            <div style="float:right;width:40%;text-align:right;">
+                              <div style="float:left">{{ convertmoney(cal_totalprice) }}</div>
+                              <div style="width:20px; float:right;">บาท</div>
+                            </div>
+                          </div>
+                        </md-card>
+                      </vs-tab>
+                      <vs-tab vs-label="ชำระผ่านบัตร" @click="turnselect(2)">
+                        <md-card
+                          style="margin-bottom:8px;margin-right:8px; width:100%"
+                          class="md-layout-item md-size-90 md-small-size-100"
+                        >
+                          <md-card-header>
+                            <div class="md-title">ชำระผ่านบัตร</div>
+                          </md-card-header>
+                        </md-card>
+                      </vs-tab>
+                      <vs-tab vs-label="ชำระผ่านการโอน" @click="turnselect(3)">
+                        <md-card
+                          style="margin-bottom:8px;margin-right:8px; width:100%"
+                          class="md-layout-item md-size-90 md-small-size-100"
+                        >
+                          <md-card-header>
+                            <div class="md-title">ชำระผ่านการโอน</div>
+                          </md-card-header>
+                        </md-card>
+                      </vs-tab>
+                      <vs-tab vs-label="ชำระด้วยเช็ค" @click="turnselect(4)">
+                        <md-card
+                          style="margin-bottom:8px;margin-right:8px; width:100%"
+                          class="md-layout-item md-size-90 md-small-size-100"
+                        >
+                          <md-card-header>
+                            <div class="md-title">ชำระด้วยเช็ค</div>
+                          </md-card-header>
+                        </md-card>
+                      </vs-tab>
+                      <vs-tab vs-label="ชำระด้วยพร้อมเพย์" @click="turnselect(5)">
+                        <md-card-header>
+                          <div class="md-title">ชำระด้วยพร้อมเพย์</div>
+                        </md-card-header>
+                      </vs-tab>
+                    </vs-tabs>
                   </md-card>
                 </form>
               </div>
+              <br>
+
               <md-button
                 style="float:right;right: 50px;"
                 class="md-raised md-primary"
