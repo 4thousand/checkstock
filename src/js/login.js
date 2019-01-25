@@ -27,6 +27,7 @@ export default {
             console.log(localStorage.test)
             if (result.status == 'success') {
               console.log(JSON.stringify(result.data))
+              console.log(result.data)
               localStorage.Datauser = JSON.stringify(result.data)
               // var userid = 
               // localStorage.branchid = result.data.branch_id

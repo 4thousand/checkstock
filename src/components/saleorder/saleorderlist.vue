@@ -79,7 +79,7 @@
       </div>
       <!-- ข้อมูลใบเสนอราคา -->
     </div>
-    <md-speed-dial class="md-bottom-right">
+    <md-speed-dial class="md-bottom-right" v-if="sale_code.menu[1].is_create==1">
       <md-speed-dial-target @click="goindex('/saleorder')">
         <md-icon>add</md-icon>
       </md-speed-dial-target>

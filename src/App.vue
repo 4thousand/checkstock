@@ -50,16 +50,16 @@
                 <md-icon>move_to_inbox</md-icon>
                 <span class="md-list-item-text">ใบเสนอราคา</span>
               </md-list-item>-->
-              <md-list-item md-expand>
+              <md-list-item md-expand v-if="userPermission.menu[0].is_read==1||userPermission.menu[1].is_read==1||userPermission.menu[2].is_read==1||userPermission.menu[3].is_read==1">
                 <md-icon>add</md-icon>
                 <span class="md-list-item-text">งานขาย</span>
 
                 <md-list slot="md-expand">
-                  <md-list-item @click="goindex('/quolist')" class="md-inset">
+                  <md-list-item @click="goindex('/quolist')" class="md-inset" v-if="userPermission.menu[0].is_read==1">
                     <md-icon style="position:absolute;  left: 16px;">move_to_inbox</md-icon>
                     <span class="md-list-item-text">ใบเสนอราคา</span>
                   </md-list-item>
-                  <md-list-item @click="goindex('/solist')" class="md-inset">
+                  <md-list-item @click="goindex('/solist')" class="md-inset" v-if="userPermission.menu[1].is_read==1">
                     <md-icon style="position:absolute;  left: 16px;">send</md-icon>
                     <span class="md-list-item-text">ใบสั่งขาย</span>
                   </md-list-item>
@@ -70,12 +70,12 @@
                 </md-list>
               </md-list-item>
 
-              <md-list-item md-expand>
+              <md-list-item md-expand  v-if="userPermission.menu[4].is_read==1">
                 <md-icon>store</md-icon>
                 <span class="md-list-item-text">Cashier</span>
 
                 <md-list slot="md-expand">
-                  <md-list-item @click="goindex('/depositlist')" class="md-inset">
+                  <md-list-item @click="goindex('/depositlist')" class="md-inset" v-if="userPermission.menu[4].is_read==1">
                     <md-icon style="position:absolute;  left: 16px;">assignment</md-icon>
                     <span class="md-list-item-text">ใบรับเงินมัดจำ</span>
                   </md-list-item>
@@ -90,7 +90,7 @@
                 </md-list>
               </md-list-item>
 
-              <md-list-item md-expand>
+              <md-list-item md-expand v-if="userPermission.menu[5].is_read==1">
                 <md-icon>monetization_on</md-icon>
                 <span class="md-list-item-text">การตลาด</span>
 
@@ -246,6 +246,7 @@ export default {
     Login
   },
   data: () => ({
+    userPermission:JSON.parse(localStorage.Datauser),
     menuVisible: false,
     showSidepanel: false,
     showNavigation: false,
@@ -416,6 +417,8 @@ export default {
       1000
     );
 
+
+
     if (val == "/quotation") {
       // this.topicmenu = 'ใบเสนอราคา'
       this.$router.push({ name: "newquo", params: { id: 0 } });
@@ -423,6 +426,7 @@ export default {
     }
 
     this.$router.push(val);
+    
   }
 };
 </script>

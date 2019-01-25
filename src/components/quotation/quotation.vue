@@ -24,6 +24,7 @@
                     <span class="md-title sub">เลขที่ใบเสนอราคา</span>
                     <md-field>
                       <md-select
+                        :disabled="docnoid>0"
                         v-hotkey="keymap"
                         @input="showdocno"
                         placeholder="กรุณาเลือก"
@@ -44,6 +45,7 @@
                     <md-field>
                       <!-- :disabled="disablebilltype" -->
                       <md-select
+                        :disabled="docnoid>0"
                         @input="showdocno(),changePriceType()"
                         v-model="billtype"
                         name="country"
@@ -65,7 +67,8 @@
                   >
                     <md-field>
                       <label>เลขที่เอกสาร</label>
-                      <md-input disabled v-model="docno"></md-input>
+                      <md-input v-if="docnoid>0" disabled v-model="docno"></md-input>
+                      <md-input v-if="docnoid==0" disabled v-model="mockdocno"></md-input>
                     </md-field>
                   </div>
                 </div>
@@ -104,6 +107,7 @@
                         style="position:relative;top:15px;"
                         :language="languages[language]"
                         format="d MMMM yyyy"
+                        :disabled="docnoid>0"
                       ></datepicker>
                     </div>
                   </div>
@@ -116,7 +120,7 @@
                     <md-field>
                       <md-icon>account_circle</md-icon>
                       <label>รหัสลูกค้า</label>
-                      <md-input required @keyup.enter="fsearchcus" v-model="searchcus"></md-input>
+                      <md-input required :disabled="docnoid>0" @keyup.enter="fsearchcus" v-model="searchcus"></md-input>
 
                       <md-avatar style="position:absolute;right:0;top:10px">
                         <md-icon>info</md-icon>
@@ -131,7 +135,7 @@
                     class="md-size-5 md-small-size-5"
                     style="margin-left:-15px;margin-right:35px"
                   >
-                    <md-button @click="fsearchcus" class="md-icon-button md-raised md productadd">
+                    <md-button @click="fsearchcus" class="md-icon-button md-raised md productadd" :disabled="docnoid>0">
                       <md-icon>add</md-icon>
                     </md-button>
                   </div>
@@ -247,6 +251,7 @@
                           class="datatable"
                           @keyup="calculatedata(item)"
                           v-model="item.discount_word"
+                          :disabled="objuser.menu[0].is_update==0"
                         >
                       </md-table-cell>
                       <md-table-cell md-label="จำนวนเงิน" md-sort-by="item_amount">
@@ -1085,7 +1090,7 @@
       <!-- showDialogcus -->
       <!-- -->
       <div>
-        <md-dialog :md-active.sync="showDialogproduct">
+        <md-dialog :md-active.sync="showDialogproduct">/
           <md-dialog-title>ค้นหาสินค้า</md-dialog-title>
           <md-tabs id="none" md-dynamic-height>
             <md-tab md-label>

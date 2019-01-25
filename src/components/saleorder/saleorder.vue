@@ -35,6 +35,7 @@
                         v-model="tablecode"
                         name="country"
                         id="country"
+                        :disabled="docnoid>0"
                       >
                         <md-option value="RO">ใบสั่งจอง</md-option>
                         <md-option value="SO">ใบสั่งขาย</md-option>
@@ -54,6 +55,7 @@
                         name="country"
                         id="country"
                         placeholder="กรุณาเลือก"
+                        :disabled="docnoid>0"
                       >
                         <md-option value="0">ขายสินค้าเงินสด</md-option>
                         <md-option value="1">ขายสินค้าเงินเชื่อ</md-option>
@@ -69,7 +71,8 @@
                   >
                     <md-field>
                       <label>เลขที่เอกสาร</label>
-                      <md-input disabled v-model="mockdocno"></md-input>
+                      <md-input v-if="docnoid>0" disabled v-model="docno"></md-input>
+                      <md-input v-if="docnoid==0" disabled v-model="mockdocno"></md-input>
                     </md-field>
                   </div>
                 </div>
@@ -107,6 +110,7 @@
                         style="position:relative;top:15px;"
                         :language="languages[language]"
                         format="d MMMM yyyy"
+                        :disabled="docnoid>0"
                       ></datepicker>
                     </div>
                   </div>
