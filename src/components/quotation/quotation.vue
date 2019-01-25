@@ -221,6 +221,7 @@
                           style="padding-right: 31px !important;"
                           class="datatable"
                           v-model="item.unit_code"
+                          disabled
                         >
                         <div @click="searchunticode(item)">
                           <md-icon class="search_unitcode">arrow_drop_down</md-icon>
@@ -263,7 +264,7 @@
                         >
                       </md-table-cell>
                       <!-- <md-table-cell md-label="เงื่อนไขการขนส่ง" md-sort-by="because">{{ item.because }}</md-table-cell> -->
-                      <md-table-cell md-label>
+                      <md-table-cell md-label="">
                         <md-button @click="removeProduct(item.index)">
                           <md-icon class="search-icon">delete</md-icon>
                         </md-button>
@@ -1090,7 +1091,7 @@
       <!-- showDialogcus -->
       <!-- -->
       <div>
-        <md-dialog :md-active.sync="showDialogproduct">/
+        <md-dialog :md-active.sync="showDialogproduct">
           <md-dialog-title>ค้นหาสินค้า</md-dialog-title>
           <md-tabs id="none" md-dynamic-height>
             <md-tab md-label>

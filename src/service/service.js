@@ -4,14 +4,15 @@ import Vueaxios from 'vue-axios'
 
 Vue.use(Vueaxios, axios)
 
-const URL = 'http://venus.nopadol.com'
+const URL = 'https://n9.nopadol.com/'
+const npsysURL = 'http://venus.nopadol.com'
 const telURL = 'https://sheetdb.io'
 const smsURL = 'https://api.apitel.co/sms'
 const test = 'http://192.168.0.83:8080/v2/atm/auth'
 
 export default {
   signin(user, pass, success, error) {
-    Vue.axios.get(URL + ':9000/login?access_token=aaaa&usercode=' + user + '&password=' + pass + '&appid=1').then(
+    Vue.axios.get(npsysURL + ':9000/login?access_token=aaaa&usercode=' + user + '&password=' + pass + '&appid=1').then(
       (response) => {
         success(response.data)
       },
@@ -20,7 +21,7 @@ export default {
       })
   },
   showdocall(payload, success, error) {
-    Vue.axios.post(URL + ':8081/sales/v1/sale/doc/search', payload).then(
+    Vue.axios.post(URL + 'sales/v1/sale/doc/search', payload).then(
       (response) => {
         success(response.data)
       },
@@ -30,7 +31,7 @@ export default {
   },
   Customerall(payload, success, error) {
     payload.keyword = payload.keyword.replace(" ", "%")
-    Vue.axios.post(URL + ':8081/customer/v1/search/keyword', payload).then(
+    Vue.axios.post(URL + 'customer/v1/search/keyword', payload).then(
       (response) => {
         success(response.data)
       },
@@ -39,7 +40,7 @@ export default {
       })
   },
   findCustomerID(payload, success, error) {
-    Vue.axios.post(URL + ':8081/customer/v1/search/id', payload).then(
+    Vue.axios.post(URL + 'customer/v1/search/id', payload).then(
       (response) => {
         success(response.data)
       },
@@ -50,7 +51,7 @@ export default {
   },
   showdocno(payload, success, error) {
     console.log(JSON.stringify(payload))
-    Vue.axios.post(URL + ':8081/gendocno/v1/gen', JSON.stringify(payload)).then(
+    Vue.axios.post(URL + 'gendocno/v1/gen', JSON.stringify(payload)).then(
       (response) => {
         console.log(response.data)
         success(response.data)
@@ -63,7 +64,7 @@ export default {
     console.log(JSON.stringify(payload))
     payload.keyword = payload.keyword.replace(" ", "%")
     console.log(JSON.stringify(payload.keyword))
-    Vue.axios.post(URL + ':8081/product/v1/search/keyword', JSON.stringify(payload)).then(
+    Vue.axios.post(URL + 'product/v1/search/keyword', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
       },
@@ -72,7 +73,7 @@ export default {
       })
   },
   searchcus(payload, success, error) {
-    Vue.axios.post(URL + ':8081/employee/v1/search/keyword', JSON.stringify(payload)).then(
+    Vue.axios.post(URL + 'employee/v1/search/keyword', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
       },
@@ -81,7 +82,7 @@ export default {
       })
   },
   savequotation(payload, success, error) {
-    Vue.axios.post(URL + ':8081/sales/v1/quo/new', JSON.stringify(payload)).then(
+    Vue.axios.post(URL + 'sales/v1/quo/new', JSON.stringify(payload)).then(
       (response) => {
         console.log("บันทึก")
         success(response.data)
@@ -91,7 +92,7 @@ export default {
       })
   },
   detailquoall(payload, success, error) {
-    Vue.axios.post(URL + ':8081/sales/v1/quo/search/id', JSON.stringify(payload)).then(
+    Vue.axios.post(URL + 'sales/v1/quo/search/id', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
       },
@@ -101,7 +102,7 @@ export default {
   },
   searchdepartment(payload, success, error) {
     payload.keyword = payload.keyword.replace(" ", "%")
-    Vue.axios.post(URL + ':8081/env/v1/department/search/keyword', JSON.stringify(payload)).then(
+    Vue.axios.post(URL + 'env/v1/department/search/keyword', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
       },
@@ -111,7 +112,7 @@ export default {
   },
   searchproject(payload, success, error) {
     payload.keyword = payload.keyword.replace(" ", "%")
-    Vue.axios.post(URL + ':8081/env/v1/project/search/keyword', JSON.stringify(payload)).then(
+    Vue.axios.post(URL + 'env/v1/project/search/keyword', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
       },
@@ -121,7 +122,7 @@ export default {
   },
   searchAllocate(payload, success, error) {
     payload.keyword = payload.keyword.replace(" ", "%")
-    Vue.axios.post(URL + ':8081/env/v1/allocate/search/keyword', JSON.stringify(payload)).then(
+    Vue.axios.post(URL + 'env/v1/allocate/search/keyword', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
       },
@@ -130,7 +131,7 @@ export default {
       })
   },
   searchunitcode(payload, success, error) {
-    Vue.axios.post(URL + ':8081/product/v1/search/itemcode', JSON.stringify(payload)).then(
+    Vue.axios.post(URL + 'product/v1/search/itemcode', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
       },
@@ -139,7 +140,7 @@ export default {
       })
   },
   createdeposit(payload, success, error) {
-    Vue.axios.post(URL + ':8081/sales/v1/dep/new', JSON.stringify(payload)).then(
+    Vue.axios.post(URL + 'sales/v1/dep/new', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
       },
@@ -148,7 +149,7 @@ export default {
       })
   },
   searchDepById(payload, success, error) {
-    Vue.axios.post(URL + ':8081/sales/v1/dep/search/id', JSON.stringify(payload)).then(
+    Vue.axios.post(URL + 'sales/v1/dep/search/id', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
       },
@@ -158,7 +159,7 @@ export default {
   },
   searchDepByKeyword(payload, success, error) {
     payload.keyword = payload.keyword.replace(" ", "%")
-    Vue.axios.post(URL + ':8081/sales/v1/dep/search/keyword', JSON.stringify(payload)).then(
+    Vue.axios.post(URL + 'sales/v1/dep/search/keyword', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
       },
@@ -168,7 +169,7 @@ export default {
   },
   searchReserveByKeyword(payload, success, error) {
     payload.keyword = payload.keyword.replace(" ", "%")
-    Vue.axios.post(URL + ':8081/sales/v1/dep/reserve/search', JSON.stringify(payload)).then(
+    Vue.axios.post(URL + 'sales/v1/dep/reserve/search', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
       },
@@ -177,7 +178,7 @@ export default {
       })
   },
   createsale(payload, success, error) {
-    Vue.axios.post(URL + ':8081/sales/v1/sale/new', JSON.stringify(payload)).then(
+    Vue.axios.post(URL + 'sales/v1/sale/new', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
       },
