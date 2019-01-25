@@ -91,7 +91,7 @@ export default {
     searchDepApi() {
       var payload = {
         ar_id: parseInt(this.profile.id),
-        keyword: parseInt(this.searchDepositDoc)
+        keyword: this.searchDepositDoc
       };
 
       console.log(JSON.stringify(payload));

@@ -240,7 +240,6 @@
                           type="text"
                           disabled
                           class="datatable"
-                          @keyup="calculatedata(item)"
                           style="width:100%"
                           v-model="item.price"
                         >
