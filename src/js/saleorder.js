@@ -989,18 +989,19 @@ const toLower = text => {
           })
       },
       changePriceType(){
-        for(var i=0;i<this.dproducts.length;i++){
-          if(this.billtype==0){
-            this.dproducts[i].price=this.dproducts[i].sale_price_1
-            this.dproducts[i].item_amount=this.dproducts[i].sale_price_1
+        if(docnoid==0){
+          for(var i=0;i<this.dproducts.length;i++){
+            if(this.billtype==0){
+              this.dproducts[i].price=this.dproducts[i].sale_price_1
+              this.dproducts[i].item_amount=this.dproducts[i].sale_price_1
+            }
+            if(this.billtype==1){
+              this.dproducts[i].price=this.dproducts[i].sale_price_2
+              this.dproducts[i].item_amount=this.dproducts[i].sale_price_2
+            }
+            console.log(JSON.stringify(this.dproducts))
           }
-          if(this.billtype==1){
-            this.dproducts[i].price=this.dproducts[i].sale_price_2
-            this.dproducts[i].item_amount=this.dproducts[i].sale_price_2
-          }
-          console.log(JSON.stringify(this.dproducts))
         }
-        
       },
       selectcus_step2(val) {
         console.log(JSON.stringify(val))

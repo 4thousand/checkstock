@@ -241,7 +241,7 @@
                           disabled
                           class="datatable"
                           style="width:100%"
-                          v-model="item.price"
+                          v-model="item.productPrice"
                         >
                       </md-table-cell>
                       <!-- <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 1" md-sort-by="price2"><input type="text" class="datatable" @keyup="calculatedata(item)" style="width:100%" v-model.number="item.price2"></md-table-cell> -->
@@ -259,7 +259,7 @@
                           type="text"
                           disabled
                           class="datatable"
-                          v-model.number="item.item_amount"
+                          v-model.number="item.amountProductPrice"
                         >
                       </md-table-cell>
                       <!-- <md-table-cell md-label="เงื่อนไขการขนส่ง" md-sort-by="because">{{ item.because }}</md-table-cell> -->
@@ -960,9 +960,9 @@
                       >
                         <td>{{index+1}}</td>
                         <td>{{val.item_code}} {{val.item_name}}</td>
-                        <td>{{val.price}}</td>
+                        <td>{{val.productPrice}}</td>
                         <td>{{val.qty}}</td>
-                        <td>{{val.item_amount}}</td>
+                        <td>{{val.amountProductPrice}}</td>
                         <div style="background:black;width:100%;height:2px;"></div>
                       </tr>
                     </tbody>
