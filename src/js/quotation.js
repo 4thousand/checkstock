@@ -135,15 +135,15 @@ export default {
       var index = this.findWithAttr(this.dproducts, 'item_name', val.item_name)
       if (this.billtype == 0) {//สด  
         this.dproducts[index].unit_code = val.unit_code
-        this.dproducts[index].price = val.sale_price_1
+        this.dproducts[index].productPrice = val.sale_price_1
         this.dproducts[index].packing_rate_1 = val.rate_1
-        this.dproducts[index].item_amount = (this.dproducts[index].price * this.dproducts[index].qty) - this.dproducts[index].discount_word
+        this.dproducts[index].amountProductPrice = (this.dproducts[index].productPrice * this.dproducts[index].qty) - this.dproducts[index].discount_word
       }
       if (this.billtype == 1) {//เชื่อ
         this.dproducts[index].unit_code = val.unit_code
-        this.dproducts[index].price = val.sale_price_2
+        this.dproducts[index].productPrice = val.sale_price_2
         this.dproducts[index].packing_rate_1 = val.rate_1
-        this.dproducts[index].item_amount = (this.dproducts[index].price * this.dproducts[index].qty) - this.dproducts[index].discount_word
+        this.dproducts[index].amountProductPrice = (this.dproducts[index].productPrice * this.dproducts[index].qty) - this.dproducts[index].discount_word
       }
 
     },
@@ -622,9 +622,9 @@ export default {
       this.dproducts.splice(this.searchProductInObject(this.dproducts, index), 1)
 
     },
-    searchProductInObject(arraytosearch, valuetosearch) {
-      for (var i = 0; i < arraytosearch.length; i++) {
-        if (arraytosearch[i].index == valuetosearch) {
+    searchProductInObject(objectProduct, arrayPosition) {
+      for (var i = 0; i < objectProduct.length; i++) {
+        if (objectProduct[i].index == arrayPosition) {
           return i;
         }
       }
@@ -691,12 +691,12 @@ export default {
           item_name: val.item_name,
           unit_code: val.unit_code,
           qty: 1,
-          price: val.sale_price_1,
+          productPrice: val.sale_price_1,
           sale_price_1: val.sale_price_1,
           sale_price_2: val.sale_price_2,
           discount_word: '0',
           discount_amount: 0,
-          item_amount: val.sale_price_1 * 1,
+          amountProductPrice: val.sale_price_1 * 1,
           item_description: "",
           packing_rate_1: parseInt(val.rate_1),
           is_cancel: 0
@@ -713,12 +713,12 @@ export default {
           item_name: val.item_name,
           unit_code: val.unit_code,
           qty: 1,
-          price: val.sale_price_2,
+          productPrice: val.sale_price_2,
           sale_price_1: val.sale_price_1,
           sale_price_2: val.sale_price_2,
           discount_word: '0',
           discount_amount: 0,
-          item_amount: val.sale_price_2 * 1,
+          amountProductPrice: val.sale_price_2 * 1,
           item_description: "",
           packing_rate_1: parseInt(val.rate_1),
           is_cancel: 0
@@ -739,19 +739,19 @@ export default {
       if (val.discount_word.search(",") < 0) {
         if (val.discount_word.slice(-1) == '%') {
           var cutper = parseInt(val.discount_word.slice(0, -1))
-          val.item_amount = val.qty * (val.price - (val.price * cutper) / 100)
-          val.discount_amount = (val.price * val.qty) - ((val.price - ((val.price * cutper) / 100)) * val.qty)
+          val.amountProductPrice = val.qty * (val.productPrice - (val.productPrice * cutper) / 100)
+          val.discount_amount = (val.productPrice * val.qty) - ((val.productPrice - ((val.productPrice * cutper) / 100)) * val.qty)
           console.log(val.discount_word) // ตัวอักษร
           console.log(val.discount_amount) // ส่วนต่าง
           return
         } else {
-          val.discount_amount = (val.price * val.qty) - ((val.price - val.discount_word) * val.qty)
+          val.discount_amount = (val.productPrice * val.qty) - ((val.productPrice - val.discount_word) * val.qty)
         }
         console.log(JSON.stringify(val))
         if (this.billtype == 0) {//เงินสด
-          val.item_amount = val.qty * (val.price - val.discount_word)
+          val.amountProductPrice = val.qty * (val.productPrice - val.discount_word)
         } else if (this.billtype == 1) {//เงินเชื่อ
-          val.item_amount = val.qty * (val.price - val.discount_word)
+          val.amountProductPrice = val.qty * (val.productPrice - val.discount_word)
         }
         console.log(val.discount_word) // ตัวอักษร
         console.log(val.discount_amount) // ส่วนต่าง
@@ -759,25 +759,25 @@ export default {
         var res = val.discount_word.split(",")
         if (res[0].slice(-1) == '%') {
           var cutper = parseInt(res[0].slice(0, -1))
-          val.item_amount = val.price - (val.price * cutper) / 100
-          var diff1 = (val.price * cutper) / 100
+          val.amountProductPrice = val.productPrice - (val.productPrice * cutper) / 100
+          var diff1 = (val.productPrice * cutper) / 100
           console.log('diff1 : ' + diff1)
         } else {
-          var diff1 = val.price - (val.price - res[0])
+          var diff1 = val.productPrice - (val.productPrice - res[0])
           console.log(diff1)
-          val.item_amount = val.price - res[0]
+          val.amountProductPrice = val.productPrice - res[0]
         }
         if (res[1].slice(-1) == '%') {
           let cutper1 = parseInt(res[1].slice(0, -1))
-          val.item_amount = val.qty * (val.item_amount - (val.item_amount * cutper1) / 100)
-          var diff2 = ((val.price - diff1) * cutper1) / 100
+          val.amountProductPrice = val.qty * (val.amountProductPrice - (val.amountProductPrice * cutper1) / 100)
+          var diff2 = ((val.productPrice - diff1) * cutper1) / 100
           console.log('diff2 : ' + diff2)
           val.discount_amount = (diff1 + diff2) * val.qty
           console.log(val.discount_amount)
         } else {
-          var diff2 = val.price - (val.price - res[1])
+          var diff2 = val.productPrice - (val.productPrice - res[1])
           val.discount_amount = (diff1 + diff2) * val.qty
-          val.item_amount = (val.price * val.qty) - val.discount_amount
+          val.amountProductPrice = (val.productPrice * val.qty) - val.discount_amount
           console.log(val.discount_amount)
         }
         return
@@ -891,26 +891,30 @@ export default {
           this.searchcus = result.data.ar_code
           this.detailcus = result.data.ar_name
           var datasubs = result.data.subs
-
-          console.log(datasubs.length)
+          let data;
+          console.log(datasubs)
           for (let x = 0; x < datasubs.length; x++) {
-            var data = {
+            console.log(datasubs[0].productPrice)
+            data = {
               item_id: datasubs[x].id,
               item_code: datasubs[x].item_code,
               bar_code: datasubs[x].bar_code,
               item_name: datasubs[x].item_name,
               unit_code: datasubs[x].unit_code,
               qty: datasubs[x].qty,
-              price: datasubs[x].price,
+              productPrice: datasubs[x].price,
               discount_word: datasubs[x].discount_word,
               discount_amount: datasubs[x].discount_amount,
-              item_amount: datasubs[x].item_amount,
+              amountProductPrice: datasubs[x].item_amount,
               item_description: datasubs[x].item_description,
               packing_rate_1: datasubs[x].packing_rate_1,
               is_cancel: datasubs[x].is_cancel
             }
-            this.dproducts.push(data)
+            console.log(JSON.stringify(data))
+            console.log(data.productPrice)
           }
+          this.dproducts.push(data)
+          console.log(JSON.stringify(this.dproducts))
           this.salecode = result.data.sale_code.trim() + ' / ' + result.data.sale_name
           this.validity = result.data.validity
           this.expire_date = result.data.expire_credit
@@ -958,17 +962,20 @@ export default {
       }
     },
     changePriceType() {
-      for (var i = 0; i < this.dproducts.length; i++) {
-        if (this.billtype == 0) {
-          this.dproducts[i].price = this.dproducts[i].sale_price_1
-          this.dproducts[i].item_amount = this.dproducts[i].sale_price_1
+      if(docnoid==0){
+        for (var i = 0; i < this.dproducts.length; i++) {
+          if (this.billtype == 0) {
+            this.dproducts[i].productPrice = this.dproducts[i].sale_price_1
+            this.dproducts[i].amountProductPrice = this.dproducts[i].sale_price_1
+          }
+          if (this.billtype == 1) {
+            this.dproducts[i].productPrice = this.dproducts[i].sale_price_2
+            this.dproducts[i].amountProductPrice = this.dproducts[i].sale_price_2
+          }
+          console.log(JSON.stringify(this.dproducts))
         }
-        if (this.billtype == 1) {
-          this.dproducts[i].price = this.dproducts[i].sale_price_2
-          this.dproducts[i].item_amount = this.dproducts[i].sale_price_2
-        }
-        console.log(JSON.stringify(this.dproducts))
       }
+      
     },
     changevaluetest() {
       this.tablecode = 'QT'
@@ -1032,7 +1039,7 @@ export default {
     },
     totalprice() {
       return this.dproducts.reduce(function (sum, item) {
-        return (sum + item.item_amount)
+        return (sum + item.amountProductPrice)
       }, 0)
     },
     dif_fee() {

@@ -221,6 +221,7 @@
                           style="padding-right: 31px !important;"
                           class="datatable"
                           v-model="item.unit_code"
+                          disabled
                         >
                         <div @click="searchunticode(item)">
                           <md-icon class="search_unitcode">arrow_drop_down</md-icon>
@@ -239,9 +240,8 @@
                           type="text"
                           disabled
                           class="datatable"
-                          @keyup="calculatedata(item)"
                           style="width:100%"
-                          v-model="item.price"
+                          v-model="item.productPrice"
                         >
                       </md-table-cell>
                       <!-- <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 1" md-sort-by="price2"><input type="text" class="datatable" @keyup="calculatedata(item)" style="width:100%" v-model.number="item.price2"></md-table-cell> -->
@@ -259,11 +259,11 @@
                           type="text"
                           disabled
                           class="datatable"
-                          v-model.number="item.item_amount"
+                          v-model.number="item.amountProductPrice"
                         >
                       </md-table-cell>
                       <!-- <md-table-cell md-label="เงื่อนไขการขนส่ง" md-sort-by="because">{{ item.because }}</md-table-cell> -->
-                      <md-table-cell md-label>
+                      <md-table-cell md-label="">
                         <md-button @click="removeProduct(item.index)">
                           <md-icon class="search-icon">delete</md-icon>
                         </md-button>
@@ -960,9 +960,9 @@
                       >
                         <td>{{index+1}}</td>
                         <td>{{val.item_code}} {{val.item_name}}</td>
-                        <td>{{val.price}}</td>
+                        <td>{{val.productPrice}}</td>
                         <td>{{val.qty}}</td>
-                        <td>{{val.item_amount}}</td>
+                        <td>{{val.amountProductPrice}}</td>
                         <div style="background:black;width:100%;height:2px;"></div>
                       </tr>
                     </tbody>
@@ -1090,7 +1090,7 @@
       <!-- showDialogcus -->
       <!-- -->
       <div>
-        <md-dialog :md-active.sync="showDialogproduct">/
+        <md-dialog :md-active.sync="showDialogproduct">
           <md-dialog-title>ค้นหาสินค้า</md-dialog-title>
           <md-tabs id="none" md-dynamic-height>
             <md-tab md-label>

@@ -246,6 +246,7 @@
                           style="padding-right: 31px !important;"
                           class="datatable"
                           v-model="item.unit_code.trim()"
+                          disabled
                         >
                         <div @click="searchunticode(item)">
                           <md-icon class="search_unitcode">arrow_drop_down</md-icon>
