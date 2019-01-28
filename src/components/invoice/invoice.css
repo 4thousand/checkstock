@@ -449,6 +449,103 @@ table#searchitem{
   padding: 0px;
 
 }
+
+.big-margin {
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+.deposit-border {
+  border-color: #448aff;
+  padding: 0% 2%;
+}
+.deposit-header {
+  margin-bottom: 5%;
+  background-color: #448aff;
+  color: #fff;
+  text-align: left;
+  font-size: 24px;
+}
+.icon-margin {
+  padding: 15%;
+}
+.tax-header {
+  margin-bottom: 2.5%;
+  background-color: #448aff;
+  color: #fff;
+  text-align: right;
+  font-size: 24px;
+}
+.information-part {
+  margin-bottom: 5%;
+}
+.tax-head-part {
+  margin-top: 5%;
+}
+.tax-bottom-part {
+  margin-bottom: 5%;
+}
+.article-set {
+  text-align: right;
+  margin-left: 5px;
+}
+.method-set {
+  text-align: right;
+  margin-left: 5px;
+}
+.tax-head {
+  text-align: right;
+}
+.tax-summary {
+  font-weight: bold;
+  text-align: right;
+  text-decoration: underline;
+  text-decoration-style: double;
+}
+.tax-border {
+  padding: 0% 4%;
+}
+.tax-button {
+  text-align: right;
+}
+.table-pointer {
+  cursor: pointer;
+}
+.search-icon {
+  color: #fff !important;
+}
+.text-danger {
+  text-align: center;
+  font-size: 24px;
+  margin: 12px;
+}
+.payment-sub-header {
+  margin-left: 5%;
+  margin-top: 1px;
+}
+
+.finish-button {
+  text-align: left;
+}
+
+.print-button {
+  text-align: right;
+}
+
+.next-button {
+  float: right;
+}
+
+.edit {
+  margin-right: 15px;
+}
+
+.form-control[readonly] {
+  text-align: left !important;
+}
+
+.form-control:disabled {
+  text-align: left !important;
+}
     /* .md-button .md-ripple:nth-child(2){
       width: 53px;
     } */

@@ -115,9 +115,7 @@
                   <div v-show="selectReserve==false" class="row">
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
-                        <p class="article-set col-md-3 col-12">
-                          ค้นหาเลขที่ใบสั่งจอง :
-                        </p>
+                        <p class="article-set col-md-3 col-12">ค้นหาเลขที่ใบสั่งจอง :</p>
                         <div class="col-md-8 col-12">
                           <div class="input-group">
                             <input
@@ -143,9 +141,7 @@
                   <div v-show="selectReserve==true" class="row">
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
-                        <p class="article-set col-md-3 col-12">
-                          เลขที่ใบสั่งจอง :
-                        </p>
+                        <p class="article-set col-md-3 col-12">เลขที่ใบสั่งจอง :</p>
                         <div class="col-md-8 col-12">
                           <div class="input-group">
                             <input
@@ -195,13 +191,18 @@
                         </div>
                       </div>
                     </div>
-                  </div> -->
+                  </div>-->
                   <div class="row">
                     <div class="col-md-12 col-12">
                       <div class="form-group row">
                         <p class="article-set col-md-3 col-12">หมายเหตุ :</p>
                         <div class="col-md-8 col-12">
-                          <textarea id="depNotice" class="form-control" v-model="infoNotice" rows="5"></textarea>
+                          <textarea
+                            id="depNotice"
+                            class="form-control"
+                            v-model="infoNotice"
+                            rows="5"
+                          ></textarea>
                         </div>
                       </div>
                     </div>
@@ -257,7 +258,8 @@
                         <tr
                           class="table-pointer"
                           @click="searchCustomer(val),showDialog = false,selectCustomer=true"
-                          v-for="(val,index) in customerDetail" :key="index"
+                          v-for="(val,index) in customerDetail"
+                          :key="index"
                           style="text-align:center;cursor:pointer"
                         >
                           <td>{{index+1}}</td>
@@ -305,7 +307,8 @@
                         <tr
                           class="table-pointer"
                           @click="searchReserve(val),showReserve = false,selectReserve=true"
-                          v-for="(val,index) in reserveDetail" :key="index"
+                          v-for="(val,index) in reserveDetail"
+                          :key="index"
                           style="text-align:center;cursor:pointer"
                         >
                           <td>{{index+1}}</td>
@@ -323,7 +326,6 @@
                 </div>
               </md-dialog-content>
             </md-dialog>
-
           </div>
         </div>
       </md-step>
@@ -360,7 +362,16 @@
                             <span style="color:red">*</span> ราคารวม :
                           </p>
                           <div class="col-md-8 col-12">
-                            <money id="total_pay" class="form-control" min="0" v-model.number="payment" v-bind="money" @keypress="isNumber(event)" v-on:keyup.native.enter="getFocus('cash_pay')" v-on:keyup.native.down="getFocus('cash_pay')"></money>
+                            <money
+                              id="total_pay"
+                              class="form-control"
+                              min="0"
+                              v-model.number="payment"
+                              v-bind="money"
+                              @keypress="isNumber(event)"
+                              v-on:keyup.native.enter="getFocus('cash_pay')"
+                              v-on:keyup.native.down="getFocus('cash_pay')"
+                            ></money>
                           </div>
                         </div>
                       </div>
@@ -374,7 +385,17 @@
                             <span style="color:red">*</span> จำนวนเงิน :
                           </p>
                           <div class="col-md-8 col-12">
-                            <money id="cash_pay" class="form-control" min="0" v-model.number="cashPayment" v-bind="money" @keypress="isNumber(event)" v-on:keyup.native.enter="getFocus('add_cr')" v-on:keyup.native.up="getFocus('total_pay')" v-on:keyup.native.down="getFocus('add_cr')"></money>
+                            <money
+                              id="cash_pay"
+                              class="form-control"
+                              min="0"
+                              v-model.number="cashPayment"
+                              v-bind="money"
+                              @keypress="isNumber(event)"
+                              v-on:keyup.native.enter="getFocus('add_cr')"
+                              v-on:keyup.native.up="getFocus('total_pay')"
+                              v-on:keyup.native.down="getFocus('add_cr')"
+                            ></money>
                           </div>
                         </div>
                       </div>
@@ -384,7 +405,11 @@
                     <h4 class="payment-sub-header information-part col-12">บัตรเครดิต/บัตรเดบิต</h4>
 
                     <!-- v-for -->
-                    <div class="col-md-12 col-12" v-for="(val,index) in creditCardList" :key="index">
+                    <div
+                      class="col-md-12 col-12"
+                      v-for="(val,index) in creditCardList"
+                      :key="index"
+                    >
                       <div class="form-group row">
                         <div class="col-lg-12 col-md-12 col-12">
                           <div class="alert alert-info">
@@ -400,14 +425,22 @@
                                 @click="showCredit=true,pullCreditCard(index),isEditCr=true"
                               >edit</i>
                             </a>
-                            <span class="fontsize">เลขบัตร : {{"XXXX-XXXX-XXXX-"+val.credit_card_no}}</span>
+                            <span
+                              class="fontsize"
+                            >เลขบัตร : {{"XXXX-XXXX-XXXX-"+val.credit_card_no}}</span>
                             <span class="fontsize">จำนวนเงิน : {{convertToBaht(val.amount)+" บาท"}}</span>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="col-md-12 col-12" style="text-align:center">
-                      <button id="add_cr" class="btn btn-primary" @click="showCredit=true,resetCredit(),isEditCr=false" @keyup.up="getFocus('cash_pay')" @keyup.down="getFocus('add_chq')">
+                      <button
+                        id="add_cr"
+                        class="btn btn-primary"
+                        @click="showCredit=true,resetCredit(),isEditCr=false"
+                        @keyup.up="getFocus('cash_pay')"
+                        @keyup.down="getFocus('add_chq')"
+                      >
                         <div class="row">
                           <i
                             class="material-icons"
@@ -446,7 +479,13 @@
                       </div>
                     </div>
                     <div class="col-md-12 col-12" style="text-align:center">
-                      <button id="add_chq" class="btn btn-primary" @click="showChq=true,resetChq(),isEditChq=false" @keyup.down="getFocus('add_b')" @keyup.up="getFocus('add_cr')">
+                      <button
+                        id="add_chq"
+                        class="btn btn-primary"
+                        @click="showChq=true,resetChq(),isEditChq=false"
+                        @keyup.down="getFocus('add_b')"
+                        @keyup.up="getFocus('add_cr')"
+                      >
                         <div class="row">
                           <i
                             class="material-icons"
@@ -485,7 +524,13 @@
                       </div>
                     </div>
                     <div class="col-md-12 col-12" style="text-align:center">
-                      <button id="add_bank" class="btn btn-primary" @click="showBank=true,resetBank(),isEditBank=false" @keyup.down="getFocus('add_doc')" @keyup.up="getFocus('add_chq')">
+                      <button
+                        id="add_bank"
+                        class="btn btn-primary"
+                        @click="showBank=true,resetBank(),isEditBank=false"
+                        @keyup.down="getFocus('add_doc')"
+                        @keyup.up="getFocus('add_chq')"
+                      >
                         <div class="row">
                           <i
                             class="material-icons"
@@ -547,8 +592,8 @@
                       <button
                         id="add_doc"
                         :disabled="feeType==''||balance<0||balance>0||payment==null||payment==0"
-                        @keyup.left="getFocus('bank_pay')"  
-                        @keyup.up="getFocus('bank_pay')" 
+                        @keyup.left="getFocus('bank_pay')"
+                        @keyup.up="getFocus('bank_pay')"
                         @click="createDepositNoApi(),confirm=true;"
                         class="btn btn-primary"
                       >
@@ -620,7 +665,17 @@
                   </p>
                   <div class="col-lg-7 col-md-12 col-12">
                     <p>
-                      <input id="cr_ref_no" class="form-control" v-model="validateCreditCardNo" maxlength="6" @keypress="isNumber(event)" ref="refNo" @keyup.enter="getFocus('bank_no')" @keyup.down="getFocus('bank_no')" @keyup.up="getFocus('cr_no')">
+                      <input
+                        id="cr_ref_no"
+                        class="form-control"
+                        v-model="validateCreditCardNo"
+                        maxlength="6"
+                        @keypress="isNumber(event)"
+                        ref="refNo"
+                        @keyup.enter="getFocus('bank_no')"
+                        @keyup.down="getFocus('bank_no')"
+                        @keyup.up="getFocus('cr_no')"
+                      >
                     </p>
                   </div>
                 </div>
@@ -632,7 +687,14 @@
                   </p>
                   <div class="col-lg-7 col-md-12 col-12">
                     <p>
-                      <input id="bank_no" class="form-control" v-model="creditBank" @keyup.enter="getFocus('cr_type')" @keyup.down="getFocus('cr_type')" @keyup.up="getFocus('cr_ref_no')">
+                      <input
+                        id="bank_no"
+                        class="form-control"
+                        v-model="creditBank"
+                        @keyup.enter="getFocus('cr_type')"
+                        @keyup.down="getFocus('cr_type')"
+                        @keyup.up="getFocus('cr_ref_no')"
+                      >
                     </p>
                   </div>
                 </div>
@@ -644,7 +706,14 @@
                   </p>
                   <div class="col-lg-7 col-md-12 col-12">
                     <p>
-                      <input id="cr_type" class="form-control" v-model="creditType" @keyup.enter="getFocus('credit_price')" @keyup.down="getFocus('credit_price')" @keyup.up="getFocus('bank_no')">
+                      <input
+                        id="cr_type"
+                        class="form-control"
+                        v-model="creditType"
+                        @keyup.enter="getFocus('credit_price')"
+                        @keyup.down="getFocus('credit_price')"
+                        @keyup.up="getFocus('bank_no')"
+                      >
                     </p>
                   </div>
                 </div>
@@ -656,7 +725,15 @@
                   </p>
                   <div class="col-lg-7 col-md-12 col-12">
                     <p>
-                      <money id="credit_price" class="form-control" v-model.number="creditPrice" v-bind="money" v-on:keyup.native.enter="getFocus('cr_charge')" v-on:keyup.native.down="getFocus('cr_charge')" v-on:keyup.native.up="getFocus('cr_type')"></money>
+                      <money
+                        id="credit_price"
+                        class="form-control"
+                        v-model.number="creditPrice"
+                        v-bind="money"
+                        v-on:keyup.native.enter="getFocus('cr_charge')"
+                        v-on:keyup.native.down="getFocus('cr_charge')"
+                        v-on:keyup.native.up="getFocus('cr_type')"
+                      ></money>
                     </p>
                   </div>
                 </div>
@@ -666,7 +743,15 @@
                   <p class="method-set col-lg-4 col-md-12 col-12">ค่า Charge :</p>
                   <div class="col-lg-7 col-md-12 col-12">
                     <p>
-                      <input id="cr_charge" class="form-control" v-model="cardCharge" @change="chargeCal" @keyup.enter="getFocus('cr_notice')" @keyup.down="getFocus('cr_notice')" @keyup.up="getFocus('credit_price')">
+                      <input
+                        id="cr_charge"
+                        class="form-control"
+                        v-model="cardCharge"
+                        @change="chargeCal"
+                        @keyup.enter="getFocus('cr_notice')"
+                        @keyup.down="getFocus('cr_notice')"
+                        @keyup.up="getFocus('credit_price')"
+                      >
                     </p>
                   </div>
                 </div>
@@ -676,7 +761,16 @@
                   <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
                   <div class="col-lg-7 col-md-12 col-12">
                     <p>
-                      <textarea id="cr_notice" class="form-control" v-model.number="creditNotice" rows="2" ref="crNotice" @keyup.enter="getFocus('submit_cr')" @keyup.down="getFocus('submit_cr')" @keyup.up="getFocus('cr_charge')"></textarea>
+                      <textarea
+                        id="cr_notice"
+                        class="form-control"
+                        v-model.number="creditNotice"
+                        rows="2"
+                        ref="crNotice"
+                        @keyup.enter="getFocus('submit_cr')"
+                        @keyup.down="getFocus('submit_cr')"
+                        @keyup.up="getFocus('cr_charge')"
+                      ></textarea>
                     </p>
                   </div>
                 </div>
@@ -686,7 +780,16 @@
                   <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
                   <div class="col-lg-7 col-md-12 col-12">
                     <p>
-                      <textarea id="cr_notice" class="form-control" v-model.number="creditNotice" rows="2" ref="crNotice" @keyup.enter="getFocus('submit_cr')" @keyup.down="getFocus('submit_cr')" @keyup.up="getFocus('cr_charge')"></textarea>
+                      <textarea
+                        id="cr_notice"
+                        class="form-control"
+                        v-model.number="creditNotice"
+                        rows="2"
+                        ref="crNotice"
+                        @keyup.enter="getFocus('submit_cr')"
+                        @keyup.down="getFocus('submit_cr')"
+                        @keyup.up="getFocus('cr_charge')"
+                      ></textarea>
                     </p>
                   </div>
                 </div>
@@ -743,7 +846,13 @@
                 </p>
                 <div class="col-lg-7 col-md-12 col-12">
                   <p>
-                    <input id="chq_no" class="form-control" v-model="checkNumber" @keyup.enter="getFocus('chq_prize')" @keyup.down="getFocus('chq_prize')">
+                    <input
+                      id="chq_no"
+                      class="form-control"
+                      v-model="checkNumber"
+                      @keyup.enter="getFocus('chq_prize')"
+                      @keyup.down="getFocus('chq_prize')"
+                    >
                   </p>
                 </div>
               </div>
@@ -753,7 +862,16 @@
                 </p>
                 <div class="col-lg-7 col-md-12 col-12">
                   <p>
-                    <money id="chq_prize" class="form-control" min="0" v-model.number="chqPrize" v-bind="money" v-on:keyup.native.enter="getFocus('bank')" v-on:keyup.native.down="getFocus('bank')" v-on:keyup.native.up="getFocus('chq_no')"></money>
+                    <money
+                      id="chq_prize"
+                      class="form-control"
+                      min="0"
+                      v-model.number="chqPrize"
+                      v-bind="money"
+                      v-on:keyup.native.enter="getFocus('bank')"
+                      v-on:keyup.native.down="getFocus('bank')"
+                      v-on:keyup.native.up="getFocus('chq_no')"
+                    ></money>
                   </p>
                 </div>
               </div>
@@ -763,7 +881,14 @@
                 </p>
                 <div class="col-lg-7 col-md-12 col-12">
                   <p>
-                    <input id="bank" class="form-control" v-model="checkBankId"  @keyup.enter="getFocus('chq_pay')" @keyup.down="getFocus('chq_day')" @keyup.up="getFocus('chq_prize')">
+                    <input
+                      id="bank"
+                      class="form-control"
+                      v-model="checkBankId"
+                      @keyup.enter="getFocus('chq_pay')"
+                      @keyup.down="getFocus('chq_day')"
+                      @keyup.up="getFocus('chq_prize')"
+                    >
                   </p>
                 </div>
               </div>
@@ -789,7 +914,16 @@
                 </p>
                 <div class="col-lg-7 col-md-12 col-12">
                   <p>
-                    <money id="chq_pay" class="form-control" min="0" v-model.number="checkPayment" v-bind="money"  v-on:keyup.native.enter="getFocus('chq_notice')" v-on:keyup.native.down="getFocus('chq_notice')" v-on:keyup.native.up="getFocus('bank')"></money>
+                    <money
+                      id="chq_pay"
+                      class="form-control"
+                      min="0"
+                      v-model.number="checkPayment"
+                      v-bind="money"
+                      v-on:keyup.native.enter="getFocus('chq_notice')"
+                      v-on:keyup.native.down="getFocus('chq_notice')"
+                      v-on:keyup.native.up="getFocus('bank')"
+                    ></money>
                   </p>
                 </div>
               </div>
@@ -797,7 +931,14 @@
                 <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
                 <div class="col-lg-7 col-md-12 col-12">
                   <p>
-                    <textarea id="chq_notice" class="form-control" v-model.number="chqNotice" rows="2" @keyup.down="getFocus('submit_chq')" @keyup.up="getFocus('chq_pay')"></textarea>
+                    <textarea
+                      id="chq_notice"
+                      class="form-control"
+                      v-model.number="chqNotice"
+                      rows="2"
+                      @keyup.down="getFocus('submit_chq')"
+                      @keyup.up="getFocus('chq_pay')"
+                    ></textarea>
                   </p>
                 </div>
               </div>
@@ -805,7 +946,14 @@
                 <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
                 <div class="col-lg-7 col-md-12 col-12">
                   <p>
-                    <textarea id="chq_notice" class="form-control" v-model.number="chqNotice" rows="2" @keyup.down="getFocus('submit_chq')" @keyup.up="getFocus('chq_pay')"></textarea>
+                    <textarea
+                      id="chq_notice"
+                      class="form-control"
+                      v-model.number="chqNotice"
+                      rows="2"
+                      @keyup.down="getFocus('submit_chq')"
+                      @keyup.up="getFocus('chq_pay')"
+                    ></textarea>
                   </p>
                 </div>
               </div>
@@ -857,7 +1005,13 @@
                 </p>
                 <div class="col-lg-7 col-md-12 col-12">
                   <p>
-                    <input id="bank_acc" class="form-control" v-model="bankAccount" @keyup.enter="getFocus('bank_day')" @keyup.down="getFocus('bank_day')">
+                    <input
+                      id="bank_acc"
+                      class="form-control"
+                      v-model="bankAccount"
+                      @keyup.enter="getFocus('bank_day')"
+                      @keyup.down="getFocus('bank_day')"
+                    >
                   </p>
                 </div>
               </div>
@@ -883,7 +1037,16 @@
                 </p>
                 <div class="col-lg-7 col-md-12 col-12">
                   <p>
-                    <money id="bank_pay" class="form-control" min="0" v-model.number="bankPayment" v-bind="money"  v-on:keyup.native.enter="getFocus('chq_notice')" v-on:keyup.native.down="getFocus('bank_notice')" v-on:keyup.native.up="getFocus('bank')"></money>
+                    <money
+                      id="bank_pay"
+                      class="form-control"
+                      min="0"
+                      v-model.number="bankPayment"
+                      v-bind="money"
+                      v-on:keyup.native.enter="getFocus('chq_notice')"
+                      v-on:keyup.native.down="getFocus('bank_notice')"
+                      v-on:keyup.native.up="getFocus('bank')"
+                    ></money>
                   </p>
                 </div>
               </div>
@@ -891,7 +1054,14 @@
                 <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
                 <div class="col-lg-7 col-md-12 col-12">
                   <p>
-                    <textarea id="bank_notice" class="form-control" v-model.number="bankNotice" rows="2" @keyup.down="getFocus('submit_bank')" @keyup.up="getFocus('bank_pay')"></textarea>
+                    <textarea
+                      id="bank_notice"
+                      class="form-control"
+                      v-model.number="bankNotice"
+                      rows="2"
+                      @keyup.down="getFocus('submit_bank')"
+                      @keyup.up="getFocus('bank_pay')"
+                    ></textarea>
                   </p>
                 </div>
               </div>
@@ -899,7 +1069,14 @@
                 <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
                 <div class="col-lg-7 col-md-12 col-12">
                   <p>
-                    <textarea id="bank_notice" class="form-control" v-model.number="bankNotice" rows="2" @keyup.down="getFocus('submit_bank')" @keyup.up="getFocus('bank_pay')"></textarea>
+                    <textarea
+                      id="bank_notice"
+                      class="form-control"
+                      v-model.number="bankNotice"
+                      rows="2"
+                      @keyup.down="getFocus('submit_bank')"
+                      @keyup.up="getFocus('bank_pay')"
+                    ></textarea>
                   </p>
                 </div>
               </div>
@@ -942,12 +1119,14 @@
         <md-dialog :md-active="confirm">
           <span>ยื่นยันการบันทึกข้อมูลใบรับเงินมัดจำ</span>
           <div style="display:flex; align-items:center; justify-content:center;">
-            <button class="btn btn-success" @click="createDepositDocApi(),createPrintData(),confirm=false">ตกลง</button>
+            <button
+              class="btn btn-success"
+              @click="createDepositDocApi(),createPrintData(),confirm=false"
+            >ตกลง</button>
             <button class="btn btn-danger" @click="confirm=false">ยกเลิก</button>
           </div>
         </md-dialog>
       </md-step>
-
 
       <md-step id="third" to md-label="สรุปใบรับเงินมัดจำ">
         <div>
@@ -1021,7 +1200,7 @@ import api from "../../service/service.js";
 import { ModelSelect } from "vue-search-select";
 import setting from "../../js/setting.js";
 import Loading from "vue-loading-overlay";
-import {Money} from 'v-money';
+import { Money } from "v-money";
 
 export default {
   name: "deposit",
@@ -1055,9 +1234,9 @@ export default {
       searchCustomerInput: "",
       searchReserveInput: "",
       php: "http://" + document.domain,
-      reserveNo:"",
+      reserveNo: "",
       customerDetail: [],
-      reserveDetail:[],
+      reserveDetail: [],
       QRPaymentPart: false,
       cashPayment: 0,
       creditPayment: 0,
@@ -1077,23 +1256,23 @@ export default {
       checkBankName: "",
       checkNumber: "",
       chqPrize: "",
-      chqDate:"",
+      chqDate: "",
       chqNotice: "",
       chqList: [],
-      bankAccount:"",
-      bankTransDate:"",
-      bankTransList:[],
-      bankNotice:"",
+      bankAccount: "",
+      bankTransDate: "",
+      bankTransList: [],
+      bankNotice: "",
       billType: "0",
-      saleType: "0",//setting.data().setting_saleType
+      saleType: "0", //setting.data().setting_saleType
       eCreditPo: null,
       eChqPo: null,
-      eBankPo:null,
-      feeType: "1",//setting.data().setting_feeType
+      eBankPo: null,
+      feeType: "1", //setting.data().setting_feeType
       project: "",
       allocate: "",
       companyId: 1,
-      branchId: "1",//setting.data().setting_branchId
+      branchId: "1", //setting.data().setting_branchId
       showDialog: false,
       showReserve: false,
       showCredit: false,
@@ -1107,13 +1286,13 @@ export default {
       profile: JSON.parse(localStorage.Datauser),
       isLoading: false,
       money: {
-          decimal: '.',
-          thousands: ',',
-          prefix: '',
-          suffix: ' บาท',
-          precision: 2,
-          masked: false
-        },
+        decimal: ".",
+        thousands: ",",
+        prefix: "",
+        suffix: " บาท",
+        precision: 2,
+        masked: false
+      },
       isEditCr: false,
       isEditChq: false,
       isEditBank: false
@@ -1181,9 +1360,10 @@ export default {
           this.taxRate = result.data.tax_type;
           this.datenow_datepicker = result.data.doc_date;
           this.creditCardList = result.data.credit_card;
-          this.cashPayment = result.data.cash_amount;
+         
           this.chqList = result.data.chq;
           this.payment = result.data.total_amount;
+           this.cashPayment = result.data.cash_amount;
           this.infoNotice = result.data.my_description;
           this.creator = result.data.create_by;
         },
@@ -1217,13 +1397,13 @@ export default {
       this.creditCardList.push(creditcard);
       console.log(JSON.stringify(this.creditCardList));
     },
-    resetCredit(){
-      this.creditType='';
-      this.validateCreditCardNo='';
-      this.creditNumber='';
-      this.creditPrice=0;
-      this.creditBank='';
-      this.creditNotice='';
+    resetCredit() {
+      this.creditType = "";
+      this.validateCreditCardNo = "";
+      this.creditNumber = "";
+      this.creditPrice = 0;
+      this.creditBank = "";
+      this.creditNotice = "";
     },
     pullCreditCard(index) {
       this.eCreditPo = index;
@@ -1239,7 +1419,7 @@ export default {
       this.creditCardList[this.eCreditPo].bank_id = parseInt(this.creditBank);
     },
     removeCreditCard(index) {
-      console.log(index)
+      console.log(index);
       this.creditCardList.slice(index);
     },
     createChq() {
@@ -1251,9 +1431,9 @@ export default {
       };
       this.chqList.push(chq);
     },
-    resetChq(){
+    resetChq() {
       this.checkNumber = "";
-      this.chqPrize=0;
+      this.chqPrize = 0;
       this.checkPayment = 0;
       this.checkBankId = "";
       this.chqNotice = "";
@@ -1274,32 +1454,32 @@ export default {
     removeChq(index) {
       this.chqList.slice(index);
     },
-    createBank(){
-      var bank={
+    createBank() {
+      var bank = {
         bank_account: this.bankAccount,
-        bank_date:this.bankTransDate,
-        bank_amount:this.bankPayment
+        bank_date: this.bankTransDate,
+        bank_amount: this.bankPayment
       };
       this.bankTransList.push(bank);
     },
-    resetBank(){
-      this.bankAccount="";
-      this.bankTransDate=this.getDate();
-      this.bankPayment=0;
+    resetBank() {
+      this.bankAccount = "";
+      this.bankTransDate = this.getDate();
+      this.bankPayment = 0;
     },
-    pullBank(index){
-      this.eBankPo=index;
-      this.bankAccount=this.bankTransList[index].bank_account;
-      this.bankTransDate=this.bankTransList[index].bank_date;
-      this.bankPayment=this.bankTransList[index].bank_amount;
+    pullBank(index) {
+      this.eBankPo = index;
+      this.bankAccount = this.bankTransList[index].bank_account;
+      this.bankTransDate = this.bankTransList[index].bank_date;
+      this.bankPayment = this.bankTransList[index].bank_amount;
     },
-    editBank(){
-      this.bankTransList[eBankPo].bank_account=this.bankAccount;
-      this.bankTransList[eBankPo].bank_date=this.bankTransDate;
-      this.bankTransList[eBankPo].bank_amount=this.bankPayment;
+    editBank() {
+      this.bankTransList[eBankPo].bank_account = this.bankAccount;
+      this.bankTransList[eBankPo].bank_date = this.bankTransDate;
+      this.bankTransList[eBankPo].bank_amount = this.bankPayment;
     },
     removeBank(index) {
-      console.log(index)
+      console.log(index);
       this.bankTransList.slice(index);
     },
     searchCustomerAllKeyApi() {
@@ -1329,7 +1509,7 @@ export default {
         }
       );
     },
-    searchReserveKeyApi(){
+    searchReserveKeyApi() {
       var payload = {
         ar_id: this.customerID,
         keyword: this.searchReserveInput
@@ -1369,8 +1549,8 @@ export default {
 
       this.showDialogCustomer = false;
     },
-    searchReserve(val){
-      this.reserveNo=val.doc_no;
+    searchReserve(val) {
+      this.reserveNo = val.doc_no;
     },
     createDepositNoApi() {
       let payload = {
@@ -1444,8 +1624,8 @@ export default {
         this.chqNotice = null;
       }
     },
-    checkLength(){
-      return console.log(this.creditNumber.length)
+    checkLength() {
+      return console.log(this.creditNumber.length);
     },
     getFocus(id) {
       document.getElementById(id).focus();
@@ -1471,7 +1651,7 @@ export default {
         depart_id: parseInt(this.department),
         bill_type: parseInt(this.saleType),
         tax_rate: this.taxrate,
-        ref_no:this.reserveNo,
+        ref_no: this.reserveNo,
         my_description: this.infoNotice,
         cash_amount: this.cashPayment,
         creditcard_amount: this.totalCreditPayment,
@@ -1497,7 +1677,7 @@ export default {
         }
       );
     },
-    createPrintData(){
+    createPrintData() {
       let payload = {
         id: this.id,
         uuid: this.uuid,
@@ -1530,7 +1710,7 @@ export default {
         create_by: this.profile.rolename
         // edit_by: this.profile.rolename
       };
-      document.getElementsByName('depData')[0].value = JSON.stringify(payload)
+      document.getElementsByName("depData")[0].value = JSON.stringify(payload);
     }
   },
   computed: {
@@ -1541,6 +1721,7 @@ export default {
         this.totalChqPayment != null ||
         this.totalBankPayment != null
       ) {
+        console.log( this.totalCreditPayment )
         return (
           this.cashPayment +
           this.totalCreditPayment +
@@ -1559,6 +1740,7 @@ export default {
         this.creditCardList = [];
       }
       return this.creditCardList.reduce((sum, item) => {
+        console.log(sum + item.amount)
         return sum + item.amount;
       }, 0);
     },
@@ -1570,7 +1752,7 @@ export default {
         return sum + item.chq_amount;
       }, 0);
     },
-    totalBankPayment(){
+    totalBankPayment() {
       if (this.bankTransList == null) {
         this.bankTransList = [];
       }
@@ -1614,8 +1796,8 @@ export default {
     balance() {
       return this.totalPayment - this.total_VAT;
     },
-    checkLength(){
-      return console.log(this.validateCreditCardNo.length)
+    checkLength() {
+      return console.log(this.validateCreditCardNo.length);
     }
   },
   mounted() {

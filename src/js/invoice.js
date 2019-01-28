@@ -16,97 +16,226 @@ Vue.component('tab', Tab);
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import Datepicker from 'vuejs-datepicker';
+import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
+import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.min.css";
+import setting from "./setting.js";
 import * as lang from "vuejs-datepicker/src/locale";
 import api from "../service/service.js"
+import VueStripePayment from "vue-stripe-payment";
+import { ModelSelect } from "vue-search-select";
+
+
+import VueQRCodeComponent from 'vue-qrcode-component'
+Vue.component('qr-code', VueQRCodeComponent) // component qrcode
 // import * as jsPDF from 'jspdf'
 import JQuery from 'jquery'
 let $ = JQuery
-
+import { Money } from "v-money";
 export default {
-    name: "quotation",
+    name: "Invoice",
     components: {
         Datepicker,
-        Loading
+        VueCtkDateTimePicker,
+
+        Loading,
+        ModelSelect,
+        Loading,
+        Money
     },
-    data: () => ({
-        msg: "",
-        selectedDate: null,
-        date: "",
-        search: [],
-        search: '',
-        objuser: JSON.parse(localStorage.Datauser),
-        dproducts: [],
-        active: 'first',
-        first: false,
-        second: false,
-        third: false,
-        secondStepError: null,
-        language: "th",
-        languages: lang,
-        idcus: '',
-        searchcus: '',
-        detailcus: '',
-        showDialogcus: false,
-        detailcusall: [],
-        tablecode: '',
-        billtype: '',
-        taxtype: 1,
-        mockdocno: '',
-        docno: 'ไม่มีข้อมูล',
-        keywordproduct: '',
-        showDialogproduct: false,
-        dataproductDialog: [],
-        disablebilltype: false,
-        datenow_datepicker: Date.now(),
-        attention: '',
-        percal: false, //true == % , false == บาท
-        caldiscount: 0,
-        keywordemp: '',
-        // page 2
-        bill_credit: 0,
-        DueDate_cal: '',
-        Deliver_date: 0,
-        DueDate_date: '',
-        expire_date: 0,
-        expiredate_cal: '',
-        isshowdocument: false,
-        docheight: '72px',
-        searchsale: false,
-        sale_id: JSON.parse(localStorage.userid),
-        salecode: '',
-        searchsaleobj: [],
-        validity: 0,
-        is_condition_send: 0,
-        my_description: '',
-        creator_by: '',
-        branch_id: 0,
-        docnoid: localStorage.iddocno,
-        answer_cus: '',
-        company_id: localStorage.company_id,
-        php: 'http://' + document.domain,
-        ar_bill_address: '',
-        ar_telephone: '',
-        department: '',
-        searchdepart: false,
-        objdepart: [],
-        project: '',
-        idprojectC: '',
-        searchproject: false,
-        objproject: [],
-        Allocate: '',
-        searchAllocate_m: false,
-        objAllocate: [],
-        Allocateid: '',
-        searchunitcode_m: false,
-        unitcode_obj: [],
-        thisunticode: [],
-        stockobj: [],
-        namestock: '',
-        stockall: [],
-        isLoading: false,
-        fullPage: true, turnselected: 1,
-    }),
+    data() {
+        return {
+            msg: "",
+            selectedDate: null,
+            date: "",
+            search: [],
+            search: '',
+            objuser: JSON.parse(localStorage.Datauser),
+            dproducts: [],
+            active: 'first',
+            first: false,
+            second: false,
+            third: false,
+            secondStepError: null,
+            language: "th",
+            languages: lang,
+            idcus: '',
+            searchcus: '',
+            detailcus: '',
+            showDialogcus: false,
+            detailcusall: [],
+            tablecode: '',
+            billtype: '',
+            taxtype: 1,
+            mockdocno: '',
+            docno: 'ไม่มีข้อมูล',
+            keywordproduct: '',
+            showDialogproduct: false,
+            dataproductDialog: [],
+            disablebilltype: false,
+            datenow_datepicker: Date.now(),
+            attention: '',
+            percal: false, //true == % , false == บาท
+            caldiscount: 0,
+            keywordemp: '',
+            // page 2
+            bill_credit: 0,
+            DueDate_cal: '',
+            Deliver_date: 0,
+            DueDate_date: '',
+            expire_date: 0,
+            expiredate_cal: '',
+            isshowdocument: false,
+            docheight: '72px',
+            searchsale: false,
+            sale_id: JSON.parse(localStorage.userid),
+            salecode: '',
+            searchsaleobj: [],
+            validity: 0,
+            is_condition_send: 0,
+            my_description: '',
+            creator_by: '',
+            totolmoney: 0,
+            branch_id: 0,
+            docnoid: localStorage.iddocno,
+            answer_cus: '',
+            company_id: localStorage.company_id,
+            php: 'http://' + document.domain,
+            ar_bill_address: '',
+            ar_telephone: '',
+            department: '',
+            searchdepart: false,
+            objdepart: [],
+            project: '',
+            idprojectC: '',
+            searchproject: false,
+            objproject: [],
+            Allocate: '',
+            searchAllocate_m: false,
+            objAllocate: [],
+            Allocateid: '',
+            searchunitcode_m: false,
+            unitcode_obj: [],
+            thisunticode: [],
+            stockobj: [],
+            taxrate: setting.data().setting_taxRate,
+            namestock: '',
+            stockall: [],
+            isLoading: false,
+            fullPage: true, turnselected: 1,
+            ///
+
+            cashPayment: 0,
+            creditPayment: 0,
+            checkPayment: 0,
+            bankPayment: 0,
+            payment: 0,
+            creditNumber: "",
+            validateCreditCardNo: "",
+            creditType: "",
+            creditBank: "",
+            creditPrice: "",
+            cardCharge: "",
+            cardChargePrice: "",
+            creditNotice: "",
+            creditCardList: [],
+            checkBankId: "",
+            checkBankName: "",
+            checkNumber: "",
+            chqPrize: "",
+            chqDate: "",
+            chqNotice: "",
+            chqList: [],
+            bankAccount: "",
+            bankTransDate: "",
+            bankTransList: [],
+            promplaylist: [],
+            bankNotice: "",
+            //   billType: "0",
+            billType: "0",
+            saleType: "0",//setting.data().setting_saleType
+            eCreditPo: null,
+            eChqPo: null,
+            eBankPo: null,
+            feeType: "1",//setting.data().setting_feeType
+            project: "",
+            allocate: "",
+            companyId: 1,
+            branchId: "1",//setting.data().setting_branchId
+            showDialog: false,
+            showReserve: false,
+            showCredit: false,
+            showChq: false,
+            showBank: false,
+            showpromplay: false,
+            confirm: false,
+            active: "first",
+            prompaly: {
+                qr_code: '',
+                price: 0,
+                detailedit: ''
+            },
+            ///
+            money: {
+                decimal: ".",
+                thousands: ",",
+                prefix: "",
+                suffix: " บาท",
+                precision: 2,
+                masked: false
+            },
+            isEditCr: false,
+            isEditChq: false,
+            isEditBank: false,
+            isEditPromplay: false,
+
+        }
+    },
     methods: {
+
+        genqrcode() {
+            if (this.prompaly.price <= 0) {
+                alert('กรุณาระบุจำนวนเงิน')
+                return
+            }
+            var payload = {
+                vending_uuid: "testing",
+                order_uuid: "testing123",
+                amount: this.prompaly.price
+            }
+            console.log(JSON.stringify(payload))
+            api.callqrcode(payload,
+                (result) => {
+                    if (result.status === 'success') {
+                        console.log(result)
+                        console.log('channel sub:' + result.sub_channel)
+                        this.prompaly.qr_code = result.qr_tag
+
+
+
+
+                    }
+                },
+                (error) => {
+                    console.log(error)
+                })
+        },
+        recallmoney(val) {
+            this.totolmoney -= val.amount;
+        },
+        isNumber: function (evt) {
+            evt = evt ? evt : window.event;
+            var charCode = evt.which ? evt.which : evt.keyCode;
+            if (
+                charCode > 31 &&
+                (charCode < 48 || charCode > 57) &&
+                charCode !== 46
+            ) {
+                evt.preventDefault();
+            } else {
+                return true;
+            }
+
+        },
         turnselect(ck) {
             this.turnselected = ck;
             console.log(this.turnselected)
@@ -115,8 +244,7 @@ export default {
             console.log(val)
         },
         searchunticode(val) {
-            // console.log(index)
-            // console.log(this.selectunitcode_step2())
+
             console.log(JSON.stringify(val))
             let payload = {
                 item_code: val.item_code
@@ -648,11 +776,6 @@ export default {
 
             if (this.dproducts.length > 0) {
 
-                // var test;
-                // for (let x = 0; x < this.dproducts.length; x++) {
-                //   test +=  this.dproducts[x].bar_code
-                // }
-                // console.log(test)
             }
 
             this.disablebilltype = true
@@ -793,11 +916,7 @@ export default {
         getFocus(id) {
             document.getElementById(id).focus();
         },
-        convertmoney(val) {
-            // console.log(val)
-            var number = numeral(val).format('0,0.00');
-            return number
-        },
+
         convertshowdoc(val) {
             if (val == false) {
                 var comment = 'ปิด'
@@ -926,6 +1045,11 @@ export default {
                     this.answer_cus = result.data.assert_status
                     this.Deliver_date = result.data.delivery_day
                     this.bill_credit = result.data.credit_day
+                    this.chqList = result.data.chq;
+                    this.taxRate = result.data.tax_type;
+                    this.creditCardList = result.data.credit_card;
+                    this.payment = this.totalprice;
+                    this.cashPayment = result.data.cash_amount;
                     this.is_condition_send = result.data.is_condition_send
                     this.expiredate_cal = this.convertmonth_d_m_y(result.data.expire_date)
                     // console.log(this.expiredate_cal)
@@ -942,6 +1066,144 @@ export default {
                     alertify.error('ข้อมูลผิดพลาด detailquoall');
                 })
 
+        }, convertmoney(val) {
+            // console.log(val)
+            var number = numeral(val).format('0,0.00');
+            return number
+        }, convertToBaht(val) {
+            var result = numeral(val).format("0,0.00");
+            // console.log(typeof result)
+            return result;
+        }, createpromplay() {
+            var promplays = {
+                promplayprice: this.prompaly.price,
+                promplayqrcode: this.prompaly.qr_code
+            }
+            this.promplaylist.push(promplays);
+        },
+        createCreditCard() {
+            var creditcard = {
+                credit_type: this.creditType,
+                credit_card_no: this.creditNumber,
+                amount: this.creditPayment,
+                bank_id: parseInt(this.creditBank)
+            };
+            console.log(JSON.stringify(creditcard));
+            this.creditCardList.push(creditcard);
+            console.log(JSON.stringify(this.creditCardList));
+        },
+        resetCredit() {
+            this.creditType = '';
+            this.validateCreditCardNo = '';
+            this.creditNumber = '';
+            this.creditPrice = 0;
+            this.creditBank = '';
+            this.creditNotice = '';
+        },
+        pullCreditCard(index) {
+            this.eCreditPo = index;
+            this.creditType = this.creditCardList[index].credit_type;
+            this.creditNumber = this.creditCardList[index].credit_card_no;
+            this.creditPrice = this.creditCardList[index].amount;
+            this.creditBank = parseInt(this.creditCardList[index].bank_id);
+        },
+        editCreditCard() {
+            this.creditCardList[this.eCreditPo].credit_type = this.creditType;
+            this.creditCardList[this.eCreditPo].credit_card_no = this.creditNumber;
+            this.creditCardList[this.eCreditPo].amount = this.creditPayment;
+            this.creditCardList[this.eCreditPo].bank_id = parseInt(this.creditBank);
+        },
+        removeCreditCard(index) {
+            console.log(index)
+            this.creditCardList.slice(index);
+        },
+        createChq() {
+            var chq = {
+                chq_number: this.checkNumber,
+                chq_amount: this.checkPayment,
+                bank_id: parseInt(this.checkBankId),
+                description: this.chqNotice
+            };
+            this.chqList.push(chq);
+        },
+        resetChq() {
+            this.checkNumber = "";
+            this.chqPrize = 0;
+            this.checkPayment = 0;
+            this.checkBankId = "";
+            this.chqNotice = "";
+        },
+        pullChq(index) {
+            this.eChqPo = index;
+            this.checkNumber = this.chqList[index].chq_number;
+            this.checkPayment = this.chqList[index].chq_amount;
+            this.checkBankId = parseInt(this.chqList[index].bank_id);
+            this.chqNotice = this.chqList[index].description;
+        },
+        editChq() {
+            this.chqList[this.eChqPo].chq_number = this.checkNumber;
+            this.chqList[this.eChqPo].chq_amount = this.checkPayment;
+            this.chqList[this.eChqPo].bank_id = parseInt(this.checkBankId);
+            this.chqList[this.eChqPo].description = this.chqNotice;
+        },
+        removeChq(index) {
+            this.chqList.slice(index);
+        },
+        createBank() {
+            var bank = {
+                bank_account: this.bankAccount,
+                bank_date: this.bankTransDate,
+                bank_amount: this.bankPayment
+            };
+            this.bankTransList.push(bank);
+        },
+        resetBank() {
+            this.bankAccount = "";
+            this.bankTransDate = this.getDate();
+            this.bankPayment = 0;
+        },
+        pullBank(index) {
+            this.eBankPo = index;
+            this.bankAccount = this.bankTransList[index].bank_account;
+            this.bankTransDate = this.bankTransList[index].bank_date;
+            this.bankPayment = this.bankTransList[index].bank_amount;
+        },
+        editBank() {
+            this.bankTransList[eBankPo].bank_account = this.bankAccount;
+            this.bankTransList[eBankPo].bank_date = this.bankTransDate;
+            this.bankTransList[eBankPo].bank_amount = this.bankPayment;
+        },
+        removeBank(index) {
+            console.log(index);
+            this.bankTransList.slice(index);
+        }, test() {
+            console.log(this.showCredit)
+
+            this.showCredit = false;
+        },
+        payment_validation() {
+            if (this.showCredit == false) {
+                // this.creditCardName = null;
+                this.creditNumber = null;
+                this.validateCreditCardNo = null;
+                this.creditBank = null;
+                // this.creditBranch = null;
+                this.creditDate = "";
+                this.creditPrice = "";
+                this.creditType = null;
+                this.cardCharge = null;
+                this.creditPayment = null;
+                this.creditNotice = null;
+            }
+            if (this.showChq == false) {
+                this.checkNumber = null;
+                this.chqPrize = null;
+                this.checkDate = null;
+                this.checkBankName = null;
+                // this.checkBankBranch = null;
+                this.checkPayment = null;
+                this.chqNotice = null;
+            }
         },
         convertmonth_preview(val) {
             // console.log(val)
@@ -1060,9 +1322,11 @@ export default {
         cal_totalprice() {
             if (this.taxtype == 1) {
                 if (!this.percal) {
+                    this.payment = this.totalprice - this.caldiscount;
                     return this.totalprice - this.caldiscount
                 }
                 if (this.percal) {
+                    this.payment = this.totalprice - (this.totalprice * this.caldiscount / 100)
                     return this.totalprice - (this.totalprice * this.caldiscount / 100)
                 }
             }
@@ -1082,7 +1346,103 @@ export default {
                     return this.totalprice
                 }
             }
+        }, totalPayment() {
+
+            if (
+                this.cashPayment != null ||
+                this.totalCreditPayment != null ||
+                this.totalChqPayment != null ||
+                this.totalBankPayment != null || this.totalPromplay != null
+            ) {
+                return (
+                    this.cashPayment +
+                    this.totalCreditPayment +
+                    this.totalChqPayment +
+                    this.totalBankPayment
+
+                );
+            }
+
+        }, totalPromplay() {
+            if (this.promplaylist == null) {
+                this.promplaylist = [];
+            }
+            return this.promplaylist.reduce((sum, item) => {
+                return sum + item.price
+            }, 0)
         },
+        chargeCal() {
+            this.creditPayment = this.creditPrice;
+            console.log(this.creditPayment);
+            return this.creditPayment;
+        },
+        totalCreditPayment() {
+            if (this.creditCardList == null) {
+                this.creditCardList = [];
+            }
+
+            return this.creditCardList.reduce((sum, item) => {
+                console.log(sum + item.amount)
+                return sum + item.amount;
+            }, 0);
+        },
+        totalChqPayment() {
+            if (this.chqList == null) {
+                this.chqList = [];
+            }
+            return this.chqList.reduce((sum, item) => {
+                return sum + item.chq_amount;
+            }, 0);
+        },
+        totalBankPayment() {
+            if (this.bankTransList == null) {
+                this.bankTransList = [];
+            }
+            return this.bankTransList.reduce((sum, item) => {
+                return sum + item.bank_amount;
+            }, 0);
+        },
+        payment_type() {
+            console.log(this.payment)
+            if (this.taxtype == "0") {
+                return this.payment;
+            }
+            if (this.taxtype == "1") {
+                return this.payment * (100 / (100 + this.taxrate));
+            }
+            if (this.taxtype == "2") {
+                return this.payment;
+            }
+        },
+        cal_VAT() {
+            if (this.taxtype == "0") {
+                return this.payment_type * (this.taxrate / 100);
+            }
+            if (this.taxtype == "1") {
+                return this.payment - this.payment_type;
+            }
+            if (this.taxtype == "2") {
+                return 0;
+            }
+        },
+        total_VAT() {
+            if (this.taxtype == "0") {
+                return this.payment + this.cal_VAT;
+            }
+            if (this.taxtype == "1") {
+                return this.payment;
+            }
+            if (this.taxtype == "2") {
+                return this.payment;
+            }
+        },
+        balance() {
+            return this.totalPayment - this.total_VAT;
+        },
+        checkLength() {
+            return console.log(this.validateCreditCardNo.length);
+        }
+        ,
         firstDayOfAWeek: {
             get() {
                 return this.$material.locale.firstDayOfAWeek;

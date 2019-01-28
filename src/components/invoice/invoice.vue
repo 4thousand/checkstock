@@ -131,7 +131,7 @@ export default {
     seedetail(val) {
       console.log(JSON.stringify(val));
 
-      this.$router.push({ name: "saleorder", params: { id: val.id } });
+      this.$router.push({ name: "invoicedetail", params: { id: val.id } });
     },
     showalldoc() {
       var payload = {
@@ -145,7 +145,10 @@ export default {
         result => {
           for (var i = 0; i < result.data.length; i++) {
             console.log(JSON.stringify(result.data[i].module));
-            if (result.data[i].module == "SaleOrder") {
+            if (
+              result.data[i].module == "SaleOrder" ||
+              result.data[i].module == "BackOrder"
+            ) {
               this.dataall.push(result.data[i]);
             }
           }

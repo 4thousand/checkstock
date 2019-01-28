@@ -9,7 +9,7 @@
           <md-steppers :md-active-step.sync="active" md-linear>
             <md-step
               id="first"
-              md-label="First Step"
+              md-label="ข้อมูลสินค้า"
               md-description="Optional"
               :md-done.sync="first"
             >
@@ -418,112 +418,964 @@
             </md-step>
             <md-step
               id="second"
-              md-label="Second Step"
+              md-label="วิธีการชำระเงิน"
               :md-error="secondStepError"
               :md-done.sync="second"
             >
               <!--  -->
-              <div style="display:inline-block;width: 100%; ">
-                <form class="md-layout" style="justify-content: center;">
-                  <md-card
-                    style="margin-bottom:8px;margin-right:8px; width:100%"
-                    class="md-layout-item md-size-90 md-small-size-100"
-                  >
-                    <md-card-header>
-                      <div class="md-title">วิธีชำระเงิน</div>
-                    </md-card-header>
+              <div style="display:inline-block;width: 100%;">
+                <form style="justify-content: center;">
+                  <div>
+                    <div>
+                      <div class="row md-layout-item">
+                        <div class="col-12 col-md-7 col-lg-8 big-margin" style="float:left">
+                          <div class="card">
+                            <div class="card-header deposit-header">
+                              <span>วิธีการชำระเงิน</span>
+                            </div>
+                            <div class="deposit-border">
+                              <div class="row">
+                                <div class="col-md-12 col-12">
+                                  <div class="form-group row">
+                                    <p class="article-set col-md-3 col-12">
+                                      <span style="color:red">*</span> ประเภทภาษี :
+                                    </p>
+                                    <div class="col-md-8 col-12">
+                                      <select id="tax_type" v-model="taxtype" class="form-control">
+                                        <option value="0">ภาษีแยกนอก</option>
+                                        <option value="1">ภาษีรวมใน</option>
+                                        <option value="2">ภาษีอัตราศูนย์</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-12 col-12">
+                                  <div class="form-group row">
+                                    <p class="article-set col-md-3 col-12">
+                                      <span style="color:red">*</span> ราคารวม :
+                                    </p>
+                                    <div class="col-md-8 col-12">
+                                      <money
+                                        id="total_pay"
+                                        class="form-control"
+                                        min="0"
+                                        v-model.number=" payment "
+                                        v-bind="money"
+                                        @keypress="isNumber(event)"
+                                        v-on:keyup.native.enter="getFocus('cash_pay')"
+                                        v-on:keyup.native.down="getFocus('cash_pay')"
+                                      ></money>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <hr class="col-10">
+                              <h4 class="payment-sub-header information-part col-12">เงินสด</h4>
+                              <div class="row">
+                                <div class="col-md-12 col-12">
+                                  <div class="form-group row">
+                                    <p class="article-set col-md-3 col-12">
+                                      <span style="color:red">*</span> จำนวนเงิน :
+                                    </p>
+                                    <div class="col-md-8 col-12">
+                                      <money
+                                        id="cash_pay"
+                                        class="form-control"
+                                        min="0"
+                                        v-model.number="cashPayment"
+                                        v-bind="money"
+                                        @keypress="isNumber(event)"
+                                        v-on:keyup.native.enter="getFocus('add_cr')"
+                                        v-on:keyup.native.up="getFocus('total_pay')"
+                                        v-on:keyup.native.down="getFocus('add_cr')"
+                                      ></money>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
 
-                    <vs-tabs vs-position="left" style="display:block;">
-                      <vs-tab vs-label="ชำระด้วยเงินสด" @click="turnselect(1)">
-                        <md-card
-                          style="margin-bottom:8px;margin-right:8px; width:100%;padding:10px"
-                          class="md-layout-item md-size-100 md-small-size-100"
+                              <hr class="col-10">
+                              <h4
+                                class="payment-sub-header information-part col-12"
+                              >บัตรเครดิต/บัตรเดบิต</h4>
+
+                              <!-- v-for -->
+                              <div
+                                class="col-md-12 col-12"
+                                v-for="(val,index) in creditCardList"
+                                :key="index"
+                              >
+                                <div class="form-group row">
+                                  <div class="col-lg-12 col-md-12 col-12">
+                                    <div class="alert alert-info">
+                                      <a
+                                        class="close"
+                                        data-dismiss="alert"
+                                        aria-label="close"
+                                        @click="removeCreditCard(index),recallmoney(val)"
+                                      >&times;</a>
+                                      <a class="edit close">
+                                        <i class="material-icons">edit</i>
+                                      </a>
+                                      <span
+                                        class="fontsize"
+                                      >เลขบัตร : {{"XXXX-XXXX-XXXX-"+val.credit_card_no}}</span>
+                                      <span
+                                        class="fontsize"
+                                      >จำนวนเงิน :{{convertToBaht(val.amount)+" บาท"}}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-12 col-12" style="text-align:center">
+                                <button
+                                  id="add_cr"
+                                  class="btn btn-primary"
+                                  @click="showCredit=true,resetCredit(),isEditCr=false"
+                                  @keyup.up="getFocus('cash_pay')"
+                                  @keyup.down="getFocus('add_chq')"
+                                >
+                                  <div class="row">
+                                    <i
+                                      class="material-icons"
+                                      style="padding:5px 5px 5px 10px"
+                                    >add_circle_outline</i>
+                                    <span style="padding:5px 10px 5px 5px">เพิ่มบัตรเครดิต</span>
+                                  </div>
+                                </button>
+                              </div>
+
+                              <hr class="col-10">
+                              <h4 class="payment-sub-header information-part col-12">เช็ค</h4>
+                              <!-- v-for -->
+                              <div
+                                class="col-md-12 col-12"
+                                v-for="(val,index) in chqList"
+                                :key="index"
+                              >
+                                <div class="form-group row">
+                                  <div class="col-lg-12 col-md-12 col-12">
+                                    <div class="alert alert-info">
+                                      <a
+                                        class="close"
+                                        data-dismiss="alert"
+                                        aria-label="close"
+                                        @click="removeChq(index)"
+                                      >&times;</a>
+                                      <a class="edit close">
+                                        <i
+                                          class="material-icons"
+                                          @click="showChq=true,isEditChq=true,pullChq(index)"
+                                        >edit</i>
+                                      </a>
+                                      <span class="fontsize">เลขบัตร : {{val.chq_number}}</span>
+                                      <span
+                                        class="fontsize"
+                                      >จำนวนเงิน : {{convertToBaht(val.chq_amount)+" บาท"}}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="col-md-12 col-12" style="text-align:center">
+                                <button
+                                  id="add_chq"
+                                  class="btn btn-primary"
+                                  @click="showChq=true,resetChq(),isEditChq=false"
+                                  @keyup.down="getFocus('add_b')"
+                                  @keyup.up="getFocus('add_cr')"
+                                >
+                                  <div class="row">
+                                    <i
+                                      class="material-icons"
+                                      style="padding:5px 5px 5px 10px"
+                                    >add_circle_outline</i>
+                                    <span style="padding:5px 10px 5px 5px">เพิ่มเช็คเงินสด</span>
+                                  </div>
+                                </button>
+                              </div>
+
+                              <hr class="col-10">
+                              <h4 class="payment-sub-header information-part col-12">เงินโอน</h4>
+                              <!-- v-for -->
+                              <div
+                                class="col-md-12 col-12"
+                                v-for="(val,index) in bankTransList"
+                                :key="index"
+                              >
+                                <div class="form-group row">
+                                  <div class="col-lg-12 col-md-12 col-12">
+                                    <div class="alert alert-info">
+                                      <a
+                                        class="close"
+                                        data-dismiss="alert"
+                                        aria-label="close"
+                                        @click="removeBank(index)"
+                                      >&times;</a>
+                                      <a class="edit close">
+                                        <i class="material-icons">edit</i>
+                                      </a>
+                                      <span class="fontsize">เลขที่บัญชี : {{val.bank_account}}</span>
+                                      <span
+                                        class="fontsize"
+                                      >จำนวนเงิน : {{convertToBaht(val.bank_amount)+" บาท"}}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-12 col-12" style="text-align:center">
+                                <button
+                                  id="add_bank"
+                                  class="btn btn-primary"
+                                  @keyup.down="getFocus('add_doc')"
+                                  @keyup.up="getFocus('add_chq')"
+                                  @click="showBank=true,isEditBank=false,pullBank(index)"
+                                >
+                                  <div class="row">
+                                    <i
+                                      class="material-icons"
+                                      style="padding:5px 5px 5px 10px"
+                                    >add_circle_outline</i>
+                                    <span style="padding:5px 10px 5px 5px">เพิ่มเลขเงินโอน</span>
+                                  </div>
+                                </button>
+                              </div>
+
+                              <hr class="col-10">
+
+                              <h4 class="payment-sub-header information-part col-12">พร้อมเพย์</h4>
+                              <div
+                                class="col-md-12 col-12"
+                                v-for="(val,index) in promplaylist"
+                                :key="index"
+                              >
+                                <div class="form-group row">
+                                  <div class="col-lg-12 col-md-12 col-12">
+                                    <div class="alert alert-info">
+                                      <a
+                                        class="close"
+                                        data-dismiss="alert"
+                                        aria-label="close"
+                                      >&times;</a>
+                                      <a class="edit close">
+                                        <i class="material-icons">edit</i>
+                                      </a>
+                                      
+                                      <span
+                                        class="fontsize"
+                                      >จำนวนเงิน : {{convertToBaht(val.promplayprice) +" บาท"}}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-12 col-12" style="text-align:center">
+                                <button
+                                  id="add_bank"
+                                  class="btn btn-primary"
+                                  @click="showpromplay=true,isEditPromplay=true"
+                                >
+                                  <div class="row">
+                                    <i
+                                      class="material-icons"
+                                      style="padding:5px 5px 5px 10px"
+                                    >add_circle_outline</i>
+                                    <span style="padding:5px 10px 5px 5px">เพิ่มพร้อมเพย์</span>
+                                  </div>
+                                </button>
+                              </div>
+
+                              <br>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-md-5 col-lg-4 big-margin">
+                          <div class="card stickydestop" style="position: sticky; top: 0;">
+                            <div class="card-header tax-header">
+                              <span>สรุปยอดชำระเงิน</span>
+                            </div>
+                            <div class="tax-border">
+                              <div class="row tax-head-part">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                    <p class="tax-head">อัตราภาษีมูลค่าเพิ่ม :{{taxrate}} %</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                    <p
+                                      class="tax-head"
+                                    >จำนวนเงินก่อนภาษี :{{ convertToBaht(payment_type) }} บาท</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                    <p
+                                      class="tax-head"
+                                    >ภาษีมูลค่าเพิ่ม : {{ convertToBaht(cal_VAT) }} บาท</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                    <p
+                                      class="tax-summary"
+                                    >มูลค่ารวมภาษี :{{ convertToBaht(total_VAT) }} บาท</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row tax-bottom-part">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                    <p class="tax-head">เงินทอน : {{ convertToBaht(balance) }} บาท</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="tax-bottom-part tax-button">
+                                <!--  <button
+                                  id="add_doc"
+                                  @keyup.left="getFocus('bank_pay')"
+                                  @keyup.up="getFocus('bank_pay')"
+                                  @click="confirm=true;"
+                                  class="btn btn-primary"
+                                >
+                                  <span>บันทึก</span>
+                                </button>-->
+                              </div>
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                    <p class="tax-head" style="color:red">*ยอดชำระไม่เพียงพอ</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row tax-bottom-part">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                    <p class="tax-head" style="color:red">*ยอดชำระมากเกินไป</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <md-dialog :md-active="showCredit">
+                    <md-dialog-content class="modal-content">
+                      <div class="modal-header">
+                        <h4 style="margin-top:-20px">บัตรเครดิต</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div class="col-md-12 col-12">
+                          <div class="row">
+                            <p class="method-set col-lg-4 col-md-12 col-12">
+                              <span style="color:red">*</span> เลขที่เครดิต :
+                            </p>
+                            <div class="col-lg-7 col-md-12 col-12">
+                              <p>
+                                <input
+                                  id="cr_no"
+                                  class="form-control"
+                                  type="text"
+                                  v-model.number="creditNumber"
+                                  maxlength="4"
+                                  v-autofocus
+                                  @keypress="isNumber(event)"
+                                  @keyup.enter="getFocus('cr_ref_no')"
+                                  @keyup.down="getFocus('cr_ref_no')"
+                                  placeholder="เลขสี่ตัวท้ายของบัตร"
+                                >
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-12 col-12">
+                          <div class="row">
+                            <p class="method-set col-lg-4 col-md-12 col-12">
+                              <span style="color:red">*</span> เลขที่อนุมัติ :
+                            </p>
+                            <div class="col-lg-7 col-md-12 col-12">
+                              <p>
+                                <input
+                                  id="cr_ref_no"
+                                  class="form-control"
+                                  v-model="validateCreditCardNo"
+                                  maxlength="6"
+                                  @keypress="isNumber(event)"
+                                  ref="refNo"
+                                  @keyup.enter="getFocus('bank_no')"
+                                  @keyup.down="getFocus('bank_no')"
+                                  @keyup.up="getFocus('cr_no')"
+                                >
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-12 col-12">
+                          <div class="row">
+                            <p class="method-set col-lg-4 col-md-12 col-12">
+                              <span style="color:red">*</span> รหัสธนาคาร :
+                            </p>
+                            <div class="col-lg-7 col-md-12 col-12">
+                              <p>
+                                <input
+                                  id="bank_no"
+                                  class="form-control"
+                                  v-model="creditBank"
+                                  @keyup.enter="getFocus('cr_type')"
+                                  @keyup.down="getFocus('cr_type')"
+                                  @keyup.up="getFocus('cr_ref_no')"
+                                >
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-12 col-12">
+                          <div class="row">
+                            <p class="method-set col-lg-4 col-md-12 col-12">
+                              <span style="color:red">*</span> ประเภทบัตร :
+                            </p>
+                            <div class="col-lg-7 col-md-12 col-12">
+                              <p>
+                                <input
+                                  id="cr_type"
+                                  class="form-control"
+                                  v-model="creditType"
+                                  @keyup.enter="getFocus('credit_price')"
+                                  @keyup.down="getFocus('credit_price')"
+                                  @keyup.up="getFocus('bank_no')"
+                                >
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-12 col-12">
+                          <div class="row">
+                            <p class="method-set col-lg-4 col-md-12 col-12">
+                              <span style="color:red">*</span> ยอดเงิน :
+                            </p>
+                            <div class="col-lg-7 col-md-12 col-12">
+                              <p>
+                                <money
+                                  id="credit_price"
+                                  class="form-control"
+                                  v-model.number="creditPrice"
+                                  v-bind="money"
+                                  v-on:keyup.native.enter="getFocus('cr_charge')"
+                                  v-on:keyup.native.down="getFocus('cr_charge')"
+                                  v-on:keyup.native.up="getFocus('cr_type')"
+                                ></money>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-12 col-12">
+                          <div class="row">
+                            <p class="method-set col-lg-4 col-md-12 col-12">ค่า Charge :</p>
+                            <div class="col-lg-7 col-md-12 col-12">
+                              <p>
+                                <input
+                                  id="cr_charge"
+                                  class="form-control"
+                                  v-model="cardCharge"
+                                  @change="chargeCal"
+                                  @keyup.enter="getFocus('cr_notice')"
+                                  @keyup.down="getFocus('cr_notice')"
+                                  @keyup.up="getFocus('credit_price')"
+                                >
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-12 col-12" v-if="isEditCr==false">
+                          <div class="row">
+                            <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
+                            <div class="col-lg-7 col-md-12 col-12">
+                              <p>
+                                <textarea
+                                  id="cr_notice"
+                                  class="form-control"
+                                  v-model.number="creditNotice"
+                                  rows="2"
+                                  ref="crNotice"
+                                  @keyup.enter="getFocus('submit_cr')"
+                                  @keyup.down="getFocus('submit_cr')"
+                                  @keyup.up="getFocus('cr_charge')"
+                                ></textarea>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-12 col-12" v-if="isEditCr==true">
+                          <div class="row">
+                            <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
+                            <div class="col-lg-7 col-md-12 col-12">
+                              <p>
+                                <textarea
+                                  id="cr_notice"
+                                  class="form-control"
+                                  v-model.number="creditNotice"
+                                  rows="2"
+                                  ref="crNotice"
+                                  @keyup.enter="getFocus('submit_cr')"
+                                  @keyup.down="getFocus('submit_cr')"
+                                  @keyup.up="getFocus('cr_charge')"
+                                ></textarea>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          id="submit_cr"
+                          v-if="isEditCr==false"
+                          :disabled="creditType==''||creditBank==''||(creditNumber.length<4)||(validateCreditCardNo.length<6)||creditPrice==0"
+                          @click="createCreditCard(),resetCredit(),checktotal(),showCredit = false"
+                          @keyup.up="getFocus('cr_notice')"
+                          @keyup.right="getFocus('cancel_cr')"
+                          ref="crButton"
+                          class="btn btn-success"
+                          style="margin-top:25px"
                         >
-                          <md-card-header>
-                            <div class="md-title">ชำระด้วยเงินสด</div>
-                          </md-card-header>
-                          <div style="width:100%;height:20px; margin-top:10px; margin-bottom:10px">
-                            <div style="float:left;width:40%">ภาษีมูลค่าสินค้า</div>
-                            <div style="float:right;width:40%;text-align:right;">
-                              <div style="float:left">{{ convertmoney(totalprice) }}</div>
-                              <div style="width:20px; float:right;">บาท</div>
-                            </div>
-                          </div>
-                          <div style="width:100%;height:20px;margin-top:10px; margin-bottom:10px">
-                            <div style="float:left;width:40%">มูลค่าสินค้ายกเว้นภาษี</div>
-                            <div style="float:right;width:40%;text-align:right;">
-                              <div style="float:left">0</div>
-                              <div style="width:20px; float:right;">บาท</div>
-                            </div>
-                          </div>
-                          <div style="width:100%;height:20px;margin-top:10px; margin-bottom:10px">
-                            <div style="float:left;width:40%">ส่วนลด</div>
-                            <div style="float:right;width:40%;text-align:right;">
-                              <div style="float:left" v-show="percal">{{ caldiscount }}</div>
-                              <div style="float:left" v-show="!percal">{{ caldiscount }}</div>
-                              <div style="width:20px; float:right;">บาท</div>
-                            </div>
-                          </div>
-                          <div style="width:100%;height:20px;margin-top:10px; margin-bottom:10px">
-                            <div style="float:left;width:40%">ภาษีมูลค่าเพิ่ม</div>
-                            <div style="float:right;width:40%;text-align:right;">
-                              <div style="float:left">{{ convertmoney(dif_fee) }}</div>
-                              <div style="width:20px; float:right;">บาท</div>
-                            </div>
-                          </div>
-                          <div style="width:100%;height:20px;margin-top:10px; margin-bottom:10px">
-                            <div style="float:left;width:40%">มูลค่ารวมภาษี</div>
-                            <div style="float:right;width:40%;text-align:right;">
-                              <div style="float:left">{{ convertmoney(cal_totalprice) }}</div>
-                              <div style="width:20px; float:right;">บาท</div>
-                            </div>
-                          </div>
-                          <div style="width:100%;height:20px;margin-top:10px; margin-bottom:10px">
-                            <div style="float:left;width:40%">มูลค่าสุทธิ</div>
-                            <div style="float:right;width:40%;text-align:right;">
-                              <div style="float:left">{{ convertmoney(cal_totalprice) }}</div>
-                              <div style="width:20px; float:right;">บาท</div>
-                            </div>
-                          </div>
-                        </md-card>
-                      </vs-tab>
-                      <vs-tab vs-label="ชำระผ่านบัตร" @click="turnselect(2)">
-                        <md-card
-                          style="margin-bottom:8px;margin-right:8px; width:100%"
-                          class="md-layout-item md-size-90 md-small-size-100"
+                          <span>เพิ่ม</span>
+                        </button>
+                        <button
+                          id="submit_cr"
+                          v-if="isEditCr==true"
+                          :disabled="creditType==''||creditBank==''||(creditNumber.length<4)||(validateCreditCardNo.length<6)||creditPrice==0"
+                          @click="editCreditCard(),resetCredit(),showCredit = false"
+                          @keyup.up="getFocus('cr_notice')"
+                          @keyup.right="getFocus('cancel_cr')"
+                          ref="crButton"
+                          class="btn btn-success"
+                          style="margin-top:25px"
                         >
-                          <md-card-header>
-                            <div class="md-title">ชำระผ่านบัตร</div>
-                          </md-card-header>
-                        </md-card>
-                      </vs-tab>
-                      <vs-tab vs-label="ชำระผ่านการโอน" @click="turnselect(3)">
-                        <md-card
-                          style="margin-bottom:8px;margin-right:8px; width:100%"
-                          class="md-layout-item md-size-90 md-small-size-100"
+                          <span>แก้ไข</span>
+                        </button>
+                        <button
+                          id="cancel_cr"
+                          style="margin-top:25px"
+                          class="btn btn-danger"
+                          @click="showCredit = false"
+                          @keyup.up="getFocus('cr_notice')"
+                          @keyup.left="getFocus('submit_cr')"
+                        >ยกเลิก</button>
+                      </div>
+                    </md-dialog-content>
+                  </md-dialog>
+                  <md-dialog :md-active="showChq">
+                    <md-dialog-content class="modal-content">
+                      <div class="modal-header">
+                        <h4>เช็ค</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div class="row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> เลขที่เช็ค :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <input
+                                id="chq_no"
+                                class="form-control"
+                                v-model="checkNumber"
+                                @keyup.enter="getFocus('chq_prize')"
+                                @keyup.down="getFocus('chq_prize')"
+                              >
+                            </p>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> มูลค่าเช็ค :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <money
+                                id="chq_prize"
+                                class="form-control"
+                                min="0"
+                                v-model.number="chqPrize"
+                                v-bind="money"
+                                v-on:keyup.native.enter="getFocus('bank')"
+                                v-on:keyup.native.down="getFocus('bank')"
+                                v-on:keyup.native.up="getFocus('chq_no')"
+                              ></money>
+                            </p>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> ธนาคาร :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <input
+                                id="bank"
+                                class="form-control"
+                                v-model="checkBankId"
+                                @keyup.enter="getFocus('chq_pay')"
+                                @keyup.down="getFocus('chq_day')"
+                                @keyup.up="getFocus('chq_prize')"
+                              >
+                            </p>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> วันที่ลงเช็ค :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <vue-ctk-date-time-picker
+                                id="chq_day"
+                                locale="th"
+                                format="YYYY-MM-DD"
+                                v-model="chqDate"
+                                :disable-time="true"
+                              ></vue-ctk-date-time-picker>
+                            </p>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> จำนวนเงิน :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <money
+                                id="chq_pay"
+                                class="form-control"
+                                min="0"
+                                v-model.number="checkPayment"
+                                v-bind="money"
+                                v-on:keyup.native.enter="getFocus('chq_notice')"
+                                v-on:keyup.native.down="getFocus('chq_notice')"
+                                v-on:keyup.native.up="getFocus('bank')"
+                              ></money>
+                            </p>
+                          </div>
+                        </div>
+                        <div class="form-group row" v-if="isEditChq==false">
+                          <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <textarea
+                                id="chq_notice"
+                                class="form-control"
+                                v-model.number="chqNotice"
+                                rows="2"
+                                @keyup.down="getFocus('submit_chq')"
+                                @keyup.up="getFocus('chq_pay')"
+                              ></textarea>
+                            </p>
+                          </div>
+                        </div>
+                        <div class="form-group row" v-if="isEditChq==true">
+                          <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <textarea
+                                id="chq_notice"
+                                class="form-control"
+                                v-model.number="chqNotice"
+                                rows="2"
+                                @keyup.down="getFocus('submit_chq')"
+                                @keyup.up="getFocus('chq_pay')"
+                              ></textarea>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          id="submit_chq"
+                          v-if="isEditChq==false"
+                          :disabled="checkNumber==''||checkPayment==''||checkBankId==''||typeof(checkPayment)=='string'||checkPayment==0"
+                          @keyup.up="getFocus('chq_notice')"
+                          @keyup.right="getFocus('cancel_chq')"
+                          @click="createChq(),resetChq,showChq = false"
+                          class="btn btn-success"
                         >
-                          <md-card-header>
-                            <div class="md-title">ชำระผ่านการโอน</div>
-                          </md-card-header>
-                        </md-card>
-                      </vs-tab>
-                      <vs-tab vs-label="ชำระด้วยเช็ค" @click="turnselect(4)">
-                        <md-card
-                          style="margin-bottom:8px;margin-right:8px; width:100%"
-                          class="md-layout-item md-size-90 md-small-size-100"
+                          <span>เพิ่ม</span>
+                        </button>
+                        <button
+                          id="submit_chq"
+                          v-if="isEditChq==true"
+                          :disabled="checkNumber==''||checkPayment==''||checkBankId==''||typeof(checkPayment)=='string'||checkPayment==0"
+                          @keyup.up="getFocus('chq_notice')"
+                          @keyup.right="getFocus('cancel_chq')"
+                          @click="editChq(),resetChq,showChq = false"
+                          class="btn btn-success"
                         >
-                          <md-card-header>
-                            <div class="md-title">ชำระด้วยเช็ค</div>
-                          </md-card-header>
-                        </md-card>
-                      </vs-tab>
-                      <vs-tab vs-label="ชำระด้วยพร้อมเพย์" @click="turnselect(5)">
-                        <md-card-header>
-                          <div class="md-title">ชำระด้วยพร้อมเพย์</div>
-                        </md-card-header>
-                      </vs-tab>
-                    </vs-tabs>
-                  </md-card>
+                          <span>แก้ไข</span>
+                        </button>
+                        <button
+                          id="cancel_chq"
+                          style="text-align:center"
+                          class="btn btn-danger"
+                          @keyup.up="getFocus('chq_notice')"
+                          @keyup.left="getFocus('submit_chq')"
+                          @click="showChq = false"
+                        >ยกเลิก</button>
+                      </div>
+                    </md-dialog-content>
+                  </md-dialog>
+
+                  <md-dialog :md-active="showBank">
+                    <md-dialog-content class="modal-content">
+                      <div class="modal-header">
+                        <h4>เงินโอน</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div class="row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> เลขที่บัญชี :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <input
+                                id="bank_acc"
+                                class="form-control"
+                                v-model="bankAccount"
+                                @keyup.enter="getFocus('bank_day')"
+                                @keyup.down="getFocus('bank_day')"
+                              >
+                            </p>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> วันที่โอนเงิน :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <vue-ctk-date-time-picker
+                                id="bank_day"
+                                locale="th"
+                                format="YYYY-MM-DD"
+                                v-model="bankTransDate"
+                                :disable-time="true"
+                              ></vue-ctk-date-time-picker>
+                            </p>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <p class="method-set col-lg-4 col-md-12 col-12">
+                            <span style="color:red">*</span> จำนวนเงิน :
+                          </p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <money
+                                id="bank_pay"
+                                class="form-control"
+                                min="0"
+                                v-model.number="bankPayment"
+                                v-bind="money"
+                                v-on:keyup.native.enter="getFocus('chq_notice')"
+                                v-on:keyup.native.down="getFocus('bank_notice')"
+                                v-on:keyup.native.up="getFocus('bank')"
+                              ></money>
+                            </p>
+                          </div>
+                        </div>
+                        <div class="form-group row" v-if="isEditBank==false">
+                          <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <textarea
+                                id="bank_notice"
+                                class="form-control"
+                                v-model.number="bankNotice"
+                                rows="2"
+                                @keyup.down="getFocus('submit_bank')"
+                                @keyup.up="getFocus('bank_pay')"
+                              ></textarea>
+                            </p>
+                          </div>
+                        </div>
+                        <div class="form-group row" v-if="isEditBank==true">
+                          <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
+                          <div class="col-lg-7 col-md-12 col-12">
+                            <p>
+                              <textarea
+                                id="bank_notice"
+                                class="form-control"
+                                v-model.number="bankNotice"
+                                rows="2"
+                                @keyup.down="getFocus('submit_bank')"
+                                @keyup.up="getFocus('bank_pay')"
+                              ></textarea>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          id="submit_bank"
+                          v-if="isEditBank==false"
+                          :disabled="bankAccount==''||bankPayment==''||bankTransDate==''||typeof(bankPayment)=='string'||bankPayment==0"
+                          @keyup.up="getFocus('bank_notice')"
+                          @keyup.right="getFocus('cancel_bank')"
+                          @click="createBank(),resetBank,showBank= false"
+                          class="btn btn-success"
+                        >
+                          <span>เพิ่ม</span>
+                        </button>
+                        <button
+                          id="submit_bank"
+                          v-if="isEditBank==true"
+                          :disabled="bankAccount==''||bankPayment==''||bankTransDate==''||typeof(bankPayment)=='string'||bankPayment==0"
+                          @keyup.up="getFocus('bank_notice')"
+                          @keyup.right="getFocus('cancel_bank')"
+                          @click="createBank(),resetBank,showBank= false"
+                          class="btn btn-success"
+                        >
+                          <span>แก้ไข</span>
+                        </button>
+                        <button
+                          id="cancel_bank"
+                          style="text-align:center"
+                          class="btn btn-danger"
+                          @keyup.up="getFocus('bank_notice')"
+                          @keyup.left="getFocus('submit_bank')"
+                          @click="showBank = false"
+                        >ยกเลิก</button>
+                      </div>
+                    </md-dialog-content>
+                  </md-dialog>
+
+                  <md-dialog :md-active="showpromplay">
+                    <md-dialog-content class="modal-content">
+                      <div class="modal-header">
+                        <h4 style="margin-top:-20px">ชำระเงินด้วยพร้อมเพย์</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div class="col-md-12 col-12">
+                          <div class="row">
+                            <p class="method-set col-lg-4 col-md-12 col-12">
+                              <span style="color:red">*</span> จำนวนเงิน :
+                            </p>
+
+                            <div class="col-lg-7 col-md-12 col-12">
+                              <p>
+                                <money
+                                  id="prom_pay"
+                                  class="form-control"
+                                  min="0"
+                                  v-model.number="prompaly.price"
+                                  v-bind="money"
+                                  v-on:keyup.native.enter="getFocus('chq_notice')"
+                                  v-on:keyup.native.down="getFocus('bank_notice')"
+                                  v-on:keyup.native.up="getFocus('bank')"
+                                ></money>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12 col-12">
+                          <div class="row">
+                            <div class="col-lg-7 col-md-12 col-12" style="text-align: center;">
+                              <p>
+                                <button
+                                  id="cancel_cr"
+                                  style="margin-top:25px"
+                                  class="btn btn-danger"
+                                  @click="genqrcode()"
+                                  @keyup.up="getFocus('cr_notice')"
+                                  @keyup.left="getFocus('submit_cr')"
+                                >Gen Qrcode</button>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-12 col-12">
+                          <div class="row">
+                            <div class="col-lg-7 col-md-12 col-12">
+                              <center>
+                                <qr-code
+                                  :text="prompaly.qr_code"
+                                  style="position:relative"
+                                  foreground="#0089D1"
+                                  :size="128"
+                                  error-level="Q"
+                                ></qr-code>
+                              </center>
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+
+                        <div class="col-md-12 col-12" v-if="isEditPromplay==true">
+                          <div class="row">
+                            <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
+                            <div class="col-lg-7 col-md-12 col-12">
+                              <p>
+                                <textarea
+                                  id="cr_notice"
+                                  class="form-control"
+                                  v-model.number="prompaly.detailedit"
+                                  rows="2"
+                                  ref="crNotice"
+                                  @keyup.enter="getFocus('submit_cr')"
+                                  @keyup.down="getFocus('submit_cr')"
+                                  @keyup.up="getFocus('cr_charge')"
+                                ></textarea>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          id="submit_cr"
+                          v-show="isEditPromplay==true"
+                          :disabled="prompaly.price<=0"
+                          @click="createpromplay(),showpromplay = false,resetpromplay()"
+                          @keyup.up="getFocus('cr_notice')"
+                          @keyup.right="getFocus('cancel_cr')"
+                          ref="crButton"
+                          class="btn btn-success"
+                          style="margin-top:25px"
+                        >
+                          <span>เพิ่ม</span>
+                        </button>
+                        <button
+                          id="submit_cr"
+                          v-show="isEditPromplay==false"
+                          :disabled="prompaly.price<=0"
+                          @click="editCreditCard(),resetCredit(),showpromplay = false"
+                          @keyup.up="getFocus('cr_notice')"
+                          @keyup.right="getFocus('cancel_cr')"
+                          ref="crButton"
+                          class="btn btn-success"
+                          style="margin-top:25px"
+                        >
+                          <span>แก้ไข</span>
+                        </button>
+                        <button
+                          id="cancel_cr"
+                          style="margin-top:25px"
+                          class="btn btn-danger"
+                          @click="showpromplay = false"
+                          @keyup.up="getFocus('cr_notice')"
+                          @keyup.left="getFocus('submit_cr')"
+                        >ยกเลิก</button>
+                      </div>
+                    </md-dialog-content>
+                  </md-dialog>
                 </form>
               </div>
               <br>
@@ -544,7 +1396,7 @@
                     <h3
                       style="font-size: 46px; overflow: visible;padding:10px;"
                       class="md-title"
-                    >ใบเสนอราคา</h3>
+                    >บิลชำระเงิน</h3>
                   </div>
                   <div
                     style="text-align:right;"
@@ -582,7 +1434,7 @@
                   style="text-align:left"
                   class="md-layout-item md-xlarge-size-30 md-large-size-30 md-xsmall-size-30 md-small-size-30 md-medium-size-30 contentpadding"
                 >
-                  <span style="color:grey">Quotation Number</span>
+                  <span style="color:grey">invoice Number</span>
                   <span style="display:block;">Docno {{ docno }}</span>
                   <br>
                   <span style="color:grey">Date Of Issue</span>
@@ -592,7 +1444,7 @@
                   style="text-align:right"
                   class="md-layout-item md-xlarge-size-40 md-large-size-40 md-xsmall-size-40 md-small-size-40 md-medium-size-40 contentpadding"
                 >
-                  <span style="display:block;color:grey;padding-bottom:15px;">Quotation Total</span>
+                  <span style="display:block;color:grey;padding-bottom:15px;">invoice Total</span>
                   <span style="font-size: 35px;">{{ convertmoney(cal_totalprice) }} บาท</span>
                 </div>
 
