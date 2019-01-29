@@ -1039,7 +1039,7 @@ const toLower = text => {
               doc_type = 'RO'
             } else if (result.data.doc_type == 1) {
               doc_type = 'SO'
-  
+            }
             if (result.data.tax_type == 0) {
               tax_type = 'ภาษีแยกนอก'
             } else if (result.data.tax_type == 1) {
