@@ -138,13 +138,13 @@ export default {
         this.dproducts[index].unit_code = val.unit_code
         this.dproducts[index].price = val.sale_price_1
         this.dproducts[index].packing_rate_1 = val.rate_1
-        this.dproducts[index].sum_of_item_amount = (this.dproducts[index].price * this.dproducts[index].qty) - this.dproducts[index].discount_word
+        this.dproducts[index].item_amount = (this.dproducts[index].price * this.dproducts[index].qty) - this.dproducts[index].discount_word
       }
       if (this.billtype == 1) {//เชื่อ
         this.dproducts[index].unit_code = val.unit_code
         this.dproducts[index].price = val.sale_price_2
         this.dproducts[index].packing_rate_1 = val.rate_1
-        this.dproducts[index].sum_of_item_amount = (this.dproducts[index].price * this.dproducts[index].qty) - this.dproducts[index].discount_word
+        this.dproducts[index].item_amount = (this.dproducts[index].price * this.dproducts[index].qty) - this.dproducts[index].discount_word
       }
 
     },
@@ -823,7 +823,7 @@ export default {
           sale_price_2: val.sale_price_2,
           discount_word: '0',
           discount_amount: 0,
-          sum_of_item_amount: val.sale_price_1 * 1,
+          item_amount: val.sale_price_1 * 1,
           item_description: "",
           packing_rate_1: parseInt(val.rate_1),
           is_cancel: 0
@@ -845,7 +845,7 @@ export default {
           sale_price_2: val.sale_price_2,
           discount_word: '0',
           discount_amount: 0,
-          sum_of_item_amount: val.sale_price_2 * 1,
+          item_amount: val.sale_price_2 * 1,
           item_description: "",
           packing_rate_1: parseInt(val.rate_1),
           is_cancel: 0
@@ -866,7 +866,7 @@ export default {
       if (val.discount_word.search(",") < 0) {
         if (val.discount_word.slice(-1) == '%') {
           var cutper = parseInt(val.discount_word.slice(0, -1))
-          val.sum_of_item_amount = val.qty * (val.price - (val.price * cutper) / 100)
+          val.item_amount = val.qty * (val.price - (val.price * cutper) / 100)
           val.discount_amount = (val.price * val.qty) - ((val.price - ((val.price * cutper) / 100)) * val.qty)
           console.log(val.discount_word) // ตัวอักษร
           console.log(val.discount_amount) // ส่วนต่าง
@@ -876,9 +876,9 @@ export default {
         }
         console.log(JSON.stringify(val))
         if (this.billtype == 0) {//เงินสด
-          val.sum_of_item_amount = val.qty * (val.price - val.discount_word)
+          val.item_amount = val.qty * (val.price - val.discount_word)
         } else if (this.billtype == 1) {//เงินเชื่อ
-          val.sum_of_item_amount = val.qty * (val.price - val.discount_word)
+          val.item_amount = val.qty * (val.price - val.discount_word)
         }
         console.log(val.discount_word) // ตัวอักษร
         console.log(val.discount_amount) // ส่วนต่าง
@@ -886,17 +886,17 @@ export default {
         var res = val.discount_word.split(",")
         if (res[0].slice(-1) == '%') {
           var cutper = parseInt(res[0].slice(0, -1))
-          val.sum_of_item_amount = val.price - (val.price * cutper) / 100
+          val.item_amount = val.price - (val.price * cutper) / 100
           var diff1 = (val.price * cutper) / 100
           console.log('diff1 : ' + diff1)
         } else {
           var diff1 = val.price - (val.price - res[0])
           console.log(diff1)
-          val.sum_of_item_amount = val.price - res[0]
+          val.item_amount = val.price - res[0]
         }
         if (res[1].slice(-1) == '%') {
           let cutper1 = parseInt(res[1].slice(0, -1))
-          val.sum_of_item_amount = val.qty * (val.sum_of_item_amount - (val.sum_of_item_amount * cutper1) / 100)
+          val.item_amount = val.qty * (val.item_amount - (val.item_amount * cutper1) / 100)
           var diff2 = ((val.price - diff1) * cutper1) / 100
           console.log('diff2 : ' + diff2)
           val.discount_amount = (diff1 + diff2) * val.qty
@@ -904,7 +904,7 @@ export default {
         } else {
           var diff2 = val.price - (val.price - res[1])
           val.discount_amount = (diff1 + diff2) * val.qty
-          val.sum_of_item_amount = (val.price * val.qty) - val.discount_amount
+          val.item_amount = (val.price * val.qty) - val.discount_amount
           console.log(val.discount_amount)
         }
         return
@@ -1032,13 +1032,13 @@ export default {
               price: datasubs[x].price,
               discount_word: datasubs[x].discount_word,
               discount_amount: datasubs[x].discount_amount,
-              sum_of_item_amount: datasubs[x].item_amount,
+              item_amount: datasubs[x].item_amount,
               item_description: datasubs[x].item_description,
               packing_rate_1: datasubs[x].packing_rate_1,
               is_cancel: datasubs[x].is_cancel
             }
             console.log(JSON.stringify(data))
-            console.log(data.price)
+            console.log(data.item_amount)
           }
           this.dproducts.push(data)
           console.log(JSON.stringify(this.dproducts))
@@ -1093,11 +1093,11 @@ export default {
         for (var i = 0; i < this.dproducts.length; i++) {
           if (this.billtype == 0) {
             this.dproducts[i].price = this.dproducts[i].sale_price_1
-            this.dproducts[i].sum_of_item_amount = this.dproducts[i].sale_price_1
+            this.dproducts[i].item_amount = this.dproducts[i].sale_price_1
           }
           if (this.billtype == 1) {
             this.dproducts[i].price = this.dproducts[i].sale_price_2
-            this.dproducts[i].sum_of_item_amount = this.dproducts[i].sale_price_2
+            this.dproducts[i].item_amount = this.dproducts[i].sale_price_2
           }
           console.log(JSON.stringify(this.dproducts))
         }
@@ -1166,7 +1166,7 @@ export default {
     },
     totalprice() {
       return this.dproducts.reduce(function (sum, item) {
-        return (sum + item.sum_of_item_amount)
+        return (sum + item.item_amount)
       }, 0)
     },
     dif_fee() {

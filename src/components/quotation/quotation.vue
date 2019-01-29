@@ -259,7 +259,7 @@
                           type="text"
                           disabled
                           class="datatable"
-                          v-model.number="item.sum_of_item_amount"
+                          v-model.number="item.item_amount"
                         >
                       </md-table-cell>
                       <!-- <md-table-cell md-label="เงื่อนไขการขนส่ง" md-sort-by="because">{{ item.because }}</md-table-cell> -->
@@ -962,7 +962,7 @@
                         <td>{{val.item_code}} {{val.item_name}}</td>
                         <td>{{val.productPrice}}</td>
                         <td>{{val.qty}}</td>
-                        <td>{{val.amountProductPrice}}</td>
+                        <td>{{val.item_amount}}</td>
                         <div style="background:black;width:100%;height:2px;"></div>
                       </tr>
                     </tbody>
