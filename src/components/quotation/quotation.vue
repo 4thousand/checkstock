@@ -26,7 +26,7 @@
                       <md-select
                         :disabled="docnoid>0"
                         v-hotkey="keymap"
-                        @input="showdocno"
+                        @input="mockDocNo()"
                         placeholder="กรุณาเลือก"
                         v-model="tablecode"
                         name="country"
@@ -46,7 +46,7 @@
                       <!-- :disabled="disablebilltype" -->
                       <md-select
                         :disabled="docnoid>0"
-                        @input="showdocno(),changePriceType()"
+                        @input="mockDocNo(),changePriceType()"
                         v-model="billtype"
                         name="country"
                         id="country"
@@ -241,7 +241,7 @@
                           disabled
                           class="datatable"
                           style="width:100%"
-                          v-model="item.productPrice"
+                          v-model="item.price"
                         >
                       </md-table-cell>
                       <!-- <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 1" md-sort-by="price2"><input type="text" class="datatable" @keyup="calculatedata(item)" style="width:100%" v-model.number="item.price2"></md-table-cell> -->
@@ -259,7 +259,7 @@
                           type="text"
                           disabled
                           class="datatable"
-                          v-model.number="item.amountProductPrice"
+                          v-model.number="item.sum_of_item_amount"
                         >
                       </md-table-cell>
                       <!-- <md-table-cell md-label="เงื่อนไขการขนส่ง" md-sort-by="because">{{ item.because }}</md-table-cell> -->
@@ -866,7 +866,7 @@
               <md-button
                 style="float:right;right: 50px;"
                 class="md-raised md-primary"
-                @click="setDone('second', 'third'),showdocno"
+                @click="confirmDialog=true,showdocno()"
               >บันทึก</md-button>
             </md-step>
 
@@ -1038,6 +1038,13 @@
         </div>
       </div>
 
+      <div>
+        <md-dialog :md-active.sync="confirmDialog">
+          <md-dialog-title>เลือกลูกค้า</md-dialog-title>
+          <span>ยืนยันการทำใบเสนอราคา</span>
+          <md-button @click="setDone('second', 'third'),confirmDialog=false">ยืนยัน</md-button>
+        </md-dialog>
+      </div>
       <!-- showDialogcus -->
       <div>
         <md-dialog :md-active.sync="showDialogcus">

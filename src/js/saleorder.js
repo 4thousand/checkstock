@@ -1036,12 +1036,9 @@ const toLower = text => {
             // let discount_amount
   
             if (result.data.doc_type == 0) {
-              doc_type = 'BO'
+              doc_type = 'RO'
             } else if (result.data.doc_type == 1) {
-              doc_type = 'QT'
-            } else if (result.data.doc_type == 2) {
-                doc_type = 'SO'
-              }
+              doc_type = 'SO'
   
             if (result.data.tax_type == 0) {
               tax_type = 'ภาษีแยกนอก'

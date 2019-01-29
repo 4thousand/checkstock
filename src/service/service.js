@@ -84,8 +84,10 @@ export default {
   savequotation(payload, success, error) {
     Vue.axios.post(URL + 'sales/v1/quo/new', JSON.stringify(payload)).then(
       (response) => {
+        console.log(JSON.stringify(response.data))
         console.log("บันทึก")
         success(response.data)
+        
       },
       (response) => {
         error(response)

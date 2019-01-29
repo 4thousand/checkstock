@@ -52,6 +52,7 @@ export default {
     docno: 'ไม่มีข้อมูล',
     keywordproduct: '',
     showDialogproduct: false,
+    confirmDialog:false,
     dataproductDialog: [],
     disablebilltype: false,
     datenow_datepicker: Date.now(),
@@ -135,15 +136,15 @@ export default {
       var index = this.findWithAttr(this.dproducts, 'item_name', val.item_name)
       if (this.billtype == 0) {//สด  
         this.dproducts[index].unit_code = val.unit_code
-        this.dproducts[index].productPrice = val.sale_price_1
+        this.dproducts[index].price = val.sale_price_1
         this.dproducts[index].packing_rate_1 = val.rate_1
-        this.dproducts[index].amountProductPrice = (this.dproducts[index].productPrice * this.dproducts[index].qty) - this.dproducts[index].discount_word
+        this.dproducts[index].sum_of_item_amount = (this.dproducts[index].price * this.dproducts[index].qty) - this.dproducts[index].discount_word
       }
       if (this.billtype == 1) {//เชื่อ
         this.dproducts[index].unit_code = val.unit_code
-        this.dproducts[index].productPrice = val.sale_price_2
+        this.dproducts[index].price = val.sale_price_2
         this.dproducts[index].packing_rate_1 = val.rate_1
-        this.dproducts[index].amountProductPrice = (this.dproducts[index].productPrice * this.dproducts[index].qty) - this.dproducts[index].discount_word
+        this.dproducts[index].sum_of_item_amount = (this.dproducts[index].price * this.dproducts[index].qty) - this.dproducts[index].discount_word
       }
 
     },
@@ -437,6 +438,92 @@ export default {
       }
       document.getElementsByClassName("md-content")[0].scrollTop = 0
     },
+    saveQuoDoc(){
+      let doc_type
+        let tax_type
+        let percent
+        let discount_amount
+
+        if (this.tablecode == 'BO') {
+          doc_type = 0
+        } else if (this.tablecode == 'QT') {
+          doc_type = 1
+        }
+        if (this.salecode) {
+          var str = this.salecode;
+          var res = str.split("/");
+          // console.log(res)
+          var sale_code = res[0]
+          var sale_name = res[1]
+        }
+
+        // if (this.taxtype == 'ภาษีแยกนอก') {
+        //   tax_type = 0
+        // } else if (this.taxtype == 'ภาษีรวมใน') {
+        //   tax_type = 1
+        // } else if (this.taxtype == 'ภาษีอัตราศูนย์') {
+        //   tax_type = 2
+        // }
+
+        if (this.percal) {
+          percent = '%'
+          discount_amount = this.totalprice - (this.totalprice - (this.totalprice * this.caldiscount / 100))
+          //   alert('dsa')
+        } else if (!this.percal) {
+          percent = ''
+          discount_amount = this.caldiscount
+        }
+        // console.log(this.datenow_datepicker)
+        // console.log(this.docnoid)
+        let payload = {
+          id: parseInt(this.docnoid),// 0 แก้ไข,update ตามไอดี 
+          branch_id: this.branch_id,
+          doc_no: this.docno,
+          //norecord
+          ar_bill_address: this.ar_bill_address,
+          ar_telephone: this.ar_telephone,
+          datenow_datepicker: this.datenow_datepicker,
+          dif_fee: this.dif_fee,
+          //norecord
+          doc_type,
+          ar_id: this.idcus,
+          ar_code: this.searchcus,
+          ar_name: this.detailcus,
+          sale_id: this.sale_id,
+          sale_code,
+          sale_name: sale_name.trim(),
+          bill_type: parseInt(this.billtype),
+          tax_type,
+          tax_rate: 7,
+          depart_code: '',
+          ref_no: '',
+          is_confirm: 0,
+          bill_status: 0,
+          credit_day: this.bill_credit,
+          due_date: this.convermonth_y_m_d(this.DueDate_cal),
+          validity: parseInt(this.validity),
+          expire_credit: parseInt(this.expire_date),
+          expire_date: this.convermonth_y_m_d(this.expiredate_cal),
+          delivery_day: parseInt(this.Deliver_date),
+          delivery_date: this.convermonth_y_m_d(this.DueDate_date),
+          assert_status: 0,
+          is_condition_send: parseInt(this.is_condition_send),
+          my_description: this.my_description,
+          sum_of_item_amount: this.totalprice,
+          discount_word: this.caldiscount + percent,
+          discount_amount: parseInt(discount_amount),
+          after_discount_amount: this.totalprice - this.caldiscount,
+          company_id: parseInt(this.company_id),
+          //  before_tax_amount: '',
+          assert_status: parseInt(this.answer_cus),
+          depart_id: parseInt(this.iddepartment),
+          project_id: parseInt(this.idprojectC),
+          allocate_id: 0,
+          is_cancel: 0,
+          creator_by: this.creator_by,
+          subs: this.dproducts
+        }
+    },
     convermonth_y_m_d(val) {
       if (val == '') {
         return ''
@@ -663,13 +750,53 @@ export default {
             this.docno = 'ไม่มีข้อมูล'
             return
           }
+          this.docno = result
+
+        },
+        (error) => {
+          this.isLoading = false
+          console.log(JSON.stringify(error))
+          //Customerall
+          alertify.error('ข้อมูล ประเภทเสนอราคาเกิดข้อผิดพลาด');
+          //  alertify.success('Error login');
+          // this.cload()
+        })
+
+    },
+    mockDocNo() {
+      if (!this.tablecode || !this.billtype) {
+        return
+      }
+
+      if (this.dproducts.length > 0) {
+
+        // var test;
+        // for (let x = 0; x < this.dproducts.length; x++) {
+        //   test +=  this.dproducts[x].bar_code
+        // }
+        // console.log(test)
+      }
+
+      this.disablebilltype = true
+      let payload = {
+        branch_id: this.objuser.branch_id,
+        table_code: this.tablecode,
+        bill_type: parseInt(this.billtype)
+      }
+      this.isLoading = true
+      console.log(payload)
+      api.showdocno(payload,
+        (result) => {
+          this.isLoading = false
+          if (result.error) {
+            this.mockdocno = 'ไม่มีข้อมูล'
+            return
+          }
           this.mockdocno = '';
           for (var i = 0; i < (result.length - 4); i++) {
             this.mockdocno += result.charAt(i);
           }
           this.mockdocno += "XXXX";
-          this.docno = result
-
         },
         (error) => {
           this.isLoading = false
@@ -691,12 +818,12 @@ export default {
           item_name: val.item_name,
           unit_code: val.unit_code,
           qty: 1,
-          productPrice: val.sale_price_1,
+          price: val.sale_price_1,
           sale_price_1: val.sale_price_1,
           sale_price_2: val.sale_price_2,
           discount_word: '0',
           discount_amount: 0,
-          amountProductPrice: val.sale_price_1 * 1,
+          sum_of_item_amount: val.sale_price_1 * 1,
           item_description: "",
           packing_rate_1: parseInt(val.rate_1),
           is_cancel: 0
@@ -713,12 +840,12 @@ export default {
           item_name: val.item_name,
           unit_code: val.unit_code,
           qty: 1,
-          productPrice: val.sale_price_2,
+          price: val.sale_price_2,
           sale_price_1: val.sale_price_1,
           sale_price_2: val.sale_price_2,
           discount_word: '0',
           discount_amount: 0,
-          amountProductPrice: val.sale_price_2 * 1,
+          sum_of_item_amount: val.sale_price_2 * 1,
           item_description: "",
           packing_rate_1: parseInt(val.rate_1),
           is_cancel: 0
@@ -739,19 +866,19 @@ export default {
       if (val.discount_word.search(",") < 0) {
         if (val.discount_word.slice(-1) == '%') {
           var cutper = parseInt(val.discount_word.slice(0, -1))
-          val.amountProductPrice = val.qty * (val.productPrice - (val.productPrice * cutper) / 100)
-          val.discount_amount = (val.productPrice * val.qty) - ((val.productPrice - ((val.productPrice * cutper) / 100)) * val.qty)
+          val.sum_of_item_amount = val.qty * (val.price - (val.price * cutper) / 100)
+          val.discount_amount = (val.price * val.qty) - ((val.price - ((val.price * cutper) / 100)) * val.qty)
           console.log(val.discount_word) // ตัวอักษร
           console.log(val.discount_amount) // ส่วนต่าง
           return
         } else {
-          val.discount_amount = (val.productPrice * val.qty) - ((val.productPrice - val.discount_word) * val.qty)
+          val.discount_amount = (val.price * val.qty) - ((val.price - val.discount_word) * val.qty)
         }
         console.log(JSON.stringify(val))
         if (this.billtype == 0) {//เงินสด
-          val.amountProductPrice = val.qty * (val.productPrice - val.discount_word)
+          val.sum_of_item_amount = val.qty * (val.price - val.discount_word)
         } else if (this.billtype == 1) {//เงินเชื่อ
-          val.amountProductPrice = val.qty * (val.productPrice - val.discount_word)
+          val.sum_of_item_amount = val.qty * (val.price - val.discount_word)
         }
         console.log(val.discount_word) // ตัวอักษร
         console.log(val.discount_amount) // ส่วนต่าง
@@ -759,25 +886,25 @@ export default {
         var res = val.discount_word.split(",")
         if (res[0].slice(-1) == '%') {
           var cutper = parseInt(res[0].slice(0, -1))
-          val.amountProductPrice = val.productPrice - (val.productPrice * cutper) / 100
-          var diff1 = (val.productPrice * cutper) / 100
+          val.sum_of_item_amount = val.price - (val.price * cutper) / 100
+          var diff1 = (val.price * cutper) / 100
           console.log('diff1 : ' + diff1)
         } else {
-          var diff1 = val.productPrice - (val.productPrice - res[0])
+          var diff1 = val.price - (val.price - res[0])
           console.log(diff1)
-          val.amountProductPrice = val.productPrice - res[0]
+          val.sum_of_item_amount = val.price - res[0]
         }
         if (res[1].slice(-1) == '%') {
           let cutper1 = parseInt(res[1].slice(0, -1))
-          val.amountProductPrice = val.qty * (val.amountProductPrice - (val.amountProductPrice * cutper1) / 100)
-          var diff2 = ((val.productPrice - diff1) * cutper1) / 100
+          val.sum_of_item_amount = val.qty * (val.sum_of_item_amount - (val.sum_of_item_amount * cutper1) / 100)
+          var diff2 = ((val.price - diff1) * cutper1) / 100
           console.log('diff2 : ' + diff2)
           val.discount_amount = (diff1 + diff2) * val.qty
           console.log(val.discount_amount)
         } else {
-          var diff2 = val.productPrice - (val.productPrice - res[1])
+          var diff2 = val.price - (val.price - res[1])
           val.discount_amount = (diff1 + diff2) * val.qty
-          val.amountProductPrice = (val.productPrice * val.qty) - val.discount_amount
+          val.sum_of_item_amount = (val.price * val.qty) - val.discount_amount
           console.log(val.discount_amount)
         }
         return
@@ -894,7 +1021,7 @@ export default {
           let data;
           console.log(datasubs)
           for (let x = 0; x < datasubs.length; x++) {
-            console.log(datasubs[0].productPrice)
+            console.log(datasubs[0].price)
             data = {
               item_id: datasubs[x].id,
               item_code: datasubs[x].item_code,
@@ -902,16 +1029,16 @@ export default {
               item_name: datasubs[x].item_name,
               unit_code: datasubs[x].unit_code,
               qty: datasubs[x].qty,
-              productPrice: datasubs[x].price,
+              price: datasubs[x].price,
               discount_word: datasubs[x].discount_word,
               discount_amount: datasubs[x].discount_amount,
-              amountProductPrice: datasubs[x].item_amount,
+              sum_of_item_amount: datasubs[x].item_amount,
               item_description: datasubs[x].item_description,
               packing_rate_1: datasubs[x].packing_rate_1,
               is_cancel: datasubs[x].is_cancel
             }
             console.log(JSON.stringify(data))
-            console.log(data.productPrice)
+            console.log(data.price)
           }
           this.dproducts.push(data)
           console.log(JSON.stringify(this.dproducts))
@@ -965,12 +1092,12 @@ export default {
       if(docnoid==0){
         for (var i = 0; i < this.dproducts.length; i++) {
           if (this.billtype == 0) {
-            this.dproducts[i].productPrice = this.dproducts[i].sale_price_1
-            this.dproducts[i].amountProductPrice = this.dproducts[i].sale_price_1
+            this.dproducts[i].price = this.dproducts[i].sale_price_1
+            this.dproducts[i].sum_of_item_amount = this.dproducts[i].sale_price_1
           }
           if (this.billtype == 1) {
-            this.dproducts[i].productPrice = this.dproducts[i].sale_price_2
-            this.dproducts[i].amountProductPrice = this.dproducts[i].sale_price_2
+            this.dproducts[i].price = this.dproducts[i].sale_price_2
+            this.dproducts[i].sum_of_item_amount = this.dproducts[i].sale_price_2
           }
           console.log(JSON.stringify(this.dproducts))
         }
@@ -1039,7 +1166,7 @@ export default {
     },
     totalprice() {
       return this.dproducts.reduce(function (sum, item) {
-        return (sum + item.amountProductPrice)
+        return (sum + item.sum_of_item_amount)
       }, 0)
     },
     dif_fee() {

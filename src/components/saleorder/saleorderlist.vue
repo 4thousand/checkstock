@@ -6,12 +6,12 @@
           <md-tooltip md-direction="bottom">ค้นหาใบเสนอราคา ใบสั่งขาย Black Order</md-tooltip>
           <md-icon>search</md-icon>
           <label>ค้นหา</label>
-          <md-input @keyup.enter="showalldoc" v-model="keyword_showalldoc"></md-input>
+          <md-input v-model="searched"></md-input>
         </md-field>
       </div>
 
       <!-- payloadreal -->
-      <div v-for="(val,index) in dataall" :key="index">
+      <div v-for="(val,index) in listFilter" :key="index">
         <div
           @click="seedetail(val)"
           class="col-12 showhover"
@@ -96,10 +96,41 @@ export default {
       msg: "",
       star: true,
       Search: "",
+      searched: "",
       sale_code: JSON.parse(localStorage.Datauser),
       dataall: [],
       keyword_showalldoc: ""
     };
+  },
+  computed: {
+    listFilter() {
+        return this.dataall.filter(post => {
+        if (post.doc_no.toLowerCase().includes(this.searched.toLowerCase())) {
+          return post.doc_no
+            .toLowerCase()
+            .includes(this.searched.toLowerCase());
+        } else if (
+          post.ar_code.toLowerCase().includes(this.searched.toLowerCase())
+        ) {
+          return post.ar_code
+            .toLowerCase()
+            .includes(this.searched.toLowerCase());
+          sale_name;
+        } else if (
+          post.ar_name.toLowerCase().includes(this.searched.toLowerCase())
+        ) {
+          return post.ar_name
+            .toLowerCase()
+            .includes(this.searched.toLowerCase());
+        } else if (
+          post.sale_name.toLowerCase().includes(this.searched.toLowerCase())
+        ) {
+          return post.sale_name
+            .toLowerCase()
+            .includes(this.searched.toLowerCase());
+        }
+      });
+    }
   },
   methods: {
     convertToBaht(val) {
@@ -135,7 +166,6 @@ export default {
         payload,
         result => {
           for (var i = 0; i < result.data.length; i++) {
-            console.log(JSON.stringify(result.data[i].module));
             if (result.data[i].module == "SaleOrder") {
               this.dataall.push(result.data[i]);
             }
