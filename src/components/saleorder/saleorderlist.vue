@@ -166,7 +166,7 @@ export default {
         payload,
         result => {
           for (var i = 0; i < result.data.length; i++) {
-            if (result.data[i].module == "SaleOrder") {
+            if (result.data[i].module == "SaleOrder"||result.data[i].module == "Reserve") {
               this.dataall.push(result.data[i]);
             }
           }

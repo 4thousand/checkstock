@@ -40,8 +40,10 @@
                   <div class="col-12">
                     <span class="md-title">{{val.doc_no}}</span>
                     <md-icon
+                      @click="is_confirm"
                       v-show="val.is_confirm == 1"
                       style="float:right;color:green"
+                      disabled
                     >check_circle_outline</md-icon>
                     <md-icon v-show="val.is_cancel == 1" style="float:right;color:red;">cancel</md-icon>
                     <span
@@ -166,7 +168,7 @@ export default {
         payload,
         result => {
           for (var i = 0; i < result.data.length; i++) {
-            if (result.data[i].module == "BackOrder") {
+            if (result.data[i].module == "BackOrder"||result.data[i].module == "Quotation") {
               this.dataall.push(result.data[i]);
             }
           }

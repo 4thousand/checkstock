@@ -1019,7 +1019,7 @@
               <md-button
                 style="float:right;right: 50px;"
                 class="md-raised md-primary"
-                @click="setDone('second', 'third')"
+                @click="confirmDialog=true,showdocno()"
               >บันทึก</md-button>
             </md-step>
 
@@ -1193,6 +1193,14 @@
             </md-step>
           </md-steppers>
         </div>
+      </div>
+
+      <div>
+        <md-dialog :md-active.sync="confirmDialog">
+          <md-dialog-title>เลือกลูกค้า</md-dialog-title>
+          <span>ยืนยันการทำใบเสนอราคา</span>
+          <md-button @click="setDone('second', 'third'),confirmDialog=false">ยืนยัน</md-button>
+        </md-dialog>
       </div>
 
       <!-- showDialogcus -->

@@ -52,6 +52,7 @@ const toLower = text => {
       docno: 'ไม่มีข้อมูล',
       keywordproduct: '',
       showDialogproduct: false,
+      confirmDialog:false,
       dataproductDialog: [],
       disablebilltype: false,
       datenow_datepicker: Date.now(),
@@ -495,8 +496,6 @@ const toLower = text => {
             cus_tel:this.cus_tel,
             subs: this.dproducts,
           }
-          console.log("payload : "+payload)
-
 
           console.log(payload.subs.length)
           document.getElementsByName('datasale')[0].value = JSON.stringify(
@@ -506,20 +505,19 @@ const toLower = text => {
           document.getElementsByName('datasale')[1].value = JSON.stringify(
             payload
           )
-          // this.isLoading = true
           console.log(JSON.stringify(payload))
-          // api.createsale(payload,
-          //   (result) => {
-          //     this.isLoading = false
-          //     console.log(result)
-          //    alertify.success('บันทึกสำเร็จ ' + this.docno);
-          //  },
-          //   (error) => {
-          //     this.isLoading = false
-          //     console.log(JSON.stringify(error))
-          //     //Customerall
-          //     alertify.error('เกิดข้อผิดพลาด');
-          //  })
+          api.createsale(payload,
+            (result) => {
+              this.isLoading = false
+              console.log(result)
+             alertify.success('บันทึกสำเร็จ ' + this.docno);
+           },
+            (error) => {
+              this.isLoading = false
+              console.log(JSON.stringify(error))
+              //Customerall
+              alertify.error('เกิดข้อผิดพลาด');
+           })
         }
         //บันทึก
   
