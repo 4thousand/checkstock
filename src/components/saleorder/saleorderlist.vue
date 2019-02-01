@@ -104,7 +104,7 @@ export default {
   },
   computed: {
     listFilter() {
-        return this.dataall.filter(post => {
+      return this.dataall.filter(post => {
         if (post.doc_no.toLowerCase().includes(this.searched.toLowerCase())) {
           return post.doc_no
             .toLowerCase()
@@ -161,12 +161,15 @@ export default {
         keyword: this.keyword_showalldoc
       };
       // v
+    
       console.log(JSON.stringify(payload));
       api.showdocall(
         payload,
         result => {
           for (var i = 0; i < result.data.length; i++) {
-            if (result.data[i].module == "SaleOrder"||result.data[i].module == "Reserve") {
+            if (
+              result.data[i].module == "SaleOrder" ||result.data[i].module == "Reserve"
+            ) {
               this.dataall.push(result.data[i]);
             }
           }

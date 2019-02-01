@@ -52,7 +52,7 @@ export default {
     docno: 'ไม่มีข้อมูล',
     keywordproduct: '',
     showDialogproduct: false,
-    confirmDialog:false,
+    confirmDialog: false,
     dataproductDialog: [],
     disablebilltype: false,
     datenow_datepicker: Date.now(),
@@ -1003,7 +1003,7 @@ export default {
       }
     },
     changePriceType() {
-      if(docnoid==0){
+      if (docnoid == 0) {
         for (var i = 0; i < this.dproducts.length; i++) {
           if (this.billtype == 0) {
             this.dproducts[i].price = this.dproducts[i].sale_price_1
@@ -1016,7 +1016,7 @@ export default {
           console.log(JSON.stringify(this.dproducts))
         }
       }
-      
+
     },
     changevaluetest() {
       this.tablecode = 'QT'

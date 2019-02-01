@@ -167,6 +167,7 @@ export default {
             showChq: false,
             showBank: false,
             showpromplay: false,
+            showtable:false,
             confirm: false,
             active: "first",
             prompaly: {
@@ -191,7 +192,9 @@ export default {
         }
     },
     methods: {
-
+        testtable(){
+            console.log(1)
+        },
         genqrcode() {
             if (this.prompaly.price <= 0) {
                 alert('กรุณาระบุจำนวนเงิน')
@@ -674,6 +677,7 @@ export default {
             console.log(this.keywordproduct)
             // alert(this.billtype)
             // alert('d')
+            console.log(this.billtype)
             if (this.billtype === '' && this.billtype !== 0 && this.billtype !== 1) {
                 if (this.attention == 'wobble-hor-bottom') {
                     this.attention = 'wobble-hor-bottom2'
@@ -731,7 +735,7 @@ export default {
             let payload = {
                 keyword: this.keywordproduct
             }
-            console.log(payload)
+            console.log(" " + payload)
             api.searchbykeyword(payload,
                 (result) => {
                     console.log(result.data)
@@ -764,6 +768,51 @@ export default {
                 }
             }
             return null;
+        },
+        mockDocNo() {
+            if (!this.billtype) {
+                return
+            }
+
+            if (this.dproducts.length > 0) {
+
+                // var test;
+                // for (let x = 0; x < this.dproducts.length; x++) {
+                //   test +=  this.dproducts[x].bar_code
+                // }
+                // console.log(test)
+            }
+
+            this.disablebilltype = true
+            let payload = {
+                branch_id: this.objuser.branch_id,
+
+                bill_type: parseInt(this.billtype)
+            }
+            this.isLoading = true
+            console.log(payload)
+            api.showdocno(payload,
+                (result) => {
+                    this.isLoading = false
+                    if (result.error) {
+                        this.mockdocno = 'ไม่มีข้อมูล'
+                        return
+                    }
+                    this.mockdocno = '';
+                    for (var i = 0; i < (result.length - 4); i++) {
+                        this.mockdocno += result.charAt(i);
+                    }
+                    this.mockdocno += "XXXX";
+                },
+                (error) => {
+                    this.isLoading = false
+                    console.log(JSON.stringify(error))
+                    //Customerall
+                    alertify.error('ข้อมูล ประเภทเสนอราคาเกิดข้อผิดพลาด');
+                    //  alertify.success('Error login');
+                    // this.cload()
+                })
+
         },
         showdocno() {
             if (this.docnoid != 0) {
@@ -831,6 +880,7 @@ export default {
                     packing_rate_1: parseInt(val.rate_1),
                     is_cancel: 0
                 }
+                console.log(datashow)
                 this.dproducts.push(datashow)
                 //close modal
                 this.showDialogproduct = false
@@ -1017,8 +1067,11 @@ export default {
                     this.searchcus = result.data.ar_code
                     this.detailcus = result.data.ar_name
                     var datasubs = result.data.subs
-
+                    console.log(JSON.stringify(result.data.subs))
                     console.log(datasubs.length)
+                    datasubs.forEach(data => {
+                        console.log(data)
+                    });
                     for (let x = 0; x < datasubs.length; x++) {
                         var data = {
                             item_id: datasubs[x].id,
@@ -1026,15 +1079,19 @@ export default {
                             bar_code: datasubs[x].bar_code,
                             item_name: datasubs[x].item_name,
                             unit_code: datasubs[x].unit_code,
-                            qty: datasubs[x].qty,
-                            price: datasubs[x].price,
+                            qty: datasubs[x].qty, price: datasubs[x].price,
+                            prices: datasubs[x].price,
                             discount_word: datasubs[x].discount_word,
                             discount_amount: datasubs[x].discount_amount,
                             item_amount: datasubs[x].item_amount,
+                            item_amounts: datasubs[x].item_amount,
                             item_description: datasubs[x].item_description,
                             packing_rate_1: datasubs[x].packing_rate_1,
                             is_cancel: datasubs[x].is_cancel
+
                         }
+
+                        console.log(data)
                         this.dproducts.push(data)
                     }
                     this.salecode = result.data.sale_code.trim() + ' / ' + result.data.sale_name
@@ -1301,7 +1358,7 @@ export default {
         },
         totalprice() {
             return this.dproducts.reduce(function (sum, item) {
-                return (sum + item.item_amount)
+                return (sum + item.item_amounts)
             }, 0)
         },
         dif_fee() {

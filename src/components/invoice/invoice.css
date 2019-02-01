@@ -220,6 +220,11 @@ table#searchitem{
       -webkit-animation: wobble-hor-bottom2 0.8s both;
               animation: wobble-hor-bottom2 0.8s both;
     }
+    .md-card-actions {
+      padding: 8px;
+      display: inline;
+      align-items: center;
+  }
     @-webkit-keyframes wobble-hor-bottom {
       0%,
       100% {
@@ -564,6 +569,58 @@ table#searchitem{
   /*
    mobile
   */
+  .tablesale{
+
+  }
+ .md-card-content {
+    padding: 0px;
+    font-size: 14px;
+    line-height: 22px;
+}
+  .tables2{
+    display: none;
+  }
+
+  .carddiscount {
+  
+    color: #fff;
+    background-color: #b13737;
+    font-size: 14px;
+    padding: 5px 10px;
+    position: absolute;
+    top: 0px;
+    right: 14%;
+    /* border-radius: 50%; */
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    opacity: 0.7;
+    -webkit-transition: opacity 0.25s ease-in-out;
+    transition: opacity 0.25s ease-in-out;
+  }
+ 
+  @media (max-width: 977px) {
+    .tables{
+      
+    }
+    .tables2{
+      display: flex;
+    }
+    
+    .tables   {
+      
+      padding: 0 8px;
+      display: none !important;
+      justify-content: center;
+      align-items: center;
+  }
+  .tables2.md-fab .md-ripple, .md-fab:before, .md-icon-button .md-ripple, .md-icon-button:before {
+    border-radius: 1%;
+}
+.tables2.md-card-header:first-child>.md-card-header-text>.md-title:first-child, .md-card-header:first-child>.md-title:first-child {
+  margin-top: 0px;
+}
+  }
+
   @media (max-width: 600px) {
     .md-ripple .md-stepper-label {
       display: none;

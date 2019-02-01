@@ -104,9 +104,31 @@ export default {
   },
   computed: {
     listFilter() {
-      let text = this.searched.trim();
-      return this.dataall.filter(item => {
-        return item.doc_no.indexOf(text) > -1;
+      return this.dataall.filter(post => {
+        if (post.doc_no.toLowerCase().includes(this.searched.toLowerCase())) {
+          return post.doc_no
+            .toLowerCase()
+            .includes(this.searched.toLowerCase());
+        } else if (
+          post.ar_code.toLowerCase().includes(this.searched.toLowerCase())
+        ) {
+          return post.ar_code
+            .toLowerCase()
+            .includes(this.searched.toLowerCase());
+          sale_name;
+        } else if (
+          post.ar_name.toLowerCase().includes(this.searched.toLowerCase())
+        ) {
+          return post.ar_name
+            .toLowerCase()
+            .includes(this.searched.toLowerCase());
+        } else if (
+          post.sale_name.toLowerCase().includes(this.searched.toLowerCase())
+        ) {
+          return post.sale_name
+            .toLowerCase()
+            .includes(this.searched.toLowerCase());
+        }
       });
     }
   },
@@ -146,8 +168,7 @@ export default {
           for (var i = 0; i < result.data.length; i++) {
             console.log(JSON.stringify(result.data[i].module));
             if (
-              result.data[i].module == "SaleOrder" ||
-              result.data[i].module == "BackOrder"
+              result.data[i].module == "SaleOrder"
             ) {
               this.dataall.push(result.data[i]);
             }
