@@ -40,11 +40,13 @@
                   <div class="col-12">
                     <span class="md-title">{{val.doc_no}}</span>
                     <md-icon
-                      @click="is_confirm"
                       v-show="val.is_confirm == 1"
                       style="float:right;color:green"
-                      disabled
                     >check_circle_outline</md-icon>
+                    <md-icon
+                      v-show="val.is_confirm == 0"
+                      style="float:right;color:yellow"
+                    >warning</md-icon>
                     <md-icon v-show="val.is_cancel == 1" style="float:right;color:red;">cancel</md-icon>
                     <span
                       class="md-title datehover"
