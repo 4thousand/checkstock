@@ -320,7 +320,11 @@
                                 @click="searchunticode(item)"
                                 placeholder="หน่วยนับ"
                               >
-                                <md-option :value="itemtable.unit_code">{{itemtable.unit_code}}</md-option>
+                                <md-option
+                                  v-for="(uni,index) in unitcode_obj"
+                                  :key="index"
+                                  :value="uni.unit_code"
+                                >{{uni.unit_code}}</md-option>
                               </md-select>
                             </md-field>
                           </div>
@@ -846,7 +850,10 @@
                                       <a class="edit close">
                                         <i class="material-icons">edit</i>
                                       </a>
-                                      
+                                      <span
+                                        class="fontsize"
+                                      >เลขบัตร : {{"Phone XX-XXXX-"+val.promplayphone}}</span>
+                                      <br>
                                       <span
                                         class="fontsize"
                                       >จำนวนเงิน : {{convertToBaht(val.promplayprice) +" บาท"}}</span>
@@ -923,27 +930,36 @@
                                 </div>
                               </div>
                               <div class="tax-bottom-part tax-button">
-                                <!--  <button
+                                <button
                                   id="add_doc"
+                                  :disabled="balance!=0||payment==null"
                                   @keyup.left="getFocus('bank_pay')"
                                   @keyup.up="getFocus('bank_pay')"
-                                  @click="confirm=true;"
+                                  @click="setDone('second', 'third'),showdocno"
                                   class="btn btn-primary"
                                 >
                                   <span>บันทึก</span>
-                                </button>-->
+                                </button>
                               </div>
                               <div class="row">
                                 <div class="col-md-12">
                                   <div class="form-group">
-                                    <p class="tax-head" style="color:red">*ยอดชำระไม่เพียงพอ</p>
+                                    <p
+                                      class="tax-head"
+                                      style="color:red"
+                                      :hidden="(taxtype!=''&&balance>=0)||taxtype==''"
+                                    >*ยอดชำระไม่เพียงพอ</p>
                                   </div>
                                 </div>
                               </div>
                               <div class="row tax-bottom-part">
                                 <div class="col-md-12">
                                   <div class="form-group">
-                                    <p class="tax-head" style="color:red">*ยอดชำระมากเกินไป</p>
+                                    <p
+                                      class="tax-head"
+                                      style="color:red"
+                                      :hidden="(feeType!=''&&balance<=0)||feeType==''"
+                                    >*ยอดชำระมากเกินไป</p>
                                   </div>
                                 </div>
                               </div>
@@ -1449,6 +1465,29 @@
                         <div class="col-md-12 col-12">
                           <div class="row">
                             <p class="method-set col-lg-4 col-md-12 col-12">
+                              <span style="color:red">*</span> เบอร์โทรศัพ :
+                            </p>
+                            <div class="col-lg-7 col-md-12 col-12">
+                              <p>
+                                <input
+                                  id="cr_no"
+                                  class="form-control"
+                                  type="text"
+                                  v-model.number="prompaly.phone"
+                                  maxlength="4"
+                                  v-autofocus
+                                  @keypress="isNumber(event)"
+                                  @keyup.enter="getFocus('cr_ref_no')"
+                                  @keyup.down="getFocus('cr_ref_no')"
+                                  placeholder="เลขสี่ตัวท้ายเลขโทรศัพ"
+                                >
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-12 col-12">
+                          <div class="row">
+                            <p class="method-set col-lg-4 col-md-12 col-12">
                               <span style="color:red">*</span> จำนวนเงิน :
                             </p>
 
@@ -1564,11 +1603,11 @@
               </div>
               <br>
 
-              <md-button
+              <!-- <md-button
                 style="float:right;right: 50px;"
                 class="md-raised md-primary"
                 @click="setDone('second', 'third'),showdocno"
-              >บันทึก</md-button>
+              >บันทึก</md-button>-->
             </md-step>
 
             <md-step id="third" md-label="Third Step" :md-done.sync="third">

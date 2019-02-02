@@ -171,6 +171,7 @@ export default {
             confirm: false,
             active: "first",
             prompaly: {
+                id: 0, phone: "",
                 qr_code: '',
                 price: 0,
                 detailedit: ''
@@ -192,15 +193,15 @@ export default {
         }
     },
     methods: {
-        decrement(){
+        decrement() {
             this.itemtable.qty -= 1
-        },increment()
-        {
+        }, increment() {
             this.itemtable.qty += 1
         },
         testtable(val) {
             this.itemtable = val
             console.log(this.itemtable)
+            this.searchunticode(val)
             this.showtable = true
         },
         genqrcode() {
@@ -267,7 +268,6 @@ export default {
                     this.isLoading = false
                     console.log(JSON.stringify(result.data))
                     this.unitcode_obj = result.data
-                    this.searchunitcode_m = true
                 },
                 (error) => {
                     this.isLoading = false
@@ -1141,10 +1141,14 @@ export default {
             return result;
         }, createpromplay() {
             var promplays = {
+                promplayphone: this.prompaly.phone,
                 promplayprice: this.prompaly.price,
                 promplayqrcode: this.prompaly.qr_code
             }
             this.promplaylist.push(promplays);
+        }, resetpromplay() {
+            this.prompaly.price = 0
+            this.prompaly.qrcode = ''
         },
         createCreditCard() {
             var creditcard = {
@@ -1366,7 +1370,8 @@ export default {
         },
         totalprice() {
             return this.dproducts.reduce(function (sum, item) {
-                return (sum + item.item_amounts)
+                console.log(item)
+                return (sum + item.item_amounts * item.qty)
             }, 0)
         },
         dif_fee() {
@@ -1419,11 +1424,18 @@ export default {
                 this.totalChqPayment != null ||
                 this.totalBankPayment != null || this.totalPromplay != null
             ) {
+                if (this.cashPayment == undefined) {
+                    return (
+                        this.totalCreditPayment +
+                        this.totalChqPayment +
+                        this.totalBankPayment + this.totalPromplay
+                    );
+                }
                 return (
                     this.cashPayment +
                     this.totalCreditPayment +
                     this.totalChqPayment +
-                    this.totalBankPayment
+                    this.totalBankPayment + this.totalPromplay
 
                 );
             }
@@ -1433,7 +1445,8 @@ export default {
                 this.promplaylist = [];
             }
             return this.promplaylist.reduce((sum, item) => {
-                return sum + item.price
+                console.log(sum + item.promplayprice)
+                return sum + item.promplayprice
             }, 0)
         },
         chargeCal() {
