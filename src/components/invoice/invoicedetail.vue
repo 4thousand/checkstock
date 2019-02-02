@@ -622,7 +622,7 @@
                               <span>วิธีการชำระเงิน</span>
                             </div>
                             <div class="deposit-border">
-                              <div class="row">
+                              <!-- <div class="row">
                                 <div class="col-md-12 col-12">
                                   <div class="form-group row">
                                     <p class="article-set col-md-3 col-12">
@@ -637,7 +637,7 @@
                                     </div>
                                   </div>
                                 </div>
-                              </div>
+                              </div>-->
                               <div class="row">
                                 <div class="col-md-12 col-12">
                                   <div class="form-group row">
@@ -865,7 +865,7 @@
                                 <button
                                   id="add_bank"
                                   class="btn btn-primary"
-                                  @click="showpromplay=true,isEditPromplay=true"
+                                  @click="setbalance(4),genqrcode()"
                                 >
                                   <div class="row">
                                     <i
@@ -1499,6 +1499,7 @@
                                   min="0"
                                   v-model.number="prompaly.price"
                                   v-bind="money"
+                                  @keypress="qrcodegen"
                                   v-on:keyup.native.enter="getFocus('chq_notice')"
                                   v-on:keyup.native.down="getFocus('bank_notice')"
                                   v-on:keyup.native.up="getFocus('bank')"
@@ -1510,7 +1511,7 @@
 
                         <div class="col-md-12 col-12">
                           <div class="row">
-                            <div class="col-lg-7 col-md-12 col-12" style="text-align: center;">
+                            <div class="col-lg-7 col-md-12 col-12">
                               <p>
                                 <button
                                   id="cancel_cr"
@@ -1524,9 +1525,9 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-12 col-12">
+                        <div class="col-md-12">
                           <div class="row">
-                            <div class="col-lg-7 col-md-12 col-12">
+                            <div class="col-lg-7">
                               <center>
                                 <qr-code
                                   :text="prompaly.qr_code"
@@ -1541,6 +1542,26 @@
                         </div>
                         <br>
 
+                        <div>
+                          <div class="modal-footer" style="position:relative;height:10vh;">
+                            <button
+                              style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);height:50px;width:60px;"
+                              type="button"
+                              class="btn btn-danger"
+                              data-dismiss="modal"
+                              @click="removetime()"
+                            >
+                              <span style="font-size:20px;">
+                                <i class="fas fa-angle-double-left"></i>
+                              </span>
+                              <span
+                                id="counter"
+                                style="font-family:'Open Sans', sans-serif;font-weight: bold;font-size: 20px;"
+                              ></span>
+                            </button>
+                          </div>
+                        </div>
+                        
                         <div class="col-md-12 col-12" v-if="isEditPromplay==true">
                           <div class="row">
                             <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
@@ -1603,7 +1624,7 @@
               </div>
               <br>
 
-              <!-- <md-button
+              <!-- <md-buttons
                 style="float:right;right: 50px;"
                 class="md-raised md-primary"
                 @click="setDone('second', 'third'),showdocno"
@@ -1875,7 +1896,7 @@
                           alt
                         >
                       </td>
-                      <td @click="showdetail(val)">{{val.bar_code}}</td>
+                      <td @click="showdetail(val)">{{val.item_code}}</td>
                       <td @click="showdetail(val)">{{val.item_name}}</td>
                       <td @click="showdetail(val)">{{val.unit_code}}</td>
                       <td @click="showdetail(val)" v-show="billtype == 0">{{val.sale_price_1}}</td>

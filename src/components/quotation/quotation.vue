@@ -120,7 +120,12 @@
                     <md-field>
                       <md-icon>account_circle</md-icon>
                       <label>รหัสลูกค้า</label>
-                      <md-input required :disabled="docnoid>0" @keyup.enter="fsearchcus" v-model="searchcus"></md-input>
+                      <md-input
+                        required
+                        :disabled="docnoid>0"
+                        @keyup.enter="fsearchcus"
+                        v-model="searchcus"
+                      ></md-input>
 
                       <md-avatar style="position:absolute;right:0;top:10px">
                         <md-icon>info</md-icon>
@@ -135,7 +140,11 @@
                     class="md-size-5 md-small-size-5"
                     style="margin-left:-15px;margin-right:35px"
                   >
-                    <md-button @click="fsearchcus" class="md-icon-button md-raised md productadd" :disabled="docnoid>0">
+                    <md-button
+                      @click="fsearchcus"
+                      class="md-icon-button md-raised md productadd"
+                      :disabled="docnoid>0"
+                    >
                       <md-icon>add</md-icon>
                     </md-button>
                   </div>
@@ -263,7 +272,7 @@
                         >
                       </md-table-cell>
                       <!-- <md-table-cell md-label="เงื่อนไขการขนส่ง" md-sort-by="because">{{ item.because }}</md-table-cell> -->
-                      <md-table-cell md-label="">
+                      <md-table-cell md-label>
                         <md-button @click="removeProduct(item.index)">
                           <md-icon class="search-icon">delete</md-icon>
                         </md-button>

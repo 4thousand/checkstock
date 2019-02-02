@@ -87,7 +87,7 @@ export default {
         console.log(JSON.stringify(response.data))
         console.log("บันทึก")
         success(response.data)
-        
+
       },
       (response) => {
         error(response)
@@ -232,15 +232,15 @@ export default {
       }
     )
   }
-  ,callqrcode (data, success, error) {
-    console.log("ส่ง JSON payment"+JSON.stringify(data))
-    Vue.axios.post('http://test.paybox.work/v1/payment/qrpay/open' , JSON.stringify(data),{
+  , callqrcode(data, success, error) {
+    console.log("ส่ง JSON payment" + JSON.stringify(data))
+    Vue.axios.post('https://test.paybox.work/v1/payment/qrpay/open', JSON.stringify(data), {
       headers: {
-          'Content-Type': 'application/json', 
-          'x-access-token': '246aa13b23f64f67be1ab463de0dcb72',
+        'Content-Type': 'application/json',
+        'x-access-token': '246aa13b23f64f67be1ab463de0dcb72',
       }
     },
-  ).then(
+    ).then(
       (response) => {
         success(response.data)
       },

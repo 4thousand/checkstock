@@ -63,7 +63,8 @@ export default {
             detailcus: '',
             showDialogcus: false,
             detailcusall: [],
-            tablecode: '',
+            tablecode: '', 
+            count: 60,
             billtype: '',
             taxtype: 1,
             mockdocno: '',
@@ -193,6 +194,34 @@ export default {
         }
     },
     methods: {
+
+        setbalance(val) {
+            console.log(val)
+            if (val == 4) {
+                this.prompaly.price = this.balances
+                this.isEditPromplay = true
+                this.showpromplay = true
+                console.log(this.prompaly.price)
+            }
+            else if (val == 3) {
+                this.prompaly.price = this.balances
+                this.isEditPromplay = true
+                this.showpromplay = true
+                console.log(this.prompaly.price)
+            }
+            else if (val == 2) {
+                this.prompaly.price = this.balances
+                this.isEditPromplay = true
+                this.showpromplay = true
+                console.log(this.prompaly.price)
+            }
+            else {
+                this.prompaly.price = this.balances
+                this.isEditPromplay = true
+                this.showpromplay = true
+                console.log(this.prompaly.price)
+            }
+        },
         decrement() {
             this.itemtable.qty -= 1
         }, increment() {
@@ -205,6 +234,7 @@ export default {
             this.showtable = true
         },
         genqrcode() {
+            console.log(this.prompaly.price)
             if (this.prompaly.price <= 0) {
                 alert('กรุณาระบุจำนวนเงิน')
                 return
@@ -230,11 +260,19 @@ export default {
                 (error) => {
                     console.log(error)
                 })
+            var test = setInterval(function () {
+                $("#counter").html(this.count--);
+                if (this.count == 0) {
+                    swal("Time Out!", "Try Again!", "error");
+                    window.clearInterval(test);
+                }
+            }.bind(this), 1000);
         },
         recallmoney(val) {
             this.totolmoney -= val.amount;
         },
         isNumber: function (evt) {
+            console.log(evt)
             evt = evt ? evt : window.event;
             var charCode = evt.which ? evt.which : evt.keyCode;
             if (
@@ -1479,9 +1517,31 @@ export default {
             return this.bankTransList.reduce((sum, item) => {
                 return sum + item.bank_amount;
             }, 0);
-        },
+        }, qrcodegen() {
+            if (this.prompaly.price <= 0) {
+                return
+            }
+            var payload = {
+                vending_uuid: "testing",
+                order_uuid: "testing123",
+                amount: this.prompaly.price
+            }
+            console.log(JSON.stringify(payload))
+            api.callqrcode(payload,
+                (result) => {
+                    if (result.status === 'success') {
+                        console.log(result)
+                        console.log('channel sub:' + result.sub_channel)
+                        this.prompaly.qr_code = result.qr_tag
+                    }
+                },
+                (error) => {
+                    console.log(error)
+                })
+        }
+        ,
         payment_type() {
-            console.log(this.payment)
+
             if (this.taxtype == "0") {
                 return this.payment;
             }
@@ -1514,6 +1574,10 @@ export default {
                 return this.payment;
             }
         },
+        balances() {
+            return this.total_VAT - this.totalPayment
+        }
+        ,
         balance() {
             return this.totalPayment - this.total_VAT;
         },
