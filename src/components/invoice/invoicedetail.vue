@@ -205,20 +205,6 @@
                     :key="index"
                     class="md-layout-item md-size-100 md-small-size-100"
                   >
-                    <!-- <md-card-header
-                      style="    padding-top: 5px;
-    padding-right: 5px;
-    padding-bottom: 5px;
-    padding-left: 20px;"
-                    >
-                      <div class="md-subhead">รหัสสินค้า : {{val.item_code}}</div>
-                    </md-card-header>-->
-                    <!-- <md-card-content>
-                      <span
-                        style="position: relative;left: 8px;font-size: .875rem;color: #5f6368;"
-                        class="md-subheading"
-                      >{{ 'ชื่อสินค้า : '+val.item_name + ' จำนวน :' + val.qty +' '+ val.unit_code +' ราคา/หน่วย : '+ val.price +' บาท '+'ส่วนลด : '+val.discount_word+ ' จำนวนเงิน : '+val.item_amount+' บาท'}}</span>
-                    </md-card-content>-->
                     <div class="tables">
                       <md-card-actions>
                         <md-button style="width:10%">{{val.item_code}}</md-button>
@@ -228,7 +214,7 @@
                         <md-button style="width:10%">{{val.prices}}</md-button>
                         <md-button style="width:10%">{{val.discount_word}}</md-button>
                         <md-button style="width:10%">{{val.item_amounts}} บาท</md-button>
-                        <md-button style="min-width: 30px;" @click="showtable=true">
+                        <md-button style="min-width: 30px;" @click="testtable(val)">
                           <md-icon style="width: 10px;float: right;">edit</md-icon>
                         </md-button>
                         <md-button style="min-width: 30px;" class="md-mini">
@@ -245,22 +231,6 @@
                       </md-card-header>
                       <md-card-content style="padding:0px;width:40%;">
                         <div style=" height: 100%;  float: right;padding-top:5px">
-                          <!-- <md-menu md-size="small" style="display:block">
-                            <md-button
-                              class="md-icon-button"
-                              style="border-radius:0px;  height: 10%;"
-                            >
-                              <md-icon style="width: 50px;float: right;">more_horiz</md-icon>
-                            </md-button>
-
-                            <md-menu-content>
-                              <md-menu-item @click="showtable=true">
-                                <md-icon style="width: 10px;float: right;">delete</md-icon>edit
-                              </md-menu-item>
-                              <md-menu-item>delete</md-menu-item>
-                              <md-menu-item>My Item 3</md-menu-item>
-                            </md-menu-content>
-                          </md-menu>-->
                           <md-menu md-direction="bottom-end">
                             <md-button
                               class="md-icon-button"
@@ -269,9 +239,11 @@
                             >
                               <md-icon style="width: 50px;float: right;">more_horiz</md-icon>
                             </md-button>
-
                             <md-menu-content>
-                              <md-menu-item @click="showtable=true" style="min-width: 30px;">
+                              <md-menu-item
+                                style="min-width: 30px;"
+                                @click="testtable(val)"
+                              >
                                 <md-icon style="width: 10px;float: right;">edit</md-icon>edit
                               </md-menu-item>
 
@@ -288,155 +260,14 @@
                       </md-card-content>
                     </div>
                   </md-card>
-                  <!--  -->
-                  <!-- <md-table
-                    class="col-12"
-                    v-model="searched"
-                    md-sort="name"
-                    md-sort-order="asc"
-                    md-card
-                    md-fixed-header
-                  >
-                    <md-table-toolbar>
-                      <div class="md-toolbar-section-start">
-                        <div style="min-height:42px;position:relative" class="md-title">
-                          <div
-                            style="float:left;position:relative;top:13px;margin-right:10px"
-                          >ข้อมูลสินค้า</div>
-
-                          <div class="md-size-40 md-small-size-100" style="float:left;">
-                            <md-field>
-                              <label>เพิ่มสินค้า</label>
-                              <md-input
-                                ref="addproduct"
-                                v-model="keywordproduct"
-                                @keyup.enter="addproduct"
-                              ></md-input>
-                            </md-field>
-                            <md-avatar style="position: absolute; top: 15px; left: 273px;">
-                              <md-icon style="color:grey">info</md-icon>
-                              <md-tooltip md-direction="top">
-                                <md-icon style="color:white;">keyboard</md-icon>รหัสสินค้า หรือ ชื่อสินค้า + Enter
-                              </md-tooltip>
-                            </md-avatar>
-                          </div>
-                       // <md-input style="float:left" required @keyup.enter="fsearchcus" v-model="searchcus"></md-input>
-                         
-                          <md-button
-                            @click="addproduct"
-                            class="md-icon-button md-raised md productadd"
-                          >
-                            <md-icon>add</md-icon>
-                          </md-button>
-                        </div>
-                      </div>
-
-                      /* <md-field md-clearable class="md-toolbar-section-end">
-                        <md-input
-                          placeholder="ค้นหาสินค้า"
-                          v-model="search"
-                          @input="searchOnTable"
-                        /> 226  v-model="item.unit_code.trim()"
-                      </md-field>*/
-                    </md-table-toolbar>
-
-                    <md-table-empty-state
-                      style="width:100% !important;"
-                      md-label="ไม่พบสินค้า"
-                      :md-description="`ไม่มีสินค้า  '${search}' ในระบบกรุณาตรวจสอบใหม่อีกครั้ง`"
-                    ></md-table-empty-state>
-
-                    <md-table-row @click="checkval(item)" slot="md-table-row" slot-scope="{ item }">
-                      <md-table-cell md-label="รหัสสินค้า" md-sort-by="item_code" md-numeric>
-                        <input
-                          type="text"
-                          class="datatable"
-                          disabled
-                          v-model="item.item_code"
-                          style="  border: none;
-  border-bottom:2px solid #ded8d8; background-color: #FFF;"
-                        >
-                      </md-table-cell>
-                      <md-table-cell md-label="ชื่อสินค้า" md-sort-by="item_name">
-                        <input
-                          type="text"
-                          class="datatable"
-                          disabled
-                          v-model="item.item_name"
-                          style="  border: none;
-  border-bottom:2px solid #ded8d8; background-color: #FFF;"
-                        >
-                      </md-table-cell>
-                      <md-table-cell md-label="หน่วยนับ" md-sort-by="unit_code">
-                        <input
-                          type="text"
-                          style="padding-right: 31px !important;  border: none;
-  border-bottom:2px solid #ded8d8; background-color: #FFF;"
-                          class="datatable"
-                          v-model="item.unit_code"
-                        >
-                        <div @click="searchunticode(item) ">
-                          <md-icon class="search_unitcode" style="    border: none;">arrow_drop_down</md-icon>
-                        </div>
-                      </md-table-cell>
-                      <md-table-cell md-label="จำนวน" md-sort-by="qty">
-                        <input
-                          type="text"
-                          class="datatable"
-                          @keyup="calculatedata(item)"
-                          v-model.number="item.qty"
-                          style="  border: none;
-  border-bottom:2px solid #ded8d8; background-color: #FFF;"
-                        >
-                      </md-table-cell>
-                      <md-table-cell md-label="ราคา/หน่วย" md-sort-by="price">
-                        <input
-                          type="text"
-                          disabled
-                          class="datatable"
-                          @keyup="calculatedata(item)"
-                          style="width:100%;border: none;
-  border-bottom:2px solid #ded8d8; background-color: #FFF;"
-                          v-model="item.price"
-                        >
-                      </md-table-cell>
-                     // <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 1" md-sort-by="price2"><input type="text" class="datatable" @keyup="calculatedata(item)" style="width:100%" v-model.number="item.price2"></md-table-cell> 
-                      <md-table-cell md-label="ส่วนลด" md-sort-by="discount_word">
-                        <input
-                          type="text"
-                          class="datatable"
-                          @keyup="calculatedata(item)"
-                          v-model="item.discount_word"
-                          style="  border: none;
-  border-bottom:2px solid #ded8d8; background-color: #FFF;"
-                        >
-                      </md-table-cell>
-                      <md-table-cell md-label="จำนวนเงิน" md-sort-by="item_amount">
-                        <input
-                          type="text"
-                          disabled
-                          class="datatable"
-                          v-model.number="item.item_amount"
-                          style="  border: none;
-  border-bottom:2px solid #ded8d8; background-color: #FFF;"
-                        >
-                      </md-table-cell>
-                     // <md-table-cell md-label="เงื่อนไขการขนส่ง" md-sort-by="because">{{ item.because }}</md-table-cell> 
-                      <md-table-cell md-label>
-                        <md-button @click="removeProduct(item.index)">
-                          <md-icon class="search-icon">delete</md-icon>
-                        </md-button>
-                      </md-table-cell>
-                    </md-table-row>
-                  </md-table>-->
                 </div>
                 <!-- table  -->
                 <md-dialog :md-active.sync="showtable">
                   <md-dialog-content class="modal-content">
-                    <div class="modal-header">
+                    <div>
                       <h4 style="margin-top:-20px">ข้อมูลสินค้า</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" style="text-align:left">
                       <div class="col-md-12 col-12">
                         <div class="row">
                           <p class="method-set col-lg-4 col-md-12 col-12">
@@ -445,16 +276,10 @@
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
                               <input
-                                id="cr_no"
                                 class="form-control"
-                                type="text"
-                                v-model.number="creditNumber"
-                                maxlength="4"
-                                v-autofocus
-                                @keypress="isNumber(event)"
-                                @keyup.enter="getFocus('cr_ref_no')"
-                                @keyup.down="getFocus('cr_ref_no')"
+                                v-model="itemtable.item_code"
                                 placeholder="รหัสสินค้า"
+                                 disabled
                               >
                             </p>
                           </div>
@@ -468,15 +293,9 @@
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
                               <input
-                                id="cr_ref_no"
                                 class="form-control"
-                                v-model="validateCreditCardNo"
-                                maxlength="6"
-                                @keypress="isNumber(event)"
-                                ref="refNo"
-                                @keyup.enter="getFocus('bank_no')"
-                                @keyup.down="getFocus('bank_no')"
-                                @keyup.up="getFocus('cr_no')"
+                                 disabled
+                                v-model="itemtable.item_name"
                               >
                             </p>
                           </div>
@@ -488,16 +307,32 @@
                             <span style="color:red">*</span> หน่วยนับ :
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
-                            <p>
+                            <!-- <p>
                               <input
                                 id="bank_no"
                                 class="form-control"
-                                v-model="creditBank"
-                                @keyup.enter="getFocus('cr_type')"
-                                @keyup.down="getFocus('cr_type')"
-                                @keyup.up="getFocus('cr_ref_no')"
+                                v-model="itemtable.unit_code"
+                                disabled
                               >
                             </p>
+                            <div @click="searchunticode(item)">
+                              
+                               <md-icon class="search_unitcode">arrow_drop_down</md-icon>
+                              </div> -->
+                               <md-field>
+                            <md-select
+                        name="country"
+                        v-model="taxtype"
+                        id="country" @click="searchunticode(item)"
+                        placeholder="หน่วยนับ" 
+                    
+                      >
+                        <md-option value="0">ภาษีแยกนอก</md-option>
+                        <md-option value="1">ภาษีรวมใน</md-option>
+                        <md-option value="2">ภาษีอัตราศูนย์</md-option>
+                      </md-select>
+                            </md-field>
+                             
                           </div>
                         </div>
                       </div>
@@ -507,17 +342,17 @@
                             <span style="color:red">*</span> จำนวน :
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
-                            <p>
-                              <input
-                                id="cr_type"
-                                class="form-control"
-                                v-model="creditType"
-                                @keyup.enter="getFocus('credit_price')"
-                                @keyup.down="getFocus('credit_price')"
-                                @keyup.up="getFocus('bank_no')"
-                              >
-                            </p>
-                          </div>
+                          
+
+                              <button class="increment-button md-primary" @click="decrement()">−</button>
+                    
+                    <input class="form-control" style="width:70%"
+                        v-model.number="itemtable.qty"
+                        @keydown.up.prevent="increment"
+                        @keydown.down.prevent="decrement"
+                    />
+                      <button class="increment-button " @click="increment()">+</button>
+                                      </div>
                         </div>
                       </div>
                       <div class="col-md-12 col-12">
@@ -526,17 +361,17 @@
                             <span style="color:red">*</span> ราคา/หน่วย :
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
-                            <p>
+                           <p>
                               <money
                                 id="credit_price"
                                 class="form-control"
-                                v-model.number="creditPrice"
                                 v-bind="money"
-                                v-on:keyup.native.enter="getFocus('cr_charge')"
-                                v-on:keyup.native.down="getFocus('cr_charge')"
-                                v-on:keyup.native.up="getFocus('cr_type')"
+                                v-model="itemtable.prices"
+                                disabled
                               ></money>
-                            </p>
+                         
+                            </p> 
+                          
                           </div>
                         </div>
                       </div>
@@ -546,23 +381,23 @@
                             <span style="color:red">*</span> ส่วนลด :
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
-                            <p>
-                              <money
+                          <p>
+                              <input
                                 id="credit_price"
                                 class="form-control"
-                                v-model.number="creditPrice"
-                                v-bind="money"
-                                v-on:keyup.native.enter="getFocus('cr_charge')"
-                                v-on:keyup.native.down="getFocus('cr_charge')"
-                                v-on:keyup.native.up="getFocus('cr_type')"
-                              ></money>
+                         
+                                v-model="itemtable.discount_word"
+                                 
+                              />
                             </p>
+
+                             
                           </div>
                         </div>
                       </div>
                       <div class="col-md-12 col-12">
                         <div class="row">
-                          <p class="method-set col-lg-4 col-md-12 col-12">
+                          <p class="method-set col-lg-4 col-md-12 col-12" style="float:left">
                             <span style="color:red">*</span> จำนวนเงิน :
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
@@ -570,17 +405,16 @@
                               <money
                                 id="credit_price"
                                 class="form-control"
-                                v-model.number="creditPrice"
                                 v-bind="money"
-                                v-on:keyup.native.enter="getFocus('cr_charge')"
-                                v-on:keyup.native.down="getFocus('cr_charge')"
-                                v-on:keyup.native.up="getFocus('cr_type')"
+                                v-model="itemtable.item_amounts"
+                                 disabled
                               ></money>
                             </p>
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-12 col-12" v-if="isEditCr==false">
+
+                      <div class="col-md-12 col-12">
                         <div class="row">
                           <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
                           <div class="col-lg-7 col-md-12 col-12">
@@ -588,28 +422,9 @@
                               <textarea
                                 id="cr_notice"
                                 class="form-control"
-                                v-model.number="creditNotice"
                                 rows="2"
                                 ref="crNotice"
-                                @keyup.enter="getFocus('submit_cr')"
-                                @keyup.down="getFocus('submit_cr')"
-                                @keyup.up="getFocus('cr_charge')"
-                              ></textarea>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-12 col-12" v-if="isEditCr==true">
-                        <div class="row">
-                          <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
-                          <div class="col-lg-7 col-md-12 col-12">
-                            <p>
-                              <textarea
-                                id="cr_notice"
-                                class="form-control"
-                                v-model.number="creditNotice"
-                                rows="2"
-                                ref="crNotice"
+                                
                                 @keyup.enter="getFocus('submit_cr')"
                                 @keyup.down="getFocus('submit_cr')"
                                 @keyup.up="getFocus('cr_charge')"

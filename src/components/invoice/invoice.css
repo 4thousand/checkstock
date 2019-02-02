@@ -494,8 +494,36 @@ table#searchitem{
   margin-left: 5px;
 }
 .method-set {
-  text-align: right;
+  text-align: left;
   margin-left: 5px;
+}
+.increment-button {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  height: calc(2.25rem + 2px);
+  width: 14%;
+  float: left;
+}
+.inputs {
+  border: 1px solid #e9ecef;
+  border-radius: 3px;
+  font-size: .875rem;
+  flex: 1 0;
+  line-height: 1.65;
+  height: 2.5em;
+  margin: 0 auto;
+  padding-left: .5rem;
+  padding-right: calc(82 / 16 * 1rem);
+  text-align: left;
+  width: 100%;
+  max-width: 100%;
+  vertical-align: top;
+ 
+  -moz-appearance: textfield;
+ 
+}
+.decrement-button {
+  right: calc(41.5 / 14 * 1rem);
 }
 .tax-head {
   text-align: right;
