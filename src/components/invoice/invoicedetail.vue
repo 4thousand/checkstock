@@ -240,10 +240,7 @@
                               <md-icon style="width: 50px;float: right;">more_horiz</md-icon>
                             </md-button>
                             <md-menu-content>
-                              <md-menu-item
-                                style="min-width: 30px;"
-                                @click="testtable(val)"
-                              >
+                              <md-menu-item style="min-width: 30px;" @click="testtable(val)">
                                 <md-icon style="width: 10px;float: right;">edit</md-icon>edit
                               </md-menu-item>
 
@@ -279,7 +276,7 @@
                                 class="form-control"
                                 v-model="itemtable.item_code"
                                 placeholder="รหัสสินค้า"
-                                 disabled
+                                disabled
                               >
                             </p>
                           </div>
@@ -292,11 +289,7 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <p>
-                              <input
-                                class="form-control"
-                                 disabled
-                                v-model="itemtable.item_name"
-                              >
+                              <input class="form-control" disabled v-model="itemtable.item_name">
                             </p>
                           </div>
                         </div>
@@ -318,21 +311,18 @@
                             <div @click="searchunticode(item)">
                               
                                <md-icon class="search_unitcode">arrow_drop_down</md-icon>
-                              </div> -->
-                               <md-field>
-                            <md-select
-                        name="country"
-                        v-model="taxtype"
-                        id="country" @click="searchunticode(item)"
-                        placeholder="หน่วยนับ" 
-                    
-                      >
-                        <md-option value="0">ภาษีแยกนอก</md-option>
-                        <md-option value="1">ภาษีรวมใน</md-option>
-                        <md-option value="2">ภาษีอัตราศูนย์</md-option>
-                      </md-select>
+                            </div>-->
+                            <md-field>
+                              <md-select
+                                name="country"
+                                v-model="itemtable.unit_code"
+                                id="country"
+                                @click="searchunticode(item)"
+                                placeholder="หน่วยนับ"
+                              >
+                                <md-option :value="itemtable.unit_code">{{itemtable.unit_code}}</md-option>
+                              </md-select>
                             </md-field>
-                             
                           </div>
                         </div>
                       </div>
@@ -342,17 +332,17 @@
                             <span style="color:red">*</span> จำนวน :
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
-                          
-
-                              <button class="increment-button md-primary" @click="decrement()">−</button>
-                    
-                    <input class="form-control" style="width:70%"
-                        v-model.number="itemtable.qty"
-                        @keydown.up.prevent="increment"
-                        @keydown.down.prevent="decrement"
-                    />
-                      <button class="increment-button " @click="increment()">+</button>
-                                      </div>
+                            <button class="increment-button md-primary" @click="decrement()">−</button>
+                            
+                            <input
+                              class="form-control"
+                              style="width:70%;float:left"
+                              v-model.number="itemtable.qty"
+                              @keydown.up.prevent="increment"
+                              @keydown.down.prevent="decrement"
+                            >
+                            <button class="increment-button" @click="increment()">+</button>
+                          </div>
                         </div>
                       </div>
                       <div class="col-md-12 col-12">
@@ -361,7 +351,7 @@
                             <span style="color:red">*</span> ราคา/หน่วย :
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
-                           <p>
+                            <p>
                               <money
                                 id="credit_price"
                                 class="form-control"
@@ -369,9 +359,7 @@
                                 v-model="itemtable.prices"
                                 disabled
                               ></money>
-                         
-                            </p> 
-                          
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -381,17 +369,13 @@
                             <span style="color:red">*</span> ส่วนลด :
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
-                          <p>
+                            <p>
                               <input
                                 id="credit_price"
                                 class="form-control"
-                         
                                 v-model="itemtable.discount_word"
-                                 
-                              />
+                              >
                             </p>
-
-                             
                           </div>
                         </div>
                       </div>
@@ -407,7 +391,7 @@
                                 class="form-control"
                                 v-bind="money"
                                 v-model="itemtable.item_amounts"
-                                 disabled
+                                disabled
                               ></money>
                             </p>
                           </div>
@@ -424,7 +408,6 @@
                                 class="form-control"
                                 rows="2"
                                 ref="crNotice"
-                                
                                 @keyup.enter="getFocus('submit_cr')"
                                 @keyup.down="getFocus('submit_cr')"
                                 @keyup.up="getFocus('cr_charge')"
