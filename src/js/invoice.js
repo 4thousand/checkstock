@@ -167,7 +167,7 @@ export default {
             showChq: false,
             showBank: false,
             showpromplay: false,
-            showtable:false,
+            showtable: false,
             confirm: false,
             active: "first",
             prompaly: {
@@ -188,12 +188,20 @@ export default {
             isEditChq: false,
             isEditBank: false,
             isEditPromplay: false,
-
+            itemtable: []
         }
     },
     methods: {
-        testtable(){
-            console.log(1)
+        decrement(){
+            this.itemtable.qty -= 1
+        },increment()
+        {
+            this.itemtable.qty += 1
+        },
+        testtable(val) {
+            this.itemtable = val
+            console.log(this.itemtable)
+            this.showtable = true
         },
         genqrcode() {
             if (this.prompaly.price <= 0) {
@@ -870,12 +878,12 @@ export default {
                     item_name: val.item_name,
                     unit_code: val.unit_code,
                     qty: 1,
-                    price: val.sale_price_1,
+                    prices: val.sale_price_1,
                     sale_price_1: val.sale_price_1,
                     sale_price_2: val.sale_price_2,
                     discount_word: '0',
                     discount_amount: 0,
-                    item_amount: val.sale_price_1 * 1,
+                    item_amounts: val.sale_price_1 * 1,
                     item_description: "",
                     packing_rate_1: parseInt(val.rate_1),
                     is_cancel: 0
@@ -893,12 +901,12 @@ export default {
                     item_name: val.item_name,
                     unit_code: val.unit_code,
                     qty: 1,
-                    price: val.sale_price_2,
+                    prices: val.sale_price_2,
                     sale_price_1: val.sale_price_1,
                     sale_price_2: val.sale_price_2,
                     discount_word: '0',
                     discount_amount: 0,
-                    item_amount: val.sale_price_2 * 1,
+                    item_amounts: val.sale_price_2 * 1,
                     item_description: "",
                     packing_rate_1: parseInt(val.rate_1),
                     is_cancel: 0
