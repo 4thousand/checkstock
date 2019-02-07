@@ -5,14 +5,14 @@ import Vueaxios from 'vue-axios'
 Vue.use(Vueaxios, axios)
 
 const URL = 'https://n9.nopadol.com/'
-const npsysURL = 'http://venus.nopadol.com'
+const npsysURL = 'http://sys.nopadol.com/'
 const telURL = 'https://sheetdb.io'
 const smsURL = 'https://api.apitel.co/sms'
 const test = 'http://192.168.0.83:8080/v2/atm/auth'
 
 export default {
   signin(user, pass, success, error) {
-    Vue.axios.get(npsysURL + ':9000/login?access_token=aaaa&usercode=' + user + '&password=' + pass + '&appid=1').then(
+    Vue.axios.get(npsysURL + 'login?access_token=aaaa&usercode=' + user + '&password=' + pass + '&appid=1').then(
       (response) => {
         success(response.data)
       },
