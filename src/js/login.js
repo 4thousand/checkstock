@@ -24,10 +24,10 @@ export default {
           (result) => {
             // this.cload()
             localStorage.test = this.login.password
-            console.log(localStorage.test)
+            //console.log(localStorage.test)
             if (result.status == 'success') {
-              console.log(JSON.stringify(result.data))
-              console.log(result.data)
+              //console.log(JSON.stringify(result.data))
+              //console.log(result.data)
               localStorage.Datauser = JSON.stringify(result.data)
               // var userid = 
               // localStorage.branchid = result.data.branch_id
