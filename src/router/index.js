@@ -17,7 +17,7 @@ import sms from '@/components/mk/sms'
 import quolist from '@/components/quotation/quotationlist'
 import solist from '@/components/saleorder/saleorderlist'
 import invoice from '@/components/invoice/invoice'
-import invoicedetail from '@/components/invoice/invoicedetail'
+import invoicelist from '@/components/invoice/invoicelist'
 Vue.use(Router)
 
 export default new Router({
@@ -37,14 +37,14 @@ export default new Router({
       name: 'login',
       component: login
     }, {
-      path: '/invoice',
-      name: 'invoice',
-      component: invoice
+      path: '/invoicelist',
+      name: 'invoicelist',
+      component: invoicelist
     },
     {
-      path: '/invoicedetail/:id',
-      name: 'invoicedetail',
-      component: invoicedetail
+      path: '/invoice/:id',
+      name: 'invoice',
+      component: invoice
     },
     {
       path: '/quotation/:id',

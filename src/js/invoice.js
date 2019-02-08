@@ -10,7 +10,7 @@ const searchByName = (items, term) => {
 }
 import Vue from 'vue';
 import { Tabs, Tab } from 'vue-tabs-component';
-
+var client = require('emitter-io').connect()
 Vue.component('tabs', Tabs);
 Vue.component('tab', Tab);
 import Loading from 'vue-loading-overlay';
@@ -49,6 +49,7 @@ export default {
             date: "",
             search: [],
             search: '',
+            uuid: "",
             objuser: JSON.parse(localStorage.Datauser),
             dproducts: [],
             active: 'first',
@@ -63,8 +64,8 @@ export default {
             detailcus: '',
             showDialogcus: false,
             detailcusall: [],
-            tablecode: '', 
-            count: 60,
+            tablecode: '',
+            count: 60, prement_novat: 0,
             billtype: '',
             taxtype: 1,
             mockdocno: '',
@@ -184,7 +185,8 @@ export default {
                 prefix: "",
                 suffix: " บาท",
                 precision: 2,
-                masked: false
+                masked: false,
+                max: this.balances
             },
             isEditCr: false,
             isEditChq: false,
@@ -194,7 +196,13 @@ export default {
         }
     },
     methods: {
+        removeitemtable(index) {
+            // console.log(JSON.stringify(this.dproducts.length))
+            // this.searchProductInObject(this.dproducts,index)
+            console.log(JSON.stringify(this.searchProductInObject(this.dproducts, index)))
+            this.dproducts.splice(this.searchProductInObject(this.dproducts, index), 1)
 
+        },
         setbalance(val) {
             console.log(val)
             if (val == 4) {
@@ -228,7 +236,8 @@ export default {
             this.itemtable.qty += 1
         },
         testtable(val) {
-            this.itemtable = val
+            let item = val
+            this.itemtable = item
             console.log(this.itemtable)
             this.searchunticode(val)
             this.showtable = true
@@ -239,10 +248,13 @@ export default {
                 alert('กรุณาระบุจำนวนเงิน')
                 return
             }
+            this.prompaly.price = this.balances
             var payload = {
                 vending_uuid: "testing",
                 order_uuid: "testing123",
-                amount: this.prompaly.price
+                amount: this.prompaly.price,
+                client_name: "MAKEKAFE",
+                terminal_id: "0001"
             }
             console.log(JSON.stringify(payload))
             api.callqrcode(payload,
@@ -251,7 +263,10 @@ export default {
                         console.log(result)
                         console.log('channel sub:' + result.sub_channel)
                         this.prompaly.qr_code = result.qr_tag
-
+                        client.subscribe({
+                            key: "aArZ5ThGcFCRJ0UumrK6YcssjRhAmEKD",
+                            channel: result.sub_channel
+                        });
 
 
 
@@ -262,9 +277,13 @@ export default {
                 })
             var test = setInterval(function () {
                 $("#counter").html(this.count--);
-                if (this.count == 0) {
-                    swal("Time Out!", "Try Again!", "error");
+                if (this.count <= 0) {
+
+
+                    this.count = 60
+                    this.showpromplay = false
                     window.clearInterval(test);
+
                 }
             }.bind(this), 1000);
         },
@@ -497,11 +516,15 @@ export default {
             alert("ค้นหาข้อมูล Waiting ...");
         },
         setDone(id, index) {
-            if (id == 'third') {
-                this.$router.push("/index");
-                return
+            if (id == 'first') {
+                this.payment = this.cal_totalprice
+                console.log(this.total_VAT)
             }
-            //
+            // if (id == 'third') {
+            //     this.$router.push("/index");
+            //     return
+            // }
+            // //
             this[id] = true
             this.secondStepError = null
             //
@@ -511,11 +534,12 @@ export default {
                 let tax_type
                 let percent
                 let discount_amount
-
-                if (this.tablecode == 'BO') {
-                    doc_type = 0
-                } else if (this.tablecode == 'QT') {
-                    doc_type = 1
+                doc_type = 0
+                if (this.taxtype == "0") {
+                    tax_type = 0
+                }
+                else if (this.taxtype == "1") {
+                    tax_type = 1
                 }
                 if (this.salecode) {
                     var str = this.salecode;
@@ -525,14 +549,6 @@ export default {
                     var sale_name = res[1]
                 }
 
-                // if (this.taxtype == 'ภาษีแยกนอก') {
-                //   tax_type = 0
-                // } else if (this.taxtype == 'ภาษีรวมใน') {
-                //   tax_type = 1
-                // } else if (this.taxtype == 'ภาษีอัตราศูนย์') {
-                //   tax_type = 2
-                // }
-
                 if (this.percal) {
                     percent = '%'
                     discount_amount = this.totalprice - (this.totalprice - (this.totalprice * this.caldiscount / 100))
@@ -541,68 +557,114 @@ export default {
                     percent = ''
                     discount_amount = this.caldiscount
                 }
+
                 // console.log(this.datenow_datepicker)
                 // console.log(this.docnoid)
                 let payload = {
-                    id: parseInt(this.docnoid),// 0 แก้ไข,update ตามไอดี 
-                    branch_id: this.branch_id,
+                    // id: parseInt(this.docnoid),// 0 แก้ไข,update ตามไอดี 
+                    // uuid: this.uuid,//
+                    // branch_id: this.branch_id,//
+                    // doc_no: this.docno,//
+                    // //norecord
+                    // tax_type:this.taxtype,
+                    // // ar_bill_address: this.ar_bill_address,
+                    // // ar_telephone: this.ar_telephone,
+                    // datenow_datepicker: this.datenow_datepicker,
+                    // dif_fee: this.dif_fee,
+                    // //norecord
+                    // doc_type,
+                    // ar_id: this.idcus,
+                    // ar_code: this.searchcus,
+                    // ar_name: this.detailcus,
+                    // sale_id: this.sale_id,
+                    // sale_code,
+                    // sale_name: sale_name.trim(),
+                    // bill_type: parseInt(this.billtype),
+
+                    // tax_rate: 7,
+                    // depart_code: '',
+                    // ref_no: '',
+                    // is_confirm: 0,
+                    // bill_status: 0,
+                    // credit_day: 0,
+                    // due_date: this.convermonth_y_m_d(this.DueDate_cal),
+                    // validity: parseInt(this.validity),
+                    // expire_credit: parseInt(this.expire_date),
+                    // expire_date: this.convermonth_y_m_d(this.expiredate_cal),
+                    // delivery_day: parseInt(this.Deliver_date),
+                    // delivery_date: this.convermonth_y_m_d(this.DueDate_date),
+                    // assert_status: 0,
+                    // is_condition_send: parseInt(this.is_condition_send),
+                    // my_description: this.my_description,
+                    // sum_of_item_amount: this.totalprice,
+                    // discount_word: this.caldiscount + percent,
+                    // discount_amount: parseInt(discount_amount),
+                    // after_discount_amount: this.totalprice - this.caldiscount,
+                    // company_id: parseInt(this.company_id),
+                    // //  before_tax_amount: '',
+                    // assert_status: parseInt(this.answer_cus),
+                    // depart_id: parseInt(this.iddepartment),
+                    // project_id: parseInt(this.idprojectC),
+
+                    id: parseInt(this.docnoid),
+                    company_id: parseInt(this.company_id),
+                    branch_id: this.branch_id,//
+                    uuid: this.uuid,
                     doc_no: this.docno,
-                    //norecord
-                    ar_bill_address: this.ar_bill_address,
-                    ar_telephone: this.ar_telephone,
-                    datenow_datepicker: this.datenow_datepicker,
-                    dif_fee: this.dif_fee,
-                    //norecord
-                    doc_type,
+                    tax_no: this.docno,
+                    bill_type: parseInt(this.billtype),
+                     
                     ar_id: this.idcus,
                     ar_code: this.searchcus,
                     ar_name: this.detailcus,
                     sale_id: this.sale_id,
                     sale_code,
                     sale_name: sale_name.trim(),
-                    bill_type: parseInt(this.billtype),
-                    tax_type,
+                    // ar_bill_address: this.customerAddress,
+                    // ar_telephone: this.customerPhone,
+                    
+                    tax_type: tax_type,
                     tax_rate: 7,
-                    depart_code: '',
-                    ref_no: '',
-                    is_confirm: 0,
-                    bill_status: 0,
-                    credit_day: this.bill_credit,
+                     
+                    depart_id: 0,
+                    allocate_id: 0,
+                    credit_day: 0,//this.customerCreditDay,
                     due_date: this.convermonth_y_m_d(this.DueDate_cal),
-                    validity: parseInt(this.validity),
-                    expire_credit: parseInt(this.expire_date),
-                    expire_date: this.convermonth_y_m_d(this.expiredate_cal),
-                    delivery_day: parseInt(this.Deliver_date),
-                    delivery_date: this.convermonth_y_m_d(this.DueDate_date),
-                    assert_status: 0,
-                    is_condition_send: parseInt(this.is_condition_send),
+                    is_cancel: 0,
+                    so_ref_no: '',
+                    
+                    sum_cash_amount: this.cashPayment + 0,
+                    sum_credit_amount: this.totalCreditPayment,
+                    sum_chq_amount: this.totalChqPayment,
+                    sum_bank_amount: this.totalChqPayment,
+                    sum_of_deoosit: this.totalPromplay,
+                    coupon_amount: this.caldiscount,
                     my_description: this.my_description,
                     sum_of_item_amount: this.totalprice,
+           
+
                     discount_word: this.caldiscount + percent,
                     discount_amount: parseInt(discount_amount),
                     after_discount_amount: this.totalprice - this.caldiscount,
-                    company_id: parseInt(this.company_id),
-                    //  before_tax_amount: '',
-                    assert_status: parseInt(this.answer_cus),
-                    depart_id: parseInt(this.iddepartment),
-                    project_id: parseInt(this.idprojectC),
-                    allocate_id: 0,
-                    is_cancel: 0,
-                    creator_by: this.creator_by,
-                    subs: this.dproducts
+                    total_amount: this.payment,
+                    // bank_amount: this.transferPayment,
+                      
+                    create_by: this.creator_by,
+                    subs: this.dproducts,
+                    credit_card: this.creditCardList,
+                    chq: this.chqList,
+                  
+                  
+                
+
+                    // edit_by: this.profile.rolename
+
                 }
 
                 console.log(payload.subs.length)
-                document.getElementsByName('dataquotation')[0].value = JSON.stringify(
-                    payload
-                )
-
-                document.getElementsByName('dataquotation')[1].value = JSON.stringify(
-                    payload
-                )
 
                 console.log(JSON.stringify(payload))
-                api.savequotation(payload,
+                api.saveInvoice(payload,
                     (result) => {
                         console.log(result.val())
                         alertify.success('บันทึกสำเร็จ ' + this.docno);
@@ -816,10 +878,12 @@ export default {
             return null;
         },
         mockDocNo() {
+            console.log(this.billtype)
             if (!this.billtype) {
+                console.log(this.billtype, 1234)
                 return
             }
-
+            console.log(this.billtype)
             if (this.dproducts.length > 0) {
 
                 // var test;
@@ -828,11 +892,11 @@ export default {
                 // }
                 // console.log(test)
             }
-
+            this.tablecode = 'IV'
             this.disablebilltype = true
             let payload = {
                 branch_id: this.objuser.branch_id,
-
+                table_code: this.tablecode,
                 bill_type: parseInt(this.billtype)
             }
             this.isLoading = true
@@ -849,6 +913,8 @@ export default {
                         this.mockdocno += result.charAt(i);
                     }
                     this.mockdocno += "XXXX";
+                    this.docno = result
+                    console.log(this.docno)
                 },
                 (error) => {
                     this.isLoading = false
@@ -894,7 +960,7 @@ export default {
                     }
                     this.mockdocno += "XXXX";
                     this.docno = result
-
+                    console.log(this.docno)
                 },
                 (error) => {
                     this.isLoading = false
@@ -1122,14 +1188,17 @@ export default {
                         var data = {
                             item_id: datasubs[x].id,
                             item_code: datasubs[x].item_code,
-                            bar_code: datasubs[x].bar_code,
+                            
                             item_name: datasubs[x].item_name,
+                            bar_code: datasubs[x].bar_code,
+                            price: datasubs[x].price,
                             unit_code: datasubs[x].unit_code,
                             qty: datasubs[x].qty, price: datasubs[x].price,
-                            prices: datasubs[x].price,
+                            
                             discount_word: datasubs[x].discount_word,
                             discount_amount: datasubs[x].discount_amount,
                             item_amount: datasubs[x].item_amount,
+                            amount:datasubs[x].item_amount,
                             item_amounts: datasubs[x].item_amount,
                             item_description: datasubs[x].item_description,
                             packing_rate_1: datasubs[x].packing_rate_1,
@@ -1151,7 +1220,7 @@ export default {
                     this.chqList = result.data.chq;
                     this.taxRate = result.data.tax_type;
                     this.creditCardList = result.data.credit_card;
-                    this.payment = this.totalprice;
+                    this.payment = this.total_VAT;
                     this.cashPayment = result.data.cash_amount;
                     this.is_condition_send = result.data.is_condition_send
                     this.expiredate_cal = this.convertmonth_d_m_y(result.data.expire_date)
@@ -1222,7 +1291,9 @@ export default {
         },
         removeCreditCard(index) {
             console.log(index)
-            this.creditCardList.slice(index);
+
+            this.creditCardList.splice(this.searchProductInObject(this.creditCardList, index), 1)
+            console.log(this.creditCardList)
         },
         createChq() {
             var chq = {
@@ -1254,7 +1325,8 @@ export default {
             this.chqList[this.eChqPo].description = this.chqNotice;
         },
         removeChq(index) {
-            this.chqList.slice(index);
+            this.chqList.splice(this.searchProductInObject(this.chqList, index), 1)
+
         },
         createBank() {
             var bank = {
@@ -1281,8 +1353,8 @@ export default {
             this.bankTransList[eBankPo].bank_amount = this.bankPayment;
         },
         removeBank(index) {
-            console.log(index);
-            this.bankTransList.slice(index);
+            console.log(index); this.bankTransList.splice(this.searchProductInObject(this.bankTransList, index), 1)
+
         }, test() {
             console.log(this.showCredit)
 
@@ -1335,6 +1407,7 @@ export default {
         },
         changePriceType() {
             for (var i = 0; i < this.dproducts.length; i++) {
+                
                 if (this.billtype == 0) {
                     this.dproducts[i].price = this.dproducts[i].sale_price_1
                     this.dproducts[i].item_amount = this.dproducts[i].sale_price_1
@@ -1343,7 +1416,7 @@ export default {
                     this.dproducts[i].price = this.dproducts[i].sale_price_2
                     this.dproducts[i].item_amount = this.dproducts[i].sale_price_2
                 }
-                console.log(JSON.stringify(this.dproducts))
+               
             }
         },
         changevaluetest() {
@@ -1397,7 +1470,9 @@ export default {
         }
     },
     created() {
+
         this.searched = this.dproducts;
+        console.log(this.searched)
     },
     computed: {
         keymap() {
@@ -1430,11 +1505,11 @@ export default {
         cal_totalprice() {
             if (this.taxtype == 1) {
                 if (!this.percal) {
-                    this.payment = this.totalprice - this.caldiscount;
+
                     return this.totalprice - this.caldiscount
                 }
                 if (this.percal) {
-                    this.payment = this.totalprice - (this.totalprice * this.caldiscount / 100)
+
                     return this.totalprice - (this.totalprice * this.caldiscount / 100)
                 }
             }
@@ -1509,6 +1584,11 @@ export default {
             return this.chqList.reduce((sum, item) => {
                 return sum + item.chq_amount;
             }, 0);
+        }, setbalances() {
+            console.log(1)
+            if (this.prompaly.price > this.balance) {
+                this.prompaly.price = this.balance
+            }
         },
         totalBankPayment() {
             if (this.bankTransList == null) {
@@ -1518,14 +1598,23 @@ export default {
                 return sum + item.bank_amount;
             }, 0);
         }, qrcodegen() {
-            if (this.prompaly.price <= 0) {
-                return
+            if (this.prompaly.price > this.balances) {
+                let money = this.balances
+                this.prompaly.price = 0
+                console.log(this.prompaly.price = this.balances)
+                console.log(this.balance + " " + this.prompaly.price)
+                this.prompaly.price = 0
             }
+            console.log(this.balance + " " + this.prompaly.price)
             var payload = {
                 vending_uuid: "testing",
                 order_uuid: "testing123",
-                amount: this.prompaly.price
+                amount: this.prompaly.price,
+                client_name: "MAKEKAFE",
+                terminal_id: "0001"
             }
+            console.log(this.balances + " " + this.prompaly.price)
+
             console.log(JSON.stringify(payload))
             api.callqrcode(payload,
                 (result) => {
@@ -1533,6 +1622,11 @@ export default {
                         console.log(result)
                         console.log('channel sub:' + result.sub_channel)
                         this.prompaly.qr_code = result.qr_tag
+                        client.subscribe({
+                            key: "aArZ5ThGcFCRJ0UumrK6YcssjRhAmEKD",
+                            channel: result.sub_channel
+                        });
+
                     }
                 },
                 (error) => {
@@ -1543,13 +1637,13 @@ export default {
         payment_type() {
 
             if (this.taxtype == "0") {
-                return this.payment;
+                return this.totalprice;
             }
             if (this.taxtype == "1") {
-                return this.payment * (100 / (100 + this.taxrate));
+                return this.totalprice * (100 / (100 + this.taxrate));
             }
             if (this.taxtype == "2") {
-                return this.payment;
+                return this.totalprice;
             }
         },
         cal_VAT() {
@@ -1565,13 +1659,13 @@ export default {
         },
         total_VAT() {
             if (this.taxtype == "0") {
-                return this.payment + this.cal_VAT;
+                return this.totalprice + this.cal_VAT;
             }
             if (this.taxtype == "1") {
-                return this.payment;
+                return this.totalprice;
             }
             if (this.taxtype == "2") {
-                return this.payment;
+                return this.totalprice;
             }
         },
         balances() {
@@ -1580,6 +1674,9 @@ export default {
         ,
         balance() {
             return this.totalPayment - this.total_VAT;
+        }, convertbakabce() {
+            var num = this.balance
+            return this.balance - (num * 2)
         },
         checkLength() {
             return console.log(this.validateCreditCardNo.length);
