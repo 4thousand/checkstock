@@ -4,7 +4,8 @@ import Vueaxios from 'vue-axios'
 
 Vue.use(Vueaxios, axios)
 
-const URL = 'https://n9.nopadol.com/'
+const URL = 'http://localhost:9999/'
+//const URL = 'https://n9.nopadol.com/'
 const npsysURL = 'http://venus.nopadol.com'
 const telURL = 'https://sheetdb.io'
 const smsURL = 'https://api.apitel.co/sms'
@@ -162,6 +163,25 @@ export default {
   searchDepByKeyword(payload, success, error) {
     payload.keyword = payload.keyword.replace(" ", "%")
     Vue.axios.post(URL + 'sales/v1/dep/search/keyword', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
+  searchInvById(payload, success, error) {
+    Vue.axios.post(URL + 'sales/v1/inv/search/id', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
+  searchInvByKeyword(payload, success, error) { //boss add
+    payload.keyword = payload.keyword.replace(" ", "%")
+    Vue.axios.post(URL + 'sales/v1/inv/search/keyword', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
       },
