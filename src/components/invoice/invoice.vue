@@ -1,17 +1,16 @@
 <template>
-  <div class="index" style="background: #f4f5f7;">
+  <div>
     <div class="container">
       <div class="col-12">
         <md-field>
-          <md-tooltip md-direction="bottom">ค้นหาใบเสนอราคา ใบสั่งขาย Black Order</md-tooltip>
+          <md-tooltip md-direction="bottom">ค้นหาใบรับเงินมัดจำ</md-tooltip>
           <md-icon>search</md-icon>
           <label>ค้นหา</label>
-          <md-input v-model="searched"></md-input>
+          <md-input @keyup.enter="searchInvApi" v-model="searchInvoice"></md-input>
         </md-field>
       </div>
 
-      <!-- payloadreal -->
-      <div v-for="(val,index) in listFilter" :key="index">
+      <div v-for="(val,index) in dataall" :key="index">
         <div
           @click="seedetail(val)"
           class="col-12 showhover"
@@ -20,56 +19,33 @@
           <md-toolbar
             id="responsiveheight"
             class="md-transparent hoverdiv"
-            style="min-width:251px;display:block;padding-top:5px;overflow:hidden"
+            style="display:block;padding-top:5px;padding-bottom:5px;overflow:hidden"
           >
-            <div class="md-layout md-gutter md-alignment-center">
-              <div
-                class="md-layout-item md-xlarge-size-5 md-large-size-5 md-xsmall-size-15 md-small-size-10 md-medium-size-5"
-              >
-                <md-avatar
-                  class="md-avatar-icon md-primary"
-                  :class="'active'+val.module.substring(0, 1)"
-                  style="margin:0;"
-                >{{ val.module.substring(0, 1) }}</md-avatar>
+            <div class="row">
+              <div class="col-2 col-md-1">
+                <md-avatar style="margin-top:12px"
+                class="md-avatar-icon md-primary">I
+                </md-avatar>
               </div>
-
-              <div
-                class="md-layout-item md-xlarge-size-95 md-large-size-95 md-xsmall-size-85 md-small-size-90 md-medium-size-95"
-              >
+              <div class="col-10 col-md-11">
                 <div class="row">
-                  <div class="col-12">
-                    <span class="md-title">{{ val.doc_no}}</span>
-                    <md-icon
-                      v-show="val.is_confirm == 1"
-                      style="float:right;color:green"
-                    >check_circle_outline</md-icon>
-                    <md-icon v-show="val.is_cancel == 1" style="float:right;color:red;">cancel</md-icon>
-                    <span
-                      class="md-title datehover"
-                      style="float:right;font-size: .875rem;color: #5f6368;float:right;margin-right:10px"
-                    >{{val.doc_date.substring(0, 10)}}</span>
+                  <div class="col-8 col-md-8">
+                    <span class="bl-title">{{val.doc_no}}</span>
                   </div>
-                  <div class="col-12">
+                  <div class="col-4 col-md-4 md-xsmall-hide">
+                    <span class="dateOfDep">{{val.doc_date.substring(0, 10)}}</span>
+                  </div>
+                  <div class="col-12 col-md-12 md-small-hide">
                     <span
-                      style="position: relative;left: 8px;font-size: .875rem;color: #5f6368;"
+                      style="position: relative;font-size: .875rem;color: #5f6368;"
                       class="md-subheading"
-                    >{{ 'รหัสลูกค้า : '+val.ar_code + ' ชื่อลูกค้า :' + val.ar_name + ' พนักงานขาย :' +val.sale_name +' รวมมูลค่าสินค้าทั้งหมด : '+convertToBaht(val.total_amount) +" บาท"}}</span>
-                    <div
-                      @click="val.total_amount = !val.total_amount"
-                      v-show="val.total_amount"
-                      style="float:right;"
-                      class="starhover"
-                    >
-                      <md-icon>star_border</md-icon>
-                    </div>
-                    <div
-                      class="starhover"
-                      @click="val.total_amount = !val.total_amount"
-                      v-show="val.total_amount == false"
-                      style="float:right;color:red;"
-                    >
-                      <md-icon>star</md-icon>
-                    </div>
+                    >{{ 'id : '+val.id +' รหัสลูกค้า : '+val.ar_code + ' ชื่อลูกค้า : ' + val.ar_name }}</span>
+                  </div>
+                  <div class="col-12 col-md-12">
+                    <span
+                      style="position: relative;font-size: .875rem;color: #5f6368;"
+                      class="md-subheading"
+                    >{{ ' พนักงานขาย :' +val.sale_name +' รวมมูลค่ารวมภาษี : '+convertToBaht(val.total_amount) +" บาท"}}</span>
                   </div>
                 </div>
               </div>
@@ -77,60 +53,26 @@
           </md-toolbar>
         </div>
       </div>
-      <!-- ข้อมูลใบเสนอราคา -->
+
+      <md-speed-dial class="md-bottom-right">
+        <md-speed-dial-target @click="goindex('/invoicedetail')">
+          <md-icon>add</md-icon>
+        </md-speed-dial-target>
+      </md-speed-dial>
     </div>
-    <md-speed-dial class="md-bottom-right">
-      <md-speed-dial-target @click="goindex('/invoicedetail')">
-        <md-icon>add</md-icon>
-      </md-speed-dial-target>
-    </md-speed-dial>
   </div>
 </template>
 <script>
 import api from "../../service/service.js";
-
 export default {
-  name: "invoicedetail",
+  name: 'dp',
   data() {
     return {
       msg: "",
-      star: true,
-      Search: "",
-      searched: "",
-      sale_code: JSON.parse(localStorage.Datauser),
+      searchInvoice: "",
       dataall: [],
-      keyword_showalldoc: ""
+      profile: JSON.parse(localStorage.Datauser)
     };
-  },
-  computed: {
-    listFilter() {
-      return this.dataall.filter(post => {
-        if (post.doc_no.toLowerCase().includes(this.searched.toLowerCase())) {
-          return post.doc_no
-            .toLowerCase()
-            .includes(this.searched.toLowerCase());
-        } else if (
-          post.ar_code.toLowerCase().includes(this.searched.toLowerCase())
-        ) {
-          return post.ar_code
-            .toLowerCase()
-            .includes(this.searched.toLowerCase());
-          sale_name;
-        } else if (
-          post.ar_name.toLowerCase().includes(this.searched.toLowerCase())
-        ) {
-          return post.ar_name
-            .toLowerCase()
-            .includes(this.searched.toLowerCase());
-        } else if (
-          post.sale_name.toLowerCase().includes(this.searched.toLowerCase())
-        ) {
-          return post.sale_name
-            .toLowerCase()
-            .includes(this.searched.toLowerCase());
-        }
-      });
-    }
   },
   methods: {
     convertToBaht(val) {
@@ -155,40 +97,102 @@ export default {
 
       this.$router.push({ name: "invoicedetail", params: { id: val.id } });
     },
-    showalldoc() {
+    searchInvApi() {
       var payload = {
-        sale_code: this.sale_code.sale_code,
-        keyword: this.keyword_showalldoc
+        ar_id: parseInt(this.profile.id),
+        keyword: this.searchInvoice
       };
-      // v
       console.log(JSON.stringify(payload));
-      api.showdocall(
+      api.searchInvByKeyword(
         payload,
         result => {
-          for (var i = 0; i < result.data.length; i++) {
-            console.log(JSON.stringify(result.data[i].module));
-            if (
-              result.data[i].module == "SaleOrder"
-            ) {
-              this.dataall.push(result.data[i]);
-            }
-          }
-          console.log(JSON.stringify(this.dataall));
+          this.dataall = result.data;
+          console.log(JSON.stringify(result));
         },
         error => {
           console.log(JSON.stringify(error));
           alertify.error("Data ข้อมูลผิดพลาด");
-          //  alertify.success('Error login');
-          // this.cload()
         }
       );
     }
   },
+
   mounted() {
-    this.showalldoc();
-    // console.log(JSON.stringify(this.payload))
+    this.searchInvApi();
   }
 };
 </script>
-<style  src="./invoice.css">
+<style>
+.container {
+  padding: 5px 0;
+}
+
+.md-app {
+  max-height: 400px;
+  border: 1px solid rgba(#000, 0.12);
+}
+
+.md-drawer {
+  width: 230px;
+  max-width: calc(100vw - 125px);
+}
+
+.bl-title {
+  font-size: 16px;
+}
+
+span {
+  font-family: "Kanit", sans-serif !important;
+}
+
+.datehover,
+.starhover {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.5s;
+}
+
+.showhover:hover .datehover,
+.showhover:hover .starhover {
+  opacity: 1;
+  visibility: visible;
+}
+
+.activeQ {
+  background: #3d91ff !important;
+}
+
+.activeS {
+  background: #64fc69 !important;
+}
+
+.activeB {
+  background: #ff815a !important;
+}
+
+.activeD {
+  background: #f4c20d !important;
+}
+
+.dateOfDep {
+  float: right;
+  font-size: 0.875rem;
+  color: #5f6368;
+  float: right;
+  margin-right: 10px;
+}
+
+.md-toolbar {
+  z-index: 1;
+}
+
+span,
+label,
+input {
+  font-family: "Kanit", sans-serif !important;
+}
+
+.hoverdiv {
+  transition: all 1s;
+}
 </style>

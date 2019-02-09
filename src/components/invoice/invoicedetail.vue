@@ -149,10 +149,10 @@
                 <div class="md-layout md-gutter">
                   <md-card class="md-layout-item md-size-100 md-small-size-100 tablesale">
                     <md-card-header
-                      style="    padding-top: 16px;
-    padding-right: 16px;
-    padding-bottom: 2px;
-    padding-left: 16px;"
+                      style="     padding-top: 16px;
+                                  padding-right: 16px;
+                                  padding-bottom: 2px;
+                                  padding-left: 16px;"
                     >
                       <md-card-header-text>
                         <div class="md-toolbar-section-start">
@@ -309,7 +309,7 @@
                               >
                             </p>
                             <div @click="searchunticode(item)">
-                              
+
                                <md-icon class="search_unitcode">arrow_drop_down</md-icon>
                             </div>-->
                             <md-field>
@@ -337,7 +337,7 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <button class="increment-button md-primary" @click="decrement()">−</button>
-                            
+
                             <input
                               class="form-control"
                               style="width:70%;float:left"
@@ -1561,7 +1561,7 @@
                             </button>
                           </div>
                         </div>
-                        
+
                         <div class="col-md-12 col-12" v-if="isEditPromplay==true">
                           <div class="row">
                             <p class="method-set col-lg-4 col-md-12 col-12">หมายเหตุ :</p>
@@ -1764,11 +1764,11 @@
                   <img style="width: 100px; height: 50px;" src="../../assets/nopadol.jpg">
                 </div>
               </div>
-              <md-button class="md-raised md-primary" @click="setDone('third')">สิ้นสุด</md-button>
+              <md-button class="md-raised md-primary" @click="goindex('/invoicelist')">สิ้นสุด</md-button>
               <!-- testprint -->
               <form
                 id="tax_report"
-                :action="php + '/vue_sale/report_pdf/report_quotation.php'"
+                :action="php + '/vue_sale/report_pdf/report_invoice.php'"
                 method="post"
                 target="_blank"
               >
@@ -2122,6 +2122,627 @@
     </div>
   </div>
 </template>
+<script>
+import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
+import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.min.css";
+import VueStripePayment from "vue-stripe-payment";
+import api from "../../service/service.js";
+import { ModelSelect } from "vue-search-select";
+import setting from "../../js/setting.js";
+import Loading from "vue-loading-overlay";
+import { Money } from "v-money";
+
+export default {
+  name: "deposit",
+  data() {
+    return {
+      serialNo: "",
+      taxNo: "",
+      id: "",
+      uuid: "",
+      customerID: "",
+      customerCode: "",
+      customerName: "",
+      customerAddress: "",
+      customerPhone: "",
+      customerCreditDay: "",
+      customerDueDate: "",
+      documentDate: this.getDate(),
+      creditDate: "",
+      checkDate: "",
+      preemptionNo: "",
+      employeeID: "",
+      employeeCode: "",
+      employeeName: "",
+      department: "",
+      departmentData: [],
+      infoNotice: "",
+      taxrate: setting.data().setting_taxRate,
+      click: false,
+      selectCustomer: false,
+      selectReserve: false,
+      searchCustomerInput: "",
+      searchReserveInput: "",
+      php: "http://" + document.domain,
+      reserveNo: "",
+      customerDetail: [],
+      reserveDetail: [],
+      QRPaymentPart: false,
+      cashPayment: 0,
+      creditPayment: 0,
+      checkPayment: 0,
+      bankPayment: 0,
+      payment: 0,
+      creditNumber: "",
+      validateCreditCardNo: "",
+      creditType: "",
+      creditBank: "",
+      creditPrice: "",
+      cardCharge: "",
+      cardChargePrice: "",
+      creditNotice: "",
+      creditCardList: [],
+      checkBankId: "",
+      checkBankName: "",
+      checkNumber: "",
+      chqPrize: "",
+      chqDate: "",
+      chqNotice: "",
+      chqList: [],
+      bankAccount: "",
+      bankTransDate: "",
+      bankTransList: [],
+      bankNotice: "",
+      billType: "0",
+      saleType: "0", //setting.data().setting_saleType
+      eCreditPo: null,
+      eChqPo: null,
+      eBankPo: null,
+      feeType: "1", //setting.data().setting_feeType
+      project: "",
+      allocate: "",
+      companyId: 1,
+      branchId: "1", //setting.data().setting_branchId
+      showDialog: false,
+      showReserve: false,
+      showCredit: false,
+      showChq: false,
+      showBank: false,
+      confirm: false,
+      active: "first",
+      first: false,
+      second: false,
+      third: false,
+      profile: JSON.parse(localStorage.Datauser),
+      isLoading: false,
+      money: {
+        decimal: ".",
+        thousands: ",",
+        prefix: "",
+        suffix: " บาท",
+        precision: 2,
+        masked: false
+      },
+      isEditCr: false,
+      isEditChq: false,
+      isEditBank: false
+    };
+  },
+  components: {
+    VueCtkDateTimePicker,
+    ModelSelect,
+    Loading,
+    Money
+  },
+  use: {
+    VueStripePayment
+  },
+  methods: {
+    isNumber: function(evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+      if (
+        charCode > 31 &&
+        (charCode < 48 || charCode > 57) &&
+        charCode !== 46
+      ) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
+    showEditDetail() {
+      if (this.id == 0) {
+        // alert('หนักหลัก')
+        return;
+      }
+      // alert('แก้ไข')
+      // แก้ไข
+      let payload = {
+        id: parseInt(this.id)
+      };
+      this.isLoading = true;
+      console.log(payload);
+      api.searchDepById(
+        payload,
+        result => {
+          this.isLoading = false;
+          console.log(result.data);
+          this.id = result.data.id;
+          this.uuid = result.data.uuid;
+          this.serialNo = result.data.doc_no;
+          this.taxNo = result.data.doc_no;
+          console.log(this.serialNo);
+          this.feeType = result.data.tax_type;
+          this.branchId = result.data.branch_id;
+          this.customerID = result.data.ar_id;
+          this.customerName = result.data.ar_name;
+          this.customerCode = result.data.ar_code;
+          this.customerCreditDay = result.data.credit_day;
+          this.customerDueDate = result.data.due_date;
+          this.saleID = result.data.sale_id;
+          this.saleName = result.data.sale_name;
+          this.saleCode = result.data.sale_code;
+          this.saleType = result.data.bill_type;
+          //   this.customerAddress = result.data.ar_bill_address;
+          //   this.customerPhone = result.data.ar_telephone;
+          this.department = result.data.depert_id;
+          this.taxRate = result.data.tax_type;
+          this.datenow_datepicker = result.data.doc_date;
+          this.creditCardList = result.data.credit_card;
+
+          this.chqList = result.data.chq;
+          this.payment = result.data.total_amount;
+           this.cashPayment = result.data.cash_amount;
+          this.infoNotice = result.data.my_description;
+          this.creator = result.data.create_by;
+        },
+        error => {
+          this.isLoading = false;
+          console.log(JSON.stringify(error));
+          alertify.error("ข้อมูลผิดพลาด");
+        }
+      );
+    },
+    setDone(id, index) {
+      this[id] = true;
+      this.active = index;
+    },
+    check_date_p(e) {
+      alert(e);
+    },
+    convertToBaht(val) {
+      var result = numeral(val).format("0,0.00");
+      // console.log(typeof result)
+      return result;
+    },
+    createCreditCard() {
+      var creditcard = {
+        credit_type: this.creditType,
+        credit_card_no: this.creditNumber,
+        amount: this.creditPayment,
+        bank_id: parseInt(this.creditBank)
+      };
+      console.log(JSON.stringify(creditcard));
+      this.creditCardList.push(creditcard);
+      console.log(JSON.stringify(this.creditCardList));
+    },
+    resetCredit() {
+      this.creditType = "";
+      this.validateCreditCardNo = "";
+      this.creditNumber = "";
+      this.creditPrice = 0;
+      this.creditBank = "";
+      this.creditNotice = "";
+    },
+    pullCreditCard(index) {
+      this.eCreditPo = index;
+      this.creditType = this.creditCardList[index].credit_type;
+      this.creditNumber = this.creditCardList[index].credit_card_no;
+      this.creditPrice = this.creditCardList[index].amount;
+      this.creditBank = parseInt(this.creditCardList[index].bank_id);
+    },
+    editCreditCard() {
+      this.creditCardList[this.eCreditPo].credit_type = this.creditType;
+      this.creditCardList[this.eCreditPo].credit_card_no = this.creditNumber;
+      this.creditCardList[this.eCreditPo].amount = this.creditPayment;
+      this.creditCardList[this.eCreditPo].bank_id = parseInt(this.creditBank);
+    },
+    removeCreditCard(index) {
+      console.log(index);
+      this.creditCardList.slice(index);
+    },
+    createChq() {
+      var chq = {
+        chq_number: this.checkNumber,
+        chq_amount: this.checkPayment,
+        bank_id: parseInt(this.checkBankId),
+        description: this.chqNotice
+      };
+      this.chqList.push(chq);
+    },
+    resetChq() {
+      this.checkNumber = "";
+      this.chqPrize = 0;
+      this.checkPayment = 0;
+      this.checkBankId = "";
+      this.chqNotice = "";
+    },
+    pullChq(index) {
+      this.eChqPo = index;
+      this.checkNumber = this.chqList[index].chq_number;
+      this.checkPayment = this.chqList[index].chq_amount;
+      this.checkBankId = parseInt(this.chqList[index].bank_id);
+      this.chqNotice = this.chqList[index].description;
+    },
+    editChq() {
+      this.chqList[this.eChqPo].chq_number = this.checkNumber;
+      this.chqList[this.eChqPo].chq_amount = this.checkPayment;
+      this.chqList[this.eChqPo].bank_id = parseInt(this.checkBankId);
+      this.chqList[this.eChqPo].description = this.chqNotice;
+    },
+    removeChq(index) {
+      this.chqList.slice(index);
+    },
+    createBank() {
+      var bank = {
+        bank_account: this.bankAccount,
+        bank_date: this.bankTransDate,
+        bank_amount: this.bankPayment
+      };
+      this.bankTransList.push(bank);
+    },
+    resetBank() {
+      this.bankAccount = "";
+      this.bankTransDate = this.getDate();
+      this.bankPayment = 0;
+    },
+    pullBank(index) {
+      this.eBankPo = index;
+      this.bankAccount = this.bankTransList[index].bank_account;
+      this.bankTransDate = this.bankTransList[index].bank_date;
+      this.bankPayment = this.bankTransList[index].bank_amount;
+    },
+    editBank() {
+      this.bankTransList[eBankPo].bank_account = this.bankAccount;
+      this.bankTransList[eBankPo].bank_date = this.bankTransDate;
+      this.bankTransList[eBankPo].bank_amount = this.bankPayment;
+    },
+    removeBank(index) {
+      console.log(index);
+      this.bankTransList.slice(index);
+    },
+    searchCustomerAllKeyApi() {
+      var payload = {
+        keyword: this.searchCustomerInput
+      };
+
+      api.Customerall(
+        payload,
+        result => {
+          console.log(JSON.stringify(result.data));
+          if (result.data.length == 0) {
+            this.customerDetail = result.data;
+            alertify.error("ไม่มีข้อมูลลูกค้าคนนี้");
+            return;
+          }
+          if (result.data.length > 0) {
+            this.customerDetail = result.data;
+            alertify.success(
+              "พบข้อมูลลูกค้าจำนวน " + result.data.length + " คน"
+            );
+            return;
+          }
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    },
+    searchReserveKeyApi() {
+      var payload = {
+        ar_id: this.customerID,
+        keyword: this.searchReserveInput
+      };
+
+      api.searchReserveByKeyword(
+        payload,
+        result => {
+          console.log(JSON.stringify(result.data));
+          if (result.data.length == 0) {
+            this.reserveDetail = result.data;
+            alertify.error("ไม่มีข้อมูลเลขใบสั่งจอง");
+            return;
+          }
+          if (result.data.length > 0) {
+            this.reserveDetail = result.data;
+            alertify.success(
+              "พบเลขใบสั่งจองจำนวน " + result.data.length + " ใบ"
+            );
+            return;
+          }
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    },
+    searchCustomer(val) {
+      console.log(JSON.stringify(val));
+      this.customerID = val.id;
+      this.customerCode = val.code;
+      this.customerName = val.name;
+      this.customerAddress = val.address;
+      this.customerPhone = val.telephone;
+      this.customerCreditDay = val.bill_credit;
+      this.customerDueDate = this.getDueDate(val.bill_credit);
+
+      this.showDialogCustomer = false;
+    },
+    searchReserve(val) {
+      this.reserveNo = val.doc_no;
+    },
+    createDepositNoApi() {
+      let payload = {
+        branch_id: parseInt(this.profile.branch_id),
+        table_code: "DP",
+        bill_type: parseInt(this.saleType)
+      };
+
+      console.log(payload);
+      api.showdocno(
+        payload,
+        result => {
+          console.log(JSON.stringify(result));
+          if (result.error) {
+            this.serialNo = "ไม่มีข้อมูล";
+            this.taxNo = "ไม่มีข้อมูล";
+            return;
+          }
+          this.serialNo = result;
+          this.taxNo = result;
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    },
+    goindex(val) {
+      if (val == "/invoicelist") {
+        this.$router.push({ name: "invoicelist" });
+        return;
+      }
+    },
+    getDate() {
+      const toTwoDigits = num => (num < 10 ? "0" + num : num);
+      let today = new Date();
+      let year = today.getFullYear();
+      let month = toTwoDigits(today.getMonth() + 1);
+      let day = toTwoDigits(today.getDate());
+      return `${year}-${month}-${day}`;
+    },
+    getDueDate(val) {
+      const toTwoDigits = num => (num < 10 ? "0" + num : num);
+      let today = new Date();
+      today.setDate(today.getDate() + val);
+      let year = today.getFullYear();
+      let month = toTwoDigits(today.getMonth() + 1);
+      let day = toTwoDigits(today.getDate());
+      return `${year}-${month}-${day}`;
+    },
+    payment_validation() {
+      if (this.showCredit == false) {
+        // this.creditCardName = null;
+        this.creditNumber = null;
+        this.validateCreditCardNo = null;
+        this.creditBank = null;
+        // this.creditBranch = null;
+        this.creditDate = "";
+        this.creditPrice = "";
+        this.creditType = null;
+        this.cardCharge = null;
+        this.creditPayment = null;
+        this.creditNotice = null;
+      }
+      if (this.showChq == false) {
+        this.checkNumber = null;
+        this.chqPrize = null;
+        this.checkDate = null;
+        this.checkBankName = null;
+        // this.checkBankBranch = null;
+        this.checkPayment = null;
+        this.chqNotice = null;
+      }
+    },
+    checkLength() {
+      return console.log(this.creditNumber.length);
+    },
+    getFocus(id) {
+      document.getElementById(id).focus();
+    },
+    createDepositDocApi() {
+      let payload = {
+        id: this.id,
+        uuid: this.uuid,
+        doc_no: this.serialNo,
+        company_id: this.companyId,
+        branch_id: parseInt(this.branchId),
+        tax_type: parseInt(this.feeType),
+        ar_id: parseInt(this.customerID),
+        ar_name: this.customerName,
+        ar_code: this.customerCode,
+        // ar_bill_address: this.customerAddress,
+        // ar_telephone: this.customerPhone,
+        sale_id: parseInt(this.profile.id),
+        sale_name: this.profile.username,
+        sale_code: this.profile.sale_code,
+        credit_day: this.customerCreditDay,
+        due_date: this.customerDueDate,
+        depart_id: parseInt(this.department),
+        bill_type: parseInt(this.saleType),
+        tax_rate: this.taxrate,
+        ref_no: this.reserveNo,
+        my_description: this.infoNotice,
+        cash_amount: this.cashPayment,
+        creditcard_amount: this.totalCreditPayment,
+        chq_amount: this.totalChqPayment,
+        // bank_amount: this.transferPayment,
+        total_amount: this.payment,
+        credit_card: this.creditCardList,
+        chq: this.chqList,
+        create_by: this.profile.rolename
+        // edit_by: this.profile.rolename
+      };
+      console.log(JSON.stringify(payload));
+      api.createdeposit(
+        payload,
+        result => {
+          console.log(JSON.stringify(result));
+          alertify.success("บันทึกข้อมูลใบรับเงินมัดจำเรียบร้อย");
+          this.setDone("second", "third");
+        },
+        error => {
+          console.log(JSON.stringify(error));
+          alertify.error("การส่งข้อมูลผิดพลาด");
+        }
+      );
+    },
+    createPrintData() {
+      let payload = {
+        id: this.id,
+        uuid: this.uuid,
+        doc_no: this.serialNo,
+        company_id: this.companyId,
+        branch_id: parseInt(this.branchId),
+        tax_type: parseInt(this.feeType),
+        ar_id: parseInt(this.customerID),
+        ar_name: this.customerName,
+        ar_code: this.customerCode,
+        ar_bill_address: this.customerAddress,
+        ar_telephone: this.customerPhone,
+        sale_id: parseInt(this.profile.id),
+        sale_name: this.profile.username,
+        sale_code: this.profile.sale_code,
+        credit_day: this.customerCreditDay,
+        due_date: this.customerDueDate,
+        depart_id: parseInt(this.department),
+        bill_type: parseInt(this.saleType),
+        tax_rate: this.taxrate,
+        // ref_no:this.preemptionNo,
+        my_description: this.infoNotice,
+        cash_amount: this.cashPayment,
+        creditcard_amount: this.totalCreditPayment,
+        chq_amount: this.totalChqPayment,
+        bank_amount: this.transferPayment,
+        total_amount: this.payment,
+        credit_card: this.creditCardList,
+        chq: this.chqList,
+        create_by: this.profile.rolename
+        // edit_by: this.profile.rolename
+      };
+      document.getElementsByName("depData")[0].value = JSON.stringify(payload);
+    }
+  },
+  computed: {
+    totalPayment() {
+      if (
+        this.cashPayment != null ||
+        this.totalCreditPayment != null ||
+        this.totalChqPayment != null ||
+        this.totalBankPayment != null
+      ) {
+        console.log( this.totalCreditPayment )
+        return (
+          this.cashPayment +
+          this.totalCreditPayment +
+          this.totalChqPayment +
+          this.totalBankPayment
+        );
+      }
+    },
+    chargeCal() {
+      this.creditPayment = this.creditPrice;
+      console.log(this.creditPayment);
+      return this.creditPayment;
+    },
+    totalCreditPayment() {
+      if (this.creditCardList == null) {
+        this.creditCardList = [];
+      }
+      return this.creditCardList.reduce((sum, item) => {
+        console.log(sum + item.amount)
+        return sum + item.amount;
+      }, 0);
+    },
+    totalChqPayment() {
+      if (this.chqList == null) {
+        this.chqList = [];
+      }
+      return this.chqList.reduce((sum, item) => {
+        return sum + item.chq_amount;
+      }, 0);
+    },
+    totalBankPayment() {
+      if (this.bankTransList == null) {
+        this.bankTransList = [];
+      }
+      return this.bankTransList.reduce((sum, item) => {
+        return sum + item.bank_amount;
+      }, 0);
+    },
+    payment_type() {
+      if (this.feeType == "0") {
+        return this.payment;
+      }
+      if (this.feeType == "1") {
+        return this.payment * (100 / (100 + this.taxrate));
+      }
+      if (this.feeType == "2") {
+        return this.payment;
+      }
+    },
+    cal_VAT() {
+      if (this.feeType == "0") {
+        return this.payment_type * (this.taxrate / 100);
+      }
+      if (this.feeType == "1") {
+        return this.payment - this.payment_type;
+      }
+      if (this.feeType == "2") {
+        return 0;
+      }
+    },
+    total_VAT() {
+      if (this.feeType == "0") {
+        return this.payment + this.cal_VAT;
+      }
+      if (this.feeType == "1") {
+        return this.payment;
+      }
+      if (this.feeType == "2") {
+        return this.payment;
+      }
+    },
+    balance() {
+      return this.totalPayment - this.total_VAT;
+    },
+    checkLength() {
+      return console.log(this.validateCreditCardNo.length);
+    }
+  },
+  mounted() {
+    // this.setDone("first", "second");
+    // this.setDone('second', 'third');
+    this.id = this.$route.params.id;
+    this.showEditDetail();
+    console.log(this.selectCustomer);
+    console.log(this.feeType);
+    console.log(this.profile);
+    console.log(this.id);
+    console.log(this.creditNumber.length);
+  }
+};
+</script>
 
 <script src="../../js/invoice.js">
 </script>

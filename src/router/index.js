@@ -16,8 +16,8 @@ import dp from '@/components/deposit/deposit'
 import sms from '@/components/mk/sms'
 import quolist from '@/components/quotation/quotationlist'
 import solist from '@/components/saleorder/saleorderlist'
-import invoice from '@/components/invoice/invoice'
 import invoicedetail from '@/components/invoice/invoicedetail'
+import invoice from '@/components/invoice/invoice'
 Vue.use(Router)
 
 export default new Router({
@@ -36,7 +36,8 @@ export default new Router({
       path: '/',
       name: 'login',
       component: login
-    }, {
+    },
+    {
       path: '/invoice',
       name: 'invoice',
       component: invoice
