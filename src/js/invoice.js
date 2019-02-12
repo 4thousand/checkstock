@@ -192,10 +192,14 @@ export default {
             isEditChq: false,
             isEditBank: false,
             isEditPromplay: false,
+            showsucess: false,
             itemtable: []
         }
     },
     methods: {
+        testested() {
+
+        },
         removeitemtable(index) {
             // console.log(JSON.stringify(this.dproducts.length))
             // this.searchProductInObject(this.dproducts,index)
@@ -613,7 +617,7 @@ export default {
                     doc_no: this.docno,
                     tax_no: this.docno,
                     bill_type: parseInt(this.billtype),
-                     
+
                     ar_id: this.idcus,
                     ar_code: this.searchcus,
                     ar_name: this.detailcus,
@@ -622,40 +626,40 @@ export default {
                     sale_name: sale_name.trim(),
                     // ar_bill_address: this.customerAddress,
                     // ar_telephone: this.customerPhone,
-                    
+
                     tax_type: tax_type,
                     tax_rate: 7,
-                     
-                    depart_id: 0,
+
+                    depart_id:"0",
                     allocate_id: 0,
                     credit_day: 0,//this.customerCreditDay,
                     due_date: this.convermonth_y_m_d(this.DueDate_cal),
                     is_cancel: 0,
                     so_ref_no: '',
-                    
+
                     sum_cash_amount: this.cashPayment + 0,
                     sum_credit_amount: this.totalCreditPayment,
                     sum_chq_amount: this.totalChqPayment,
-                    sum_bank_amount: this.totalChqPayment,
+                    sum_bank_amount: this.totalBankPayment,
                     sum_of_deoosit: this.totalPromplay,
                     coupon_amount: this.caldiscount,
                     my_description: this.my_description,
                     sum_of_item_amount: this.totalprice,
-           
+
 
                     discount_word: this.caldiscount + percent,
                     discount_amount: parseInt(discount_amount),
                     after_discount_amount: this.totalprice - this.caldiscount,
                     total_amount: this.payment,
                     // bank_amount: this.transferPayment,
-                      
+
                     create_by: this.creator_by,
                     subs: this.dproducts,
                     credit_card: this.creditCardList,
                     chq: this.chqList,
-                  
-                  
-                
+
+
+
 
                     // edit_by: this.profile.rolename
 
@@ -1188,17 +1192,17 @@ export default {
                         var data = {
                             item_id: datasubs[x].id,
                             item_code: datasubs[x].item_code,
-                            
+
                             item_name: datasubs[x].item_name,
                             bar_code: datasubs[x].bar_code,
                             price: datasubs[x].price,
                             unit_code: datasubs[x].unit_code,
                             qty: datasubs[x].qty, price: datasubs[x].price,
-                            
+
                             discount_word: datasubs[x].discount_word,
                             discount_amount: datasubs[x].discount_amount,
                             item_amount: datasubs[x].item_amount,
-                            amount:datasubs[x].item_amount,
+                            amount: datasubs[x].item_amount,
                             item_amounts: datasubs[x].item_amount,
                             item_description: datasubs[x].item_description,
                             packing_rate_1: datasubs[x].packing_rate_1,
@@ -1260,7 +1264,7 @@ export default {
         createCreditCard() {
             var creditcard = {
                 credit_type: this.creditType,
-                credit_card_no: this.creditNumber,
+                credit_card_no: this.creditNumber.toString(),
                 amount: this.creditPayment,
                 bank_id: parseInt(this.creditBank)
             };
@@ -1340,6 +1344,8 @@ export default {
             this.bankAccount = "";
             this.bankTransDate = this.getDate();
             this.bankPayment = 0;
+        }, edititemtable() {
+
         },
         pullBank(index) {
             this.eBankPo = index;
@@ -1407,7 +1413,7 @@ export default {
         },
         changePriceType() {
             for (var i = 0; i < this.dproducts.length; i++) {
-                
+
                 if (this.billtype == 0) {
                     this.dproducts[i].price = this.dproducts[i].sale_price_1
                     this.dproducts[i].item_amount = this.dproducts[i].sale_price_1
@@ -1416,7 +1422,7 @@ export default {
                     this.dproducts[i].price = this.dproducts[i].sale_price_2
                     this.dproducts[i].item_amount = this.dproducts[i].sale_price_2
                 }
-               
+
             }
         },
         changevaluetest() {
@@ -1475,6 +1481,9 @@ export default {
         console.log(this.searched)
     },
     computed: {
+        test2() {
+            console.log("asdas");
+        },
         keymap() {
             return {
                 'ctrl+shift+1': this.changevaluetest,
@@ -1700,6 +1709,27 @@ export default {
         this.creator_by = this.objuser.usercode
         this.branch_id = this.objuser.branch_id
         this.showcontent_step2()
+        client.on('message', function (msg) {
+            var msg = msg.asObject()
+            console.log(JSON.stringify(msg))
+            if (msg.status === 'success') {
+                if (msg.message === 'payment success') {
+
+                
+
+                    alert("Success Payment!", " วันที่ : " + msg.confirmed_at.substring(0, 19), "success").then(function () {
+
+                    });
+                    // swal().then(function () {
+                    //   location.reload();
+                    // });
+                }
+            } else {
+                alert("not success")
+            }
+        })
+        // alert('dasd')
+
         // console.log(this.objuser)
     }
 };

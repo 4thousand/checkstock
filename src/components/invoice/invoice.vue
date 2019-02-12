@@ -706,7 +706,7 @@
                                     <p class="article-set col-md-3 col-12">
                                       <span style="color:red">*</span> จำนวนเงิน :
                                     </p>
-                                    <div class="col-md-8 col-12">{{convertbakabce}}</div>
+                                    <div class="col-md-8 col-12">{{balance}}</div>
                                   </div>
                                 </div>
                               </div>
@@ -1358,7 +1358,23 @@
                       </div>
                     </md-dialog-content>
                   </md-dialog>
-
+                     <md-dialog :md-active="showsucess">
+                    <md-dialog-content class="modal-content">
+                      <div class="modal-header">
+                        <h4>ชำระเงินพร้อมเพย์สำเร็จ</h4>
+                      </div>
+                        <button
+                          id="submit_bank"
+                    
+                          @keyup.up="getFocus('bank_notice')"
+                          @keyup.right="getFocus('cancel_bank')"
+                          @click="createpromplay(),this.showpromplay = false,showsucess= false"
+                          class="btn btn-success"
+                        >
+                          <span>ตกลง</span>
+                        </button>
+                    </md-dialog-content>
+                     </md-dialog>
                   <md-dialog :md-active="showBank">
                     <md-dialog-content class="modal-content">
                       <div class="modal-header">

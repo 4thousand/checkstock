@@ -36,6 +36,8 @@
     "vue-search-select": "^2.7.0",
     "vue-select": "^2.5.1",
     "vue-stripe-payment": "^0.2.0",
+    "vue-swal": "^1.0.0",
+    "vue-sweetalert2": "^1.6.4",
     "vue-tabs-component": "^1.5.0",
     "vue2-alertifyjs": "^1.0.1",
     "vuejs-datepicker": "^1.5.3",
