@@ -1,0 +1,192 @@
+<template>
+  <div>
+    <div class="container">
+      <div class="col-12">
+        <md-field>
+          <md-tooltip md-direction="bottom">ค้นหาประวัติการขาย</md-tooltip>
+          <md-icon>search</md-icon>
+          <label>ค้นหา</label>
+          <md-input @keyup.enter="searchHisApi" v-model="searchInvoice"></md-input>
+        </md-field>
+      </div>
+
+      <div v-for="(val,index) in dataall" :key="index">
+        <div
+          @click="seedetail(val)"
+          class="col-12 showhover"
+          style="cursor: pointer;margin-bottom:10px"
+        >
+          <md-toolbar
+            id="responsiveheight"
+            class="md-transparent hoverdiv"
+            style="display:block;padding-top:5px;padding-bottom:5px;overflow:hidden"
+          >
+            <div class="row">
+              <div class="col-2 col-md-1">
+                <md-avatar style="margin-top:12px"
+                class="md-avatar-icon md-primary">S
+                </md-avatar>
+              </div>
+              <div class="col-10 col-md-11">
+                <div class="row">
+                  <div class="col-8 col-md-8">
+                    <span class="bl-title">{{val.doc_no}}</span>
+                  </div>
+                  <div class="col-4 col-md-4 md-xsmall-hide">
+                    <span class="dateOfDep">{{val.doc_date.substring(0, 10)}}</span>
+                  </div>
+                  <div class="col-12 col-md-12 md-small-hide">
+                    <span
+                      style="position: relative;font-size: .875rem;color: #5f6368;"
+                      class="md-subheading"
+                    >{{ 'id : '+val.id +' รหัสลูกค้า : '+val.ar_code + ' ชื่อลูกค้า : ' + val.ar_name}}</span>
+                  </div>
+                  <div class="col-12 col-md-12">
+                    <span
+                      style="position: relative;font-size: .875rem;color: #5f6368;"
+                      class="md-subheading"
+                    >{{ ' พนักงานขาย :' +val.sale_name +' รวมมูลค่ารวมภาษี : '+convertToBaht(val.total_amount) +" บาท"}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </md-toolbar>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import api from "../../service/service.js";
+export default {
+  name: 'dp',
+  data() {
+    return {
+      msg: "",
+      searchInvoice: "",
+      dataall: [],
+      profile: JSON.parse(localStorage.Datauser)
+    };
+  },
+
+  methods: {
+    convertToBaht(val) {
+      var result = numeral(val).format("0,0.00");
+      // console.log(typeof result)
+      return result;
+    },
+    goindex(val) {
+      // localStorage.iddocno = 0
+      this.showNavigation = false;
+
+      if (val == "/salehistorydetail") {
+        // this.topicmenu = 'ใบเสนอราคา'
+        this.$router.push({ name: "salehistorydetail", params: { id: 0 } });
+        return;
+      }
+
+      this.$router.push(val);
+    },
+    seedetail(val) {
+      console.log(JSON.stringify(val));
+
+      this.$router.push({ name: "salehistorydetail", params: { id: val.id } });
+    },
+    searchHisApi() {
+      var payload = {
+        ar_id: parseInt(this.profile.id),
+        keyword: this.searchInvoice
+      };
+      console.log(JSON.stringify(payload));
+      api.searchSaleByItem(
+        payload,
+        result => {
+          this.dataall = result.data;
+          console.log(JSON.stringify(result));
+        },
+        error => {
+          console.log(JSON.stringify(error));
+          alertify.error("Data ข้อมูลผิดพลาด");
+        }
+      );
+    }
+  },
+  mounted() {
+    this.searchHisApi();
+  }
+};
+</script>
+<style>
+.container {
+  padding: 5px 0;
+}
+
+.md-app {
+  max-height: 400px;
+  border: 1px solid rgba(#000, 0.12);
+}
+
+.md-drawer {
+  width: 230px;
+  max-width: calc(100vw - 125px);
+}
+
+.bl-title {
+  font-size: 16px;
+}
+
+span {
+  font-family: "Kanit", sans-serif !important;
+}
+
+.datehover,
+.starhover {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.5s;
+}
+
+.showhover:hover .datehover,
+.showhover:hover .starhover {
+  opacity: 1;
+  visibility: visible;
+}
+
+.activeQ {
+  background: #3d91ff !important;
+}
+
+.activeS {
+  background: #64fc69 !important;
+}
+
+.activeB {
+  background: #ff815a !important;
+}
+
+.activeD {
+  background: #f4c20d !important;
+}
+
+.dateOfDep {
+  float: right;
+  font-size: 0.875rem;
+  color: #5f6368;
+  float: right;
+  margin-right: 10px;
+}
+
+.md-toolbar {
+  z-index: 1;
+}
+
+span,
+label,
+input {
+  font-family: "Kanit", sans-serif !important;
+}
+
+.hoverdiv {
+  transition: all 1s;
+}
+</style>

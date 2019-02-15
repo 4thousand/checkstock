@@ -1360,7 +1360,7 @@ export default {
           this.taxRate = result.data.tax_type;
           this.datenow_datepicker = result.data.doc_date;
           this.creditCardList = result.data.credit_card;
-         
+
           this.chqList = result.data.chq;
           this.payment = result.data.total_amount;
            this.cashPayment = result.data.cash_amount;
@@ -1579,7 +1579,7 @@ export default {
     },
     goindex(val) {
       if (val == "/depositlist") {
-        this.$router.push({ name: "depositlist" });
+        this.$router.push({ name: "depositlist", params: { id: 0 } });
         return;
       }
     },

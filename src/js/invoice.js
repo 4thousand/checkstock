@@ -65,14 +65,17 @@ export default {
             showDialogcus: false,
             detailcusall: [],
             tablecode: '',
-            count: 60, prement_novat: 0,
+            count: 60,
+            prement_novat: 0,
             billtype: '',
             taxtype: 1,
             mockdocno: '',
             docno: 'ไม่มีข้อมูล',
             keywordproduct: '',
             showDialogproduct: false,
+            showDialogItem: false,
             dataproductDialog: [],
+            dataproductItem: [],
             disablebilltype: false,
             datenow_datepicker: Date.now(),
             attention: '',
@@ -338,7 +341,7 @@ export default {
             console.log(JSON.stringify(val))
             this.searchunitcode_m = false
             var index = this.findWithAttr(this.dproducts, 'item_name', val.item_name)
-            if (this.billtype == 0) {//สด  
+            if (this.billtype == 0) {//สด
                 this.dproducts[index].unit_code = val.unit_code
                 this.dproducts[index].price = val.sale_price_1
                 this.dproducts[index].packing_rate_1 = val.rate_1
@@ -563,7 +566,7 @@ export default {
                 // console.log(this.datenow_datepicker)
                 // console.log(this.docnoid)
                 let payload = {
-                    // id: parseInt(this.docnoid),// 0 แก้ไข,update ตามไอดี 
+                    // id: parseInt(this.docnoid),// 0 แก้ไข,update ตามไอดี
                     // uuid: this.uuid,//
                     // branch_id: this.branch_id,//
                     // doc_no: this.docno,//
@@ -774,7 +777,7 @@ export default {
             this.showDialogcus = false
             //bill_credit
             this.bill_credit = val.bill_credit
-            // 
+            //
             var date = new Date();
             console.log(date)
             date.setDate(date.getDate() + this.bill_credit);
@@ -782,6 +785,31 @@ export default {
             console.log(this.DueDate_cal)
             this.$refs.addproduct.$el.focus()
 
+        },
+        histable(val) {
+          console.log(JSON.stringify(val))
+          console.log(this.keywordproduct)
+          // alert(this.billtype)
+          // alert('d')
+          console.log(this.billtype)
+          let payload = {
+              item_code: this.keywordproduct
+          }
+          this.isLoading = true
+          console.log(payload)
+          api.searchSaleByItem(payload,
+              (result) => {
+                  this.isLoading = false
+                  console.log(result.data)
+                  console.log(result.data.length)
+                  this.showDialogItem = true
+                  this.dataproductItem = result.data
+              },
+              (error) => {
+                  this.isLoading = false
+                  console.log(JSON.stringify(error))
+                  alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
+              })
         },
         addproduct() {
             console.log(this.keywordproduct)
@@ -1026,6 +1054,35 @@ export default {
 
             //console.log(datashow)
         },
+        showhisdetail(val) {
+          console.log(JSON.stringify(val))
+              var itemshow = {
+                  item_id: val.id,
+                  item_code: val.item_code,
+                  bar_code: val.bar_code,
+                  item_name: val.item_name,
+                  unit_code: val.unit_code,
+                  doc_date: val.doc_date,
+                  qty: 1,
+                  name: val.name,
+                  prices: val.sale_price_1,
+                  sale_price_1: val.sale_price_1,
+                  sale_price_2: val.sale_price_2,
+                  discount_word: '0',
+                  discount_amount: 0,
+                  item_amounts: val.sale_price_1 * 1,
+                  item_description: "",
+                  packing_rate_1: parseInt(val.rate_1),
+                  is_cancel: 0
+              }
+              console.log(itemshow)
+              this.dproducts.push(itemshow)
+              //close modal
+              this.showDialogItem = false
+              alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
+          this.keywordproduct = ''
+          //console.log(itemshow)
+      },
         calculatedata(val) {
             val.discount_word = val.discount_word.toString()
             console.log(val.discount_word)
@@ -1138,7 +1195,7 @@ export default {
                 return
             }
             // alert('แก้ไข')
-            // แก้ไข 
+            // แก้ไข
             let payload = {
                 id: parseInt(this.docnoid)
             }

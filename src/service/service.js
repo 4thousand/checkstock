@@ -99,7 +99,6 @@ export default {
         console.log(JSON.stringify(response.data))
         console.log("บันทึก")
         success(response.data)
-
       },
       (response) => {
         error(response)
@@ -198,6 +197,35 @@ export default {
         error(response)
       })
   },
+  searchInvById(payload, success, error) {
+    Vue.axios.post(URL + 'sales/v1/inv/search/id', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
+  searchInvByKeyword(payload, success, error) { //boss add
+    payload.keyword = payload.keyword.replace(" ", "%")
+    Vue.axios.post(URL + 'sales/v1/inv/search/keyword', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
+  searchSaleByItem(payload, success, error) { //boss add
+    payload.keyword = payload.keyword.replace(" ", "%")
+    Vue.axios.post(URL + 'sales/v1/sale/search/item', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
   searchReserveByKeyword(payload, success, error) {
     payload.keyword = payload.keyword.replace(" ", "%")
     Vue.axios.post(URL + 'sales/v1/dep/reserve/search', JSON.stringify(payload)).then(
@@ -278,5 +306,3 @@ export default {
       })
   },
 }
-
-
