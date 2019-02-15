@@ -9,6 +9,7 @@ const npsysURL = 'http://venus.nopadol.com'
 const telURL = 'https://sheetdb.io'
 const smsURL = 'https://api.apitel.co/sms'
 const test = 'http://192.168.0.83:8080/v2/atm/auth'
+const localhost = 'http://localhost:9999/'
 
 export default {
   signin(user, pass, success, error) {
@@ -80,6 +81,17 @@ export default {
       (response) => {
         error(response)
       })
+  }, saveInvoice(payload, success, error) {
+    Vue.axios.post(URL + 'sales/v1/inv/new', JSON.stringify(payload)).then(
+      (response) => {
+        console.log(JSON.stringify(response.data))
+        console.log("บันทึก")
+        success(response.data)
+
+      },
+      (response) => {
+        error(response)
+      })
   },
   savequotation(payload, success, error) {
     Vue.axios.post(URL + 'sales/v1/quo/new', JSON.stringify(payload)).then(
@@ -92,9 +104,26 @@ export default {
       (response) => {
         error(response)
       })
+  }, searchinvoicelist(payload, success, error) {
+    Vue.axios.post(URL + 'sales/v1/inv/list', payload).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
   },
   detailquoall(payload, success, error) {
     Vue.axios.post(URL + 'sales/v1/quo/search/id', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
+  detailinvall(payload, success, error) {
+    Vue.axios.post(URL + 'sales/v1/inv/search/id', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
       },
@@ -249,3 +278,5 @@ export default {
       })
   },
 }
+
+

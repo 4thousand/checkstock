@@ -894,7 +894,7 @@ export default {
         id: parseInt(this.docnoid)
       }
       this.isLoading = true
-      console.log(payload)
+      console.log(JSON.stringify(payload))
       api.detailquoall(payload,
         (result) => {
           this.isLoading = false
