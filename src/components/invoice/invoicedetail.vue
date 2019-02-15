@@ -644,17 +644,19 @@
                                   </div>
                                 </div>
                               </div>-->
+                              <h4 class="payment-sub-header information-part col-12">ราคารวม</h4>
                               <div class="row">
                                 <div class="col-md-12 col-12">
                                   <div class="form-group row">
                                     <p class="article-set col-md-3 col-12">
-                                      <span style="color:red">*</span> ราคารวม :
+                                      <span style="color:red"></span> จำนวนเงิน :
                                     </p>
                                     <div class="col-md-8 col-12">
                                       <money
                                         id="total_pay"
                                         class="form-control"
                                         min="0"
+                                        disabled
                                         v-model.number=" payment "
                                         v-bind="money"
                                         @keypress="isNumber(event)"
@@ -689,7 +691,17 @@
                                   </div>
                                 </div>
                               </div>
-
+                              <h4 class="payment-sub-header information-part col-12">เงินทอน</h4>
+                              <div class="row">
+                                <div class="col-md-12 col-12">
+                                  <div class="form-group row">
+                                    <p class="article-set col-md-3 col-12">
+                                      <span style="color:red">*</span> จำนวนเงิน :
+                                    </p>
+                                    <div class="col-md-8 col-12">{{balance}}</div>
+                                  </div>
+                                </div>
+                              </div>
                               <hr class="col-10">
                               <h4
                                 class="payment-sub-header information-part col-12">บัตรเครดิต/บัตรเดบิต</h4>
@@ -1501,7 +1513,8 @@
                                   id="prom_pay"
                                   class="form-control"
                                   min="0"
-                                  v-model.number="prompaly.price"
+                                  max="10"
+                                  v-model="prompaly.price"
                                   v-bind="money"
                                   @keypress="qrcodegen"
                                   v-on:keyup.native.enter="getFocus('chq_notice')"
