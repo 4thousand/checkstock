@@ -18,6 +18,8 @@ import quolist from '@/components/quotation/quotationlist'
 import solist from '@/components/saleorder/saleorderlist'
 import invoicedetail from '@/components/invoice/invoicedetail'
 import invoice from '@/components/invoice/invoice'
+import salehistory from '@/components/saleorder/salehistory'
+import salehistorydetail from '@/components/saleorder/salehistorydetail'
 Vue.use(Router)
 
 export default new Router({
@@ -61,7 +63,17 @@ export default new Router({
       path: '/sale/:id',
       name: 'sale',
       component: sale
-    },//newquotation
+    },
+    {
+      path: '/salehistory',
+      name: 'salehistory',
+      component: salehistory
+    },//salehistory
+    {
+      path: '/salehistorydetail/:id',
+      name: 'salehistorydetail',
+      component: salehistorydetail
+    },
     {
       path: '/saleorder/:id',
       name: 'saleorder',

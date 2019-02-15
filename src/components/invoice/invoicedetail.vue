@@ -220,6 +220,10 @@
                         <md-button style="min-width: 30px;" class="md-mini">
                           <md-icon style="width:10px;float: right;">delete</md-icon>
                         </md-button>
+                        <md-button style="min-width: 30px;" @click="histable(val)">
+                          <md-icon style="width: 10px;float: right;">history</md-icon>
+                        </md-button>
+
                       </md-card-actions>
                     </div>
                     <div class="tables2">
@@ -243,10 +247,12 @@
                               <md-menu-item style="min-width: 30px;" @click="testtable(val)">
                                 <md-icon style="width: 10px;float: right;">edit</md-icon>edit
                               </md-menu-item>
-
                               <md-menu-item @click="showtable=true" style="min-width: 30px;">
                                 <md-icon style="width:10px;float: right;">delete</md-icon>delete
                               </md-menu-item>
+                              <md-button style="min-width: 30px;" @click="histable()">
+                                <md-icon style="width: 10px;float: right;">history</md-icon>
+                              </md-button>
                             </md-menu-content>
                           </md-menu>
                           <div style="text-align:center">
@@ -686,9 +692,7 @@
 
                               <hr class="col-10">
                               <h4
-                                class="payment-sub-header information-part col-12"
-                              >บัตรเครดิต/บัตรเดบิต</h4>
-
+                                class="payment-sub-header information-part col-12">บัตรเครดิต/บัตรเดบิต</h4>
                               <!-- v-for -->
                               <div
                                 class="col-md-12 col-12"
@@ -1928,6 +1932,61 @@
         </md-dialog>
       </div>
       <!-- -->
+      <div>
+        <md-dialog :md-active.sync="showDialogItem">
+          <md-dialog-title>ประวัติซื้อขาย</md-dialog-title>
+          <md-tabs id="none" md-dynamic-height>
+            <md-tab md-label>
+              <md-field>
+                <md-input
+                  v-model="keywordproduct"
+                  @keyup="histable"
+                  @keydown="histable"
+                  @input="histable"
+                ></md-input>
+              </md-field>
+              <div class="table-responsive" style="overflow-y: auto;">
+                <table class="table table-hover">
+                  <thead align="center">
+                    <tr>
+                      <!--<th style=''>client_id</th>-->
+                      <th style="white-space: nowrap;">ลำดับ</th>
+                      <th style="overflow:auto;white-space: nowrap;">วันที่เอกสาร</th>
+                      <th style="white-space: nowrap;">เลขที่เอกสาร</th>
+                      <th style="white-space: nowrap;">รหัสสินค้า</th>
+                      <th style="white-space: nowrap;">ชื่อสินค้า</th>
+                      <th style="white-space: nowrap;">หน่วยนับ</th>
+                      <th style="white-space: nowrap;">จำนวน</th>
+                      <th style="white-space: nowrap;">ราคา/หน่วย</th>
+                      <th style="white-space: nowrap;">ส่วนลด</th>
+                      <th style="overflow:auto;white-space: nowrap;">ลูกหนี้</th>
+                    </tr>
+                  </thead>
+                  <tbody v-for="(val,index) in dataproductItem" :key="index" id="valuetable">
+                    <tr style="text-align:center;cursor:pointer">
+                      <td @click="showhisdetail(val)">{{index+1}}</td>
+                      <td @click="showhisdetail(val)">{{val.doc_date}}</td>
+                      <td @click="showhisdetail(val)">{{val.doc_no}}</td>
+                      <td @click="showhisdetail(val)">{{val.item_code}}</td>
+                      <td @click="showhisdetail(val)">{{val.item_name}}</td>
+                      <td @click="showhisdetail(val)">{{val.unit_code}}</td>
+                      <td @click="showhisdetail(val)">{{val.qty}}</td>
+                      <td @click="showhisdetail(val)">{{val.price}}</td>
+                      <td @click="showhisdetail(val)">{{val.discount_word}}</td>
+                      <td @click="showhisdetail(val)">{{val.name}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </md-tab>
+          </md-tabs>
+
+          <md-dialog-actions>
+            <md-button class="md-primary" @click="showDialogItem = false">Close</md-button>
+            <!-- <md-button class="md-primary" @click="showDialogcus = false">Save</md-button> -->
+          </md-dialog-actions>
+        </md-dialog>
+      </div>
       <!-- search sale-->
       <div>
         <md-dialog :md-active.sync="searchsale">

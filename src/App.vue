@@ -74,12 +74,20 @@
                     <md-icon style="position:absolute;  left: 16px;">send</md-icon>
                     <span class="md-list-item-text">ใบสั่งขาย</span>
                    </md-list-item>
+                   <md-list-item
+                    @click="goindex('/salehistory')"
+                    class="md-inset"
+                    v-if="userPermission.menu[2].is_read==1"
+                  >
+                    <md-icon style="position:absolute;  left: 16px;">move_to_inbox</md-icon>
+                    <span class="md-list-item-text">ประวัติการขาย</span>
+                  </md-list-item>
                <!--   <md-list-item @click="goindex('/invoice')" class="md-inset">
                     <md-icon style="position:absolute;  left: 16px;">send</md-icon>
                     <span class="md-list-item-text">ใบวางบิล</span>
                   </md-list-item> -->
                 </md-list>
-              </md-list-item>
+                  </md-list-item>
 
               <md-list-item md-expand v-if="userPermission.menu[4].is_read==1">
                 <md-icon>store</md-icon>
@@ -329,6 +337,10 @@ export default {
       if (this.$route.fullPath.search("saleorder") == 1) {
         this.topicmenucolor = "#795548";
         this.topicmenu = "ใบสั่งขาย";
+        this.icon = "bookmark_border";
+      }if (this.$route.fullPath.search("salehistory") == 1) {
+        this.topicmenucolor = "#795548";
+        this.topicmenu = "ประวัติการขาย";
         this.icon = "bookmark_border";
       }
       if (this.$route.fullPath.search("invoice") == 1) {
