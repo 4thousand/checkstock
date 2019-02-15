@@ -6,7 +6,7 @@
       class="md-layout-item md-size-100 md-small-size-100"
     >
       <div class="tables" style="width:100%">
-        <md-card-actions  style="width:100%">
+        <md-card-actions style="justify-content: flex-end;">
           <md-button style="width:10%">{{val.item_code}}</md-button>
           <md-button style="width:20%;    height: auto; 
 ">
@@ -14,7 +14,7 @@
               style="width:100%;white-space: normal;word-wrap:  text-align-last: left; break-word;      text-align: left;  text-indent: 20px;display: inline-block;height:auto;"
             >{{val.item_name}}</div>
           </md-button>
-           <md-button style="width:5%">
+          <md-button style="width:5%">
             <span>{{val.unit_code}}</span>
           </md-button>
           <md-button style="width:5%">
@@ -30,7 +30,7 @@
           <md-button style="width:5%">{{val.amount}} บาท</md-button>
           <!-- <md-button style="min-width:5%;" @click="testtable(val)">
             <md-icon style="width: 5%;float: right;">edit</md-icon>
-          </md-button> -->
+          </md-button>-->
           <md-button style="min-width: 5%" class="md-mini" @click="removeitemtable(index)">
             <md-icon style="width:5%;float: right;">delete</md-icon>
           </md-button>
@@ -64,10 +64,9 @@
                 <md-menu-item @click="removeitemtable(index)" style="min-width: 30px;">
                   <md-icon style="width:10px;float: right;">delete</md-icon>delete
                 </md-menu-item>
-              <md-button style="min-width: 30px;" @click="histable()">
-                <md-icon style="width: 10px;float: right;">history</md-icon>
-              </md-button>
-
+                <md-button style="min-width: 30px;" @click="histable()">
+                  <md-icon style="width: 10px;float: right;">history</md-icon>
+                </md-button>
               </md-menu-content>
             </md-menu>
             <div style="text-align:center">
