@@ -210,7 +210,7 @@
                     <div class="tables" style="width:100%">
                       <md-card-actions>
                         <md-button style="width:10%">{{val.item_code}}</md-button>
-                        <md-button style="width:24%;    height: auto; 
+                        <md-button style="width:24%;    height: auto;
 ">
                           <div
                             style="width:100%;white-space: normal;word-wrap:  text-align-last: left; break-word;      text-align: left;  text-indent: 20px;display: inline-block;height:auto;"
@@ -260,7 +260,6 @@
                               <md-menu-item style="min-width: 30px;" @click="testtable(val)">
                                 <md-icon style="width: 10px;float: right;">edit</md-icon>edit
                               </md-menu-item>
-
                               <md-menu-item @click="showtable=true" style="min-width: 30px;">
                                 <md-icon style="width:10px;float: right;">delete</md-icon>delete
                               </md-menu-item>
@@ -326,7 +325,7 @@
                               >
                             </p>
                             <div @click="searchunticode(item)">
-                              
+
                                <md-icon class="search_unitcode">arrow_drop_down</md-icon>
                             </div>-->
                             <md-field>
@@ -354,7 +353,7 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <button class="increment-button md-primary" @click="decrement()">−</button>
-                            
+
                             <input
                               class="form-control"
                               style="width:70%;float:left"

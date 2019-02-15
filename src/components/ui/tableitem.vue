@@ -34,6 +34,9 @@
           <md-button style="min-width: 5%" class="md-mini" @click="removeitemtable(index)">
             <md-icon style="width:5%;float: right;">delete</md-icon>
           </md-button>
+          <md-button style="min-width: 30px;" @click="histable(val)">
+            <md-icon style="width: 10px;float: right;">history</md-icon>
+          </md-button>
         </md-card-actions>
       </div>
       <div class="tables2">
@@ -61,6 +64,10 @@
                 <md-menu-item @click="removeitemtable(index)" style="min-width: 30px;">
                   <md-icon style="width:10px;float: right;">delete</md-icon>delete
                 </md-menu-item>
+              <md-button style="min-width: 30px;" @click="histable()">
+                <md-icon style="width: 10px;float: right;">history</md-icon>
+              </md-button>
+
               </md-menu-content>
             </md-menu>
             <div style="text-align:center">

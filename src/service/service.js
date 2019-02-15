@@ -5,7 +5,7 @@ import Vueaxios from 'vue-axios'
 Vue.use(Vueaxios, axios)
 
 //const URL = 'https://n9.nopadol.com/'
-const npsysURL = 'http://venus.nopadol.com'
+const npsysURL = 'https://sys.nopadol.com/'
 const telURL = 'https://sheetdb.io'
 const smsURL = 'https://api.apitel.co/sms'
 const test = 'http://192.168.0.83:8080/v2/atm/auth'
@@ -13,7 +13,7 @@ const URL = 'http://localhost:9999/'
 
 export default {
   signin(user, pass, success, error) {
-    Vue.axios.get(npsysURL + ':9000/login?access_token=aaaa&usercode=' + user + '&password=' + pass + '&appid=1').then(
+    Vue.axios.get(npsysURL + 'login?access_token=aaaa&usercode=' + user + '&password=' + pass + '&appid=1').then(
       (response) => {
         success(response.data)
       },
@@ -99,7 +99,6 @@ export default {
         console.log(JSON.stringify(response.data))
         console.log("บันทึก")
         success(response.data)
-
       },
       (response) => {
         error(response)
@@ -198,6 +197,35 @@ export default {
         error(response)
       })
   },
+  searchInvById(payload, success, error) {
+    Vue.axios.post(URL + 'sales/v1/inv/search/id', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
+  searchInvByKeyword(payload, success, error) { //boss add
+    payload.keyword = payload.keyword.replace(" ", "%")
+    Vue.axios.post(URL + 'sales/v1/inv/search/keyword', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
+  searchSaleByItem(payload, success, error) { //boss add
+    payload.keyword = payload.keyword.replace(" ", "%")
+    Vue.axios.post(URL + 'sales/v1/sale/search/item', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
   searchReserveByKeyword(payload, success, error) {
     payload.keyword = payload.keyword.replace(" ", "%")
     Vue.axios.post(URL + 'sales/v1/dep/reserve/search', JSON.stringify(payload)).then(
@@ -278,5 +306,3 @@ export default {
       })
   },
 }
-
-
