@@ -189,7 +189,7 @@
                       </md-card-header-text>
                     </md-card-header>
                     <div class="tables">
-                      <md-card-actions style="float:left;">
+                      <md-card-actions>
                         <md-button style="width:10%">รหัสสินค้า</md-button>
                         <md-button style="width:20%">ชื่อสินค้า</md-button>
                          <md-button style="width:5%">คลัง</md-button>
