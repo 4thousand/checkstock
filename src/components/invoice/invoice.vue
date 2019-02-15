@@ -1908,7 +1908,7 @@
                 ></md-input>
               </md-field>
               <div class="table-responsive" style="overflow-y: auto;">
-                <table class="table table-hover">
+                <table class="table table-hover" style="justify-content: end;">
                   <thead align="center">
                     <tr>
                       <!--<th style=''>client_id</th>-->
