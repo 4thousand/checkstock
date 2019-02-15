@@ -79,7 +79,7 @@ export default {
     creator_by: '',
     branch_id: 0,
     docnoid: localStorage.iddocno,
-    answer_cus: '',
+    answer_cus: 0,
     company_id: localStorage.company_id,
     php: 'http://' + document.domain,
     ar_bill_address: '',
@@ -105,6 +105,13 @@ export default {
     fullPage: true,
   }),
   methods: {
+    removeitemtable(index) {
+      // console.log(JSON.stringify(this.dproducts.length))
+      // this.searchProductInObject(this.dproducts,index)
+      console.log(JSON.stringify(this.searchProductInObject(this.dproducts, index)))
+      this.dproducts.splice(this.searchProductInObject(this.dproducts, index), 1)
+
+    },
     checkval(val) {
       console.log(val)
     },

@@ -119,10 +119,6 @@ table#searchitem{
       margin: 0 !important;
     }
     
-    /* .md-steppers-wrapper {
-      height: auto !important;
-    }
-     */
     span.sub {
       font-size: 0.875rem;
       color: #5f6368;
@@ -337,7 +333,9 @@ table#searchitem{
     width:100%;text-align:right;
     padding-right: 6px !important;
   }
-
+  .md-card-actions.md-alignment-right {
+    justify-content: end;
+}
   .vdp-datepicker__calendar{
     top: -40px;
   }
@@ -407,6 +405,28 @@ table#searchitem{
 /*
  mobile
 */
+@media (max-width: 977px) {
+  .tables{
+    
+  }
+  .tables2{
+    display: flex;
+  }
+  
+  .tables   {
+    
+    padding: 0 8px;
+    display: none !important;
+    justify-content: center;
+    align-items: center;
+  }
+  tables2.md-fab .md-ripple, .md-fab:before, .md-icon-button .md-ripple, .md-icon-button:before {
+    border-radius: 1%;
+  }
+  .tables2.md-card-header:first-child>.md-card-header-text>.md-title:first-child, .md-card-header:first-child>.md-title:first-child {
+    margin-top: 0px;
+  }
+}
 @media (max-width: 600px) {
   .md-ripple .md-stepper-label {
     display: none;
