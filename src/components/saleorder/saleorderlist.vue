@@ -161,7 +161,7 @@ export default {
         keyword: this.keyword_showalldoc
       };
       // v
-    
+
       console.log(JSON.stringify(payload));
       api.showdocall(
         payload,
