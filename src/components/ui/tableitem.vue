@@ -6,13 +6,16 @@
       class="md-layout-item md-size-100 md-small-size-100"
     >
       <div class="tables" style="width:100%">
-        <md-card-actions>
+        <md-card-actions  style="width:100%">
           <md-button style="width:10%">{{val.item_code}}</md-button>
-          <md-button style="width:24%;    height: auto; 
+          <md-button style="width:20%;    height: auto; 
 ">
             <div
               style="width:100%;white-space: normal;word-wrap:  text-align-last: left; break-word;      text-align: left;  text-indent: 20px;display: inline-block;height:auto;"
             >{{val.item_name}}</div>
+          </md-button>
+           <md-button style="width:5%">
+            <span>{{val.unit_code}}</span>
           </md-button>
           <md-button style="width:5%">
             <span>{{val.unit_code}}</span>
@@ -25,9 +28,9 @@
           </md-button>
           <md-button style="width:5%">{{val.discount_word_sub}}</md-button>
           <md-button style="width:5%">{{val.amount}} บาท</md-button>
-          <md-button style="min-width:5%;" @click="testtable(val)">
+          <!-- <md-button style="min-width:5%;" @click="testtable(val)">
             <md-icon style="width: 5%;float: right;">edit</md-icon>
-          </md-button>
+          </md-button> -->
           <md-button style="min-width: 5%" class="md-mini" @click="removeitemtable(index)">
             <md-icon style="width:5%;float: right;">delete</md-icon>
           </md-button>

@@ -191,7 +191,8 @@
                     <div class="tables">
                       <md-card-actions>
                         <md-button style="width:10%">รหัสสินค้า</md-button>
-                        <md-button style="width:24%">ชื่อสินค้า</md-button>
+                        <md-button style="width:20%">ชื่อสินค้า</md-button>
+                         <md-button style="width:5%">คลัง</md-button>
                         <md-button style="width:5%">หน่วยนับ</md-button>
                         <md-button style="width:5%">จำนวน</md-button>
                         <md-button style="width:5%">ราคา/หน่วย</md-button>
