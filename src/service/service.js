@@ -4,12 +4,12 @@ import Vueaxios from 'vue-axios'
 
 Vue.use(Vueaxios, axios)
 
-//const URL = 'https://n9.nopadol.com/'
+const URL = 'https://n9.nopadol.com/'
 const npsysURL = 'https://sys.nopadol.com/'
 const telURL = 'https://sheetdb.io'
 const smsURL = 'https://api.apitel.co/sms'
 const test = 'http://192.168.0.83:8080/v2/atm/auth'
-const URL = 'http://localhost:9999/'
+//const URL = 'http://localhost:9999/'
 
 export default {
   signin(user, pass, success, error) {
