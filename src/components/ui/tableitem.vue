@@ -6,7 +6,7 @@
       class="md-layout-item md-size-100 md-small-size-100"
     >
       <div class="tables" style="width:100%">
-        <md-card-actions style="justify-content: flex-end;">
+        <md-card-actions style="justify-content:end;">
           <md-button style="width:10%">{{val.item_code}}</md-button>
           <md-button style="width:20%;    height: auto; 
 ">
