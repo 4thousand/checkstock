@@ -24,7 +24,7 @@ import api from "../service/service.js"
 import VueStripePayment from "vue-stripe-payment";
 import { ModelSelect } from "vue-search-select";
 
-
+import itemtable from '@/components/ui/tableitem'
 import VueQRCodeComponent from 'vue-qrcode-component'
 Vue.component('qr-code', VueQRCodeComponent) // component qrcode
 // import * as jsPDF from 'jspdf'
@@ -36,7 +36,7 @@ export default {
     components: {
         Datepicker,
         VueCtkDateTimePicker,
-
+        itemtable,
         Loading,
         ModelSelect,
         Loading,
@@ -197,9 +197,7 @@ export default {
         }
     },
     methods: {
-        testested() {
 
-        },
         removeitemtable(index) {
             // console.log(JSON.stringify(this.dproducts.length))
             // this.searchProductInObject(this.dproducts,index)
@@ -240,7 +238,7 @@ export default {
             this.itemtable.qty += 1
         },
         testtable(val) {
-            let item = val
+            var item = val
             this.itemtable = item
             console.log(this.itemtable)
             this.searchunticode(val)
@@ -524,11 +522,11 @@ export default {
                 this.payment = this.cal_totalprice
                 console.log(this.total_VAT)
             }
-            // if (id == 'third') {
-            //     this.$router.push("/index");
-            //     return
-            // }
-            // //
+            if (id == 'third') {
+                this.$router.push("/invoicelist");
+                return
+            }
+            //
             this[id] = true
             this.secondStepError = null
             //
@@ -630,7 +628,7 @@ export default {
                     tax_type: tax_type,
                     tax_rate: 7,
 
-                    depart_id:"0",
+                    depart_id: "0",
                     allocate_id: 0,
                     credit_day: 0,//this.customerCreditDay,
                     due_date: this.convermonth_y_m_d(this.DueDate_cal),
@@ -657,7 +655,7 @@ export default {
                     subs: this.dproducts,
                     credit_card: this.creditCardList,
                     chq: this.chqList,
-
+                    bank: this.bankTransList,
 
 
 
@@ -986,12 +984,12 @@ export default {
                     item_name: val.item_name,
                     unit_code: val.unit_code,
                     qty: 1,
-                    prices: val.sale_price_1,
+                    price: val.sale_price_1,
                     sale_price_1: val.sale_price_1,
                     sale_price_2: val.sale_price_2,
-                    discount_word: '0',
-                    discount_amount: 0,
-                    item_amounts: val.sale_price_1 * 1,
+                    discount_word_sub: '0',
+                    discount_word_sub: 0,
+                    amount: val.sale_price_1 * 1,
                     item_description: "",
                     packing_rate_1: parseInt(val.rate_1),
                     is_cancel: 0
@@ -1009,12 +1007,12 @@ export default {
                     item_name: val.item_name,
                     unit_code: val.unit_code,
                     qty: 1,
-                    prices: val.sale_price_2,
+                    price: val.sale_price_2,
                     sale_price_1: val.sale_price_1,
                     sale_price_2: val.sale_price_2,
-                    discount_word: '0',
-                    discount_amount: 0,
-                    item_amounts: val.sale_price_2 * 1,
+                    discount_word_sub: '0',
+                    discount_amount_sub: 0,
+                    amount: val.sale_price_2 * 1,
                     item_description: "",
                     packing_rate_1: parseInt(val.rate_1),
                     is_cancel: 0
@@ -1146,7 +1144,7 @@ export default {
             }
             this.isLoading = true
             console.log(payload)
-            api.detailquoall(payload,
+            api.detailinvall(payload,
                 (result) => {
                     this.isLoading = false
                     console.log(JSON.stringify(result.data))
@@ -1155,12 +1153,8 @@ export default {
                     let tax_type
                     // let percent
                     // let discount_amount
+                    doc_type = 'IV'
 
-                    if (result.data.doc_type == 0) {
-                        doc_type = 'BO'
-                    } else if (result.data.doc_type == 1) {
-                        doc_type = 'QT'
-                    }
 
                     /*      if (result.data.tax_type == 0) {
                            tax_type = 'ภาษีแยกนอก'
@@ -1197,13 +1191,14 @@ export default {
                             bar_code: datasubs[x].bar_code,
                             price: datasubs[x].price,
                             unit_code: datasubs[x].unit_code,
-                            qty: datasubs[x].qty, price: datasubs[x].price,
+                            qty: datasubs[x].qty,
 
-                            discount_word: datasubs[x].discount_word,
-                            discount_amount: datasubs[x].discount_amount,
-                            item_amount: datasubs[x].item_amount,
-                            amount: datasubs[x].item_amount,
-                            item_amounts: datasubs[x].item_amount,
+
+                            discount_word_sub: datasubs[x].discount_word_sub,
+                            discount_amount_sub: datasubs[x].discount_amount_sub,
+                            item_amount: datasubs[x].amount,
+                            amount: datasubs[x].amount,
+                            item_amounts: datasubs[x].amount,
                             item_description: datasubs[x].item_description,
                             packing_rate_1: datasubs[x].packing_rate_1,
                             is_cancel: datasubs[x].is_cancel
@@ -1224,8 +1219,9 @@ export default {
                     this.chqList = result.data.chq;
                     this.taxRate = result.data.tax_type;
                     this.creditCardList = result.data.credit_card;
+                    this.bankTransList = result.data.bank;
                     this.payment = this.total_VAT;
-                    this.cashPayment = result.data.cash_amount;
+                    this.cashPayment = result.data.sum_cash_amount;
                     this.is_condition_send = result.data.is_condition_send
                     this.expiredate_cal = this.convertmonth_d_m_y(result.data.expire_date)
                     // console.log(this.expiredate_cal)
@@ -1241,6 +1237,102 @@ export default {
                     console.log(JSON.stringify(error))
                     alertify.error('ข้อมูลผิดพลาด detailquoall');
                 })
+            // api.detailquoall(payload,
+            //     (result) => {
+            //         this.isLoading = false
+            //         console.log(JSON.stringify(result.data))
+            //         console.log(result.data.bill_type)
+            //         let doc_type
+            //         let tax_type
+            //         // let percent
+            //         // let discount_amount
+
+            //         if (result.data.doc_type == 0) {
+            //             doc_type = 'BO'
+            //         } else if (result.data.doc_type == 1) {
+            //             doc_type = 'QT'
+            //         }
+
+            //         /*      if (result.data.tax_type == 0) {
+            //                tax_type = 'ภาษีแยกนอก'
+            //              } else if (result.data.tax_type == 1) {
+            //                tax_type = 'ภาษีรวมใน'
+            //              } else if (result.data.tax_type == 2) {
+            //                tax_type = 'ภาษีอัตราศูนย์'
+            //              } */
+            //         // this.dproducts = []
+            //         this.disablebilltype = true
+            //         this.tablecode = doc_type
+            //         this.billtype = result.data.bill_type
+            //         console.log(this.billtype)
+            //         this.ar_bill_address = result.data.ar_bill_address
+            //         this.ar_telephone = result.data.ar_telephone
+            //         this.docno = result.data.doc_no
+            //         this.taxtype = result.data.tax_type
+            //         this.datenow_datepicker = result.data.doc_date
+            //         this.idcus = result.data.ar_id
+            //         this.searchcus = result.data.ar_code
+            //         this.detailcus = result.data.ar_name
+            //         var datasubs = result.data.subs
+            //         console.log(JSON.stringify(result.data.subs))
+            //         console.log(datasubs.length)
+            //         datasubs.forEach(data => {
+            //             console.log(data)
+            //         });
+            //         for (let x = 0; x < datasubs.length; x++) {
+            //             var data = {
+            //                 item_id: datasubs[x].id,
+            //                 item_code: datasubs[x].item_code,
+
+            //                 item_name: datasubs[x].item_name,
+            //                 bar_code: datasubs[x].bar_code,
+            //                 price: datasubs[x].price,
+            //                 unit_code: datasubs[x].unit_code,
+            //                 qty: datasubs[x].qty,
+
+
+            //                 discount_word: datasubs[x].discount_word,
+            //                 discount_amount: datasubs[x].discount_amount,
+            //                 item_amount: datasubs[x].item_amount,
+            //                 amount: datasubs[x].item_amount,
+            //                 item_amounts: datasubs[x].item_amount,
+            //                 item_description: datasubs[x].item_description,
+            //                 packing_rate_1: datasubs[x].packing_rate_1,
+            //                 is_cancel: datasubs[x].is_cancel
+
+            //             }
+
+            //             console.log(data)
+            //             this.dproducts.push(data)
+            //         }
+            //         this.salecode = result.data.sale_code.trim() + ' / ' + result.data.sale_name
+            //         this.validity = result.data.validity
+            //         this.expire_date = result.data.expire_credit
+            //         this.caldiscount = result.data.discount_amount
+            //         // console.log(this.expire_date)
+            //         this.answer_cus = result.data.assert_status
+            //         this.Deliver_date = result.data.delivery_day
+            //         this.bill_credit = result.data.credit_day
+            //         this.chqList = result.data.chq;
+            //         this.taxRate = result.data.tax_type;
+            //         this.creditCardList = result.data.credit_card;
+            //         this.payment = this.total_VAT;
+            //         this.cashPayment = result.data.cash_amount;
+            //         this.is_condition_send = result.data.is_condition_send
+            //         this.expiredate_cal = this.convertmonth_d_m_y(result.data.expire_date)
+            //         // console.log(this.expiredate_cal)
+            //         this.DueDate_date = this.convertmonth_d_m_y(result.data.delivery_date)
+            //         this.DueDate_cal = this.convertmonth_d_m_y(result.data.due_date)
+            //         // console.log(this.DueDate_cal)
+            //         this.my_description = result.data.my_description
+            //         //  console.log(this.dproducts)
+            //         console.log(JSON.stringify(result.data.subs))
+            //     },
+            //     (error) => {
+            //         this.isLoading = false
+            //         console.log(JSON.stringify(error))
+            //         alertify.error('ข้อมูลผิดพลาด detailquoall');
+            //     })
 
         }, convertmoney(val) {
             // console.log(val)
@@ -1415,11 +1507,11 @@ export default {
             for (var i = 0; i < this.dproducts.length; i++) {
 
                 if (this.billtype == 0) {
-                    this.dproducts[i].price = this.dproducts[i].sale_price_1
+                    //   this.dproducts[i].price = this.dproducts[i].sale_price_1
                     this.dproducts[i].item_amount = this.dproducts[i].sale_price_1
                 }
                 if (this.billtype == 1) {
-                    this.dproducts[i].price = this.dproducts[i].sale_price_2
+                    //    this.dproducts[i].price = this.dproducts[i].sale_price_2
                     this.dproducts[i].item_amount = this.dproducts[i].sale_price_2
                 }
 
@@ -1481,9 +1573,7 @@ export default {
         console.log(this.searched)
     },
     computed: {
-        test2() {
-            console.log("asdas");
-        },
+
         keymap() {
             return {
                 'ctrl+shift+1': this.changevaluetest,
@@ -1493,7 +1583,7 @@ export default {
         totalprice() {
             return this.dproducts.reduce(function (sum, item) {
                 console.log(item)
-                return (sum + item.item_amounts * item.qty)
+                return (sum + item.amount * item.qty)
             }, 0)
         },
         dif_fee() {
@@ -1709,25 +1799,21 @@ export default {
         this.creator_by = this.objuser.usercode
         this.branch_id = this.objuser.branch_id
         this.showcontent_step2()
+
         client.on('message', function (msg) {
             var msg = msg.asObject()
             console.log(JSON.stringify(msg))
             if (msg.status === 'success') {
                 if (msg.message === 'payment success') {
-
-                
-
-                    alert("Success Payment!", " วันที่ : " + msg.confirmed_at.substring(0, 19), "success").then(function () {
-
-                    });
-                    // swal().then(function () {
-                    //   location.reload();
-                    // });
+                    console.log("ok")
+                    alert("Success Payment!", " วันที่ : " + msg.confirmed_at.substring(0, 19), "success")
                 }
             } else {
-                alert("not success")
+                alert("error payment")
+                console.log("error")
             }
         })
+
         // alert('dasd')
 
         // console.log(this.objuser)

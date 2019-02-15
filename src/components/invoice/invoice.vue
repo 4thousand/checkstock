@@ -47,7 +47,8 @@
                   >
                     <md-field>
                       <label>เลขที่ใบขายสินค้า/เลขที่ใบกำกับภาษี</label>
-                      <md-input disabled v-model="mockdocno"></md-input>
+                      <md-input v-if="docnoid>0" disabled v-model="docno"></md-input>
+                      <md-input v-if="docnoid==0" disabled v-model="mockdocno"></md-input>
                     </md-field>
                   </div>
                 </div>
@@ -199,7 +200,8 @@
                       </md-card-actions>
                     </div>
                   </md-card>
-                  <md-card
+                  <itemtable :searched="searched" :removeitemtable="removeitemtable"></itemtable>
+                  <!-- <md-card
                     v-for="(val,index) in searched"
                     :key="index"
                     class="md-layout-item md-size-100 md-small-size-100"
@@ -222,7 +224,7 @@
                         <md-button style="width:5%">
                           <span>{{val.price}}</span>
                         </md-button>
-                        <md-button style="width:5%">{{val.discount_word}}</md-button>
+                        <md-button style="width:5%">{{val.discount_word_sub}}</md-button>
                         <md-button style="width:5%">{{val.amount}} บาท</md-button>
                         <md-button style="min-width:5%;" @click="testtable(val)">
                           <md-icon style="width: 5%;float: right;">edit</md-icon>
@@ -270,7 +272,7 @@
                         </div>
                       </md-card-content>
                     </div>
-                  </md-card>
+                  </md-card>-->
                 </div>
                 <!-- table  -->
                 <md-dialog :md-active.sync="showtable">
@@ -1358,23 +1360,22 @@
                       </div>
                     </md-dialog-content>
                   </md-dialog>
-                     <md-dialog :md-active="showsucess">
+                  <md-dialog :md-active="showsucess">
                     <md-dialog-content class="modal-content">
                       <div class="modal-header">
                         <h4>ชำระเงินพร้อมเพย์สำเร็จ</h4>
                       </div>
-                        <button
-                          id="submit_bank"
-                    
-                          @keyup.up="getFocus('bank_notice')"
-                          @keyup.right="getFocus('cancel_bank')"
-                          @click="createpromplay(),this.showpromplay = false,showsucess= false"
-                          class="btn btn-success"
-                        >
-                          <span>ตกลง</span>
-                        </button>
+                      <button
+                        id="submit_bank"
+                        @keyup.up="getFocus('bank_notice')"
+                        @keyup.right="getFocus('cancel_bank')"
+                        @click="createpromplay(),this.showpromplay = false,showsucess= false"
+                        class="btn btn-success"
+                      >
+                        <span>ตกลง</span>
+                      </button>
                     </md-dialog-content>
-                     </md-dialog>
+                  </md-dialog>
                   <md-dialog :md-active="showBank">
                     <md-dialog-content class="modal-content">
                       <div class="modal-header">

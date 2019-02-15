@@ -52,7 +52,7 @@ export default {
   },
   showdocno(payload, success, error) {
     console.log(JSON.stringify(payload))
-    Vue.axios.post(localhost + 'gendocno/v1/gen', JSON.stringify(payload)).then(
+    Vue.axios.post(URL + 'gendocno/v1/gen', JSON.stringify(payload)).then(
       (response) => {
         console.log(response.data)
         success(response.data)
@@ -82,7 +82,7 @@ export default {
         error(response)
       })
   }, saveInvoice(payload, success, error) {
-    Vue.axios.post(localhost + 'sales/v1/inv/new', JSON.stringify(payload)).then(
+    Vue.axios.post(URL + 'sales/v1/inv/new', JSON.stringify(payload)).then(
       (response) => {
         console.log(JSON.stringify(response.data))
         console.log("บันทึก")
@@ -105,7 +105,7 @@ export default {
         error(response)
       })
   }, searchinvoicelist(payload, success, error) {
-    Vue.axios.post(localhost + 'sales/v1/inv/list', payload).then(
+    Vue.axios.post(URL + 'sales/v1/inv/list', payload).then(
       (response) => {
         success(response.data)
       },
@@ -115,6 +115,15 @@ export default {
   },
   detailquoall(payload, success, error) {
     Vue.axios.post(URL + 'sales/v1/quo/search/id', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
+  detailinvall(payload, success, error) {
+    Vue.axios.post(URL + 'sales/v1/inv/search/id', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
       },

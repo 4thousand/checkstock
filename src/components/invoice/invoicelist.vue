@@ -11,13 +11,13 @@
       </div>
 
       <!-- payloadreal -->
-      <div v-for="(val,index) in dataall" :key="index">12121
+      <div v-for="(val,index) in listFilter" :key="index">
         <div
           @click="seedetail(val)"
           class="col-12 showhover"
           style="cursor: pointer;margin-bottom:10px"
         >
-          {{val}}
+      
           <md-toolbar
             id="responsiveheight"
             class="md-transparent hoverdiv"
@@ -29,9 +29,9 @@
               >
                 <md-avatar
                   class="md-avatar-icon md-primary"
-                  :class="'active'+val.module.substring(0, 1)"
+                  :class="'active'"
                   style="margin:0;"
-                >{{ val.module.substring(0, 1) }}</md-avatar>
+                ></md-avatar>
               </div>
 
               <div
@@ -165,9 +165,12 @@ export default {
 
       api.searchinvoicelist(
         payload,
-        result => {
-          this.dataall = result.data;
-
+       result => {
+          for (var i = 0; i < result.data.length; i++) {
+           
+              this.dataall.push(result.data[i]);
+           
+          }
           console.log(JSON.stringify(this.dataall));
         },
         error => {
