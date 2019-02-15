@@ -607,6 +607,10 @@ table#searchitem{
     align-items: center;
 }
  
+
+.md-card-actions.md-alignment-right {
+   justify-content:end; 
+}
   .tablesale{
 
   }
