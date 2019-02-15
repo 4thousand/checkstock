@@ -17,6 +17,9 @@ import money from 'v-money'
 import autofocus from 'vue-autofocus-directive';
 import Vuesax from 'vuesax'
 
+import VueSweetalert2 from 'vue-sweetalert2';
+
+Vue.use(VueSweetalert2);
 import 'vuesax/dist/vuesax.css' //Vuesax styles
 Vue.use(Vuesax)
 Vue.use(GSignInButton)

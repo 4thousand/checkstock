@@ -73,11 +73,11 @@
                   >
                     <md-icon style="position:absolute;  left: 16px;">send</md-icon>
                     <span class="md-list-item-text">ใบสั่งขาย</span>
-                   </md-list-item>
-               <!--   <md-list-item @click="goindex('/invoice')" class="md-inset">
+                  </md-list-item>
+                  <!--   <md-list-item @click="goindex('/invoice')" class="md-inset">
                     <md-icon style="position:absolute;  left: 16px;">send</md-icon>
                     <span class="md-list-item-text">ใบวางบิล</span>
-                  </md-list-item> -->
+                  </md-list-item>-->
                 </md-list>
               </md-list-item>
 
@@ -94,7 +94,7 @@
                     <md-icon style="position:absolute;  left: 16px;">assignment</md-icon>
                     <span class="md-list-item-text">ใบรับเงินมัดจำ</span>
                   </md-list-item>
-                  <md-list-item @click="goindex('/invoice')" class="md-inset">
+                  <md-list-item @click="goindex('/invoicelist')" class="md-inset">
                     <md-icon style="position:absolute;  left: 16px;">payment</md-icon>
                     <span class="md-list-item-text">ออกบิลขาย</span>
                   </md-list-item>
@@ -333,7 +333,7 @@ export default {
       }
       if (this.$route.fullPath.search("invoice") == 1) {
         this.topicmenucolor = "#6c7b94";
-        this.topicmenu = "ใบวางบิล";
+        this.topicmenu = "ใบออกบิลขาย";
         this.icon = "bookmark_border";
       }
       if (this.$route.fullPath.search("deposit") == 1) {
@@ -374,8 +374,8 @@ export default {
         return;
       }
 
-      if (val == "/invoice") {
-        this.$router.push({ name: "invoice", params: { id: 0 } });
+      if (val == "/invoicelist") {
+        this.$router.push({ name: "invoicelist", params: { id: 0 } });
         return;
       }
 
