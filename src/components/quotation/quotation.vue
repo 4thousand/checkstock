@@ -212,7 +212,8 @@
                       </md-card-actions>
                     </div>
                   </md-card>
-                  <md-card
+                  <itemtable :searched="searched" :removeitemtable="removeitemtable"></itemtable>
+                  <!-- <md-card
                     v-for="(val,index) in searched"
                     :key="index"
                     class="md-layout-item md-size-100 md-small-size-100"
@@ -248,7 +249,7 @@
                         </md-button>
                       </md-card-actions>
                     </div>
-                    <!-- <div class="tables2">
+                    <div class="tables2">
                       <div class="carddiscount">{{val.discount_word}}</div>
                       <md-card-header style=" margin-top: 0px;    padding: 5px; width:60%;">
                         <div class="md-title" style="    font-size: 15px;">{{val.item_code}}</div>
@@ -281,8 +282,8 @@
                           </div>
                         </div>
                       </md-card-content>
-                    </div> -->
-                  </md-card>
+                    </div>
+                  </md-card> -->
                 </div>
                 <!-- table  -->
                 <div style="margin-top:15px" class="md-layout md-gutter">
