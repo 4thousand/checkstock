@@ -150,9 +150,9 @@
                   <md-card class="md-layout-item md-size-100 md-small-size-100 tablesale">
                     <md-card-header
                       style="    padding-top: 16px;
-    padding-right: 16px;
-    padding-bottom: 2px;
-    padding-left: 16px;"
+                                  padding-right: 16px;
+                                  padding-bottom: 2px;
+                                  padding-left: 16px;"
                     >
                       <md-card-header-text>
                         <div class="md-toolbar-section-start">
@@ -188,20 +188,25 @@
                         </div>
                       </md-card-header-text>
                     </md-card-header>
-                    <div class="tables">
-                      <md-card-actions style="justify-content: end;">
+                    <div class="tables" style="width:100%;">
+                      <md-card-actions style="justify-content:end;">
                         <md-button style="width:10%">รหัสสินค้า</md-button>
                         <md-button style="width:20%">ชื่อสินค้า</md-button>
-                        <md-button style="width:5%">คลัง</md-button>
-                        <md-button style="width:5%">หน่วยนับ</md-button>
-                        <md-button style="width:5%">จำนวน</md-button>
-                        <md-button style="width:5%">ราคา/หน่วย</md-button>
-                        <md-button style="width:5%">ส่วนลด</md-button>
-                        <md-button style="width:5%">จำนวนเงิน</md-button>
+                        <md-button style="    width: 5%;">คลัง</md-button>
+                        <md-button style="   width: 5%;">หน่วยนับ</md-button>
+                        <md-button style="     min-width: 5%;">จำนวน</md-button>
+                        <md-button style="   width: 5%;">ราคา/หน่วย</md-button>
+                        <md-button style="   min-width: 5%;">ส่วนลด</md-button>
+                        <md-button style="    width: 5%;">จำนวนเงิน</md-button>
                       </md-card-actions>
                     </div>
                   </md-card>
-                  <itemtable :searched="searched" :removeitemtable="removeitemtable"></itemtable>
+                  <itemtable
+                    :searched="searched"
+                    :removeitemtable="removeitemtable"
+                    :product="dproducts"
+                    :typepage="'IV'"
+                  ></itemtable>
                   <!-- <md-card
                     v-for="(val,index) in searched"
                     :key="index"
@@ -274,6 +279,8 @@
                     </div>
                   </md-card>-->
                 </div>
+
+                <!-- หาคลัง -->
                 <!-- table  -->
                 <md-dialog :md-active.sync="showtable">
                   <md-dialog-content class="modal-content">
@@ -1972,6 +1979,58 @@
         </md-dialog>
       </div>
       <!-- -->
+      <!--
+       <div>
+        <md-dialog :md-active.sync="showDialogItem">
+          <md-dialog-title>ประวัติซื้อขาย</md-dialog-title>
+          <md-tabs id="none" md-dynamic-height>
+            <md-tab md-label>
+              <md-field>
+                <md-input
+                  v-model="keywordproduct"
+                ></md-input>
+              </md-field>
+              <div class="table-responsive" style="overflow-y: auto;">
+                <table class="table table-hover">
+                  <thead align="center">
+                    <tr>
+                      <th style="white-space: nowrap;">ลำดับ</th>
+                      <th style="overflow:auto;white-space: nowrap;">วันที่เอกสาร</th>
+                      <th style="white-space: nowrap;">เลขที่เอกสาร</th>
+                      <th style="white-space: nowrap;">รหัสสินค้า</th>
+                      <th style="white-space: nowrap;">ชื่อสินค้า</th>
+                      <th style="white-space: nowrap;">หน่วยนับ</th>
+                      <th style="white-space: nowrap;">จำนวน</th>
+                      <th style="white-space: nowrap;">ราคา/หน่วย</th>
+                      <th style="white-space: nowrap;">ส่วนลด</th>
+                      <th style="overflow:auto;white-space: nowrap;">ลูกหนี้</th>
+                    </tr>
+                  </thead>
+                  <tbody v-for="(val,index) in dataproductItem" :key="index" id="valuetable">
+                    <tr style="text-align:center;cursor:pointer">
+                      <td @click="showhisdetail(val)">{{index+1}}</td>
+                      <td @click="showhisdetail(val)">{{val.doc_date}}</td>
+                      <td @click="showhisdetail(val)">{{val.doc_no}}</td>
+                      <td @click="showhisdetail(val)">{{val.item_code}}</td>
+                      <td @click="showhisdetail(val)">{{val.item_name}}</td>
+                      <td @click="showhisdetail(val)">{{val.unit_code}}</td>
+                      <td @click="showhisdetail(val)">{{val.qty}}</td>
+                      <td @click="showhisdetail(val)">{{val.price}}</td>
+                      <td @click="showhisdetail(val)">{{val.discount_word}}</td>
+                      <td @click="showhisdetail(val)">{{val.name}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </md-tab>
+          </md-tabs>
+
+          <md-dialog-actions>
+            <md-button class="md-primary" @click="showDialogItem = false">Close</md-button>
+          </md-dialog-actions>
+        </md-dialog>
+      </div>
+      -->
       <!-- search sale-->
       <div>
         <md-dialog :md-active.sync="searchsale">

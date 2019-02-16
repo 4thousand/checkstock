@@ -190,6 +190,11 @@ export default {
                 precision: 2,
                 masked: false,
                 max: this.balances
+            },stocklocation :{
+                wh_code:"",
+                shelf_code:"",
+                qty:0,
+                Stk_unit_code:""
             },
             isEditCr: false,
             isEditChq: false,
@@ -788,12 +793,11 @@ export default {
         },
         histable(val) {
           console.log(JSON.stringify(val))
-          console.log(this.keywordproduct)
+          console.log(val.item_code)
           // alert(this.billtype)
           // alert('d')
-          console.log(this.billtype)
           let payload = {
-              item_code: this.keywordproduct
+              item_code: item_code
           }
           this.isLoading = true
           console.log(payload)
@@ -1003,8 +1007,17 @@ export default {
 
         },
         showdetail(val) {
+            var data = new Array();
             console.log(JSON.stringify(val))
+
+            val.stk_location.forEach(item => {
+                console.log(JSON.stringify(item))
+                data.push(item)
+            });
+            console.log(data)
             if (this.billtype == 0) {
+
+
                 var datashow = {
                     item_id: val.id,
                     item_code: val.item_code,
@@ -1015,6 +1028,9 @@ export default {
                     price: val.sale_price_1,
                     sale_price_1: val.sale_price_1,
                     sale_price_2: val.sale_price_2,
+
+                    stock_location:data,
+                    location:data[0].wh_code,
                     discount_word_sub: '0',
                     discount_word_sub: 0,
                     amount: val.sale_price_1 * 1,
@@ -1038,6 +1054,7 @@ export default {
                     price: val.sale_price_2,
                     sale_price_1: val.sale_price_1,
                     sale_price_2: val.sale_price_2,
+                    stock_location:data,
                     discount_word_sub: '0',
                     discount_amount_sub: 0,
                     amount: val.sale_price_2 * 1,
@@ -1082,7 +1099,7 @@ export default {
               alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
           this.keywordproduct = ''
           //console.log(itemshow)
-      },
+        },
         calculatedata(val) {
             val.discount_word = val.discount_word.toString()
             console.log(val.discount_word)

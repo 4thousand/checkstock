@@ -639,7 +639,13 @@ table#searchitem{
     -webkit-transition: opacity 0.25s ease-in-out;
     transition: opacity 0.25s ease-in-out;
   }
- 
+ .tables.md-layout.md-gutter>.md-layout-item {
+  padding-right: 0px;
+  padding-left: 0px;
+} .md-layout.md-gutter>.md-layout-item {
+  padding-right: 12px;
+  padding-left: 0px;
+}
   @media (max-width: 977px) {
     .tables{
       

@@ -1,7 +1,7 @@
 const toLower = text => {
     return text.toString().toLowerCase();
   }
-  
+
   const searchByName = (items, term) => {
     if (term) {
       return items.filter(item => toLower(item.item_name).includes(toLower(term)) || toLower(item.unit_code).includes(toLower(term))  );
@@ -19,7 +19,7 @@ const toLower = text => {
 
 
   let $ = JQuery
-  
+
   export default {
     name: "saleorder",
     components: {
@@ -134,13 +134,13 @@ const toLower = text => {
       cus_post:'',
       cus_tel:'',
     }),
-   
+
     methods: {
       onCancel(){
 
       },
       searchstorecode(val){
-        
+
         // console.log(index)
         // console.log(this.selectunitcode_step2())
         console.log("*********>"+JSON.stringify(val))
@@ -170,7 +170,7 @@ const toLower = text => {
         let payload = {
           item_code: val.item_code
         }
-        
+
         this.stock_index = val.index
         this.isLoading = true
         // console.log(payload)
@@ -199,7 +199,7 @@ const toLower = text => {
           var index = this.stock_index
           console.log('index  :  '+index)
 
-              if(this.billtype == 0){//สด  
+              if(this.billtype == 0){//สด
                 this.dproducts[index].unit_code = val.unit_code
                 this.dproducts[index].price = val.sale_price_1
                 this.dproducts[index].packing_rate_1 = val.rate_1
@@ -211,7 +211,7 @@ const toLower = text => {
                 this.dproducts[index].packing_rate_1 = val.rate_1
                 this.dproducts[index].item_amount = (this.dproducts[index].price * this.dproducts[index].qty)-this.dproducts[index].discount_word
               }
-       
+
       },
       selectwarehousecode(val){
         console.log(JSON.stringify(val))
@@ -246,7 +246,7 @@ const toLower = text => {
             if (result.data.length == 1) {
               this.Allocateid = result.data[0].id
               this.Allocate = result.data[0].name
-              
+
             } else if (result.data.length > 1) {
               this.searchAllocate_m = true
               this.objAllocate = result.data
@@ -316,7 +316,7 @@ const toLower = text => {
             if (result.data.length == 1) {
               this.iddepartment = result.data[0].id
               this.department = result.data[0].name
-              
+
             } else if (result.data.length > 1) {
               this.searchdepart = true
               this.objdepart = result.data
@@ -356,7 +356,7 @@ const toLower = text => {
         this.expiredate_cal = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
       },
       calDueDate_date() {
-        var date1 = new Date(this.DueDate_date); 
+        var date1 = new Date(this.DueDate_date);
         this.DueDate_date =  (date1.getMonth() + 1) + '/' +  date1.getDate() + '/' +  date1.getFullYear()
         // alert(this.DueDate_date)
         var date2 = new Date();
@@ -396,13 +396,13 @@ const toLower = text => {
         this[id] = true
         this.secondStepError = null
         //
-  
+
         if (index == 'third') { //บันทึก
           let doc_type
           let tax_type
           let percent
           let discount_amount
-  
+
           if (this.tablecode == 'RO') {
             doc_type = 0
           } else if (this.tablecode == 'SO') {
@@ -416,7 +416,7 @@ const toLower = text => {
             var sale_code = res[0]
             var sale_name = res[1]
           }
-  
+
           // if (this.taxtype == 'ภาษีแยกนอก') {
           //   tax_type = 0
           // } else if (this.taxtype == 'ภาษีรวมใน') {
@@ -424,7 +424,7 @@ const toLower = text => {
           // } else if (this.taxtype == 'ภาษีอัตราศูนย์') {
           //   tax_type = 2
           // }
-  
+
           if (this.percal) {
             percent = '%'
             discount_amount = this.totalprice - (this.totalprice - (this.totalprice * this.caldiscount / 100))
@@ -436,7 +436,7 @@ const toLower = text => {
           // console.log(this.datenow_datepicker)
           // console.log(this.docnoid)
           let payload = {
-            id: parseInt(this.docnoid),// 0 แก้ไข,update ตามไอดี 
+            id: parseInt(this.docnoid),// 0 แก้ไข,update ตามไอดี
             branch_id: this.branch_id,
             doc_no: this.docno,
             //norecord
@@ -501,7 +501,7 @@ const toLower = text => {
           document.getElementsByName('datasale')[0].value = JSON.stringify(
             payload
           )
-          
+
           document.getElementsByName('datasale')[1].value = JSON.stringify(
             payload
           )
@@ -520,8 +520,8 @@ const toLower = text => {
            })
         }
         //บันทึก
-  
-  
+
+
         if (index) {
           this.active = index
         }
@@ -547,7 +547,7 @@ const toLower = text => {
         var payload = {
           keyword: this.searchcus
         }
-  
+
         api.Customerall(payload,
           (result) => {
             this.isLoading = false;
@@ -565,7 +565,7 @@ const toLower = text => {
             } else if (result.data.length > 1) {
               this.detailcusall = result.data
               this.showDialogcus = true
-  
+
             }
           },
           (error) => {
@@ -581,7 +581,7 @@ const toLower = text => {
         var payload = {
           keyword: this.searchcus
         }
-  
+
         api.Customerall(payload,
           (result) => {
             console.log(JSON.stringify(result.data))
@@ -614,18 +614,18 @@ const toLower = text => {
         this.idcus = val.id
         this.searchcus = val.code
         this.detailcus = val.name
-        
+
         this.showDialogcus = false
         //bill_credit
         this.bill_credit = val.bill_credit
-        // 
+        //
         var date = new Date();
         console.log(date)
         date.setDate(date.getDate() + this.bill_credit);
         this.DueDate_cal = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
         console.log(this.DueDate_cal)
         this.$refs.addproduct.$el.focus()
-        
+
       },
       addproduct() {
         this.isLoading = true
@@ -640,11 +640,11 @@ const toLower = text => {
           }
           return
         }
-  
+
         if (!this.keywordproduct) {
           return
         }
-        
+
         let payload = {
           keyword: this.keywordproduct
         }
@@ -656,7 +656,7 @@ const toLower = text => {
             console.log(result.data)
             console.log(result.data.length)
             this.showDialogproduct = true
-            
+
             this.dataproductDialog = result.data
             console.log(this.dataproductDialog)
             this.stockall = result.data[0].stk_location
@@ -682,11 +682,11 @@ const toLower = text => {
           }
           return
         }
-  
+
         if (!this.keywordproduct) {
           return
         }
-        
+
         let payload = {
           keyword: this.keywordproduct
         }
@@ -696,7 +696,7 @@ const toLower = text => {
             console.log(result.data)
             console.log(result.data.length)
             this.showDialogproduct = true
-            
+
             this.dataproductDialog = result.data
             console.log(this.dataproductDialog)
             this.stockall = result.data[0].stk_location
@@ -721,7 +721,7 @@ const toLower = text => {
             console.log(result.data)
             console.log(result.data.length)
             //this.showDialogproduct = true
-            
+
             this.dataproductDialog = result.data
           },
           (error) => {
@@ -769,7 +769,7 @@ const toLower = text => {
         if (!this.tablecode || !this.billtype) {
           return
         }
-  
+
         this.disablebilltype = true
         let payload = {
           branch_id: this.objuser.branch_id,
@@ -791,7 +791,7 @@ const toLower = text => {
             }
             this.mockdocno+="XXXX";
             this.docno = result
-  
+
           },
           (error) => {
             this.isLoading = false
@@ -801,7 +801,7 @@ const toLower = text => {
             //  alertify.success('Error login');
             // this.cload()
           })
-  
+
       },
       showdetail(val,stock,indexstock) {
         console.log("----->"+JSON.stringify(val))
@@ -828,7 +828,7 @@ const toLower = text => {
             packing_rate_1: parseInt(val.rate_1),
             is_cancel: 0,
             stock_type: val.stock_type,//แก้
-            wh_code: val.stk_location[indexstock].wh_code, //แก้ 
+            wh_code: val.stk_location[indexstock].wh_code, //แก้
             shelf_code: val.stk_location[indexstock].shelf_code, //แก้
             stocklimit: val.stk_location[indexstock].qty,  //แก้
           }
@@ -836,7 +836,7 @@ const toLower = text => {
           //close modal
           this.showDialogproduct = false
           alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
-        } 
+        }
         else if (this.billtype == 1) {
           var datashow = {
             index: this.index++,
@@ -861,7 +861,7 @@ const toLower = text => {
             wh_code: val.stk_location[indexstock].wh_code, //แก้
             shelf_code: val.stk_location[indexstock].shelf_code, //แก้
             stocklimit: val.stk_location[indexstock].qty,  //แก้
-          } 
+          }
           this.dproducts.push(datashow)
           //close modal
           this.showDialogproduct = false
@@ -886,7 +886,7 @@ const toLower = text => {
       }
         val.discount_word = val.discount_word.toString()
         // console.log(val.discount_word)
-    
+
         if(val.discount_word.search(",") < 0){
         if(val.discount_word.slice(-1) == '%'){
           var cutper = parseInt(val.discount_word.slice(0, -1))
@@ -974,7 +974,7 @@ const toLower = text => {
             }
             if (result.data.length == 1) {
               this.salecode = result.data[0].sale_code + ' / ' + result.data[0].sale_name
-  
+
             } else if (result.data.length > 1) {
               this.searchsale = true
               this.searchsaleobj = result.data
@@ -1017,7 +1017,7 @@ const toLower = text => {
           return
         }
         // alert('แก้ไข')
-        // แก้ไข 
+        // แก้ไข
         let payload = {
           id: parseInt(this.docnoid)
         }
@@ -1032,7 +1032,7 @@ const toLower = text => {
             let tax_type
             // let percent
             // let discount_amount
-  
+
             if (result.data.doc_type == 0) {
               doc_type = 'RO'
             } else if (result.data.doc_type == 1) {
@@ -1082,7 +1082,7 @@ const toLower = text => {
             this.salecode = result.data.sale_code.trim() + ' / ' + result.data.sale_name
             this.validity = result.data.validity
 
-            
+
 
             this.expire_date = result.data.expire_credit
             this.caldiscount = result.data.discount_amount
@@ -1105,7 +1105,7 @@ const toLower = text => {
             console.log(JSON.stringify(error))
             alertify.error('ข้อมูลผิดพลาด detailquoall');
           })
-  
+
       },
       convertmonth_preview(val) {
         // console.log(val)
@@ -1114,7 +1114,7 @@ const toLower = text => {
           var today = new Date();
           var dd = today.getDate();
           var mm = today.getMonth() + 1; //January is 0!
-  
+
           var yyyy = today.getFullYear();
           if (dd < 10) {
             dd = '0' + dd;
@@ -1127,8 +1127,8 @@ const toLower = text => {
         } else if (val.length != undefined) {
           return val.substring(0, 10)
         }
-  
-      
+
+
     },
     changevaluetest(){
       this.tablecode = 'QT'
@@ -1140,10 +1140,10 @@ const toLower = text => {
         this.tablecode = 'SO'
     },
     findstock(val,index){
-   
+
         console.log(index)
-        
-        
+
+
         for (let i = 0; i < this.stockall.length; i++) {
           document.getElementsByClassName('hover'+index)[i].style.visibility = 'visible';
           document.getElementsByClassName('hover'+index)[i].style.height = '35px';
@@ -1152,15 +1152,15 @@ const toLower = text => {
           document.getElementsByClassName('trshow'+index)[i].style.display = 'table-cell';
         }
         return
-          
-      
+
+
       // this.namestock = ''
       // this.stockobj = []
       // console.log(val.item_code)
       // var payload = {
       //   item_code : val.item_code
       //  }
-  
+
       // api.searchunitcode(payload,
       //   (result) => {
       //     console.log(result)
@@ -1177,7 +1177,7 @@ const toLower = text => {
       // alert('ทดสอบ')
     },
     selectstock(val){
-      alert(JSON.stringify(val)) 
+      alert(JSON.stringify(val))
     },
     checkval(){
       this.datenow_datepicker = ''
@@ -1203,7 +1203,7 @@ const toLower = text => {
         if (this.taxtype == 0 || this.taxtype == 1) {
           if (!this.percal) {
             return (this.totalprice - this.caldiscount) - (((this.totalprice - this.caldiscount) * 100) / 107)
-  
+
           } else if (this.percal) {
             let percent = this.totalprice - (this.totalprice * this.caldiscount / 100)
             console.log(percent)
