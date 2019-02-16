@@ -129,7 +129,8 @@ export default {
     parentData: [],
     stringProp: [],
     searched: Array,
-    product: Array
+    product: Array,
+    typepage:"",
   },
   data() {
     return {
@@ -139,7 +140,7 @@ export default {
   },
   methods: {
     select_wh(val, index) {
-      console.log(this.product);
+      console.log(this.typepage);
       var items = {
         id: 0,
         Stk_unit_code: "",
