@@ -3,8 +3,8 @@ import axios from 'axios'
 import Vueaxios from 'vue-axios'
 
 Vue.use(Vueaxios, axios)
-
-const URL = 'https://n9.nopadol.com/'
+const URL = 'http://localhost:9999/'
+//const URL = 'https://n9.nopadol.com/'
 const npsysURL = 'https://sys.nopadol.com/'
 const telURL = 'https://sheetdb.io'
 const smsURL = 'https://api.apitel.co/sms'
@@ -217,7 +217,6 @@ export default {
       })
   },
   searchSaleByItem(payload, success, error) { //boss add
-    payload.keyword = payload.keyword.replace(" ", "%")
     Vue.axios.post(URL + 'sales/v1/sale/search/item', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)

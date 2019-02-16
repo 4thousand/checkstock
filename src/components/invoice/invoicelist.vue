@@ -17,7 +17,7 @@
           class="col-12 showhover"
           style="cursor: pointer;margin-bottom:10px"
         >
-      
+
           <md-toolbar
             id="responsiveheight"
             class="md-transparent hoverdiv"
@@ -167,9 +167,9 @@ export default {
         payload,
        result => {
           for (var i = 0; i < result.data.length; i++) {
-           
+
               this.dataall.push(result.data[i]);
-           
+
           }
           console.log(JSON.stringify(this.dataall));
         },
