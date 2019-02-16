@@ -201,12 +201,7 @@
                       </md-card-actions>
                     </div>
                   </md-card>
-                  <itemtable
-                    :searched="searched"
-                    :removeitemtable="removeitemtable"
-                    :product="dproducts"
-                    :typepage="'IV'"
-                  ></itemtable>
+                  <itemtable :searched="searched" :product="dproducts" :typepage="'IV'"></itemtable>
                   <!-- <md-card
                     v-for="(val,index) in searched"
                     :key="index"

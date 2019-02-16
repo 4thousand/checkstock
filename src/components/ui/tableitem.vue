@@ -125,12 +125,12 @@ import { Money } from "v-money";
 export default {
   name: "itemtable",
   props: {
-    removeitemtable: Function,
+    // removeitemtable: Function,
     parentData: [],
     stringProp: [],
     searched: Array,
     product: Array,
-    typepage:"",
+    typepage: ""
   },
   data() {
     return {
@@ -149,10 +149,10 @@ export default {
         wh_code: ""
       };
       var data = new Array();
-     data = []
+      data = [];
       val.stock_location.forEach(item => {
-        item.id = index
-      
+        item.id = index;
+
         data.push(item);
         console.log(items);
       });
@@ -160,12 +160,17 @@ export default {
       this.edit_wh = data;
       console.log(this.edit_wh);
       this.searchwarehousecode_m = true;
-    },selectwarehousecode(val){
-     
-        this.product[val.id].location = val.wh_code
+    },
+    selectwarehousecode(val) {
+      this.product[val.id].location = val.wh_code;
       //  this.product[val.id].shelf_code = val.shelf_code
-        this.product[val.id].qty = val.qty
-           this.searchwarehousecode_m = false
+      this.product[val.id].qty = val.qty;
+      this.searchwarehousecode_m = false;
+    },
+    removeitemtable(index) {
+      console.log(this.product);
+      this.product.splice(index, 1);
+      // this.searchProductInObject(this.dproducts,index)
     },
     seedetail() {},
     showalldoc() {}

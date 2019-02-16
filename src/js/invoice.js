@@ -190,11 +190,11 @@ export default {
                 precision: 2,
                 masked: false,
                 max: this.balances
-            },stocklocation :{
-                wh_code:"",
-                shelf_code:"",
-                qty:0,
-                Stk_unit_code:""
+            }, stocklocation: {
+                wh_code: "",
+                shelf_code: "",
+                qty: 0,
+                Stk_unit_code: ""
             },
             isEditCr: false,
             isEditChq: false,
@@ -206,13 +206,6 @@ export default {
     },
     methods: {
 
-        removeitemtable(index) {
-            // console.log(JSON.stringify(this.dproducts.length))
-            // this.searchProductInObject(this.dproducts,index)
-            console.log(JSON.stringify(this.searchProductInObject(this.dproducts, index)))
-            this.dproducts.splice(this.searchProductInObject(this.dproducts, index), 1)
-
-        },
         setbalance(val) {
             console.log(val)
             if (val == 4) {
@@ -674,16 +667,16 @@ export default {
                 console.log(payload.subs.length)
 
                 console.log(JSON.stringify(payload))
-                api.saveInvoice(payload,
-                    (result) => {
-                        console.log(result.val())
-                        alertify.success('บันทึกสำเร็จ ' + this.docno);
-                    },
-                    (error) => {
-                        console.log(JSON.stringify(error))
-                        //Customerall
-                        alertify.error('เกิดข้อผิดพลาด');
-                    })
+                // api.saveInvoice(payload,
+                //     (result) => {
+                //         console.log(result.val())
+                //         alertify.success('บันทึกสำเร็จ ' + this.docno);
+                //     },
+                //     (error) => {
+                //         console.log(JSON.stringify(error))
+                //         //Customerall
+                //         alertify.error('เกิดข้อผิดพลาด');
+                //     })
             }
             //บันทึก
 
@@ -898,7 +891,7 @@ export default {
                 })
         },
         removeProduct(index) {
-            // console.log(JSON.stringify(this.dproducts.length))
+            console.log(JSON.stringify(index))
             // this.searchProductInObject(this.dproducts,index)
             console.log(JSON.stringify(this.searchProductInObject(this.dproducts, index)))
             this.dproducts.splice(this.searchProductInObject(this.dproducts, index), 1)
@@ -1010,15 +1003,15 @@ export default {
         showdetail(val) {
             var data = new Array();
             console.log(JSON.stringify(val))
-          
+
             val.stk_location.forEach(item => {
                 console.log(JSON.stringify(item))
                 data.push(item)
             });
             console.log(data)
             if (this.billtype == 0) {
-        
-              
+
+
                 var datashow = {
                     item_id: val.id,
                     item_code: val.item_code,
@@ -1029,9 +1022,9 @@ export default {
                     price: val.sale_price_1,
                     sale_price_1: val.sale_price_1,
                     sale_price_2: val.sale_price_2,
-                    
-                    stock_location:data,
-                    location:data[0].wh_code,
+
+                    stock_location: data,
+                    location: data[0].wh_code,
                     discount_word_sub: '0',
                     discount_word_sub: 0,
                     amount: val.sale_price_1 * 1,
@@ -1055,7 +1048,7 @@ export default {
                     price: val.sale_price_2,
                     sale_price_1: val.sale_price_1,
                     sale_price_2: val.sale_price_2,
-                    stock_location:data,
+                    stock_location: data,
                     discount_word_sub: '0',
                     discount_amount_sub: 0,
                     amount: val.sale_price_2 * 1,
