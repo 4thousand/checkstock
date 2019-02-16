@@ -14,27 +14,27 @@
               style="width:100%;white-space: normal;word-wrap:  text-align-last: left; break-word;      text-align: left;  text-indent: 20px;display: inline-block;height:auto;"
             >{{val.item_name}}</div>
           </md-button>
-          <md-button style="width:5%">
-            <span>{{val.unit_code}}</span>
+          <md-button style="width:5%" @click="select_wh(val,index)">
+            <span>{{val.location}}</span>
           </md-button>
           <md-button style="width:5%">
             <span>{{val.unit_code}}</span>
           </md-button>
-          <md-button style="width:5%">
+          <md-button style="min-width:5.6%">
             <span>{{val.qty}}</span>
           </md-button>
           <md-button style="width:5%">
             <span>{{val.price}}</span>
           </md-button>
-          <md-button style="width:5%">{{val.discount_word_sub}}</md-button>
+          <md-button style="min-width:5.5%">{{val.discount_word_sub}}</md-button>
           <md-button style="width:5%">{{val.amount}} บาท</md-button>
           <!-- <md-button style="min-width:5%;" @click="testtable(val)">
             <md-icon style="width: 5%;float: right;">edit</md-icon>
           </md-button>-->
-          <md-button style="min-width: 5%" class="md-mini" @click="removeitemtable(index)">
+          <md-button style="min-width:5%;" class="md-mini" @click="removeitemtable(index)">
             <md-icon style="width:5%;float: right;">delete</md-icon>
           </md-button>
-          <md-button style="min-width: 30px;" @click="histable(val)">
+          <md-button style="min-width:3%;" @click="histable(val)">
             <md-icon style="width: 10px;float: right;">history</md-icon>
           </md-button>
         </md-card-actions>
@@ -77,6 +77,44 @@
         </md-card-content>
       </div>
     </md-card>
+    <div>
+      <md-dialog :md-active.sync="searchwarehousecode_m">
+        <md-dialog-title>เปลี่ยน คลัง</md-dialog-title>
+        <md-tabs md-dynamic-height>
+          <md-tab md-label>
+            <div class="table-responsive" style="overflow-y: auto;">
+              <table class="table table-hover">
+                <thead align="center">
+                  <tr>
+                    <th>ลำดับ</th>
+                    <th id="colorselectorder">คลัง</th>
+                    <th id="colorselectorder">ที่เก็บ</th>
+                    <th id="colorselectorder">จำนวน</th>
+                  </tr>
+                </thead>
+                <tbody id="valuetable">
+                  <tr
+                    v-for="(val,index) in edit_wh"
+                    :key="index"
+                    @click="selectwarehousecode(val)"
+                    style="text-align:center;cursor:pointer"
+                  >
+                    <td>{{index+1}}</td>
+                    <td>{{val.wh_code}}</td>
+                    <td>{{val.shelf_code}}</td>
+                    <td>{{val.qty}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </md-tab>
+        </md-tabs>
+
+        <md-dialog-actions>
+          <md-button class="md-primary" @click="searchwarehousecode_m = false">Close</md-button>
+        </md-dialog-actions>
+      </md-dialog>
+    </div>
   </div>
 </template>
 
@@ -90,12 +128,44 @@ export default {
     removeitemtable: Function,
     parentData: [],
     stringProp: [],
-    searched: Array
+    searched: Array,
+    product: Array
   },
   data() {
-    return {};
+    return {
+      edit_wh: [],
+      searchwarehousecode_m: false
+    };
   },
   methods: {
+    select_wh(val, index) {
+      console.log(this.product);
+      var items = {
+        id: 0,
+        Stk_unit_code: "",
+        qty: 0,
+        shelf_code: "",
+        wh_code: ""
+      };
+      var data = new Array();
+     data = []
+      val.stock_location.forEach(item => {
+        item.id = index
+      
+        data.push(item);
+        console.log(items);
+      });
+      console.log(data);
+      this.edit_wh = data;
+      console.log(this.edit_wh);
+      this.searchwarehousecode_m = true;
+    },selectwarehousecode(val){
+     
+        this.product[val.id].location = val.wh_code
+      //  this.product[val.id].shelf_code = val.shelf_code
+        this.product[val.id].qty = val.qty
+           this.searchwarehousecode_m = false
+    },
     seedetail() {},
     showalldoc() {}
   },
