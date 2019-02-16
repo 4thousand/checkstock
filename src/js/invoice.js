@@ -785,29 +785,28 @@ export default {
 
         },
         histable(val) {
-            console.log(JSON.stringify(val))
-            console.log(this.keywordproduct)
-            // alert(this.billtype)
-            // alert('d')
-            console.log(this.billtype)
-            let payload = {
-                item_code: this.keywordproduct
-            }
-            this.isLoading = true
-            console.log(payload)
-            api.searchSaleByItem(payload,
-                (result) => {
-                    this.isLoading = false
-                    console.log(result.data)
-                    console.log(result.data.length)
-                    this.showDialogItem = true
-                    this.dataproductItem = result.data
-                },
-                (error) => {
-                    this.isLoading = false
-                    console.log(JSON.stringify(error))
-                    alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
-                })
+          console.log(JSON.stringify(val))
+          console.log(val.item_code)
+          // alert(this.billtype)
+          // alert('d')
+          let payload = {
+              item_code: item_code
+          }
+          this.isLoading = true
+          console.log(payload)
+          api.searchSaleByItem(payload,
+              (result) => {
+                  this.isLoading = false
+                  console.log(result.data)
+                  console.log(result.data.length)
+                  this.showDialogItem = true
+                  this.dataproductItem = result.data
+              },
+              (error) => {
+                  this.isLoading = false
+                  console.log(JSON.stringify(error))
+                  alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
+              })
         },
         addproduct() {
             console.log(this.keywordproduct)
@@ -1023,8 +1022,8 @@ export default {
                     sale_price_1: val.sale_price_1,
                     sale_price_2: val.sale_price_2,
 
-                    stock_location: data,
-                    location: data[0].wh_code,
+                    stock_location:data,
+                    location:data[0].wh_code,
                     discount_word_sub: '0',
                     discount_word_sub: 0,
                     amount: val.sale_price_1 * 1,
@@ -1066,33 +1065,33 @@ export default {
             //console.log(datashow)
         },
         showhisdetail(val) {
-            console.log(JSON.stringify(val))
-            var itemshow = {
-                item_id: val.id,
-                item_code: val.item_code,
-                bar_code: val.bar_code,
-                item_name: val.item_name,
-                unit_code: val.unit_code,
-                doc_date: val.doc_date,
-                qty: 1,
-                name: val.name,
-                prices: val.sale_price_1,
-                sale_price_1: val.sale_price_1,
-                sale_price_2: val.sale_price_2,
-                discount_word: '0',
-                discount_amount: 0,
-                item_amounts: val.sale_price_1 * 1,
-                item_description: "",
-                packing_rate_1: parseInt(val.rate_1),
-                is_cancel: 0
-            }
-            console.log(itemshow)
-            this.dproducts.push(itemshow)
-            //close modal
-            this.showDialogItem = false
-            alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
-            this.keywordproduct = ''
-            //console.log(itemshow)
+          console.log(JSON.stringify(val))
+              var itemshow = {
+                  item_id: val.id,
+                  item_code: val.item_code,
+                  bar_code: val.bar_code,
+                  item_name: val.item_name,
+                  unit_code: val.unit_code,
+                  doc_date: val.doc_date,
+                  qty: 1,
+                  name: val.name,
+                  prices: val.sale_price_1,
+                  sale_price_1: val.sale_price_1,
+                  sale_price_2: val.sale_price_2,
+                  discount_word: '0',
+                  discount_amount: 0,
+                  item_amounts: val.sale_price_1 * 1,
+                  item_description: "",
+                  packing_rate_1: parseInt(val.rate_1),
+                  is_cancel: 0
+              }
+              console.log(itemshow)
+              this.dproducts.push(itemshow)
+              //close modal
+              this.showDialogItem = false
+              alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
+          this.keywordproduct = ''
+          //console.log(itemshow)
         },
         calculatedata(val) {
             val.discount_word = val.discount_word.toString()

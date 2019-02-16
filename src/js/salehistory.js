@@ -10,7 +10,7 @@ const searchByName = (items, term) => {
 }
 import Vue from 'vue';
 import { Tabs, Tab } from 'vue-tabs-component';
-
+var client = require('emitter-io').connect()
 Vue.component('tabs', Tabs);
 Vue.component('tab', Tab);
 import Loading from 'vue-loading-overlay';
@@ -21,10 +21,8 @@ import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.min.css";
 import setting from "./setting.js";
 import * as lang from "vuejs-datepicker/src/locale";
 import api from "../service/service.js"
-import VueStripePayment from "vue-stripe-payment";
 import { ModelSelect } from "vue-search-select";
-
-
+import itemtable from '@/components/ui/tableitem'
 import VueQRCodeComponent from 'vue-qrcode-component'
 Vue.component('qr-code', VueQRCodeComponent) // component qrcode
 // import * as jsPDF from 'jspdf'
@@ -32,14 +30,13 @@ import JQuery from 'jquery'
 let $ = JQuery
 import { Money } from "v-money";
 export default {
-  name: "Invoice",
+  name: "salehistory",
   components: {
       Datepicker,
       VueCtkDateTimePicker,
-
+      itemtable,
       Loading,
       ModelSelect,
-      Loading,
       Money
   },
   data() {
@@ -47,9 +44,9 @@ export default {
           msg: "",
           selectedDate: null,
           date: "",
-          profile: JSON.parse(localStorage.Datauser),
           search: [],
           search: '',
+          uuid: "",
           objuser: JSON.parse(localStorage.Datauser),
           dproducts: [],
           active: 'first',
@@ -66,15 +63,16 @@ export default {
           detailcusall: [],
           tablecode: '',
           count: 60,
+          prement_novat: 0,
           billtype: '',
           taxtype: 1,
           mockdocno: '',
           docno: 'ไม่มีข้อมูล',
           keywordproduct: '',
           showDialogproduct: false,
-          showDialoghis: false,
+          showDialogItem: false,
           dataproductDialog: [],
-          dataitem:[],
+          dataproductItem: [],
           disablebilltype: false,
           datenow_datepicker: Date.now(),
           attention: '',
@@ -187,17 +185,26 @@ export default {
               prefix: "",
               suffix: " บาท",
               precision: 2,
-              masked: false
+              masked: false,
+              max: this.balances
           },
           isEditCr: false,
           isEditChq: false,
           isEditBank: false,
           isEditPromplay: false,
+          showsucess: false,
           itemtable: []
       }
   },
   methods: {
 
+      removeitemtable(index) {
+          // console.log(JSON.stringify(this.dproducts.length))
+          // this.searchProductInObject(this.dproducts,index)
+          console.log(JSON.stringify(this.searchProductInObject(this.dproducts, index)))
+          this.dproducts.splice(this.searchProductInObject(this.dproducts, index), 1)
+
+      },
       setbalance(val) {
           console.log(val)
           if (val == 4) {
@@ -231,16 +238,11 @@ export default {
           this.itemtable.qty += 1
       },
       testtable(val) {
-          this.itemtable = val
+          var item = val
+          this.itemtable = item
           console.log(this.itemtable)
           this.searchunticode(val)
           this.showtable = true
-      },
-      searchhistable(val) {
-        this.showDialoghis = val
-        console.log(this.showDialoghis)
-        this.searchhis(val)
-        this.showDialoghis = true
       },
       genqrcode() {
           console.log(this.prompaly.price)
@@ -248,10 +250,13 @@ export default {
               alert('กรุณาระบุจำนวนเงิน')
               return
           }
+          this.prompaly.price = this.balances
           var payload = {
               vending_uuid: "testing",
               order_uuid: "testing123",
-              amount: this.prompaly.price
+              amount: this.prompaly.price,
+              client_name: "MAKEKAFE",
+              terminal_id: "0001"
           }
           console.log(JSON.stringify(payload))
           api.callqrcode(payload,
@@ -260,7 +265,10 @@ export default {
                       console.log(result)
                       console.log('channel sub:' + result.sub_channel)
                       this.prompaly.qr_code = result.qr_tag
-
+                      client.subscribe({
+                          key: "aArZ5ThGcFCRJ0UumrK6YcssjRhAmEKD",
+                          channel: result.sub_channel
+                      });
 
 
 
@@ -271,9 +279,13 @@ export default {
               })
           var test = setInterval(function () {
               $("#counter").html(this.count--);
-              if (this.count == 0) {
-                  swal("Time Out!", "Try Again!", "error");
+              if (this.count <= 0) {
+
+
+                  this.count = 60
+                  this.showpromplay = false
                   window.clearInterval(test);
+
               }
           }.bind(this), 1000);
       },
@@ -303,6 +315,7 @@ export default {
           console.log(val)
       },
       searchunticode(val) {
+
           console.log(JSON.stringify(val))
           let payload = {
               item_code: val.item_code
@@ -321,7 +334,6 @@ export default {
                   alertify.error('Data ข้อมูล Unit code ผิดพลาด');
               })
       },
-
       selectunitcode_step2(val) {
           console.log(JSON.stringify(val))
           this.searchunitcode_m = false
@@ -434,9 +446,9 @@ export default {
                       return
                   }
                   if (result.data.length == 1) {
-                  //    this.department = result.data[0].depart_id
                       this.iddepartment = result.data[0].id
                       this.department = result.data[0].name
+
                   } else if (result.data.length > 1) {
                       this.searchdepart = true
                       this.objdepart = result.data
@@ -506,8 +518,12 @@ export default {
           alert("ค้นหาข้อมูล Waiting ...");
       },
       setDone(id, index) {
+          if (id == 'first') {
+              this.payment = this.cal_totalprice
+              console.log(this.total_VAT)
+          }
           if (id == 'third') {
-              this.$router.push("/index");
+              this.$router.push("/invoicelist");
               return
           }
           //
@@ -520,11 +536,12 @@ export default {
               let tax_type
               let percent
               let discount_amount
-
-              if (this.tablecode == 'BO') {
-                  doc_type = 0
-              } else if (this.tablecode == 'QT') {
-                  doc_type = 1
+              doc_type = 0
+              if (this.taxtype == "0") {
+                  tax_type = 0
+              }
+              else if (this.taxtype == "1") {
+                  tax_type = 1
               }
               if (this.salecode) {
                   var str = this.salecode;
@@ -534,14 +551,6 @@ export default {
                   var sale_name = res[1]
               }
 
-              // if (this.taxtype == 'ภาษีแยกนอก') {
-              //   tax_type = 0
-              // } else if (this.taxtype == 'ภาษีรวมใน') {
-              //   tax_type = 1
-              // } else if (this.taxtype == 'ภาษีอัตราศูนย์') {
-              //   tax_type = 2
-              // }
-
               if (this.percal) {
                   percent = '%'
                   discount_amount = this.totalprice - (this.totalprice - (this.totalprice * this.caldiscount / 100))
@@ -550,68 +559,114 @@ export default {
                   percent = ''
                   discount_amount = this.caldiscount
               }
+
               // console.log(this.datenow_datepicker)
               // console.log(this.docnoid)
               let payload = {
-                  id: parseInt(this.docnoid),// 0 แก้ไข,update ตามไอดี
-                  branch_id: this.branch_id,
+                  // id: parseInt(this.docnoid),// 0 แก้ไข,update ตามไอดี
+                  // uuid: this.uuid,//
+                  // branch_id: this.branch_id,//
+                  // doc_no: this.docno,//
+                  // //norecord
+                  // tax_type:this.taxtype,
+                  // // ar_bill_address: this.ar_bill_address,
+                  // // ar_telephone: this.ar_telephone,
+                  // datenow_datepicker: this.datenow_datepicker,
+                  // dif_fee: this.dif_fee,
+                  // //norecord
+                  // doc_type,
+                  // ar_id: this.idcus,
+                  // ar_code: this.searchcus,
+                  // ar_name: this.detailcus,
+                  // sale_id: this.sale_id,
+                  // sale_code,
+                  // sale_name: sale_name.trim(),
+                  // bill_type: parseInt(this.billtype),
+
+                  // tax_rate: 7,
+                  // depart_code: '',
+                  // ref_no: '',
+                  // is_confirm: 0,
+                  // bill_status: 0,
+                  // credit_day: 0,
+                  // due_date: this.convermonth_y_m_d(this.DueDate_cal),
+                  // validity: parseInt(this.validity),
+                  // expire_credit: parseInt(this.expire_date),
+                  // expire_date: this.convermonth_y_m_d(this.expiredate_cal),
+                  // delivery_day: parseInt(this.Deliver_date),
+                  // delivery_date: this.convermonth_y_m_d(this.DueDate_date),
+                  // assert_status: 0,
+                  // is_condition_send: parseInt(this.is_condition_send),
+                  // my_description: this.my_description,
+                  // sum_of_item_amount: this.totalprice,
+                  // discount_word: this.caldiscount + percent,
+                  // discount_amount: parseInt(discount_amount),
+                  // after_discount_amount: this.totalprice - this.caldiscount,
+                  // company_id: parseInt(this.company_id),
+                  // //  before_tax_amount: '',
+                  // assert_status: parseInt(this.answer_cus),
+                  // depart_id: parseInt(this.iddepartment),
+                  // project_id: parseInt(this.idprojectC),
+
+                  id: parseInt(this.docnoid),
+                  company_id: parseInt(this.company_id),
+                  branch_id: this.branch_id,//
+                  uuid: this.uuid,
                   doc_no: this.docno,
-                  //norecord
-                  ar_bill_address: this.ar_bill_address,
-                  ar_telephone: this.ar_telephone,
-                  datenow_datepicker: this.datenow_datepicker,
-                  dif_fee: this.dif_fee,
-                  //norecord
-                  doc_type,
+                  tax_no: this.docno,
+                  bill_type: parseInt(this.billtype),
+
                   ar_id: this.idcus,
                   ar_code: this.searchcus,
                   ar_name: this.detailcus,
                   sale_id: this.sale_id,
                   sale_code,
                   sale_name: sale_name.trim(),
-                  bill_type: parseInt(this.billtype),
-                  tax_type,
+                  // ar_bill_address: this.customerAddress,
+                  // ar_telephone: this.customerPhone,
+
+                  tax_type: tax_type,
                   tax_rate: 7,
-                  depart_code: '',
-                  ref_no: '',
-                  is_confirm: 0,
-                  bill_status: 0,
-                  credit_day: this.bill_credit,
+
+                  depart_id: "0",
+                  allocate_id: 0,
+                  credit_day: 0,//this.customerCreditDay,
                   due_date: this.convermonth_y_m_d(this.DueDate_cal),
-                  validity: parseInt(this.validity),
-                  expire_credit: parseInt(this.expire_date),
-                  expire_date: this.convermonth_y_m_d(this.expiredate_cal),
-                  delivery_day: parseInt(this.Deliver_date),
-                  delivery_date: this.convermonth_y_m_d(this.DueDate_date),
-                  assert_status: 0,
-                  is_condition_send: parseInt(this.is_condition_send),
+                  is_cancel: 0,
+                  so_ref_no: '',
+
+                  sum_cash_amount: this.cashPayment + 0,
+                  sum_credit_amount: this.totalCreditPayment,
+                  sum_chq_amount: this.totalChqPayment,
+                  sum_bank_amount: this.totalBankPayment,
+                  sum_of_deoosit: this.totalPromplay,
+                  coupon_amount: this.caldiscount,
                   my_description: this.my_description,
                   sum_of_item_amount: this.totalprice,
+
+
                   discount_word: this.caldiscount + percent,
                   discount_amount: parseInt(discount_amount),
                   after_discount_amount: this.totalprice - this.caldiscount,
-                  company_id: parseInt(this.company_id),
-                  //  before_tax_amount: '',
-                  assert_status: parseInt(this.answer_cus),
-                  depart_id: parseInt(this.iddepartment),
-                  project_id: parseInt(this.idprojectC),
-                  allocate_id: 0,
-                  is_cancel: 0,
-                  creator_by: this.creator_by,
-                  subs: this.dproducts
+                  total_amount: this.payment,
+                  // bank_amount: this.transferPayment,
+
+                  create_by: this.creator_by,
+                  subs: this.dproducts,
+                  credit_card: this.creditCardList,
+                  chq: this.chqList,
+                  bank: this.bankTransList,
+
+
+
+                  // edit_by: this.profile.rolename
+
               }
 
               console.log(payload.subs.length)
-              document.getElementsByName('dataquotation')[0].value = JSON.stringify(
-                  payload
-              )
-
-              document.getElementsByName('dataquotation')[1].value = JSON.stringify(
-                  payload
-              )
 
               console.log(JSON.stringify(payload))
-              api.savequotation(payload,
+              api.saveInvoice(payload,
                   (result) => {
                       console.log(result.val())
                       alertify.success('บันทึกสำเร็จ ' + this.docno);
@@ -728,6 +783,30 @@ export default {
           this.$refs.addproduct.$el.focus()
 
       },
+      histable(val) {
+        console.log(JSON.stringify(val))
+        console.log(val.item_code)
+        // alert(this.billtype)
+        // alert('d')
+        let payload = {
+            item_code: item_code
+        }
+        this.isLoading = true
+        console.log(payload)
+        api.searchSaleByItem(payload,
+            (result) => {
+                this.isLoading = false
+                console.log(result.data)
+                console.log(result.data.length)
+                this.showDialogItem = true
+                this.dataproductItem = result.data
+            },
+            (error) => {
+                this.isLoading = false
+                console.log(JSON.stringify(error))
+                alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
+            })
+      },
       addproduct() {
           console.log(this.keywordproduct)
           // alert(this.billtype)
@@ -825,10 +904,12 @@ export default {
           return null;
       },
       mockDocNo() {
+          console.log(this.billtype)
           if (!this.billtype) {
+              console.log(this.billtype, 1234)
               return
           }
-
+          console.log(this.billtype)
           if (this.dproducts.length > 0) {
 
               // var test;
@@ -837,11 +918,11 @@ export default {
               // }
               // console.log(test)
           }
-
+          this.tablecode = 'IV'
           this.disablebilltype = true
           let payload = {
               branch_id: this.objuser.branch_id,
-
+              table_code: this.tablecode,
               bill_type: parseInt(this.billtype)
           }
           this.isLoading = true
@@ -858,6 +939,8 @@ export default {
                       this.mockdocno += result.charAt(i);
                   }
                   this.mockdocno += "XXXX";
+                  this.docno = result
+                  console.log(this.docno)
               },
               (error) => {
                   this.isLoading = false
@@ -903,7 +986,7 @@ export default {
                   }
                   this.mockdocno += "XXXX";
                   this.docno = result
-
+                  console.log(this.docno)
               },
               (error) => {
                   this.isLoading = false
@@ -925,12 +1008,12 @@ export default {
                   item_name: val.item_name,
                   unit_code: val.unit_code,
                   qty: 1,
-                  prices: val.sale_price_1,
+                  price: val.sale_price_1,
                   sale_price_1: val.sale_price_1,
                   sale_price_2: val.sale_price_2,
-                  discount_word: '0',
-                  discount_amount: 0,
-                  item_amounts: val.sale_price_1 * 1,
+                  discount_word_sub: '0',
+                  discount_word_sub: 0,
+                  amount: val.sale_price_1 * 1,
                   item_description: "",
                   packing_rate_1: parseInt(val.rate_1),
                   is_cancel: 0
@@ -948,12 +1031,12 @@ export default {
                   item_name: val.item_name,
                   unit_code: val.unit_code,
                   qty: 1,
-                  prices: val.sale_price_2,
+                  price: val.sale_price_2,
                   sale_price_1: val.sale_price_1,
                   sale_price_2: val.sale_price_2,
-                  discount_word: '0',
-                  discount_amount: 0,
-                  item_amounts: val.sale_price_2 * 1,
+                  discount_word_sub: '0',
+                  discount_amount_sub: 0,
+                  amount: val.sale_price_2 * 1,
                   item_description: "",
                   packing_rate_1: parseInt(val.rate_1),
                   is_cancel: 0
@@ -967,49 +1050,34 @@ export default {
 
           //console.log(datashow)
       },
-      /*searchunticode(val) {
+      showhisdetail(val) {
         console.log(JSON.stringify(val))
-        let payload = {
-            item_code: val.item_code
-        }
-        this.isLoading = true
-        // console.log(payload)
-        api.searchunitcode(payload,
-            (result) => {
-                this.isLoading = false
-                console.log(JSON.stringify(result.data))
-                this.unitcode_obj = result.data
-            },
-            (error) => {
-                this.isLoading = false
-                console.log(JSON.stringify(error))
-                alertify.error('Data ข้อมูล Unit code ผิดพลาด');
-            })
-      },*/
-      searchhis(val) {
-        console.log('get',this.searchcus)
-        console.log('get',val.item_code)
-        //console.log(this.billtype)
-        //item_code: val.item_code
-        let payload = {
-          ar_id: this.searchcus,
-          item_code: val.item_code
-        }
-        this.isLoading = true
-        console.log(payload)
-        api.searchSaleByItem(payload,
-            (result) => {
-                this.isLoading = false
-                console.log(result.data)
-                //this.showDialoghis = true
-                this.dataitem = result.data;
-                console.log(result.dataitem)
-            },
-            (error) => {
-                this.isLoading = false
-                console.log(JSON.stringify(error))
-                alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
-            })
+            var itemshow = {
+                item_id: val.id,
+                item_code: val.item_code,
+                bar_code: val.bar_code,
+                item_name: val.item_name,
+                unit_code: val.unit_code,
+                doc_date: val.doc_date,
+                qty: 1,
+                name: val.name,
+                prices: val.sale_price_1,
+                sale_price_1: val.sale_price_1,
+                sale_price_2: val.sale_price_2,
+                discount_word: '0',
+                discount_amount: 0,
+                item_amounts: val.sale_price_1 * 1,
+                item_description: "",
+                packing_rate_1: parseInt(val.rate_1),
+                is_cancel: 0
+            }
+            console.log(itemshow)
+            this.dproducts.push(itemshow)
+            //close modal
+            this.showDialogItem = false
+            alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
+        this.keywordproduct = ''
+        //console.log(itemshow)
       },
       calculatedata(val) {
           val.discount_word = val.discount_word.toString()
@@ -1129,7 +1197,7 @@ export default {
           }
           this.isLoading = true
           console.log(payload)
-          api.detailquoall(payload,
+          api.detailinvall(payload,
               (result) => {
                   this.isLoading = false
                   console.log(JSON.stringify(result.data))
@@ -1138,12 +1206,8 @@ export default {
                   let tax_type
                   // let percent
                   // let discount_amount
+                  doc_type = 'IV'
 
-                  if (result.data.doc_type == 0) {
-                      doc_type = 'BO'
-                  } else if (result.data.doc_type == 1) {
-                      doc_type = 'QT'
-                  }
 
                   /*      if (result.data.tax_type == 0) {
                          tax_type = 'ภาษีแยกนอก'
@@ -1175,15 +1239,19 @@ export default {
                       var data = {
                           item_id: datasubs[x].id,
                           item_code: datasubs[x].item_code,
-                          bar_code: datasubs[x].bar_code,
+
                           item_name: datasubs[x].item_name,
+                          bar_code: datasubs[x].bar_code,
+                          price: datasubs[x].price,
                           unit_code: datasubs[x].unit_code,
-                          qty: datasubs[x].qty, price: datasubs[x].price,
-                          prices: datasubs[x].price,
-                          discount_word: datasubs[x].discount_word,
-                          discount_amount: datasubs[x].discount_amount,
-                          item_amount: datasubs[x].item_amount,
-                          item_amounts: datasubs[x].item_amount,
+                          qty: datasubs[x].qty,
+
+
+                          discount_word_sub: datasubs[x].discount_word_sub,
+                          discount_amount_sub: datasubs[x].discount_amount_sub,
+                          item_amount: datasubs[x].amount,
+                          amount: datasubs[x].amount,
+                          item_amounts: datasubs[x].amount,
                           item_description: datasubs[x].item_description,
                           packing_rate_1: datasubs[x].packing_rate_1,
                           is_cancel: datasubs[x].is_cancel
@@ -1204,8 +1272,9 @@ export default {
                   this.chqList = result.data.chq;
                   this.taxRate = result.data.tax_type;
                   this.creditCardList = result.data.credit_card;
-                  this.payment = this.totalprice;
-                  this.cashPayment = result.data.cash_amount;
+                  this.bankTransList = result.data.bank;
+                  this.payment = this.total_VAT;
+                  this.cashPayment = result.data.sum_cash_amount;
                   this.is_condition_send = result.data.is_condition_send
                   this.expiredate_cal = this.convertmonth_d_m_y(result.data.expire_date)
                   // console.log(this.expiredate_cal)
@@ -1221,6 +1290,102 @@ export default {
                   console.log(JSON.stringify(error))
                   alertify.error('ข้อมูลผิดพลาด detailquoall');
               })
+          // api.detailquoall(payload,
+          //     (result) => {
+          //         this.isLoading = false
+          //         console.log(JSON.stringify(result.data))
+          //         console.log(result.data.bill_type)
+          //         let doc_type
+          //         let tax_type
+          //         // let percent
+          //         // let discount_amount
+
+          //         if (result.data.doc_type == 0) {
+          //             doc_type = 'BO'
+          //         } else if (result.data.doc_type == 1) {
+          //             doc_type = 'QT'
+          //         }
+
+          //         /*      if (result.data.tax_type == 0) {
+          //                tax_type = 'ภาษีแยกนอก'
+          //              } else if (result.data.tax_type == 1) {
+          //                tax_type = 'ภาษีรวมใน'
+          //              } else if (result.data.tax_type == 2) {
+          //                tax_type = 'ภาษีอัตราศูนย์'
+          //              } */
+          //         // this.dproducts = []
+          //         this.disablebilltype = true
+          //         this.tablecode = doc_type
+          //         this.billtype = result.data.bill_type
+          //         console.log(this.billtype)
+          //         this.ar_bill_address = result.data.ar_bill_address
+          //         this.ar_telephone = result.data.ar_telephone
+          //         this.docno = result.data.doc_no
+          //         this.taxtype = result.data.tax_type
+          //         this.datenow_datepicker = result.data.doc_date
+          //         this.idcus = result.data.ar_id
+          //         this.searchcus = result.data.ar_code
+          //         this.detailcus = result.data.ar_name
+          //         var datasubs = result.data.subs
+          //         console.log(JSON.stringify(result.data.subs))
+          //         console.log(datasubs.length)
+          //         datasubs.forEach(data => {
+          //             console.log(data)
+          //         });
+          //         for (let x = 0; x < datasubs.length; x++) {
+          //             var data = {
+          //                 item_id: datasubs[x].id,
+          //                 item_code: datasubs[x].item_code,
+
+          //                 item_name: datasubs[x].item_name,
+          //                 bar_code: datasubs[x].bar_code,
+          //                 price: datasubs[x].price,
+          //                 unit_code: datasubs[x].unit_code,
+          //                 qty: datasubs[x].qty,
+
+
+          //                 discount_word: datasubs[x].discount_word,
+          //                 discount_amount: datasubs[x].discount_amount,
+          //                 item_amount: datasubs[x].item_amount,
+          //                 amount: datasubs[x].item_amount,
+          //                 item_amounts: datasubs[x].item_amount,
+          //                 item_description: datasubs[x].item_description,
+          //                 packing_rate_1: datasubs[x].packing_rate_1,
+          //                 is_cancel: datasubs[x].is_cancel
+
+          //             }
+
+          //             console.log(data)
+          //             this.dproducts.push(data)
+          //         }
+          //         this.salecode = result.data.sale_code.trim() + ' / ' + result.data.sale_name
+          //         this.validity = result.data.validity
+          //         this.expire_date = result.data.expire_credit
+          //         this.caldiscount = result.data.discount_amount
+          //         // console.log(this.expire_date)
+          //         this.answer_cus = result.data.assert_status
+          //         this.Deliver_date = result.data.delivery_day
+          //         this.bill_credit = result.data.credit_day
+          //         this.chqList = result.data.chq;
+          //         this.taxRate = result.data.tax_type;
+          //         this.creditCardList = result.data.credit_card;
+          //         this.payment = this.total_VAT;
+          //         this.cashPayment = result.data.cash_amount;
+          //         this.is_condition_send = result.data.is_condition_send
+          //         this.expiredate_cal = this.convertmonth_d_m_y(result.data.expire_date)
+          //         // console.log(this.expiredate_cal)
+          //         this.DueDate_date = this.convertmonth_d_m_y(result.data.delivery_date)
+          //         this.DueDate_cal = this.convertmonth_d_m_y(result.data.due_date)
+          //         // console.log(this.DueDate_cal)
+          //         this.my_description = result.data.my_description
+          //         //  console.log(this.dproducts)
+          //         console.log(JSON.stringify(result.data.subs))
+          //     },
+          //     (error) => {
+          //         this.isLoading = false
+          //         console.log(JSON.stringify(error))
+          //         alertify.error('ข้อมูลผิดพลาด detailquoall');
+          //     })
 
       }, convertmoney(val) {
           // console.log(val)
@@ -1244,7 +1409,7 @@ export default {
       createCreditCard() {
           var creditcard = {
               credit_type: this.creditType,
-              credit_card_no: this.creditNumber,
+              credit_card_no: this.creditNumber.toString(),
               amount: this.creditPayment,
               bank_id: parseInt(this.creditBank)
           };
@@ -1275,7 +1440,9 @@ export default {
       },
       removeCreditCard(index) {
           console.log(index)
-          this.creditCardList.slice(index);
+
+          this.creditCardList.splice(this.searchProductInObject(this.creditCardList, index), 1)
+          console.log(this.creditCardList)
       },
       createChq() {
           var chq = {
@@ -1307,7 +1474,8 @@ export default {
           this.chqList[this.eChqPo].description = this.chqNotice;
       },
       removeChq(index) {
-          this.chqList.slice(index);
+          this.chqList.splice(this.searchProductInObject(this.chqList, index), 1)
+
       },
       createBank() {
           var bank = {
@@ -1321,6 +1489,8 @@ export default {
           this.bankAccount = "";
           this.bankTransDate = this.getDate();
           this.bankPayment = 0;
+      }, edititemtable() {
+
       },
       pullBank(index) {
           this.eBankPo = index;
@@ -1334,8 +1504,8 @@ export default {
           this.bankTransList[eBankPo].bank_amount = this.bankPayment;
       },
       removeBank(index) {
-          console.log(index);
-          this.bankTransList.slice(index);
+          console.log(index); this.bankTransList.splice(this.searchProductInObject(this.bankTransList, index), 1)
+
       }, test() {
           console.log(this.showCredit)
 
@@ -1388,15 +1558,16 @@ export default {
       },
       changePriceType() {
           for (var i = 0; i < this.dproducts.length; i++) {
+
               if (this.billtype == 0) {
-                  this.dproducts[i].price = this.dproducts[i].sale_price_1
+                  //   this.dproducts[i].price = this.dproducts[i].sale_price_1
                   this.dproducts[i].item_amount = this.dproducts[i].sale_price_1
               }
               if (this.billtype == 1) {
-                  this.dproducts[i].price = this.dproducts[i].sale_price_2
+                  //    this.dproducts[i].price = this.dproducts[i].sale_price_2
                   this.dproducts[i].item_amount = this.dproducts[i].sale_price_2
               }
-              console.log(JSON.stringify(this.dproducts))
+
           }
       },
       changevaluetest() {
@@ -1450,9 +1621,12 @@ export default {
       }
   },
   created() {
+
       this.searched = this.dproducts;
+      console.log(this.searched)
   },
   computed: {
+
       keymap() {
           return {
               'ctrl+shift+1': this.changevaluetest,
@@ -1462,7 +1636,7 @@ export default {
       totalprice() {
           return this.dproducts.reduce(function (sum, item) {
               console.log(item)
-              return (sum + item.item_amounts * item.qty)
+              return (sum + item.amount * item.qty)
           }, 0)
       },
       dif_fee() {
@@ -1483,11 +1657,11 @@ export default {
       cal_totalprice() {
           if (this.taxtype == 1) {
               if (!this.percal) {
-                  this.payment = this.totalprice - this.caldiscount;
+
                   return this.totalprice - this.caldiscount
               }
               if (this.percal) {
-                  this.payment = this.totalprice - (this.totalprice * this.caldiscount / 100)
+
                   return this.totalprice - (this.totalprice * this.caldiscount / 100)
               }
           }
@@ -1562,6 +1736,11 @@ export default {
           return this.chqList.reduce((sum, item) => {
               return sum + item.chq_amount;
           }, 0);
+      }, setbalances() {
+          console.log(1)
+          if (this.prompaly.price > this.balance) {
+              this.prompaly.price = this.balance
+          }
       },
       totalBankPayment() {
           if (this.bankTransList == null) {
@@ -1571,14 +1750,23 @@ export default {
               return sum + item.bank_amount;
           }, 0);
       }, qrcodegen() {
-          if (this.prompaly.price <= 0) {
-              return
+          if (this.prompaly.price > this.balances) {
+              let money = this.balances
+              this.prompaly.price = 0
+              console.log(this.prompaly.price = this.balances)
+              console.log(this.balance + " " + this.prompaly.price)
+              this.prompaly.price = 0
           }
+          console.log(this.balance + " " + this.prompaly.price)
           var payload = {
               vending_uuid: "testing",
               order_uuid: "testing123",
-              amount: this.prompaly.price
+              amount: this.prompaly.price,
+              client_name: "MAKEKAFE",
+              terminal_id: "0001"
           }
+          console.log(this.balances + " " + this.prompaly.price)
+
           console.log(JSON.stringify(payload))
           api.callqrcode(payload,
               (result) => {
@@ -1586,6 +1774,11 @@ export default {
                       console.log(result)
                       console.log('channel sub:' + result.sub_channel)
                       this.prompaly.qr_code = result.qr_tag
+                      client.subscribe({
+                          key: "aArZ5ThGcFCRJ0UumrK6YcssjRhAmEKD",
+                          channel: result.sub_channel
+                      });
+
                   }
               },
               (error) => {
@@ -1596,13 +1789,13 @@ export default {
       payment_type() {
 
           if (this.taxtype == "0") {
-              return this.payment;
+              return this.totalprice;
           }
           if (this.taxtype == "1") {
-              return this.payment * (100 / (100 + this.taxrate));
+              return this.totalprice * (100 / (100 + this.taxrate));
           }
           if (this.taxtype == "2") {
-              return this.payment;
+              return this.totalprice;
           }
       },
       cal_VAT() {
@@ -1618,13 +1811,13 @@ export default {
       },
       total_VAT() {
           if (this.taxtype == "0") {
-              return this.payment + this.cal_VAT;
+              return this.totalprice + this.cal_VAT;
           }
           if (this.taxtype == "1") {
-              return this.payment;
+              return this.totalprice;
           }
           if (this.taxtype == "2") {
-              return this.payment;
+              return this.totalprice;
           }
       },
       balances() {
@@ -1633,6 +1826,9 @@ export default {
       ,
       balance() {
           return this.totalPayment - this.total_VAT;
+      }, convertbakabce() {
+          var num = this.balance
+          return this.balance - (num * 2)
       },
       checkLength() {
           return console.log(this.validateCreditCardNo.length);
@@ -1656,6 +1852,23 @@ export default {
       this.creator_by = this.objuser.usercode
       this.branch_id = this.objuser.branch_id
       this.showcontent_step2()
+
+      client.on('message', function (msg) {
+          var msg = msg.asObject()
+          console.log(JSON.stringify(msg))
+          if (msg.status === 'success') {
+              if (msg.message === 'payment success') {
+                  console.log("ok")
+                  alert("Success Payment!", " วันที่ : " + msg.confirmed_at.substring(0, 19), "success")
+              }
+          } else {
+              alert("error payment")
+              console.log("error")
+          }
+      })
+
+      // alert('dasd')
+
       // console.log(this.objuser)
   }
 };

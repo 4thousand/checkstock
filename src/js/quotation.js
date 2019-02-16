@@ -14,6 +14,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 import Datepicker from 'vuejs-datepicker';
 import * as lang from "vuejs-datepicker/src/locale";
 import api from "../service/service.js"
+import itemtable from '@/components/ui/tableitem'
 // import * as jsPDF from 'jspdf'
 import JQuery from 'jquery'
 let $ = JQuery
@@ -22,7 +23,8 @@ export default {
   name: "quotation",
   components: {
     Datepicker,
-    Loading
+    Loading,
+    itemtable,
   },
   data: () => ({
     msg: "",
@@ -960,8 +962,8 @@ export default {
             }
             console.log(JSON.stringify(data))
             console.log(data.item_amount)
+            this.dproducts.push(data)
           }
-          this.dproducts.push(data)
           console.log(JSON.stringify(this.dproducts))
           this.salecode = result.data.sale_code.trim() + ' / ' + result.data.sale_name
           this.validity = result.data.validity
@@ -1076,7 +1078,9 @@ export default {
     }
   },
   created() {
+    console.log(JSON.stringify(this.searched))
     this.searched = this.dproducts;
+    console.log(JSON.stringify(this.searched))
   },
   computed: {
     keymap() {
@@ -1145,6 +1149,7 @@ export default {
     // if (this.docnoid == 0) {
     //   // location.reload()
     // }
+    console.log(JSON.stringify(this.searched))
     this.showedit()
     this.creator_by = this.objuser.usercode
     this.branch_id = this.objuser.branch_id
