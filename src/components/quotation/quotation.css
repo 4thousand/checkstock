@@ -405,6 +405,10 @@ table#searchitem{
 /*
  mobile
 */
+.tables2{
+  display: none;
+}
+
 @media (max-width: 977px) {
   .tables{
     
