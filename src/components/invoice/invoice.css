@@ -221,7 +221,7 @@ table#searchitem{
               animation: wobble-hor-bottom2 0.8s both;
     }
     .md-card-actions {
-      padding: 8px;
+  
       display: inline;
       align-items: center;
   }
@@ -597,6 +597,20 @@ table#searchitem{
   /*
    mobile
   */
+  .md-card-actions {
+    /* padding: 8px; */
+    padding-bottom: 8px;
+    padding-top: 8px;
+    display: inline;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+ 
+
+.md-card-actions.md-alignment-right {
+   justify-content:end; 
+}
   .tablesale{
 
   }
@@ -625,7 +639,13 @@ table#searchitem{
     -webkit-transition: opacity 0.25s ease-in-out;
     transition: opacity 0.25s ease-in-out;
   }
- 
+ .tables.md-layout.md-gutter>.md-layout-item {
+  padding-right: 0px;
+  padding-left: 0px;
+} .md-layout.md-gutter>.md-layout-item {
+  padding-right: 12px;
+  padding-left: 0px;
+}
   @media (max-width: 977px) {
     .tables{
       
