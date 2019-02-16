@@ -3,7 +3,7 @@
     <div class="container">
       <div class="col-12">
         <md-field>
-          <md-tooltip md-direction="bottom">ค้นหาประวัติการซื้อขาย</md-tooltip>
+          <md-tooltip md-direction="bottom">ค้นหาใบเสนอราคา ใบสั่งขาย Black Order</md-tooltip>
           <md-icon>search</md-icon>
           <label>ค้นหา</label>
           <md-input v-model="searched"></md-input>
@@ -17,6 +17,7 @@
           class="col-12 showhover"
           style="cursor: pointer;margin-bottom:10px"
         >
+
           <md-toolbar
             id="responsiveheight"
             class="md-transparent hoverdiv"
@@ -28,9 +29,9 @@
               >
                 <md-avatar
                   class="md-avatar-icon md-primary"
-                  :class="'active'+val.module.substring(0, 1)"
+                  :class="'active'"
                   style="margin:0;"
-                >{{ val.module.substring(0, 1) }}</md-avatar>
+                ></md-avatar>
               </div>
 
               <div
@@ -79,18 +80,13 @@
       </div>
       <!-- ข้อมูลใบเสนอราคา -->
     </div>
-    <md-speed-dial class="md-bottom-right" v-if="sale_code.menu[1].is_create==1">
-      <md-speed-dial-target @click="goindex('/salehistorydetail')">
-        <md-icon>add</md-icon>
-      </md-speed-dial-target>
-    </md-speed-dial>
   </div>
 </template>
 <script>
 import api from "../../service/service.js";
 
 export default {
-  name: "quotation",
+  name: "invoicedetail",
   data() {
     return {
       msg: "",
@@ -162,16 +158,13 @@ export default {
       };
       // v
 
-      console.log(JSON.stringify(payload));
-      api.showdocall(
+      api.searchinvoicelist(
         payload,
-        result => {
+       result => {
           for (var i = 0; i < result.data.length; i++) {
-            if (
-              result.data[i].module == "SaleOrder" ||result.data[i].module == "Reserve"
-            ) {
+
               this.dataall.push(result.data[i]);
-            }
+
           }
           console.log(JSON.stringify(this.dataall));
         },

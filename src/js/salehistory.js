@@ -21,9 +21,7 @@ import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.min.css";
 import setting from "./setting.js";
 import * as lang from "vuejs-datepicker/src/locale";
 import api from "../service/service.js"
-import VueStripePayment from "vue-stripe-payment";
 import { ModelSelect } from "vue-search-select";
-
 import itemtable from '@/components/ui/tableitem'
 import VueQRCodeComponent from 'vue-qrcode-component'
 Vue.component('qr-code', VueQRCodeComponent) // component qrcode
@@ -32,14 +30,13 @@ import JQuery from 'jquery'
 let $ = JQuery
 import { Money } from "v-money";
 export default {
-  name: "Invoice",
+  name: "salehistory",
   components: {
       Datepicker,
       VueCtkDateTimePicker,
       itemtable,
       Loading,
       ModelSelect,
-      Loading,
       Money
   },
   data() {
@@ -788,12 +785,11 @@ export default {
       },
       histable(val) {
         console.log(JSON.stringify(val))
-        console.log(this.keywordproduct)
+        console.log(val.item_code)
         // alert(this.billtype)
         // alert('d')
-        console.log(this.billtype)
         let payload = {
-            item_code: this.keywordproduct
+            item_code: item_code
         }
         this.isLoading = true
         console.log(payload)
@@ -1082,7 +1078,7 @@ export default {
             alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
         this.keywordproduct = ''
         //console.log(itemshow)
-    },
+      },
       calculatedata(val) {
           val.discount_word = val.discount_word.toString()
           console.log(val.discount_word)

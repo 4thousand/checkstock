@@ -9,7 +9,7 @@
         <md-card-actions>
           <md-button style="width:10%">{{val.item_code}}</md-button>
           <md-button style="width:24%;    height: auto;
-">
+      ">
             <div
               style="width:100%;white-space: normal;word-wrap:  text-align-last: left; break-word;      text-align: left;  text-indent: 20px;display: inline-block;height:auto;"
             >{{val.item_name}}</div>
@@ -36,7 +36,6 @@
           </md-button>
         </md-card-actions>
       </div>
-
       <div class="tables2">
         <div class="carddiscount">{{val.discount_word_sub}}</div>
         <md-card-header style=" margin-top: 0px;    padding: 5px; width:60%;">
@@ -126,7 +125,6 @@
               </md-dialog-actions>
             </md-dialog>
           </div>
-
         </md-card-content>
       </div>
     </md-card>
