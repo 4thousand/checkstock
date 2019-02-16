@@ -8,13 +8,8 @@
       <div class="tables" style="width:100%">
         <md-card-actions style="justify-content:end;">
           <md-button style="width:10%">{{val.item_code}}</md-button>
-<<<<<<< HEAD
-          <md-button style="width:24%;    height: auto;
+          <md-button style="width:20%;    height: auto;
       ">
-=======
-          <md-button style="width:20%;    height: auto; 
-">
->>>>>>> Dev
             <div
               style="width:100%;white-space: normal;word-wrap:  text-align-last: left; break-word;      text-align: left;  text-indent: 20px;display: inline-block;height:auto;"
             >{{val.item_name}}</div>
@@ -39,13 +34,8 @@
           <md-button style="min-width:5%;" class="md-mini" @click="removeitemtable(index)">
             <md-icon style="width:5%;float: right;">delete</md-icon>
           </md-button>
-<<<<<<< HEAD
           <md-button style="min-width: 5%" class="md-mini" @click="histable(val)">
             <md-icon style="width:5%;float: right;">history</md-icon>
-=======
-          <md-button style="min-width:3%;" @click="histable(val)">
-            <md-icon style="width: 10px;float: right;">history</md-icon>
->>>>>>> Dev
           </md-button>
         </md-card-actions>
       </div>
@@ -74,17 +64,11 @@
                 <md-menu-item @click="removeitemtable(index)" style="min-width: 30px;">
                   <md-icon style="width:10px;float: right;">delete</md-icon>delete
                 </md-menu-item>
-<<<<<<< HEAD
 
                 <md-button style="min-width: 5%" class="md-mini" @click="histable(val)">
                 <md-icon style="width:5%;float: right;">history</md-icon>
                 </md-button>
 
-=======
-                <md-button style="min-width: 30px;" @click="histable()">
-                  <md-icon style="width: 10px;float: right;">history</md-icon>
-                </md-button>
->>>>>>> Dev
               </md-menu-content>
             </md-menu>
             <div style="text-align:center">
@@ -147,9 +131,6 @@
         </md-card-content>
       </div>
     </md-card>
-<<<<<<< HEAD
-
-=======
     <div>
       <md-dialog :md-active.sync="searchwarehousecode_m">
         <md-dialog-title>เปลี่ยน คลัง</md-dialog-title>
@@ -188,7 +169,6 @@
         </md-dialog-actions>
       </md-dialog>
     </div>
->>>>>>> Dev
   </div>
 </template>
 
@@ -209,15 +189,12 @@ export default {
   },
   data() {
     return {
-<<<<<<< HEAD
       isLoading: false,
       dataproductItem: [],
       showDialogItem: false,
       dproducts: [],
-=======
       edit_wh: [],
       searchwarehousecode_m: false
->>>>>>> Dev
     };
   },
   methods: {
@@ -234,7 +211,7 @@ export default {
      data = []
       val.stock_location.forEach(item => {
         item.id = index
-      
+
         data.push(item);
         console.log(items);
       });
@@ -243,7 +220,7 @@ export default {
       console.log(this.edit_wh);
       this.searchwarehousecode_m = true;
     },selectwarehousecode(val){
-     
+
         this.product[val.id].location = val.wh_code
       //  this.product[val.id].shelf_code = val.shelf_code
         this.product[val.id].qty = val.qty
