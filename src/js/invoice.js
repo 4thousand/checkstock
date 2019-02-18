@@ -104,7 +104,7 @@ export default {
             docnoid: localStorage.iddocno,
             answer_cus: '',
             company_id: localStorage.company_id,
-            php: 'http://' + document.domain,
+            php: 'https://' + document.domain,
             ar_bill_address: '',
             ar_telephone: '',
             department: '',
