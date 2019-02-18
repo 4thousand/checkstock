@@ -50,7 +50,7 @@
                     <md-field>
                       <!-- :disabled="disablebilltype" -->
                       <md-select
-                        @input="showdocno(),changePriceType()"
+                        @input="mockDocNo(),changePriceType()"
                         v-model="billtype"
                         name="country"
                         id="country"
@@ -153,148 +153,60 @@
                 </div>
                 <!-- table -->
                 <div class="md-layout md-gutter">
-                  <md-table
-                    class="col-12"
-                    v-model="searched"
-                    md-sort="name"
-                    md-sort-order="asc"
-                    md-card
-                    md-fixed-header
-                  >
-                    <md-table-toolbar>
-                      <div class="md-toolbar-section-start">
-                        <div style="min-height:42px;position:relative" class="md-title">
-                          <div
-                            style="float:left;position:relative;top:13px;margin-right:10px"
-                          >ข้อมูลสินค้า</div>
+                  <md-card class="md-layout-item md-size-100 md-small-size-100 tablesale">
+                    <md-card-header
+                      style=" padding-top: 16px;
+                              padding-right: 16px;
+                              padding-bottom: 2px;
+                              padding-left: 16px;"
+                    >
+                      <md-card-header-text>
+                        <div class="md-toolbar-section-start">
+                          <div style="min-height:42px;position:relative" class="md-title">
+                            <div
+                              style="float:left;position:relative;top:13px;margin-right:10px"
+                            >ข้อมูลสินค้า</div>
+                            <div class="md-size-40 md-small-size-100" style="float:left;">
+                              <md-field>
+                                <label>เพิ่มสินค้า</label>
+                                <md-input
+                                  ref="addproduct"
+                                  v-model="keywordproduct"
+                                  @keyup.enter="addproduct"
+                                ></md-input>
+                              </md-field>
+                              <md-avatar style="position: absolute; top: 15px; left: 273px;">
+                                <md-icon style="color:grey">info</md-icon>
+                                <md-tooltip md-direction="top">
+                                  <md-icon style="color:white;">keyboard</md-icon>รหัสสินค้า หรือ ชื่อสินค้า + Enter
+                                </md-tooltip>
+                              </md-avatar>
+                            </div>
 
-                          <div class="md-size-40 md-small-size-100" style="float:left;">
-                            <md-field>
-                              <label>เพิ่มสินค้า</label>
-                              <md-input
-                                ref="addproduct"
-                                v-model="keywordproduct"
-                                @keyup.enter="addproduct"
-                              ></md-input>
-                            </md-field>
-                            <md-avatar style="position: absolute; top: 15px; left: 273px;">
-                              <md-icon style="color:grey">info</md-icon>
-                              <md-tooltip md-direction="top">
-                                <md-icon style="color:white;">keyboard</md-icon>รหัสสินค้า หรือ ชื่อสินค้า + Enter
-                              </md-tooltip>
-                            </md-avatar>
+                            <md-button
+                              @click="addproduct"
+                              class="md-icon-button md-raised md productadd"
+                            >
+                              <md-icon>add</md-icon>
+                            </md-button>
                           </div>
-                          <!-- <md-input style="float:left" required @keyup.enter="fsearchcus" v-model="searchcus"></md-input>
-                          -->
-                          <md-button
-                            @click="addproduct"
-                            class="md-icon-button md-raised md productadd"
-                          >
-                            <md-icon>add</md-icon>
-                          </md-button>
                         </div>
-                      </div>
-
-                      <!-- <md-field md-clearable class="md-toolbar-section-end">
-                        <md-input
-                          placeholder="ค้นหาสินค้า"
-                          v-model="search"
-                          @input="searchOnTable"
-                        />
-                      </md-field>-->
-                    </md-table-toolbar>
-
-                    <md-table-empty-state
-                      style="width:100% !important;"
-                      md-label="ไม่พบสินค้า"
-                      :md-description="`ไม่มีสินค้า  '${search}' ในระบบกรุณาตรวจสอบใหม่อีกครั้ง`"
-                    ></md-table-empty-state>
-
-                    <md-table-row @click="checkitem" slot="md-table-row" slot-scope="{ item }">
-                      <!-- <md-table-cell md-label="ลำดับ" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell> -->
-                      <md-table-cell md-label="รหัสสินค้า" md-sort-by="item_code" md-numeric>
-                        <input type="text" class="datatable" disabled v-model="item.item_code">
-                      </md-table-cell>
-                      <md-table-cell md-label="ชื่อสินค้า" md-sort-by="item_name">
-                        <input type="text" class="datatable" disabled v-model="item.item_name">
-                      </md-table-cell>
-                      <md-table-cell md-label="คลังสินค้า" md-sort-by="wh_code">
-                        <input
-                          type="text"
-                          style="padding-right: 31px !important;"
-                          class="datatable"
-                          v-model="item.wh_code"
-                        >
-                        <div @click="searchstorecode(item)">
-                          <md-icon class="search_unitcode">arrow_drop_down</md-icon>
-                        </div>
-                      </md-table-cell>
-                      <md-table-cell md-label="ที่เก็บ" md-sort-by="shelf_code">
-                        <input
-                          type="text"
-                          style="padding-right: 31px !important;"
-                          class="datatable"
-                          v-model="item.shelf_code"
-                        >
-                        <div @click="searchstorecode(item)">
-                          <md-icon class="search_unitcode">arrow_drop_down</md-icon>
-                        </div>
-                      </md-table-cell>
-                      <md-table-cell md-label="หน่วยนับ" md-sort-by="unit_code">
-                        <input
-                          type="text"
-                          style="padding-right: 31px !important;"
-                          class="datatable"
-                          v-model="item.unit_code.trim()"
-                          disabled
-                        >
-                        <div @click="searchunticode(item)">
-                          <md-icon class="search_unitcode">arrow_drop_down</md-icon>
-                        </div>
-                      </md-table-cell>
-                      <md-table-cell md-label="จำนวน" md-sort-by="qty">
-                        <input
-                          type="text"
-                          class="datatable"
-                          @keyup="calculatedata(item)"
-                          v-model.number="item.qty"
-                        >
-                      </md-table-cell>
-                      <md-table-cell md-label="ราคา/หน่วย" md-sort-by="price">
-                        <input
-                          type="text"
-                          disabled
-                          class="datatable"
-                          @keyup="calculatedata(item)"
-                          v-model="item.price"
-                        >
-                      </md-table-cell>
-                      <!-- <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 1" md-sort-by="price2"><input type="text" class="datatable" @keyup="calculatedata(item)" style="width:100%" v-model.number="item.price2"></md-table-cell> -->
-                      <md-table-cell md-label="ส่วนลด" md-sort-by="discount_word">
-                        <input
-                          type="text"
-                          class="datatable"
-                          @keyup="calculatedata(item)"
-                          v-model="item.discount_word"
-                          :disabled="objuser.menu[1].is_update==0"
-                        >
-                      </md-table-cell>
-                      <md-table-cell md-label="จำนวนเงิน" md-sort-by="item_amount">
-                        <input
-                          type="text"
-                          disabled
-                          class="datatable"
-                          v-model.number="item.item_amount"
-                        >
-                      </md-table-cell>
-                      <!-- <md-table-cell md-label="เงื่อนไขการขนส่ง" md-sort-by="because">{{ item.because }}</md-table-cell> -->
-                      <md-table-cell md-label>
-                        <md-button @click="removeProduct(item.index)">
-                          <md-icon class="search-icon">delete</md-icon>
-                        </md-button>
-                      </md-table-cell>
-                    </md-table-row>
-                  </md-table>
+                      </md-card-header-text>
+                    </md-card-header>
+                    <div class="tables">
+                      <md-card-actions>
+                        <md-button style="width:10%">รหัสสินค้า</md-button>
+                        <md-button style="width:24%">ชื่อสินค้า</md-button>
+                        <md-button style="width:5%">คลังสินค้า</md-button>
+                        <md-button style="width:5%">หน่วยนับ</md-button>
+                        <md-button style="width:5%">จำนวน</md-button>
+                        <md-button style="width:5%">ราคา/หน่วย</md-button>
+                        <md-button style="width:5%">ส่วนลด</md-button>
+                        <md-button style="width:5%">จำนวนเงิน</md-button>
+                      </md-card-actions>
+                    </div>
+                  </md-card>
+                  <itemtable :searched="searched" :removeitemtable="removeitemtable"></itemtable>
                 </div>
                 <!-- table  -->
                 <div style="margin-top:15px" class="md-layout md-gutter">

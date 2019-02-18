@@ -14,17 +14,17 @@ const toLower = text => {
   import Datepicker from 'vuejs-datepicker';
   import * as lang from "vuejs-datepicker/src/locale";
   import api from "../service/service.js"
+  import itemtable from '@/components/ui/tableitem'
   // import * as jsPDF from 'jspdf'
   import JQuery from 'jquery'
-
-
   let $ = JQuery
 
   export default {
     name: "saleorder",
     components: {
       Datepicker,
-      Loading
+      Loading,
+      itemtable
     },
     data: () => ({
       msg: "",
@@ -82,7 +82,7 @@ const toLower = text => {
       docnoid: localStorage.iddocno,
       answer_cus: '',
       company_id: localStorage.company_id,
-      php: 'http://' + document.domain,
+      php: 'https://' + document.domain,
       ar_bill_address:'',
       ar_telephone:'',
       department:'',
@@ -103,15 +103,6 @@ const toLower = text => {
       namestock:'',
       stockall:[],
       searchwarehousecode_m:false,
-      //ปู
-      selectSaleorder:"SO",
-      pattern_order:'',
-      // groupdoc_name:'',
-      // groupdoc_currency:'',
-      // groupdoc_exchange:'',
-      // groupdoc_vatrate:'',
-      // groupdoc_moneytotal:'',
-      // groupdoc_delivery:'',
       stock_obj:[],
       stock_index:'',
       cart_item_code:[],
@@ -136,9 +127,6 @@ const toLower = text => {
     }),
 
     methods: {
-      onCancel(){
-
-      },
       searchstorecode(val){
 
         // console.log(index)
@@ -378,16 +366,15 @@ const toLower = text => {
       // newUser() {
       //   this.$refs.addproduct.$el.focus()
       // },
-      // searchOnTable() {
-      //   this.searched = searchByName(this.dproducts, this.search);
-      //   console.log(this.searched)
-      // },
+      searchOnTable() {
+        this.searched = searchByName(this.dproducts, this.search);
+        console.log(this.searched)
+      },
       tests() {
         alert(JSON.stringify(this.objuser.menu[0].is_create));
         console.log(JSON.stringify(this.objuser.menu))
       },
       setDone(id, index) {
-
         if (id == 'third') {
           this.$router.push("/index");
           return
@@ -483,17 +470,17 @@ const toLower = text => {
             is_cancel: 0,
             creator_by: this.creator_by,
             // ข้อมูล cus ยังไม่มีฟิลรับ จาก database
-            cus_name:this.cus_name,
-            cus_timetorecive:this.cus_timetorecive,
-            cus_regis:this.cus_regis,
-            cus_transport:this.cus_transport,
-            cus_etc:this.cus_etc,
-            cus_address:this.cus_address,
-            cus_district:this.cus_district,
-            cus_canton:this.cus_canton,
-            cus_province:this.cus_province,
-            cus_post:this.cus_post,
-            cus_tel:this.cus_tel,
+            // cus_name:this.cus_name,
+            // cus_timetorecive:this.cus_timetorecive,
+            // cus_regis:this.cus_regis,
+            // cus_transport:this.cus_transport,
+            // cus_etc:this.cus_etc,
+            // cus_address:this.cus_address,
+            // cus_district:this.cus_district,
+            // cus_canton:this.cus_canton,
+            // cus_province:this.cus_province,
+            // cus_post:this.cus_post,
+            // cus_tel:this.cus_tel,
             subs: this.dproducts,
           }
 
@@ -508,7 +495,6 @@ const toLower = text => {
           console.log(JSON.stringify(payload))
           api.createsale(payload,
             (result) => {
-              this.isLoading = false
               console.log(result)
              alertify.success('บันทึกสำเร็จ ' + this.docno);
            },
@@ -543,11 +529,10 @@ const toLower = text => {
         return result;
       },
       fsearchcus() {
-        this.isLoading = true;
         var payload = {
           keyword: this.searchcus
         }
-
+        this.isLoading = true
         api.Customerall(payload,
           (result) => {
             this.isLoading = false;
@@ -709,27 +694,6 @@ const toLower = text => {
             alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
           })
       },
-      searchProduct(){
-        let payload = {
-          keyword: this.keywordproduct
-        }
-        this.isLoading = true
-        console.log(payload)
-        api.searchbykeyword(payload,
-          (result) => {
-            this.isLoading = false
-            console.log(result.data)
-            console.log(result.data.length)
-            //this.showDialogproduct = true
-
-            this.dataproductDialog = result.data
-          },
-          (error) => {
-            this.isLoading = false
-            console.log(JSON.stringify(error))
-            alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
-          })
-      },
       selectedProduct(index){
         var product={
           id:this.dataproductDialog[index].id,
@@ -785,11 +749,6 @@ const toLower = text => {
               this.docno = 'ไม่มีข้อมูล'
               return
             }
-            this.mockdocno='';
-            for(var i=0;i<(result.length-4);i++){
-              this.mockdocno+=result.charAt(i);
-            }
-            this.mockdocno+="XXXX";
             this.docno = result
 
           },
@@ -801,11 +760,54 @@ const toLower = text => {
             //  alertify.success('Error login');
             // this.cload()
           })
-
+      },
+      mockDocNo() {
+        if (!this.tablecode || !this.billtype) {
+          return
+        }
+  
+        if (this.dproducts.length > 0) {
+  
+          // var test;
+          // for (let x = 0; x < this.dproducts.length; x++) {
+          //   test +=  this.dproducts[x].bar_code
+          // }
+          // console.log(test)
+        }
+  
+        this.disablebilltype = true
+        let payload = {
+          branch_id: this.objuser.branch_id,
+          table_code: this.tablecode,
+          bill_type: parseInt(this.billtype)
+        }
+        this.isLoading = true
+        console.log(payload)
+        api.showdocno(payload,
+          (result) => {
+            this.isLoading = false
+            if (result.error) {
+              this.mockdocno = 'ไม่มีข้อมูล'
+              return
+            }
+            this.mockdocno = '';
+            for (var i = 0; i < (result.length - 4); i++) {
+              this.mockdocno += result.charAt(i);
+            }
+            this.mockdocno += "XXXX";
+          },
+          (error) => {
+            this.isLoading = false
+            console.log(JSON.stringify(error))
+            //Customerall
+            alertify.error('ข้อมูล ประเภทเสนอราคาเกิดข้อผิดพลาด');
+            //  alertify.success('Error login');
+            // this.cload()
+          })
+  
       },
       showdetail(val,stock,indexstock) {
         console.log("----->"+JSON.stringify(val))
-
         console.log(stock)
         if (this.billtype == 0) {
           var datashow = {
@@ -815,8 +817,6 @@ const toLower = text => {
             bar_code: val.bar_code,
             item_name: val.item_name,
             unit_code: val.unit_code,
-            // wh_code: stock.wh_code,
-            // shelf_code: stock.shelf_code,
             qty: 1,
             price: val.sale_price_1,
             sale_price_1: val.sale_price_1,
@@ -845,8 +845,6 @@ const toLower = text => {
             bar_code: val.bar_code,
             item_name: val.item_name,
             unit_code: val.unit_code,
-            // wh_code: stock.wh_code,
-            // shelf_code: stock.shelf_code,
             qty: 1,
             price: val.sale_price_2,
             sale_price_1: val.sale_price_1,
@@ -1023,7 +1021,7 @@ const toLower = text => {
         }
         this.isLoading = true
         console.log(payload)
-        api.detailquoall(payload,
+        api.detailsaleall(payload,
           (result) => {
             this.isLoading = false
             console.log(JSON.stringify(result.data))
@@ -1037,13 +1035,6 @@ const toLower = text => {
               doc_type = 'RO'
             } else if (result.data.doc_type == 1) {
               doc_type = 'SO'
-            }
-            if (result.data.tax_type == 0) {
-              tax_type = 'ภาษีแยกนอก'
-            } else if (result.data.tax_type == 1) {
-              tax_type = 'ภาษีรวมใน'
-            } else if (result.data.tax_type == 2) {
-              tax_type = 'ภาษีอัตราศูนย์'
             }
             // this.dproducts = []
             this.disablebilltype = true
@@ -1059,9 +1050,10 @@ const toLower = text => {
             this.searchcus = result.data.ar_code
             this.detailcus = result.data.ar_name
             var datasubs = result.data.subs
+            let data;
             console.log(datasubs.length)
             for (let x = 0; x < datasubs.length; x++) {
-              var data = {
+              data = {
                 item_id: datasubs[x].id,
                 item_code: datasubs[x].item_code,
                 bar_code: datasubs[x].bar_code,

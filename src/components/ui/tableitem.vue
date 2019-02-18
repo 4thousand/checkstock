@@ -20,17 +20,16 @@
           <md-button style="width:5%">
             <span>{{val.unit_code}}</span>
           </md-button>
-          <md-button style="min-width:5.6%">
+          <md-button style="min-width:5.6%" v-show="isQtySelected==false" @click="isQtySelected=true">
             <span>{{val.qty}}</span>
           </md-button>
+          <input type="text" style="width:3.5%" v-model="val.qty" v-show="isQtySelected==true" @keyup.enter="isQtySelected=false" @blur="isQtySelected=false">
           <md-button style="width:5%">
-            <span>{{val.price}}</span>
+            <span>{{convertmoney(val.price)}}</span>
           </md-button>
-          <md-button style="min-width:5.5%">{{val.discount_word_sub}}</md-button>
+          <md-button style="min-width:5.5%" v-show="isDiscountSelected==false" @click="isDiscountSelected=true">{{val.discount_word_sub}}</md-button>
+          <input style="min-width:5.5%" type="text" v-show="isDiscountSelected==true" @keyup.enter="isDiscountSelected=false">
           <md-button style="width:5%">{{val.amount}} บาท</md-button>
-          <!-- <md-button style="min-width:5%;" @click="testtable(val)">
-            <md-icon style="width: 5%;float: right;">edit</md-icon>
-          </md-button>-->
           <md-button style="min-width:5%;" class="md-mini" @click="removeitemtable(index)">
             <md-icon style="width:5%;float: right;">delete</md-icon>
           </md-button>
@@ -194,7 +193,9 @@ export default {
       showDialogItem: false,
       dproducts: [],
       edit_wh: [],
-      searchwarehousecode_m: false
+      searchwarehousecode_m: false,
+      isQtySelected:false,
+      isDiscountSelected:false
     };
   },
   methods: {
@@ -225,6 +226,10 @@ export default {
       //  this.product[val.id].shelf_code = val.shelf_code
       this.product[val.id].qty = val.qty;
       this.searchwarehousecode_m = false;
+    },
+    convertmoney(val) {
+      var number = numeral(val).format('0,0.00');
+      return number
     },
     removeitemtable(index) {
       console.log(this.product);

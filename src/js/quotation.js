@@ -83,7 +83,7 @@ export default {
     docnoid: localStorage.iddocno,
     answer_cus: 0,
     company_id: localStorage.company_id,
-    php: 'http://' + document.domain,
+    php: 'https://' + document.domain,
     ar_bill_address: '',
     ar_telephone: '',
     department: '',
@@ -919,14 +919,6 @@ export default {
           } else if (result.data.doc_type == 1) {
             doc_type = 'QT'
           }
-
-          /*      if (result.data.tax_type == 0) {
-                 tax_type = 'ภาษีแยกนอก'
-               } else if (result.data.tax_type == 1) {
-                 tax_type = 'ภาษีรวมใน'
-               } else if (result.data.tax_type == 2) {
-                 tax_type = 'ภาษีอัตราศูนย์'
-               } */
           // this.dproducts = []
           this.disablebilltype = true
           this.tablecode = doc_type
