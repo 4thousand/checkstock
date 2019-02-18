@@ -156,9 +156,8 @@ export default {
         sale_code: this.sale_code.sale_code,
         keyword: this.keyword_showalldoc
       };
-      // v
-
-      api.searchinvoicelist(
+      console.log(payload)
+      api.SearchHisByKeyword(
         payload,
        result => {
           for (var i = 0; i < result.data.length; i++) {

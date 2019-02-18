@@ -34,7 +34,7 @@
           <md-button style="min-width:5%;" class="md-mini" @click="removeitemtable(index)">
             <md-icon style="width:5%;float: right;">delete</md-icon>
           </md-button>
-          <md-button style="min-width: 5%" class="md-mini" @click="histable(val)">
+          <md-button style="min-width: 5%" class="md-mini" @click="histable(val,searchcus)">
             <md-icon style="width:5%;float: right;">history</md-icon>
           </md-button>
         </md-card-actions>
@@ -82,9 +82,10 @@
               <md-tabs id="none" md-dynamic-height>
                 <md-tab md-label>
                   <md-field>
-                    <md-input
-                      v-model="keywordproduct"
-                    ></md-input>
+                    <label>เพิ่มสินค้า</label>
+                      <md-input
+                        v-model="searchcus"
+                      ></md-input>
                   </md-field>
                   <div class="table-responsive" style="overflow-y: auto;">
                     <table class="table table-hover">
@@ -96,8 +97,8 @@
                           <th style="white-space: nowrap;">เลขที่เอกสาร</th>
                           <th style="white-space: nowrap;">รหัสสินค้า</th>
                           <th style="white-space: nowrap;">ชื่อสินค้า</th>
-                          <th style="white-space: nowrap;">หน่วยนับ</th>
                           <th style="white-space: nowrap;">จำนวน</th>
+                          <th style="white-space: nowrap;">หน่วยนับ</th>
                           <th style="white-space: nowrap;">ราคา/หน่วย</th>
                           <th style="white-space: nowrap;">ส่วนลด</th>
                           <th style="overflow:auto;white-space: nowrap;">ลูกหนี้</th>
@@ -105,16 +106,16 @@
                       </thead>
                       <tbody v-for="(val,index) in dataproductItem" :key="index" id="">
                         <tr style="text-align:center;cursor:pointer">
-                          <td @click="showhisdetail(val)">{{index+1}}</td>
-                          <td @click="showhisdetail(val)">{{val.doc_date}}</td>
-                          <td @click="showhisdetail(val)">{{val.doc_no}}</td>
-                          <td @click="showhisdetail(val)">{{val.item_code}}</td>
-                          <td @click="showhisdetail(val)">{{val.item_name}}</td>
-                          <td @click="showhisdetail(val)">{{val.unit_code}}</td>
-                          <td @click="showhisdetail(val)">{{val.qty}}</td>
-                          <td @click="showhisdetail(val)">{{val.price}}</td>
-                          <td @click="showhisdetail(val)">{{val.discount_word}}</td>
-                          <td @click="showhisdetail(val)">{{val.name}}</td>
+                          <td>{{index+1}}</td>
+                          <td>{{val.doc_date}}</td>
+                          <td>{{val.doc_no}}</td>
+                          <td>{{val.item_code}}</td>
+                          <td>{{val.item_name}}</td>
+                          <td>{{val.qty}}</td>
+                          <td>{{val.unit_code}}</td>
+                          <td>{{val.price}}</td>
+                          <td>{{val.discount_word}}</td>
+                          <td>{{val.name}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -186,6 +187,7 @@ export default {
     searched: Array,
     product: Array,
     typepage:"",
+    searchcus: ""
   },
   data() {
     return {
@@ -194,7 +196,7 @@ export default {
       showDialogItem: false,
       dproducts: [],
       edit_wh: [],
-      searchwarehousecode_m: false
+      searchwarehousecode_m: false,
     };
   },
   methods: {
@@ -228,13 +230,15 @@ export default {
     },
     seedetail() {},
     showalldoc() {},
-    histable(val) {
+    histable(val,searchcus) {
           console.log(JSON.stringify(val))
           console.log(val.item_code)
-          this.showDialogItem = true
+          console.log(this.searchcus)
+          //console.log(this.detailcus)
+          //this.showDialogItem = true
           let payload = {
-              item_code: val.item_code
-              //item_code: ""
+            name: this.searchcus,
+            item_code: val.item_code
           }
           this.isLoading = true
           console.log(payload)
@@ -274,7 +278,6 @@ export default {
                   is_cancel: 0
               }
               console.log(itemshow)
-              this.dproducts.push(itemshow)
               //close modal
               this.showDialogItem = false
               alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);

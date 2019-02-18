@@ -200,7 +200,7 @@
                       </md-card-actions>
                     </div>
                   </md-card>
-                  <itemtable :searched="searched" :removeitemtable="removeitemtable"></itemtable>
+                  <itemtable :searched="searched" :searchcus="searchcus" :removeitemtable="removeitemtable"></itemtable>
                   <!-- <md-card
                     v-for="(val,index) in searched"
                     :key="index"

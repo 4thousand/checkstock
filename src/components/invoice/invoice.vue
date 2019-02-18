@@ -206,6 +206,7 @@
                     :removeitemtable="removeitemtable"
                     :product="dproducts"
                     :typepage="'IV'"
+                    :searchcus="detailcus"
                   ></itemtable>
                   <!-- <md-card
                     v-for="(val,index) in searched"
@@ -360,7 +361,7 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <button class="increment-button md-primary" @click="decrement()">−</button>
-                            
+
                             <input
                               class="form-control"
                               style="width:70%;float:left"
