@@ -13,8 +13,8 @@ import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import Datepicker from 'vuejs-datepicker';
 import * as lang from "vuejs-datepicker/src/locale";
-import api from "../service/service.js"
-import itemtable from '@/components/ui/tableitem'
+import api from "../service/service.js";
+import itemtable from '@/components/ui/tableitem';
 // import * as jsPDF from 'jspdf'
 import JQuery from 'jquery'
 let $ = JQuery
@@ -105,6 +105,7 @@ export default {
     stockall: [],
     isLoading: false,
     fullPage: true,
+    //itemtable: [],
   }),
   methods: {
     removeitemtable(index) {
@@ -143,7 +144,7 @@ export default {
       console.log(JSON.stringify(val))
       this.searchunitcode_m = false
       var index = this.findWithAttr(this.dproducts, 'item_name', val.item_name)
-      if (this.billtype == 0) {//สด  
+      if (this.billtype == 0) {//สด
         this.dproducts[index].unit_code = val.unit_code
         this.dproducts[index].price = val.sale_price_1
         this.dproducts[index].packing_rate_1 = val.rate_1
@@ -370,7 +371,7 @@ export default {
         // console.log(this.datenow_datepicker)
         // console.log(this.docnoid)
         let payload = {
-          id: parseInt(this.docnoid),// 0 แก้ไข,update ตามไอดี 
+          id: parseInt(this.docnoid),// 0 แก้ไข,update ตามไอดี
           branch_id: this.branch_id,
           doc_no: this.docno,
           //norecord
@@ -536,7 +537,7 @@ export default {
       this.showDialogcus = false
       //bill_credit
       this.bill_credit = val.bill_credit
-      // 
+      //
       var date = new Date();
       console.log(date)
       date.setDate(date.getDate() + this.bill_credit);
@@ -898,7 +899,7 @@ export default {
         return
       }
       // alert('แก้ไข')
-      // แก้ไข 
+      // แก้ไข
       let payload = {
         id: parseInt(this.docnoid)
       }

@@ -194,14 +194,6 @@
                           </md-button>
                         </div>
                       </div>
-
-                      <!-- <md-field md-clearable class="md-toolbar-section-end">
-                        <md-input
-                          placeholder="ค้นหาสินค้า"
-                          v-model="search"
-                          @input="searchOnTable"
-                        />
-                      </md-field>-->
                     </md-table-toolbar>
 
                     <md-table-empty-state
@@ -210,8 +202,7 @@
                       :md-description="`ไม่มีสินค้า  '${search}' ในระบบกรุณาตรวจสอบใหม่อีกครั้ง`"
                     ></md-table-empty-state>
 
-                    <md-table-row @click="checkitem" slot="md-table-row" slot-scope="{ item }">
-                      <!-- <md-table-cell md-label="ลำดับ" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell> -->
+                   <!-- <md-table-row @click="checkitem" slot="md-table-row" slot-scope="{ item }">
                       <md-table-cell md-label="รหัสสินค้า" md-sort-by="item_code" md-numeric>
                         <input type="text" class="datatable" disabled v-model="item.item_code">
                       </md-table-cell>
@@ -269,7 +260,6 @@
                           v-model="item.price"
                         >
                       </md-table-cell>
-                      <!-- <md-table-cell md-label="ราคา/หน่วย" v-if="billtype == 1" md-sort-by="price2"><input type="text" class="datatable" @keyup="calculatedata(item)" style="width:100%" v-model.number="item.price2"></md-table-cell> -->
                       <md-table-cell md-label="ส่วนลด" md-sort-by="discount_word">
                         <input
                           type="text"
@@ -287,13 +277,32 @@
                           v-model.number="item.item_amount"
                         >
                       </md-table-cell>
-                      <!-- <md-table-cell md-label="เงื่อนไขการขนส่ง" md-sort-by="because">{{ item.because }}</md-table-cell> -->
                       <md-table-cell md-label>
                         <md-button @click="removeProduct(item.index)">
                           <md-icon class="search-icon">delete</md-icon>
                         </md-button>
                       </md-table-cell>
-                    </md-table-row>
+                    </md-table-row> -->
+                    <div class="tables" style="width:100%;">
+                      <md-card-actions style="justify-content:end;">
+                        <md-button style="width:10%">รหัสสินค้า</md-button>
+                        <md-button style="width:20%">ชื่อสินค้า</md-button>
+                        <md-button style="width: 5%;">คลัง</md-button>
+                        <md-button style="width: 5%;">หน่วยนับ</md-button>
+                        <md-button style="min-width: 5%;">จำนวน</md-button>
+                        <md-button style="width: 5%;">ราคา/หน่วย</md-button>
+                        <md-button style="min-width: 5%;">ส่วนลด</md-button>
+                        <md-button style="width: 5%;">จำนวนเงิน</md-button>
+                      </md-card-actions>
+                    </div>
+                    <itemtable
+                    :searched="searched"
+                    :removeitemtable="removeitemtable"
+                    :product="dproducts"
+                    :typepage="'saleorder'"
+                    :searchcus="detailcus"
+                    ></itemtable>
+
                   </md-table>
                 </div>
                 <!-- table  -->

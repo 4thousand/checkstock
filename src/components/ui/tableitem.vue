@@ -34,7 +34,7 @@
           <md-button style="min-width:5%;" class="md-mini" @click="removeitemtable(index)">
             <md-icon style="width:5%;float: right;">delete</md-icon>
           </md-button>
-          <md-button style="min-width: 5%" class="md-mini" @click="histable(val)">
+          <md-button style="min-width: 5%" class="md-mini" @click="histable(val,searchcus)">
             <md-icon style="width:5%;float: right;">history</md-icon>
           </md-button>
         </md-card-actions>
@@ -82,9 +82,10 @@
               <md-tabs id="none" md-dynamic-height>
                 <md-tab md-label>
                   <md-field>
-                    <md-input
-                      v-model="keywordproduct"
-                    ></md-input>
+                    <label>ชื่อลูกค้า</label>
+                      <md-input
+                        v-model="searchcus"
+                      ></md-input>
                   </md-field>
                   <div class="table-responsive" style="overflow-y: auto;">
                     <table class="table table-hover">
@@ -96,8 +97,8 @@
                           <th style="white-space: nowrap;">เลขที่เอกสาร</th>
                           <th style="white-space: nowrap;">รหัสสินค้า</th>
                           <th style="white-space: nowrap;">ชื่อสินค้า</th>
-                          <th style="white-space: nowrap;">หน่วยนับ</th>
                           <th style="white-space: nowrap;">จำนวน</th>
+                          <th style="white-space: nowrap;">หน่วยนับ</th>
                           <th style="white-space: nowrap;">ราคา/หน่วย</th>
                           <th style="white-space: nowrap;">ส่วนลด</th>
                           <th style="overflow:auto;white-space: nowrap;">ลูกหนี้</th>
@@ -105,16 +106,36 @@
                       </thead>
                       <tbody v-for="(val,index) in dataproductItem" :key="index" id="">
                         <tr style="text-align:center;cursor:pointer">
-                          <td @click="showhisdetail(val)">{{index+1}}</td>
-                          <td @click="showhisdetail(val)">{{val.doc_date}}</td>
-                          <td @click="showhisdetail(val)">{{val.doc_no}}</td>
-                          <td @click="showhisdetail(val)">{{val.item_code}}</td>
-                          <td @click="showhisdetail(val)">{{val.item_name}}</td>
-                          <td @click="showhisdetail(val)">{{val.unit_code}}</td>
-                          <td @click="showhisdetail(val)">{{val.qty}}</td>
-                          <td @click="showhisdetail(val)">{{val.price}}</td>
-                          <td @click="showhisdetail(val)">{{val.discount_word}}</td>
-                          <td @click="showhisdetail(val)">{{val.name}}</td>
+                          <td>{{index+1}}</td>
+                          <td v-if="typepage==='invoice'">{{val.doc_date}}</td>
+                          <td v-if="typepage==='invoice'">{{val.doc_no}}</td>
+                          <td v-if="typepage==='invoice'">{{val.item_code}}</td>
+                          <td v-if="typepage==='invoice'">{{val.item_name}}</td>
+                          <td v-if="typepage==='invoice'">{{val.qty}}</td>
+                          <td v-if="typepage==='invoice'">{{val.unit_code}}</td>
+                          <td v-if="typepage==='invoice'">{{val.price}}</td>
+                          <td v-if="typepage==='invoice'">{{val.discount_word}}</td>
+                          <td v-if="typepage==='invoice'">{{val.name}}</td>
+
+                          <td v-if="typepage==='quotation'">{{val.DocDate}}</td>
+                          <td v-if="typepage==='quotation'">{{val.DocNo}}</td>
+                          <td v-if="typepage==='quotation'">{{val.ItemCode}}</td>
+                          <td v-if="typepage==='quotation'">{{val.ItemName}}</td>
+                          <td v-if="typepage==='quotation'">{{val.Qty}}</td>
+                          <td v-if="typepage==='quotation'">{{val.UnitCode}}</td>
+                          <td v-if="typepage==='quotation'">{{val.Price}}</td>
+                          <td v-if="typepage==='quotation'">{{val.DiscountWord}}</td>
+                          <td v-if="typepage==='quotation'">{{val.ArName}}</td>
+
+                          <td v-if="typepage==='saleorder'">{{val.DocDate}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.DocNo}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.ItemCode}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.ItemName}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.Qty}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.UnitCode}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.Price}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.DiscountWord}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.ArName}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -185,7 +206,9 @@ export default {
     stringProp: [],
     searched: Array,
     product: Array,
-    typepage: ""
+    typepage:"",
+    searchcus: "",
+    getpage:"",
   },
   data() {
     return {
@@ -194,7 +217,7 @@ export default {
       showDialogItem: false,
       dproducts: [],
       edit_wh: [],
-      searchwarehousecode_m: false
+      searchwarehousecode_m: false,
     };
   },
   methods: {
@@ -233,13 +256,17 @@ export default {
     },
     seedetail() {},
     showalldoc() {},
-    histable(val) {
+    histable(val,searchcus) {
           console.log(JSON.stringify(val))
           console.log(val.item_code)
-          this.showDialogItem = true
+          console.log(this.searchcus)
+          console.log(this.typepage)
+          //console.log(this.detailcus)
+          //this.showDialogItem = true
           let payload = {
-              item_code: val.item_code
-              //item_code: ""
+            name: this.searchcus,
+            item_code: val.item_code,
+            page: this.typepage
           }
           this.isLoading = true
           console.log(payload)
@@ -279,7 +306,6 @@ export default {
                   is_cancel: 0
               }
               console.log(itemshow)
-              this.dproducts.push(itemshow)
               //close modal
               this.showDialogItem = false
               alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
