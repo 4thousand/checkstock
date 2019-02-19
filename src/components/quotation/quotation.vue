@@ -957,7 +957,7 @@
               <!-- testprint -->
               <form
                 id="tax_report"
-                :action="php + '/vue_sale/report_pdf/report_quotation.php'"
+                :action="php + '/report_pdf/report_quotation.php'"
                 method="post"
                 target="_blank"
               >
@@ -970,7 +970,7 @@
                 <!-- <button type="submit">กด</button> -->
               </form>
               <form
-                :action="php + '/vue_sale/report_pdf/report_quotationpdf.php'"
+                :action="php + '/report_pdf/report_quotationpdf.php'"
                 method="post"
                 target="_blank"
               >

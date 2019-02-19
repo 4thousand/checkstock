@@ -1170,7 +1170,7 @@
               <form
                 v-show="tablecode == 'SO'"
                 id="tax_report"
-                :action="php + '/vue_sale/report_pdf/report_sale.php'"
+                :action="php + '/report_pdf/report_sale.php'"
                 method="post"
                 target="_blank"
               >
@@ -1185,7 +1185,7 @@
 
               <form
                 v-show="tablecode == 'SO'"
-                :action="php + '/vue_sale/report_pdf/report_sale_a5.php'"
+                :action="php + '/report_pdf/report_sale_a5.php'"
                 method="post"
                 target="_blank"
               >
