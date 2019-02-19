@@ -28,6 +28,7 @@ const toLower = text => {
     },
     data: () => ({
       msg: "",
+      docPage:"SO",
       selectedDate: null,
       date: "",
       search: [],
@@ -127,6 +128,12 @@ const toLower = text => {
     }),
 
     methods: {
+      removeitemtable(index) {
+        // console.log(JSON.stringify(this.dproducts.length))
+        // this.searchProductInObject(this.dproducts,index)
+        console.log(JSON.stringify(this.searchProductInObject(this.dproducts, index)))
+        this.dproducts.splice(this.searchProductInObject(this.dproducts, index), 1)
+      },
       searchstorecode(val){
 
         // console.log(index)
@@ -376,7 +383,7 @@ const toLower = text => {
       },
       setDone(id, index) {
         if (id == 'third') {
-          this.$router.push("/index");
+          this.$router.push("/solist");
           return
         }
         //
@@ -437,10 +444,10 @@ const toLower = text => {
             ar_code: this.searchcus,
             ar_name: this.detailcus,
             sale_id: this.sale_id,
-            sale_code,
+            sale_code : this.salecode,
             sale_name: sale_name.trim(),
             bill_type: parseInt(this.billtype),
-            tax_type,
+            tax_type: parseInt(this.taxtype),
             tax_rate: 7,
             depart_code: '',
             ref_no: '',
@@ -1044,7 +1051,7 @@ const toLower = text => {
             this.ar_bill_address = result.data.ar_bill_address
             this.ar_telephone = result.data.ar_telephone
             this.docno = result.data.doc_no
-            this.taxtype = tax_type
+            this.taxtype = result.data.tax_type
             this.datenow_datepicker = result.data.doc_date
             this.idcus = result.data.ar_id
             this.searchcus = result.data.ar_code

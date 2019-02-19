@@ -87,9 +87,9 @@
                         id="country"
                         placeholder="ประเภทภาษี"
                       >
-                        <md-option value="0">ภาษีแยกนอก</md-option>
-                        <md-option value="1">ภาษีรวมใน</md-option>
-                        <md-option value="2">ภาษีอัตราศูนย์</md-option>
+                        <md-option value=0>ภาษีแยกนอก</md-option>
+                        <md-option value=1>ภาษีรวมใน</md-option>
+                        <md-option value=2>ภาษีอัตราศูนย์</md-option>
                       </md-select>
                     </md-field>
                   </div>
@@ -194,7 +194,7 @@
                       </md-card-header-text>
                     </md-card-header>
                     <div class="tables">
-                      <md-card-actions>
+                      <md-card-actions style="width=100%">
                         <md-button style="width:10%">รหัสสินค้า</md-button>
                         <md-button style="width:24%">ชื่อสินค้า</md-button>
                         <md-button style="width:5%">คลังสินค้า</md-button>
@@ -203,10 +203,12 @@
                         <md-button style="width:5%">ราคา/หน่วย</md-button>
                         <md-button style="width:5%">ส่วนลด</md-button>
                         <md-button style="width:5%">จำนวนเงิน</md-button>
+                        <md-button style="width:5%"></md-button>
+                        <md-button style="width:5%"></md-button>
                       </md-card-actions>
                     </div>
                   </md-card>
-                  <itemtable :searched="searched" :removeitemtable="removeitemtable"></itemtable>
+                  <itemtable :searched="searched" :removeitemtable="removeitemtable" :docPage="docPage"></itemtable>
                 </div>
                 <!-- table  -->
                 <div style="margin-top:15px" class="md-layout md-gutter">
@@ -1092,7 +1094,6 @@
                 method="post"
                 target="_blank"
               >
-                -->
                 <input type="hidden" name="datasale">
                 <md-button
                   type="submit"

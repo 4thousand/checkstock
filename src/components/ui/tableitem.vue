@@ -8,32 +8,44 @@
       <div class="tables" style="width:100%">
         <md-card-actions style="justify-content:end;">
           <md-button style="width:10%">{{val.item_code}}</md-button>
-          <md-button style="width:20%;    height: auto;
-      ">
-            <div
-              style="width:100%;white-space: normal;word-wrap:  text-align-last: left; break-word;      text-align: left;  text-indent: 20px;display: inline-block;height:auto;"
-            >{{val.item_name}}</div>
-          </md-button>
-          <md-button style="width:5%" @click="select_wh(val,index)">
+          <md-button style="width:24%;">{{val.item_name}}</md-button>
+          <md-button style="width:5%" v-if="docPage=='SO'" @click="select_wh(val,index)">
             <span>{{val.location}}</span>
           </md-button>
           <md-button style="width:5%">
             <span>{{val.unit_code}}</span>
           </md-button>
-          <md-button style="min-width:5.6%" v-show="isQtySelected==false" @click="isQtySelected=true">
+          <md-button style="width:5%" v-show="isQtySelected==false" @click="isQtySelected=true">
             <span>{{val.qty}}</span>
           </md-button>
-          <input type="text" style="width:3.5%" v-model="val.qty" v-show="isQtySelected==true" @keyup.enter="isQtySelected=false" @blur="isQtySelected=false">
+          <input
+            type="text"
+            style="width:5%"
+            v-model="val.qty"
+            v-show="isQtySelected==true"
+            @keyup.enter="isQtySelected=false"
+            @blur="isQtySelected=false"
+          >
           <md-button style="width:5%">
             <span>{{convertmoney(val.price)}}</span>
           </md-button>
-          <md-button style="min-width:5.5%" v-show="isDiscountSelected==false" @click="isDiscountSelected=true">{{val.discount_word_sub}}</md-button>
-          <input style="min-width:5.5%" type="text" v-show="isDiscountSelected==true" @keyup.enter="isDiscountSelected=false">
-          <md-button style="width:5%">{{val.amount}} บาท</md-button>
-          <md-button style="min-width:5%;" class="md-mini" @click="removeitemtable(index)">
+          <md-button
+            style="width:5%"
+            v-show="isDiscountSelected==false"
+            @click="isDiscountSelected=true"
+          >{{val.discount_word_sub}}</md-button>
+          <input
+            style="width:5%"
+            type="text"
+            v-show="isDiscountSelected==true"
+            @keyup.enter="isDiscountSelected=false"
+            @blur="isDiscountSelected=false"
+          >
+          <md-button style="width:5%">{{val.amount}}</md-button>
+          <md-button style="width:5%;" class="md-mini" @click="removeitemtable(index)">
             <md-icon style="width:5%;float: right;">delete</md-icon>
           </md-button>
-          <md-button style="min-width: 5%" class="md-mini" @click="histable(val)">
+          <md-button style="width: 5%" class="md-mini" @click="histable(val)">
             <md-icon style="width:5%;float: right;">history</md-icon>
           </md-button>
         </md-card-actions>
@@ -56,18 +68,16 @@
                 <md-icon style="width: 50px;float: right;">more_horiz</md-icon>
               </md-button>
               <md-menu-content>
-                <md-menu-item style="min-width: 30px;" @click="testtable(val)">
+                <md-menu-item style="min-width: 30px;" @click="searchwarehousecode_m=true">
                   <md-icon style="width: 10px;float: right;">edit</md-icon>edit
                 </md-menu-item>
 
                 <md-menu-item @click="removeitemtable(index)" style="min-width: 30px;">
                   <md-icon style="width:10px;float: right;">delete</md-icon>delete
                 </md-menu-item>
-
                 <md-button style="min-width: 5%" class="md-mini" @click="histable(val)">
-                <md-icon style="width:5%;float: right;">history</md-icon>
+                  <md-icon style="width:5%;float: right;">history</md-icon>
                 </md-button>
-
               </md-menu-content>
             </md-menu>
             <div style="text-align:center">
@@ -81,9 +91,7 @@
               <md-tabs id="none" md-dynamic-height>
                 <md-tab md-label>
                   <md-field>
-                    <md-input
-                      v-model="keywordproduct"
-                    ></md-input>
+                    <md-input v-model="keywordproduct"></md-input>
                   </md-field>
                   <div class="table-responsive" style="overflow-y: auto;">
                     <table class="table table-hover">
@@ -102,7 +110,7 @@
                           <th style="overflow:auto;white-space: nowrap;">ลูกหนี้</th>
                         </tr>
                       </thead>
-                      <tbody v-for="(val,index) in dataproductItem" :key="index" id="">
+                      <tbody v-for="(val,index) in dataproductItem" :key="index" id>
                         <tr style="text-align:center;cursor:pointer">
                           <td @click="showhisdetail(val)">{{index+1}}</td>
                           <td @click="showhisdetail(val)">{{val.doc_date}}</td>
@@ -173,18 +181,18 @@
 
 
 <script>
-import Vue from 'vue';
-import api from "../../service/service.js"
+import Vue from "vue";
+import api from "../../service/service.js";
 import { Money } from "v-money";
 export default {
   name: "itemtable",
   props: {
-    // removeitemtable: Function,
+    removeitemtable: Function,
     parentData: [],
     stringProp: [],
     searched: Array,
     product: Array,
-    typepage: ""
+    docPage: ""
   },
   data() {
     return {
@@ -194,8 +202,8 @@ export default {
       dproducts: [],
       edit_wh: [],
       searchwarehousecode_m: false,
-      isQtySelected:false,
-      isDiscountSelected:false
+      isQtySelected: false,
+      isDiscountSelected: false
     };
   },
   methods: {
@@ -228,8 +236,8 @@ export default {
       this.searchwarehousecode_m = false;
     },
     convertmoney(val) {
-      var number = numeral(val).format('0,0.00');
-      return number
+      var number = numeral(val).format("0,0.00");
+      return number;
     },
     removeitemtable(index) {
       console.log(this.product);
@@ -239,57 +247,168 @@ export default {
     seedetail() {},
     showalldoc() {},
     histable(val) {
-          console.log(JSON.stringify(val))
-          console.log(val.item_code)
-          this.showDialogItem = true
-          let payload = {
-              item_code: val.item_code
-              //item_code: ""
+      console.log(JSON.stringify(val));
+      console.log(val.item_code);
+      this.showDialogItem = true;
+      let payload = {
+        item_code: val.item_code
+        //item_code: ""
+      };
+      this.isLoading = true;
+      console.log(payload);
+      api.searchSaleByItem(
+        payload,
+        result => {
+          this.isLoading = false;
+          console.log(result.data);
+          console.log(result.data.length);
+          this.showDialogItem = true;
+          this.dataproductItem = result.data;
+        },
+        error => {
+          this.isLoading = false;
+          console.log(JSON.stringify("มันเสียนะ", error));
+          alertify.error("ข้อมูล สินค้าเกิดข้อผิดพลาด");
+        }
+      );
+    },
+    showhisdetail(val) {
+      console.log(JSON.stringify(val));
+      var itemshow = {
+        item_id: val.id,
+        item_code: val.item_code,
+        bar_code: val.bar_code,
+        item_name: val.item_name,
+        unit_code: val.unit_code,
+        doc_date: val.doc_date,
+        qty: 1,
+        name: val.name,
+        prices: val.sale_price_1,
+        sale_price_1: val.sale_price_1,
+        sale_price_2: val.sale_price_2,
+        discount_word: "0",
+        discount_amount: 0,
+        item_amounts: val.sale_price_1 * 1,
+        item_description: "",
+        packing_rate_1: parseInt(val.rate_1),
+        is_cancel: 0
+      };
+      console.log(itemshow);
+      this.dproducts.push(itemshow);
+      //close modal
+      this.showDialogItem = false;
+      alertify.success("เพิ่มข้อมูลสินค้า " + val.item_name);
+      //this.keywordproduct = ''
+      //console.log(itemshow)
+    },
+    calAmountEachPrice(){
+      let eachPriceNoDiscount=val.qty*val.price
+    },
+    calDiscountEachPrice(eachPrice){
+      let discountCaled
+      let percentDiscount
+      let bahtDiscount
+      let discountArray
+      let mixDiscount
+      if(val.discount_word.search(",")==0){
+        if(val.discount_word.search("%")==1){
+          for(let i=0;i<(val.discount_word.length);i++){
+            if(val.discount_word[i]=="%"){
+              percentDiscount=parseInt(val.discount_word.replace("%",""))/100;
+              discountCaled=eachPrice*percentDiscount;
+            }
           }
-          this.isLoading = true
-          console.log(payload)
-          api.searchSaleByItem(payload,
-              result => {
-                  this.isLoading = false
-                  console.log(result.data)
-                  console.log(result.data.length)
-                  this.showDialogItem = true
-                  this.dataproductItem = result.data
-              },
-              error => {
-                  this.isLoading = false
-                  console.log(JSON.stringify("มันเสียนะ",error))
-                  alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
-              })
-      },
-      showhisdetail(val) {
-          console.log(JSON.stringify(val))
-              var itemshow = {
-                  item_id: val.id,
-                  item_code: val.item_code,
-                  bar_code: val.bar_code,
-                  item_name: val.item_name,
-                  unit_code: val.unit_code,
-                  doc_date: val.doc_date,
-                  qty: 1,
-                  name: val.name,
-                  prices: val.sale_price_1,
-                  sale_price_1: val.sale_price_1,
-                  sale_price_2: val.sale_price_2,
-                  discount_word: '0',
-                  discount_amount: 0,
-                  item_amounts: val.sale_price_1 * 1,
-                  item_description: "",
-                  packing_rate_1: parseInt(val.rate_1),
-                  is_cancel: 0
+        }
+        if(val.discount_word.search("%")==0){
+          bahtDiscount=parseInt(val.discount_word);
+          discountCaled=bahtDiscount
+        }
+      }
+      if(val.discount_word.search(",")>=1){
+        discountArray=val.discount_word.split(",")
+        for(let i=0;i<(discountArray.length);i++){
+            if(discountArray[i].search("%")==1){
+            for(let i=0;i<(val.discount_word.length);i++){
+              if(val.discount_word[i]=="%"){
+                percentDiscount=parseInt(val.discount_word.replace("%",""))/100;
+                discountCaled=eachPrice*percentDiscount;
               }
-              console.log(itemshow)
-              this.dproducts.push(itemshow)
-              //close modal
-              this.showDialogItem = false
-              alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
-          //this.keywordproduct = ''
-          //console.log(itemshow)
+            }
+          }
+          if(val.discount_word.search("%")==0){
+            bahtDiscount=parseInt(val.discount_word);
+            discountCaled=bahtDiscount
+          }
+        }
+      }
+      
+      val.aomunt=eachPrice-discountCaled
+    },
+    calculatedata(val) {
+        let qty_total = parseInt(val.qty) * parseInt(val.packing_rate_1)
+        // console.log(JSON.stringify(val))
+        let index = val.index
+        // console.log(JSON.stringify(this.dproducts))
+
+       if(this.dproducts[index].stock_type == 0){// เช็คว่าเป็นสินค้า ,0 เป็นสินค้า ,1 เป็นบริการ
+        if(qty_total > this.dproducts[index].stocklimit){
+          alert("คุณระบุจำนวนสิ้นค้าเกินกว่าที่คลังมี")
+          this.dproducts[index].qty = 0
+          return
+        }
+      }
+        val.discount_word = val.discount_word.toString()
+        // console.log(val.discount_word)
+
+        if(val.discount_word.search(",") < 0){
+        if(val.discount_word.slice(-1) == '%'){
+          var cutper = parseInt(val.discount_word.slice(0, -1))
+          val.item_amount = val.qty*(val.price - (val.price * cutper)/100)
+          val.discount_amount = (val.price * val.qty) - ((val.price - ((val.price * cutper)/100))*val.qty)
+          console.log(val.discount_word) // ตัวอักษร
+          console.log(val.discount_amount) // ส่วนต่าง
+          return
+        }else{
+          val.discount_amount = (val.price * val.qty) - ((val.price - val.discount_word)*val.qty)
+        }
+        console.log(JSON.stringify(val))
+        if (this.billtype == 0) {//เงินสด
+          val.item_amount = val.qty * (val.price - val.discount_word)
+        } else if (this.billtype == 1) {//เงินเชื่อ
+          val.item_amount = val.qty * (val.price - val.discount_word)
+        }
+        console.log(val.discount_word) // ตัวอักษร
+        console.log(val.discount_amount) // ส่วนต่าง
+       }else if(val.discount_word.search(",") >= 0){
+          var res = val.discount_word.split(",")
+          if(res[0].slice(-1) == '%'){
+            var cutper = parseInt(res[0].slice(0, -1))
+            val.item_amount =  val.price - (val.price  * cutper)/100
+            var diff1 =  (val.price  * cutper)/100
+            console.log('diff1 : '+diff1)
+          }else{
+            var diff1 = val.price -(val.price - res[0])
+            console.log(diff1)
+            val.item_amount = val.price - res[0]
+          }
+          if(res[1].slice(-1) == '%'){
+             let cutper1 = parseInt(res[1].slice(0, -1))
+             val.item_amount = val.qty *(val.item_amount -( val.item_amount * cutper1)/100)
+             var diff2 = ((val.price - diff1)*cutper1)/100
+             console.log('diff2 : '+diff2)
+             val.discount_amount = (diff1 + diff2)*val.qty
+             console.log(val.discount_amount)
+          }else{
+            var diff2 = val.price -(val.price - res[1])
+            val.discount_amount = (diff1 + diff2)*val.qty
+            val.item_amount = (val.price * val.qty)- val.discount_amount
+            console.log(val.discount_amount)
+          }
+          return
+        }
+
+        console.log("**** qty *****"+JSON.stringify(val.qty))
+
       },
   },
   mounted() {}
