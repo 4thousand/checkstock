@@ -82,7 +82,7 @@
               <md-tabs id="none" md-dynamic-height>
                 <md-tab md-label>
                   <md-field>
-                    <label>เพิ่มสินค้า</label>
+                    <label>ชื่อลูกค้า</label>
                       <md-input
                         v-model="searchcus"
                       ></md-input>
@@ -107,15 +107,35 @@
                       <tbody v-for="(val,index) in dataproductItem" :key="index" id="">
                         <tr style="text-align:center;cursor:pointer">
                           <td>{{index+1}}</td>
-                          <td>{{val.doc_date}}</td>
-                          <td>{{val.doc_no}}</td>
-                          <td>{{val.item_code}}</td>
-                          <td>{{val.item_name}}</td>
-                          <td>{{val.qty}}</td>
-                          <td>{{val.unit_code}}</td>
-                          <td>{{val.price}}</td>
-                          <td>{{val.discount_word}}</td>
-                          <td>{{val.name}}</td>
+                          <td v-if="typepage==='invoice'">{{val.doc_date}}</td>
+                          <td v-if="typepage==='invoice'">{{val.doc_no}}</td>
+                          <td v-if="typepage==='invoice'">{{val.item_code}}</td>
+                          <td v-if="typepage==='invoice'">{{val.item_name}}</td>
+                          <td v-if="typepage==='invoice'">{{val.qty}}</td>
+                          <td v-if="typepage==='invoice'">{{val.unit_code}}</td>
+                          <td v-if="typepage==='invoice'">{{val.price}}</td>
+                          <td v-if="typepage==='invoice'">{{val.discount_word}}</td>
+                          <td v-if="typepage==='invoice'">{{val.name}}</td>
+
+                          <td v-if="typepage==='quotation'">{{val.DocDate}}</td>
+                          <td v-if="typepage==='quotation'">{{val.DocNo}}</td>
+                          <td v-if="typepage==='quotation'">{{val.ItemCode}}</td>
+                          <td v-if="typepage==='quotation'">{{val.ItemName}}</td>
+                          <td v-if="typepage==='quotation'">{{val.Qty}}</td>
+                          <td v-if="typepage==='quotation'">{{val.UnitCode}}</td>
+                          <td v-if="typepage==='quotation'">{{val.Price}}</td>
+                          <td v-if="typepage==='quotation'">{{val.DiscountWord}}</td>
+                          <td v-if="typepage==='quotation'">{{val.ArName}}</td>
+
+                          <td v-if="typepage==='saleorder'">{{val.DocDate}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.DocNo}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.ItemCode}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.ItemName}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.Qty}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.UnitCode}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.Price}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.DiscountWord}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.ArName}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -187,7 +207,8 @@ export default {
     searched: Array,
     product: Array,
     typepage:"",
-    searchcus: ""
+    searchcus: "",
+    getpage:"",
   },
   data() {
     return {
@@ -234,11 +255,13 @@ export default {
           console.log(JSON.stringify(val))
           console.log(val.item_code)
           console.log(this.searchcus)
+          console.log(this.typepage)
           //console.log(this.detailcus)
           //this.showDialogItem = true
           let payload = {
             name: this.searchcus,
-            item_code: val.item_code
+            item_code: val.item_code,
+            page: this.typepage
           }
           this.isLoading = true
           console.log(payload)

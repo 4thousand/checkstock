@@ -55,16 +55,6 @@
                 <!--docno mockdocno-->
                 <div class="md-layout md-gutter">
                   <div class="md-layout-item md-size-10 md-small-size-100"></div>
-                  <!-- <div
-                    id="notop_mobile"
-                    style="position: relative; top: 25px;"
-                    class="md-layout-item md-size-50 md-small-size-100"
-                  >
-                    <md-field>
-                      <label>เลขที่ใบกำกับภาษี</label>
-                      <md-input disabled v-model="mockdocno"></md-input>
-                    </md-field>
-                  </div>-->
                   <div class="md-layout-item md-size-40 md-small-size-100">
                     <span class="md-title sub">ประเภทภาษี</span>
                     <md-field>
@@ -160,30 +150,6 @@
                             <div
                               style="float:left;position:relative;top:13px;margin-right:10px"
                             >ข้อมูลสินค้า</div>
-
-                            <div class="md-size-40 md-small-size-100" style="float:left;">
-                              <md-field>
-                                <label>เพิ่มสินค้า</label>
-                                <md-input
-                                  ref="addproduct"
-                                  v-model="keywordproduct"
-                                  @keyup.enter="addproduct"
-                                ></md-input>
-                              </md-field>
-                              <md-avatar style="position: absolute; top: 15px; left: 273px;">
-                                <md-icon style="color:grey">info</md-icon>
-                                <md-tooltip md-direction="top">
-                                  <md-icon style="color:white;">keyboard</md-icon>รหัสสินค้า หรือ ชื่อสินค้า + Enter
-                                </md-tooltip>
-                              </md-avatar>
-                            </div>
-
-                            <md-button
-                              @click="addproduct"
-                              class="md-icon-button md-raised md productadd"
-                            >
-                              <md-icon>add</md-icon>
-                            </md-button>
                           </div>
                         </div>
                       </md-card-header-text>
@@ -191,87 +157,23 @@
                     <div class="tables">
                       <md-card-actions>
                         <md-button style="width:10%">รหัสสินค้า</md-button>
-                        <md-button style="width:24%">ชื่อสินค้า</md-button>
-                        <md-button style="width:5%">หน่วยนับ</md-button>
-                        <md-button style="width:5%">จำนวน</md-button>
-                        <md-button style="width:5%">ราคา/หน่วย</md-button>
-                        <md-button style="width:5%">ส่วนลด</md-button>
-                        <md-button style="width:5%">จำนวนเงิน</md-button>
+                        <md-button style="width:20%">ชื่อสินค้า</md-button>
+                        <md-button style="width: 5%;">คลัง</md-button>
+                        <md-button style="width: 5%;">หน่วยนับ</md-button>
+                        <md-button style="min-width: 5%;">จำนวน</md-button>
+                        <md-button style="width: 5%;">ราคา/หน่วย</md-button>
+                        <md-button style="min-width: 5%;">ส่วนลด</md-button>
+                        <md-button style="width: 5%;">จำนวนเงิน</md-button>
                       </md-card-actions>
                     </div>
                   </md-card>
-                  <itemtable :searched="searched" :searchcus="searchcus" :removeitemtable="removeitemtable"></itemtable>
-                  <!-- <md-card
-                    v-for="(val,index) in searched"
-                    :key="index"
-                    class="md-layout-item md-size-100 md-small-size-100"
-                  >
-                    <div class="tables" style="width:100%">
-                      <md-card-actions>
-                        <md-button style="width:10%">{{val.item_code}}</md-button>
-                        <md-button style="width:24%;    height: auto;
-">
-                          <div
-                            style="width:100%;white-space: normal;word-wrap:  text-align-last: left; break-word;      text-align: left;  text-indent: 20px;display: inline-block;height:auto;"
-                          >{{val.item_name}}</div>
-                        </md-button>
-                        <md-button style="width:5%">
-                          <span>{{val.unit_code}}</span>
-                        </md-button>
-                        <md-button style="width:5%">
-                          <span>{{val.qty}}</span>
-                        </md-button>
-                        <md-button style="width:5%">
-                          <span>{{val.price}}</span>
-                        </md-button>
-                        <md-button style="width:5%">{{val.discount_word_sub}}</md-button>
-                        <md-button style="width:5%">{{val.amount}} บาท</md-button>
-                        <md-button style="min-width:5%;" @click="testtable(val)">
-                          <md-icon style="width: 5%;float: right;">edit</md-icon>
-                        </md-button>
-                        <md-button
-                          style="min-width: 5%"
-                          class="md-mini"
-                          @click="removeitemtable(index)"
-                        >
-                          <md-icon style="width:5%;float: right;">delete</md-icon>
-                        </md-button>
-                      </md-card-actions>
-                    </div>
-                    <div class="tables2">
-                      <div class="carddiscount">{{val.discount_word}}</div>
-                      <md-card-header style=" margin-top: 0px;    padding: 5px; width:60%;">
-                        <div class="md-title" style="    font-size: 15px;">{{val.item_code}}</div>
-                        <div class="md-subhead">{{val.item_name}}</div>
-                        <div class="md-subhead">จำนวน : {{val.qty}} {{val.unit_code}}</div>
-                      </md-card-header>
-                      <md-card-content style="padding:0px;width:40%;">
-                        <div style=" height: 100%;  float: right;padding-top:5px">
-                          <md-menu md-direction="bottom-end">
-                            <md-button
-                              class="md-icon-button"
-                              style="border-radius:0px;  height: 10%;"
-                              md-menu-trigger
-                            >
-                              <md-icon style="width: 50px;float: right;">more_horiz</md-icon>
-                            </md-button>
-                            <md-menu-content>
-                              <md-menu-item style="min-width: 30px;" @click="testtable(val)">
-                                <md-icon style="width: 10px;float: right;">edit</md-icon>edit
-                              </md-menu-item>
-                              <md-menu-item @click="showtable=true" style="min-width: 30px;">
-                                <md-icon style="width:10px;float: right;">delete</md-icon>delete
-                              </md-menu-item>
-                            </md-menu-content>
-                          </md-menu>
-                          <div style="text-align:center">
-                            {{val.amount}}
-                            <br>บาท
-                          </div>
-                        </div>
-                      </md-card-content>
-                    </div>
-                  </md-card>-->
+                  <itemtable
+                    :searched="searched"
+                    :removeitemtable="removeitemtable"
+                    :product="dproducts"
+                    :typepage="'invoice'"
+                    :searchcus="detailcus"
+                  ></itemtable>
                 </div>
                 <!-- table  -->
                 <md-dialog :md-active.sync="showtable">
@@ -315,18 +217,6 @@
                             <span style="color:red">*</span> หน่วยนับ :
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
-                            <!-- <p>
-                              <input
-                                id="bank_no"
-                                class="form-control"
-                                v-model="itemtable.unit_code"
-                                disabled
-                              >
-                            </p>
-                            <div @click="searchunticode(item)">
-
-                               <md-icon class="search_unitcode">arrow_drop_down</md-icon>
-                            </div>-->
                             <md-field>
                               <md-select
                                 name="country"
