@@ -20,7 +20,7 @@
           <md-button style="width:5%">
             <span>{{val.unit_code}}</span>
           </md-button>
-          <md-button style="min-width:5.6%">
+          <md-button style="min-width:5.6%" @click="changevalue_qty(val,index)">
             <span>{{val.qty}}</span>
           </md-button>
           <md-button style="width:5%">
@@ -66,9 +66,8 @@
                 </md-menu-item>
 
                 <md-button style="min-width: 5%" class="md-mini" @click="histable(val)">
-                <md-icon style="width:5%;float: right;">history</md-icon>
+                  <md-icon style="width:5%;float: right;">history</md-icon>
                 </md-button>
-
               </md-menu-content>
             </md-menu>
             <div style="text-align:center">
@@ -82,9 +81,7 @@
               <md-tabs id="none" md-dynamic-height>
                 <md-tab md-label>
                   <md-field>
-                    <md-input
-                      v-model="keywordproduct"
-                    ></md-input>
+                    <md-input v-model="keywordproduct"></md-input>
                   </md-field>
                   <div class="table-responsive" style="overflow-y: auto;">
                     <table class="table table-hover">
@@ -103,7 +100,7 @@
                           <th style="overflow:auto;white-space: nowrap;">ลูกหนี้</th>
                         </tr>
                       </thead>
-                      <tbody v-for="(val,index) in dataproductItem" :key="index" id="">
+                      <tbody v-for="(val,index) in dataproductItem" :key="index" id>
                         <tr style="text-align:center;cursor:pointer">
                           <td @click="showhisdetail(val)">{{index+1}}</td>
                           <td @click="showhisdetail(val)">{{val.doc_date}}</td>
@@ -169,13 +166,30 @@
         </md-dialog-actions>
       </md-dialog>
     </div>
+    <div>
+      <md-dialog :md-active.sync="changeqty">
+        <md-dialog-title>เพิ่ม หรือ ลดจำนวนสินค้า</md-dialog-title>
+        <md-tabs md-dynamic-height>
+          <md-tab md-label>
+            <div class="table-responsive" style="overflow-y: auto;">
+              <md-button class="md-primary" :md-ripple="false" @click="searchwarehousecode_m = false"> <md-icon style="width:5%;float: right;">add</md-icon></md-button>
+               <md-button class="md-primary" :md-ripple="false" @click="searchwarehousecode_m = false">1</md-button>
+              <md-button class="md-primary"  :md-ripple="false" @click="searchwarehousecode_m = false"><md-icon style="width:5%;float: right;">remove</md-icon></md-button>
+            </div>
+          </md-tab>
+        </md-tabs>
+        <md-dialog-actions>
+          <md-button class="md-primary" @click="changeqty = false">Close</md-button>
+        </md-dialog-actions>
+      </md-dialog>
+    </div>
   </div>
 </template>
 
 
 <script>
-import Vue from 'vue';
-import api from "../../service/service.js"
+import Vue from "vue";
+import api from "../../service/service.js";
 import { Money } from "v-money";
 export default {
   name: "itemtable",
@@ -190,6 +204,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      changeqty: false,
       dataproductItem: [],
       showDialogItem: false,
       dproducts: [],
@@ -198,8 +213,7 @@ export default {
     };
   },
   methods: {
-    select_wh(val, index) {
-      console.log(this.typepage);
+    changevalue_qty(val, index) {
       var items = {
         id: 0,
         Stk_unit_code: "",
@@ -207,23 +221,81 @@ export default {
         shelf_code: "",
         wh_code: ""
       };
+      this.changeqty = true;
+      // let payload = {
+      //   item_code: val.item_code
+      // };
+      // var data = new Array();
+      // data = [];
+      // // console.log(payload)
+      // api.searchunitcode(
+      //   payload,
+      //   result => {
+      //     console.log(result.data[0].stk_location);
+      //     result.data[0].stk_location.forEach(item => {
+      //       item.id = index;
+      //       data.push(item);
+      //     });
+
+      //     this.edit_wh = data;
+      //   },
+      //   error => {
+      //     console.log(JSON.stringify(error));
+      //     alertify.error("Data ข้อมูล Unit code ผิดพลาด");
+      //   }
+      // );
+    },
+    select_wh(val, index) {
+      var items = {
+        id: 0,
+        Stk_unit_code: "",
+        qty: 0,
+        shelf_code: "",
+        wh_code: ""
+      };
+
+      let payload = {
+        item_code: val.item_code
+      };
       var data = new Array();
       data = [];
-      val.stock_location.forEach(item => {
-        item.id = index;
+      // console.log(payload)
+      api.searchunitcode(
+        payload,
+        result => {
+          console.log(result.data[0].stk_location);
+          result.data[0].stk_location.forEach(item => {
+            item.id = index;
+            data.push(item);
+          });
 
-        data.push(item);
-        console.log(items);
-      });
-      console.log(data);
-      this.edit_wh = data;
-      console.log(this.edit_wh);
+          this.edit_wh = data;
+        },
+        error => {
+          console.log(JSON.stringify(error));
+          alertify.error("Data ข้อมูล Unit code ผิดพลาด");
+        }
+      );
+      console.log(this.typepage);
+
       this.searchwarehousecode_m = true;
+      // var data = new Array();
+      // data = [];
+      // val.stock_location.forEach(item => {
+      //   item.id = index;
+
+      //   data.push(item);
+      //   console.log(items);
+      // });
+      // console.log(data);
+      // this.edit_wh = data;
+      // console.log(this.edit_wh);
+      // this.searchwarehousecode_m = true;
     },
     selectwarehousecode(val) {
       this.product[val.id].location = val.wh_code;
       //  this.product[val.id].shelf_code = val.shelf_code
-      this.product[val.id].qty = val.qty;
+
       this.searchwarehousecode_m = false;
     },
     removeitemtable(index) {
@@ -234,58 +306,60 @@ export default {
     seedetail() {},
     showalldoc() {},
     histable(val) {
-          console.log(JSON.stringify(val))
-          console.log(val.item_code)
-          this.showDialogItem = true
-          let payload = {
-              item_code: val.item_code
-              //item_code: ""
-          }
-          this.isLoading = true
-          console.log(payload)
-          api.searchSaleByItem(payload,
-              result => {
-                  this.isLoading = false
-                  console.log(result.data)
-                  console.log(result.data.length)
-                  this.showDialogItem = true
-                  this.dataproductItem = result.data
-              },
-              error => {
-                  this.isLoading = false
-                  console.log(JSON.stringify("มันเสียนะ",error))
-                  alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
-              })
-      },
-      showhisdetail(val) {
-          console.log(JSON.stringify(val))
-              var itemshow = {
-                  item_id: val.id,
-                  item_code: val.item_code,
-                  bar_code: val.bar_code,
-                  item_name: val.item_name,
-                  unit_code: val.unit_code,
-                  doc_date: val.doc_date,
-                  qty: 1,
-                  name: val.name,
-                  prices: val.sale_price_1,
-                  sale_price_1: val.sale_price_1,
-                  sale_price_2: val.sale_price_2,
-                  discount_word: '0',
-                  discount_amount: 0,
-                  item_amounts: val.sale_price_1 * 1,
-                  item_description: "",
-                  packing_rate_1: parseInt(val.rate_1),
-                  is_cancel: 0
-              }
-              console.log(itemshow)
-              this.dproducts.push(itemshow)
-              //close modal
-              this.showDialogItem = false
-              alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
-          //this.keywordproduct = ''
-          //console.log(itemshow)
-      },
+      console.log(JSON.stringify(val));
+      console.log(val.item_code);
+      this.showDialogItem = true;
+      let payload = {
+        item_code: val.item_code
+        //item_code: ""
+      };
+      this.isLoading = true;
+      console.log(payload);
+      api.searchSaleByItem(
+        payload,
+        result => {
+          this.isLoading = false;
+          console.log(result.data);
+          console.log(result.data.length);
+          this.showDialogItem = true;
+          this.dataproductItem = result.data;
+        },
+        error => {
+          this.isLoading = false;
+          console.log(JSON.stringify("มันเสียนะ", error));
+          alertify.error("ข้อมูล สินค้าเกิดข้อผิดพลาด");
+        }
+      );
+    },
+    showhisdetail(val) {
+      console.log(JSON.stringify(val));
+      var itemshow = {
+        item_id: val.id,
+        item_code: val.item_code,
+        bar_code: val.bar_code,
+        item_name: val.item_name,
+        unit_code: val.unit_code,
+        doc_date: val.doc_date,
+        qty: 1,
+        name: val.name,
+        prices: val.sale_price_1,
+        sale_price_1: val.sale_price_1,
+        sale_price_2: val.sale_price_2,
+        discount_word: "0",
+        discount_amount: 0,
+        item_amounts: val.sale_price_1 * 1,
+        item_description: "",
+        packing_rate_1: parseInt(val.rate_1),
+        is_cancel: 0
+      };
+      console.log(itemshow);
+      this.dproducts.push(itemshow);
+      //close modal
+      this.showDialogItem = false;
+      alertify.success("เพิ่มข้อมูลสินค้า " + val.item_name);
+      //this.keywordproduct = ''
+      //console.log(itemshow)
+    }
   },
   mounted() {}
 };
