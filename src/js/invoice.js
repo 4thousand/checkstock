@@ -1260,7 +1260,7 @@ export default {
                             unit_code: datasubs[x].unit_code,
                             qty: datasubs[x].qty,
 
-
+                            wh_id:datasubs[x].wh_id,
                             discount_word_sub: datasubs[x].discount_word_sub,
                             discount_amount_sub: datasubs[x].discount_amount_sub,
                             item_amount: datasubs[x].amount,
@@ -1271,7 +1271,21 @@ export default {
                             is_cancel: datasubs[x].is_cancel
 
                         }
-
+                        if(data.wh_id == 1)
+                        {
+                            data.location = "S1-A"
+                        }else if(data.wh_id == 2)
+                        {
+                            data.location = "S1-B"
+                        }else if(data.wh_id == 2)
+                        {
+                            data.location = "S2-A"
+                        }else if(data.wh_id == 2)
+                        {
+                            data.location = "S2-B"
+                        }else{
+                            data.location = ""
+                        }
                         console.log(data)
                         this.dproducts.push(data)
                     }
