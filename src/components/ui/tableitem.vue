@@ -23,8 +23,8 @@
             style="width:5%"
             v-model="val.qty"
             v-show="isQtySelected==true"
-            @keyup.enter="isQtySelected=false"
-            @blur="isQtySelected=false"
+            @keyup.enter="isQtySelected=false,calEachPrice(val)"
+            @blur="isQtySelected=false,calEachPrice(val)"
           >
           <md-button style="width:5%">
             <span>{{convertmoney(val.price)}}</span>
@@ -33,15 +33,16 @@
             style="width:5%"
             v-show="isDiscountSelected==false"
             @click="isDiscountSelected=true"
-          >{{val.discount_word_sub}}</md-button>
+          >{{val.discount_word}}</md-button>
           <input
             style="width:5%"
             type="text"
+            v-model="val.discount_word"
             v-show="isDiscountSelected==true"
-            @keyup.enter="isDiscountSelected=false"
-            @blur="isDiscountSelected=false"
+            @keyup.enter="isDiscountSelected=false,calEachPrice(val)"
+            @blur="isDiscountSelected=false,calEachPrice(val)"
           >
-          <md-button style="width:5%">{{val.amount}}</md-button>
+          <md-button style="width:5%">{{convertmoney(val.item_amount)}}</md-button>
           <md-button style="width:5%;" class="md-mini" @click="removeitemtable(index)">
             <md-icon style="width:5%;float: right;">delete</md-icon>
           </md-button>
@@ -286,7 +287,7 @@ export default {
         prices: val.sale_price_1,
         sale_price_1: val.sale_price_1,
         sale_price_2: val.sale_price_2,
-        discount_word: "0",
+        discount_word: "",
         discount_amount: 0,
         item_amounts: val.sale_price_1 * 1,
         item_description: "",
@@ -301,115 +302,76 @@ export default {
       //this.keywordproduct = ''
       //console.log(itemshow)
     },
-    calAmountEachPrice(){
-      let eachPriceNoDiscount=val.qty*val.price
-    },
-    calDiscountEachPrice(eachPrice){
-      let discountCaled
-      let percentDiscount
-      let bahtDiscount
-      let discountArray
-      let mixDiscount
-      if(val.discount_word.search(",")==0){
-        if(val.discount_word.search("%")==1){
-          for(let i=0;i<(val.discount_word.length);i++){
-            if(val.discount_word[i]=="%"){
-              percentDiscount=parseInt(val.discount_word.replace("%",""))/100;
-              discountCaled=eachPrice*percentDiscount;
-            }
+      calEachPrice(val){
+        console.log(val)
+        let eachPriceNoDiscount=val.qty*val.price;
+        for(let i=0;i<(val.discount_word.length);i++){
+          if(val.discount_word[i]=="%"||val.discount_word[i]==","){
+            val.item_amount=this.calDiscountEachPrice(eachPriceNoDiscount,val.discount_word);
+            return
           }
         }
-        if(val.discount_word.search("%")==0){
-          bahtDiscount=parseInt(val.discount_word);
-          discountCaled=bahtDiscount
+        console.log(JSON.stringify(eachPriceNoDiscount))
+        
+        if(val.discount_word==""){
+          val.item_amount=eachPriceNoDiscount;
+          return eachPriceNoDiscount;
         }
-      }
-      if(val.discount_word.search(",")>=1){
-        discountArray=val.discount_word.split(",")
-        for(let i=0;i<(discountArray.length);i++){
-            if(discountArray[i].search("%")==1){
-            for(let i=0;i<(val.discount_word.length);i++){
-              if(val.discount_word[i]=="%"){
-                percentDiscount=parseInt(val.discount_word.replace("%",""))/100;
-                discountCaled=eachPrice*percentDiscount;
+        else{
+          val.item_amount=eachPriceNoDiscount-parseInt(val.discount_word)
+          return
+        }
+      },
+      calDiscountEachPrice(eachPrice,discount_word){
+        //let discountCaled
+        console.log("test")
+        let percentDiscount
+        let discountedPrice
+        let bahtDiscount
+        let discountArray
+        let mixDiscount
+        let mixPrice=eachPrice
+        //
+        if(discount_word.includes(",")==false){
+          for(let i=0;i<(discount_word.length);i++){
+            if(discount_word[i]=="%"){
+              console.log(JSON.stringify(discount_word))
+              console.log(JSON.stringify(discount_word.replace("%","")))
+              let floatPercent=parseFloat(discount_word.replace("%",""))
+              percentDiscount=parseFloat(parseFloat(floatPercent/100.00));
+              console.log(JSON.stringify(percentDiscount))
+              discountedPrice=eachPrice-(eachPrice*percentDiscount);
+              return parseFloat(discountedPrice);
+            }
+          }
+          // if(discount_word.includes("%")==false){
+          //   bahtDiscount=parseInt(discount_word);
+          //   eachPrice=eachPrice-bahtDiscount;
+          //   return parseInt(eachPrice);
+          // }
+        }
+        if(discount_word.includes(",")==true){
+          discountArray=discount_word.split(",")
+          for(let i=0;i<(discountArray.length);i++){
+            if(discountArray[i].includes("%")==1){
+              for(let j=0;j<(discountArray[i].length);j++){
+                if(discountArray[i][j]=="%"){
+                  mixDiscount=parseInt(discountArray[i][j].replace("%",""))/100;
+                  mixPrice=mixPrice-mixDiscount;
+                }
               }
             }
+            if(discount_word.includes("%")==0){
+              bahtDiscount=parseInt(discount_word);
+              mixPrice=mixPrice-bahtDiscount;
+            }
           }
-          if(val.discount_word.search("%")==0){
-            bahtDiscount=parseInt(val.discount_word);
-            discountCaled=bahtDiscount
-          }
+          return parseInt(mixPrice);
         }
-      }
-      
-      val.aomunt=eachPrice-discountCaled
     },
-    calculatedata(val) {
-        let qty_total = parseInt(val.qty) * parseInt(val.packing_rate_1)
-        // console.log(JSON.stringify(val))
-        let index = val.index
-        // console.log(JSON.stringify(this.dproducts))
-
-       if(this.dproducts[index].stock_type == 0){// เช็คว่าเป็นสินค้า ,0 เป็นสินค้า ,1 เป็นบริการ
-        if(qty_total > this.dproducts[index].stocklimit){
-          alert("คุณระบุจำนวนสิ้นค้าเกินกว่าที่คลังมี")
-          this.dproducts[index].qty = 0
-          return
-        }
-      }
-        val.discount_word = val.discount_word.toString()
-        // console.log(val.discount_word)
-
-        if(val.discount_word.search(",") < 0){
-        if(val.discount_word.slice(-1) == '%'){
-          var cutper = parseInt(val.discount_word.slice(0, -1))
-          val.item_amount = val.qty*(val.price - (val.price * cutper)/100)
-          val.discount_amount = (val.price * val.qty) - ((val.price - ((val.price * cutper)/100))*val.qty)
-          console.log(val.discount_word) // ตัวอักษร
-          console.log(val.discount_amount) // ส่วนต่าง
-          return
-        }else{
-          val.discount_amount = (val.price * val.qty) - ((val.price - val.discount_word)*val.qty)
-        }
-        console.log(JSON.stringify(val))
-        if (this.billtype == 0) {//เงินสด
-          val.item_amount = val.qty * (val.price - val.discount_word)
-        } else if (this.billtype == 1) {//เงินเชื่อ
-          val.item_amount = val.qty * (val.price - val.discount_word)
-        }
-        console.log(val.discount_word) // ตัวอักษร
-        console.log(val.discount_amount) // ส่วนต่าง
-       }else if(val.discount_word.search(",") >= 0){
-          var res = val.discount_word.split(",")
-          if(res[0].slice(-1) == '%'){
-            var cutper = parseInt(res[0].slice(0, -1))
-            val.item_amount =  val.price - (val.price  * cutper)/100
-            var diff1 =  (val.price  * cutper)/100
-            console.log('diff1 : '+diff1)
-          }else{
-            var diff1 = val.price -(val.price - res[0])
-            console.log(diff1)
-            val.item_amount = val.price - res[0]
-          }
-          if(res[1].slice(-1) == '%'){
-             let cutper1 = parseInt(res[1].slice(0, -1))
-             val.item_amount = val.qty *(val.item_amount -( val.item_amount * cutper1)/100)
-             var diff2 = ((val.price - diff1)*cutper1)/100
-             console.log('diff2 : '+diff2)
-             val.discount_amount = (diff1 + diff2)*val.qty
-             console.log(val.discount_amount)
-          }else{
-            var diff2 = val.price -(val.price - res[1])
-            val.discount_amount = (diff1 + diff2)*val.qty
-            val.item_amount = (val.price * val.qty)- val.discount_amount
-            console.log(val.discount_amount)
-          }
-          return
-        }
-
-        console.log("**** qty *****"+JSON.stringify(val.qty))
-
-      },
+  },
+  computed:{
+    
   },
   mounted() {}
 };
