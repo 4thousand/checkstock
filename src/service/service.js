@@ -121,6 +121,15 @@ export default {
         error(response)
       })
   },
+  detailsaleall(payload, success, error) {
+    Vue.axios.post(URL + 'sales/v1/sale/search/id', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
   detailinvall(payload, success, error) {
     Vue.axios.post(URL + 'sales/v1/inv/search/id', JSON.stringify(payload)).then(
       (response) => {
