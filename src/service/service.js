@@ -3,8 +3,8 @@ import axios from 'axios'
 import Vueaxios from 'vue-axios'
 
 Vue.use(Vueaxios, axios)
-const URL = 'http://localhost:9999/'
-//const URL = 'https://n9.nopadol.com/'
+//const URL = 'http://localhost:9999/'
+const URL = 'https://n9.nopadol.com/'
 const npsysURL = 'https://sys.nopadol.com/'
 const telURL = 'https://sheetdb.io'
 const smsURL = 'https://api.apitel.co/sms'
@@ -114,6 +114,15 @@ export default {
   },
   detailquoall(payload, success, error) {
     Vue.axios.post(URL + 'sales/v1/quo/search/id', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
+  detailsaleall(payload, success, error) {
+    Vue.axios.post(URL + 'sales/v1/sale/search/id', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
       },

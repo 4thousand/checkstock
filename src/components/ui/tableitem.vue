@@ -8,33 +8,45 @@
       <div class="tables" style="width:100%">
         <md-card-actions style="justify-content:end;">
           <md-button style="width:10%">{{val.item_code}}</md-button>
-          <md-button style="width:20%;    height: auto;
-      ">
-            <div
-              style="width:100%;white-space: normal;word-wrap:  text-align-last: left; break-word;      text-align: left;  text-indent: 20px;display: inline-block;height:auto;"
-            >{{val.item_name}}</div>
-          </md-button>
-          <md-button style="width:5%" @click="select_wh(val,index)">
+          <md-button style="width:24%;">{{val.item_name}}</md-button>
+          <md-button style="width:5%" v-if="docPage=='SO'" @click="select_wh(val,index)">
             <span>{{val.location}}</span>
           </md-button>
           <md-button style="width:5%">
             <span>{{val.unit_code}}</span>
           </md-button>
-          <md-button style="min-width:5.6%" @click="changevalue_qty(val,index)">
+          <md-button style="width:5%" v-show="isQtySelected==false" @click="isQtySelected=true">
             <span>{{val.qty}}</span>
           </md-button>
+          <input
+            type="text"
+            style="width:5%"
+            v-model="val.qty"
+            v-show="isQtySelected==true"
+            @keyup.enter="isQtySelected=false,calEachPrice(val)"
+            @blur="isQtySelected=false,calEachPrice(val)"
+          >
           <md-button style="width:5%">
-            <span>{{val.price}}</span>
+            <span>{{convertmoney(val.price)}}</span>
           </md-button>
-          <md-button style="min-width:5.5%">{{val.discount_word_sub}}</md-button>
-          <md-button style="width:5%">{{val.amount}} บาท</md-button>
-          <!-- <md-button style="min-width:5%;" @click="testtable(val)">
-            <md-icon style="width: 5%;float: right;">edit</md-icon>
-          </md-button>-->
-          <md-button style="min-width:5%;" class="md-mini" @click="removeitemtable(index)">
+          <md-button
+            style="width:5%"
+            v-show="isDiscountSelected==false"
+            @click="isDiscountSelected=true"
+          >{{val.discount_word}}</md-button>
+          <input
+            style="width:5%"
+            type="text"
+            v-model="val.discount_word"
+            v-show="isDiscountSelected==true"
+            @keyup.enter="isDiscountSelected=false,calEachPrice(val)"
+            @blur="isDiscountSelected=false,calEachPrice(val)"
+          >
+          <md-button style="width:5%">{{convertmoney(val.item_amount)}}</md-button>
+          <md-button style="width:5%;" class="md-mini" @click="removeitemtable(index)">
             <md-icon style="width:5%;float: right;">delete</md-icon>
           </md-button>
-          <md-button style="min-width: 5%" class="md-mini" @click="histable(val,searchcus)">
+          <md-button style="width: 5%" class="md-mini" @click="histable(val)">
             <md-icon style="width:5%;float: right;">history</md-icon>
           </md-button>
         </md-card-actions>
@@ -57,14 +69,13 @@
                 <md-icon style="width: 50px;float: right;">more_horiz</md-icon>
               </md-button>
               <md-menu-content>
-                <md-menu-item style="min-width: 30px;" @click="testtable(val)">
+                <md-menu-item style="min-width: 30px;" @click="searchwarehousecode_m=true">
                   <md-icon style="width: 10px;float: right;">edit</md-icon>edit
                 </md-menu-item>
 
                 <md-menu-item @click="removeitemtable(index)" style="min-width: 30px;">
                   <md-icon style="width:10px;float: right;">delete</md-icon>delete
                 </md-menu-item>
-
                 <md-button style="min-width: 5%" class="md-mini" @click="histable(val)">
                   <md-icon style="width:5%;float: right;">history</md-icon>
                 </md-button>
@@ -217,14 +228,12 @@ import { Money } from "v-money";
 export default {
   name: "itemtable",
   props: {
-    // removeitemtable: Function,
+    removeitemtable: Function,
     parentData: [],
     stringProp: [],
     searched: Array,
     product: Array,
-    typepage:"",
-    searchcus: "",
-    getpage:"",
+    docPage: ""
   },
   data() {
     return {
@@ -235,6 +244,8 @@ export default {
       dproducts: [],
       edit_wh: [],
       searchwarehousecode_m: false,
+      isQtySelected: false,
+      isDiscountSelected: false
     };
   },
   methods: {
@@ -323,6 +334,10 @@ export default {
 
       this.searchwarehousecode_m = false;
     },
+    convertmoney(val) {
+      var number = numeral(val).format("0,0.00");
+      return number;
+    },
     removeitemtable(index) {
       console.log(this.product);
       this.product.splice(index, 1);
@@ -372,7 +387,7 @@ export default {
         prices: val.sale_price_1,
         sale_price_1: val.sale_price_1,
         sale_price_2: val.sale_price_2,
-        discount_word: "0",
+        discount_word: "",
         discount_amount: 0,
         item_amounts: val.sale_price_1 * 1,
         item_description: "",
@@ -386,7 +401,77 @@ export default {
       alertify.success("เพิ่มข้อมูลสินค้า " + val.item_name);
       //this.keywordproduct = ''
       //console.log(itemshow)
-    }
+    },
+      calEachPrice(val){
+        console.log(val)
+        let eachPriceNoDiscount=val.qty*val.price;
+        for(let i=0;i<(val.discount_word.length);i++){
+          if(val.discount_word[i]=="%"||val.discount_word[i]==","){
+            val.item_amount=this.calDiscountEachPrice(eachPriceNoDiscount,val.discount_word);
+            return
+          }
+        }
+        console.log(JSON.stringify(eachPriceNoDiscount))
+        
+        if(val.discount_word==""){
+          val.item_amount=eachPriceNoDiscount;
+          return eachPriceNoDiscount;
+        }
+        else{
+          val.item_amount=eachPriceNoDiscount-parseInt(val.discount_word)
+          return
+        }
+      },
+      calDiscountEachPrice(eachPrice,discount_word){
+        //let discountCaled
+        console.log("test")
+        let percentDiscount
+        let discountedPrice
+        let bahtDiscount
+        let discountArray
+        let mixDiscount
+        let mixPrice=eachPrice
+        //
+        if(discount_word.includes(",")==false){
+          for(let i=0;i<(discount_word.length);i++){
+            if(discount_word[i]=="%"){
+              console.log(JSON.stringify(discount_word))
+              console.log(JSON.stringify(discount_word.replace("%","")))
+              let floatPercent=parseFloat(discount_word.replace("%",""))
+              percentDiscount=parseFloat(parseFloat(floatPercent/100.00));
+              console.log(JSON.stringify(percentDiscount))
+              discountedPrice=eachPrice-(eachPrice*percentDiscount);
+              return parseFloat(discountedPrice);
+            }
+          }
+          // if(discount_word.includes("%")==false){
+          //   bahtDiscount=parseInt(discount_word);
+          //   eachPrice=eachPrice-bahtDiscount;
+          //   return parseInt(eachPrice);
+          // }
+        }
+        if(discount_word.includes(",")==true){
+          discountArray=discount_word.split(",")
+          for(let i=0;i<(discountArray.length);i++){
+            if(discountArray[i].includes("%")==1){
+              for(let j=0;j<(discountArray[i].length);j++){
+                if(discountArray[i][j]=="%"){
+                  mixDiscount=parseInt(discountArray[i][j].replace("%",""))/100;
+                  mixPrice=mixPrice-mixDiscount;
+                }
+              }
+            }
+            if(discount_word.includes("%")==0){
+              bahtDiscount=parseInt(discount_word);
+              mixPrice=mixPrice-bahtDiscount;
+            }
+          }
+          return parseInt(mixPrice);
+        }
+    },
+  },
+  computed:{
+    
   },
   mounted() {}
 };

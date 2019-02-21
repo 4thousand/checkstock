@@ -84,9 +84,9 @@
                         id="country"
                         placeholder="ประเภทภาษี"
                       >
-                        <md-option value="0">ภาษีแยกนอก</md-option>
-                        <md-option value="1">ภาษีรวมใน</md-option>
-                        <md-option value="2">ภาษีอัตราศูนย์</md-option>
+                        <md-option value=0>ภาษีแยกนอก</md-option>
+                        <md-option value=1>ภาษีรวมใน</md-option>
+                        <md-option value=2>ภาษีอัตราศูนย์</md-option>
                       </md-select>
                     </md-field>
                   </div>
@@ -201,25 +201,20 @@
                       </md-card-header-text>
                     </md-card-header>
                     <div class="tables">
-                      <md-card-actions>
+                      <md-card-actions style="width=100%">
                         <md-button style="width:10%">รหัสสินค้า</md-button>
-                        <md-button style="width:20%">ชื่อสินค้า</md-button>
-                        <md-button style="width:5%;">คลัง</md-button>
-                        <md-button style="width:5%;">หน่วยนับ</md-button>
-                        <md-button style="min-width:5%;">จำนวน</md-button>
-                        <md-button style="width: 5%;">ราคา/หน่วย</md-button>
-                        <md-button style="min-width:5%;">ส่วนลด</md-button>
-                        <md-button style="width: 5%;">จำนวนเงิน</md-button>
+                        <md-button style="width:24%">ชื่อสินค้า</md-button>
+                        <md-button style="width:5%">หน่วยนับ</md-button>
+                        <md-button style="width:5%">จำนวน</md-button>
+                        <md-button style="width:5%">ราคา/หน่วย</md-button>
+                        <md-button style="width:5%">ส่วนลด</md-button>
+                        <md-button style="width:5%">จำนวนเงิน</md-button>
+                        <md-button style="width:5%"></md-button>
+                        <md-button style="width:5%"></md-button>
                       </md-card-actions>
+                      <itemtable :searched="searched" :removeitemtable="removeitemtable" :docPage="docPage"></itemtable>
                     </div>
-                  </md-card>
-                  <itemtable
-                    :searched="searched"
-                    :removeitemtable="removeitemtable"
-                    :product="dproducts"
-                    :typepage="'quotation'"
-                    :searchcus="detailcus"
-                  ></itemtable>
+                  </md-card> 
                 </div>
                 <!-- table  -->
                 <div style="margin-top:15px" class="md-layout md-gutter">

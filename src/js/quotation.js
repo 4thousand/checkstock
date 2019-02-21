@@ -28,6 +28,7 @@ export default {
   },
   data: () => ({
     msg: "",
+    docPage: "QT",
     selectedDate: null,
     date: "",
     search: [],
@@ -325,7 +326,7 @@ export default {
     },
     setDone(id, index) {
       if (id == 'third') {
-        this.$router.push("/index");
+        this.$router.push("/quolist");
         return
       }
       //
@@ -385,10 +386,10 @@ export default {
           ar_code: this.searchcus,
           ar_name: this.detailcus,
           sale_id: this.sale_id,
-          sale_code,
+          sale_code:this.salecode,
           sale_name: sale_name.trim(),
           bill_type: parseInt(this.billtype),
-          tax_type,
+          tax_type: parseInt(this.taxtype),
           tax_rate: 7,
           depart_code: '',
           ref_no: '',
@@ -920,14 +921,6 @@ export default {
           } else if (result.data.doc_type == 1) {
             doc_type = 'QT'
           }
-
-          /*      if (result.data.tax_type == 0) {
-                 tax_type = 'ภาษีแยกนอก'
-               } else if (result.data.tax_type == 1) {
-                 tax_type = 'ภาษีรวมใน'
-               } else if (result.data.tax_type == 2) {
-                 tax_type = 'ภาษีอัตราศูนย์'
-               } */
           // this.dproducts = []
           this.disablebilltype = true
           this.tablecode = doc_type

@@ -335,7 +335,7 @@ table#searchitem{
   }
   .md-card-actions.md-alignment-right {
     justify-content: end;
-}
+  }
   .vdp-datepicker__calendar{
     top: -40px;
   }
@@ -424,7 +424,7 @@ table#searchitem{
     justify-content: center;
     align-items: center;
   }
-  tables2.md-fab .md-ripple, .md-fab:before, .md-icon-button .md-ripple, .md-icon-button:before {
+  .tables2.md-fab .md-ripple, .md-fab:before, .md-icon-button .md-ripple, .md-icon-button:before {
     border-radius: 1%;
   }
   .tables2.md-card-header:first-child>.md-card-header-text>.md-title:first-child, .md-card-header:first-child>.md-title:first-child {
