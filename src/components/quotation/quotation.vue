@@ -212,7 +212,7 @@
                         <md-button style="width:5%"></md-button>
                         <md-button style="width:5%"></md-button>
                       </md-card-actions>
-                      <itemtable :searched="searched" :removeitemtable="removeitemtable" :docPage="docPage"></itemtable>
+                      <itemtable :searched="searched" :removeitemtable="removeitemtable" :product="dproducts" :typepage="typepage" :searchcus="detailcus"></itemtable>
                     </div>
                   </md-card> 
                 </div>
