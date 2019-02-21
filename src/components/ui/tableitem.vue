@@ -92,7 +92,10 @@
               <md-tabs id="none" md-dynamic-height>
                 <md-tab md-label>
                   <md-field>
-                    <md-input v-model="keywordproduct"></md-input>
+                    <label>ชื่อลูกค้า</label>
+                      <md-input
+                        v-model="searchcus"
+                      ></md-input>
                   </md-field>
                   <div class="table-responsive" style="overflow-y: auto;">
                     <table class="table table-hover">
@@ -104,8 +107,8 @@
                           <th style="white-space: nowrap;">เลขที่เอกสาร</th>
                           <th style="white-space: nowrap;">รหัสสินค้า</th>
                           <th style="white-space: nowrap;">ชื่อสินค้า</th>
-                          <th style="white-space: nowrap;">หน่วยนับ</th>
                           <th style="white-space: nowrap;">จำนวน</th>
+                          <th style="white-space: nowrap;">หน่วยนับ</th>
                           <th style="white-space: nowrap;">ราคา/หน่วย</th>
                           <th style="white-space: nowrap;">ส่วนลด</th>
                           <th style="overflow:auto;white-space: nowrap;">ลูกหนี้</th>
@@ -113,16 +116,36 @@
                       </thead>
                       <tbody v-for="(val,index) in dataproductItem" :key="index" id>
                         <tr style="text-align:center;cursor:pointer">
-                          <td @click="showhisdetail(val)">{{index+1}}</td>
-                          <td @click="showhisdetail(val)">{{val.doc_date}}</td>
-                          <td @click="showhisdetail(val)">{{val.doc_no}}</td>
-                          <td @click="showhisdetail(val)">{{val.item_code}}</td>
-                          <td @click="showhisdetail(val)">{{val.item_name}}</td>
-                          <td @click="showhisdetail(val)">{{val.unit_code}}</td>
-                          <td @click="showhisdetail(val)">{{val.qty}}</td>
-                          <td @click="showhisdetail(val)">{{val.price}}</td>
-                          <td @click="showhisdetail(val)">{{val.discount_word}}</td>
-                          <td @click="showhisdetail(val)">{{val.name}}</td>
+                          <td>{{index+1}}</td>
+                          <td v-if="typepage==='invoice'">{{val.doc_date}}</td>
+                          <td v-if="typepage==='invoice'">{{val.doc_no}}</td>
+                          <td v-if="typepage==='invoice'">{{val.item_code}}</td>
+                          <td v-if="typepage==='invoice'">{{val.item_name}}</td>
+                          <td v-if="typepage==='invoice'">{{val.qty}}</td>
+                          <td v-if="typepage==='invoice'">{{val.unit_code}}</td>
+                          <td v-if="typepage==='invoice'">{{val.price}}</td>
+                          <td v-if="typepage==='invoice'">{{val.discount_word}}</td>
+                          <td v-if="typepage==='invoice'">{{val.name}}</td>
+
+                          <td v-if="typepage==='quotation'">{{val.DocDate}}</td>
+                          <td v-if="typepage==='quotation'">{{val.DocNo}}</td>
+                          <td v-if="typepage==='quotation'">{{val.ItemCode}}</td>
+                          <td v-if="typepage==='quotation'">{{val.ItemName}}</td>
+                          <td v-if="typepage==='quotation'">{{val.Qty}}</td>
+                          <td v-if="typepage==='quotation'">{{val.UnitCode}}</td>
+                          <td v-if="typepage==='quotation'">{{val.Price}}</td>
+                          <td v-if="typepage==='quotation'">{{val.DiscountWord}}</td>
+                          <td v-if="typepage==='quotation'">{{val.ArName}}</td>
+
+                          <td v-if="typepage==='saleorder'">{{val.DocDate}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.DocNo}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.ItemCode}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.ItemName}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.Qty}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.UnitCode}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.Price}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.DiscountWord}}</td>
+                          <td v-if="typepage==='saleorder'">{{val.ArName}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -177,6 +200,23 @@
         </md-dialog-actions>
       </md-dialog>
     </div>
+    <div>
+      <md-dialog :md-active.sync="changeqty">
+        <md-dialog-title>เพิ่ม หรือ ลดจำนวนสินค้า</md-dialog-title>
+        <md-tabs md-dynamic-height>
+          <md-tab md-label>
+            <div class="table-responsive" style="overflow-y: auto;">
+              <md-button class="md-primary" :md-ripple="false" @click="searchwarehousecode_m = false"> <md-icon style="width:5%;float: right;">add</md-icon></md-button>
+               <md-button class="md-primary" :md-ripple="false" @click="searchwarehousecode_m = false">1</md-button>
+              <md-button class="md-primary"  :md-ripple="false" @click="searchwarehousecode_m = false"><md-icon style="width:5%;float: right;">remove</md-icon></md-button>
+            </div>
+          </md-tab>
+        </md-tabs>
+        <md-dialog-actions>
+          <md-button class="md-primary" @click="changeqty = false">Close</md-button>
+        </md-dialog-actions>
+      </md-dialog>
+    </div>
   </div>
 </template>
 
@@ -198,6 +238,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      changeqty: false,
       dataproductItem: [],
       showDialogItem: false,
       dproducts: [],
@@ -208,8 +249,7 @@ export default {
     };
   },
   methods: {
-    select_wh(val, index) {
-      console.log(this.typepage);
+    changevalue_qty(val, index) {
       var items = {
         id: 0,
         Stk_unit_code: "",
@@ -217,23 +257,81 @@ export default {
         shelf_code: "",
         wh_code: ""
       };
+      this.changeqty = true;
+      // let payload = {
+      //   item_code: val.item_code
+      // };
+      // var data = new Array();
+      // data = [];
+      // // console.log(payload)
+      // api.searchunitcode(
+      //   payload,
+      //   result => {
+      //     console.log(result.data[0].stk_location);
+      //     result.data[0].stk_location.forEach(item => {
+      //       item.id = index;
+      //       data.push(item);
+      //     });
+
+      //     this.edit_wh = data;
+      //   },
+      //   error => {
+      //     console.log(JSON.stringify(error));
+      //     alertify.error("Data ข้อมูล Unit code ผิดพลาด");
+      //   }
+      // );
+    },
+    select_wh(val, index) {
+      var items = {
+        id: 0,
+        Stk_unit_code: "",
+        qty: 0,
+        shelf_code: "",
+        wh_code: ""
+      };
+
+      let payload = {
+        item_code: val.item_code
+      };
       var data = new Array();
       data = [];
-      val.stock_location.forEach(item => {
-        item.id = index;
+      // console.log(payload)
+      api.searchunitcode(
+        payload,
+        result => {
+          console.log(result.data[0].stk_location);
+          result.data[0].stk_location.forEach(item => {
+            item.id = index;
+            data.push(item);
+          });
 
-        data.push(item);
-        console.log(items);
-      });
-      console.log(data);
-      this.edit_wh = data;
-      console.log(this.edit_wh);
+          this.edit_wh = data;
+        },
+        error => {
+          console.log(JSON.stringify(error));
+          alertify.error("Data ข้อมูล Unit code ผิดพลาด");
+        }
+      );
+      console.log(this.typepage);
+
       this.searchwarehousecode_m = true;
+      // var data = new Array();
+      // data = [];
+      // val.stock_location.forEach(item => {
+      //   item.id = index;
+
+      //   data.push(item);
+      //   console.log(items);
+      // });
+      // console.log(data);
+      // this.edit_wh = data;
+      // console.log(this.edit_wh);
+      // this.searchwarehousecode_m = true;
     },
     selectwarehousecode(val) {
       this.product[val.id].location = val.wh_code;
       //  this.product[val.id].shelf_code = val.shelf_code
-      this.product[val.id].qty = val.qty;
+
       this.searchwarehousecode_m = false;
     },
     convertmoney(val) {

@@ -14,7 +14,7 @@ const toLower = text => {
   import Datepicker from 'vuejs-datepicker';
   import * as lang from "vuejs-datepicker/src/locale";
   import api from "../service/service.js"
-  import itemtable from '@/components/ui/tableitem'
+  import itemtable from '@/components/ui/tableitem';
   // import * as jsPDF from 'jspdf'
   import JQuery from 'jquery'
   let $ = JQuery
@@ -23,10 +23,11 @@ const toLower = text => {
     name: "saleorder",
     components: {
       Datepicker,
-      Loading,
-      itemtable
+      itemtable,
+      Loading
     },
     data: () => ({
+      itemtable: [],
       msg: "",
       docPage:"SO",
       selectedDate: null,

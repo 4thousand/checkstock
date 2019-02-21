@@ -192,16 +192,22 @@
                       <md-card-actions style="justify-content:end;">
                         <md-button style="width:10%">รหัสสินค้า</md-button>
                         <md-button style="width:20%">ชื่อสินค้า</md-button>
-                        <md-button style="    width: 5%;">คลัง</md-button>
-                        <md-button style="   width: 5%;">หน่วยนับ</md-button>
-                        <md-button style="     min-width: 5%;">จำนวน</md-button>
-                        <md-button style="   width: 5%;">ราคา/หน่วย</md-button>
-                        <md-button style="   min-width: 5%;">ส่วนลด</md-button>
-                        <md-button style="    width: 5%;">จำนวนเงิน</md-button>
+                        <md-button style="width: 5%;">คลัง</md-button>
+                        <md-button style="width: 5%;">หน่วยนับ</md-button>
+                        <md-button style="min-width: 5%;">จำนวน</md-button>
+                        <md-button style="width: 5%;">ราคา/หน่วย</md-button>
+                        <md-button style="min-width: 5%;">ส่วนลด</md-button>
+                        <md-button style="width: 5%;">จำนวนเงิน</md-button>
                       </md-card-actions>
                     </div>
                   </md-card>
-                  <itemtable :searched="searched" :product="dproducts" :typepage="'IV'"></itemtable>
+                  <itemtable
+                    :searched="searched"
+                    :removeitemtable="removeitemtable"
+                    :product="dproducts"
+                    :typepage="'invoice'"
+                    :searchcus="detailcus"
+                  ></itemtable>
                   <!-- <md-card
                     v-for="(val,index) in searched"
                     :key="index"
@@ -355,7 +361,7 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <button class="increment-button md-primary" @click="decrement()">−</button>
-                            
+
                             <input
                               class="form-control"
                               style="width:70%;float:left"
@@ -1814,7 +1820,7 @@
               <!-- testprint -->
               <form
                 id="tax_report"
-                :action="php + '/vue_sale/report_pdf/report_quotation.php'"
+                :action="php + '/report_pdf/report_quotation.php'"
                 method="post"
                 target="_blank"
               >
@@ -1827,7 +1833,7 @@
                 <!-- <button type="submit">กด</button> -->
               </form>
               <form
-                :action="php + '/vue_sale/report_pdf/report_quotationpdf.php'"
+                :action="php + '/report_pdf/report_quotationpdf.php'"
                 method="post"
                 target="_blank"
               >

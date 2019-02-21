@@ -3,7 +3,7 @@
     <div class="container">
       <div class="col-12">
         <md-field>
-          <md-tooltip md-direction="bottom">ค้นหาใบเสนอราคา ใบสั่งขาย Black Order</md-tooltip>
+          <md-tooltip md-direction="bottom" v-show="typepage=='IV'">ค้นหาใบออกบิลขาย</md-tooltip>
           <md-icon>search</md-icon>
           <label>ค้นหา</label>
           <md-input v-model="searched"></md-input>
@@ -17,7 +17,6 @@
           class="col-12 showhover"
           style="cursor: pointer;margin-bottom:10px"
         >
-
           <md-toolbar
             id="responsiveheight"
             class="md-transparent hoverdiv"
@@ -27,11 +26,7 @@
               <div
                 class="md-layout-item md-xlarge-size-5 md-large-size-5 md-xsmall-size-15 md-small-size-10 md-medium-size-5"
               >
-                <md-avatar
-                  class="md-avatar-icon md-primary"
-                  :class="'active'"
-                  style="margin:0;"
-                ></md-avatar>
+                <md-avatar class="md-avatar-icon md-primary" :class="'active'" style="margin:0;"></md-avatar>
               </div>
 
               <div
@@ -80,13 +75,23 @@
       </div>
       <!-- ข้อมูลใบเสนอราคา -->
     </div>
+    <md-speed-dial class="md-bottom-right">
+      <md-speed-dial-target @click="goindex()">
+        <md-icon>add</md-icon>
+      </md-speed-dial-target>
+    </md-speed-dial>
   </div>
 </template>
 <script>
+import Vue from "vue";
 import api from "../../service/service.js";
-
+import { Money } from "v-money";
 export default {
-  name: "invoicedetail",
+  name: "itemtable",
+  props: {
+    // removeitemtable: Function,
+    typepage: ""
+  },
   data() {
     return {
       msg: "",
@@ -124,6 +129,12 @@ export default {
           return post.sale_name
             .toLowerCase()
             .includes(this.searched.toLowerCase());
+        }else if (
+          post.doc_date.toLowerCase().includes(this.searched.toLowerCase())
+        ) {
+          return post.doc_date
+            .toLowerCase()
+            .includes(this.searched.toLowerCase());
         }
       });
     }
@@ -134,36 +145,36 @@ export default {
       // console.log(typeof result)
       return result;
     },
-    goindex(val) {
+    goindex() {
       // localStorage.iddocno = 0
       this.showNavigation = false;
 
-      if (val == "/salehistorydetail") {
+      if (this.typepage == "IV") {
         // this.topicmenu = 'ใบเสนอราคา'
-        this.$router.push({ name: "salehistorydetail", params: { id: 0 } });
+        this.$router.push({ name: "invoice", params: { id: 0 } });
         return;
       }
-
-      this.$router.push(val);
     },
     seedetail(val) {
       console.log(JSON.stringify(val));
-
-      this.$router.push({ name: "salehistorydetail", params: { id: val.id } });
+      if (this.typepage == "IV") {
+        // this.topicmenu = 'ใบเสนอราคา'
+        this.$router.push({ name: "invoice", params: { id: val.id } });
+        return;
+      }
     },
-    showalldoc() {
+    showlistinvoice() {
       var payload = {
         sale_code: this.sale_code.sale_code,
         keyword: this.keyword_showalldoc
       };
-      console.log(payload)
-      api.SearchHisByKeyword(
+      // v
+
+      api.searchinvoicelist(
         payload,
-       result => {
+        result => {
           for (var i = 0; i < result.data.length; i++) {
-
-              this.dataall.push(result.data[i]);
-
+            this.dataall.push(result.data[i]);
           }
           console.log(JSON.stringify(this.dataall));
         },
@@ -177,10 +188,11 @@ export default {
     }
   },
   mounted() {
-    this.showalldoc();
-    // console.log(JSON.stringify(this.payload))
+    if (this.typepage == "IV") {
+      this.showlistinvoice();
+    }
   }
 };
 </script>
-<style >
+<style  src="./componentlist.css">
 </style>

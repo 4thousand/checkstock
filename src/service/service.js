@@ -225,6 +225,16 @@ export default {
         error(response)
       })
   },
+  SearchHisByKeyword(payload, success, error) { //boss add
+    payload.keyword = payload.keyword.replace(" ", "%")
+    Vue.axios.post(URL + 'sales/v1/his/search/keyword', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
   searchSaleByItem(payload, success, error) { //boss add
     Vue.axios.post(URL + 'sales/v1/sale/search/item', JSON.stringify(payload)).then(
       (response) => {

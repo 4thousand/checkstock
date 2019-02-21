@@ -1,6 +1,7 @@
 <template>
   <div class="index" style="background: #f4f5f7;">
-    <div class="container">
+    <componentlist :typepage="'IV'"></componentlist>
+    <!-- <div class="container">
       <div class="col-12">
         <md-field>
           <md-tooltip md-direction="bottom">ค้นหาใบเสนอราคา ใบสั่งขาย Black Order</md-tooltip>
@@ -10,7 +11,7 @@
         </md-field>
       </div>
 
-      <!-- payloadreal -->
+ 
       <div v-for="(val,index) in listFilter" :key="index">
         <div
           @click="seedetail(val)"
@@ -78,20 +79,23 @@
           </md-toolbar>
         </div>
       </div>
-      <!-- ข้อมูลใบเสนอราคา -->
+   
     </div>
     <md-speed-dial class="md-bottom-right">
       <md-speed-dial-target @click="goindex('/invoice')">
         <md-icon>add</md-icon>
       </md-speed-dial-target>
-    </md-speed-dial>
+    </md-speed-dial>-->
   </div>
 </template>
 <script>
 import api from "../../service/service.js";
-
+import componentlist from "@/components/ui/componentlist";
 export default {
   name: "invoicedetail",
+  components: {
+    componentlist
+  },
   data() {
     return {
       msg: "",
@@ -104,86 +108,84 @@ export default {
     };
   },
   computed: {
-    listFilter() {
-      return this.dataall.filter(post => {
-        if (post.doc_no.toLowerCase().includes(this.searched.toLowerCase())) {
-          return post.doc_no
-            .toLowerCase()
-            .includes(this.searched.toLowerCase());
-        } else if (
-          post.ar_code.toLowerCase().includes(this.searched.toLowerCase())
-        ) {
-          return post.ar_code
-            .toLowerCase()
-            .includes(this.searched.toLowerCase());
-          sale_name;
-        } else if (
-          post.ar_name.toLowerCase().includes(this.searched.toLowerCase())
-        ) {
-          return post.ar_name
-            .toLowerCase()
-            .includes(this.searched.toLowerCase());
-        } else if (
-          post.sale_name.toLowerCase().includes(this.searched.toLowerCase())
-        ) {
-          return post.sale_name
-            .toLowerCase()
-            .includes(this.searched.toLowerCase());
-        }
-      });
-    }
+    // listFilter() {
+    //   return this.dataall.filter(post => {
+    //     if (post.doc_no.toLowerCase().includes(this.searched.toLowerCase())) {
+    //       return post.doc_no
+    //         .toLowerCase()
+    //         .includes(this.searched.toLowerCase());
+    //     } else if (
+    //       post.ar_code.toLowerCase().includes(this.searched.toLowerCase())
+    //     ) {
+    //       return post.ar_code
+    //         .toLowerCase()
+    //         .includes(this.searched.toLowerCase());
+    //       sale_name;
+    //     } else if (
+    //       post.ar_name.toLowerCase().includes(this.searched.toLowerCase())
+    //     ) {
+    //       return post.ar_name
+    //         .toLowerCase()
+    //         .includes(this.searched.toLowerCase());
+    //     } else if (
+    //       post.sale_name.toLowerCase().includes(this.searched.toLowerCase())
+    //     ) {
+    //       return post.sale_name
+    //         .toLowerCase()
+    //         .includes(this.searched.toLowerCase());
+    //     }
+    //   });
+    // }
   },
   methods: {
-    convertToBaht(val) {
-      var result = numeral(val).format("0,0.00");
-      // console.log(typeof result)
-      return result;
-    },
-    goindex(val) {
-      // localStorage.iddocno = 0
-      this.showNavigation = false;
+    // convertToBaht(val) {
+    //   var result = numeral(val).format("0,0.00");
+    //   // console.log(typeof result)
+    //   return result;
+    // },
+    // goindex() {
+    //   // localStorage.iddocno = 0
+    //   this.showNavigation = false;
 
-      if (val == "/invoice") {
-        // this.topicmenu = 'ใบเสนอราคา'
-        this.$router.push({ name: "invoice", params: { id: 0 } });
-        return;
-      }
+    //   if (val == "/invoice") {
+    //     // this.topicmenu = 'ใบเสนอราคา'
+    //     this.$router.push({ name: "invoice", params: { id: 0 } });
+    //     return;
+    //   }
 
-      this.$router.push(val);
-    },
-    seedetail(val) {
-      console.log(JSON.stringify(val));
+    //   this.$router.push(val);
+    // },
+    // seedetail(val) {
+    //   console.log(JSON.stringify(val));
 
-      this.$router.push({ name: "invoice", params: { id: val.id } });
-    },
-    showalldoc() {
-      var payload = {
-        sale_code: this.sale_code.sale_code,
-        keyword: this.keyword_showalldoc
-      };
-      // v
+    //   this.$router.push({ name: "invoice", params: { id: val.id } });
+    // },
+    // showalldoc() {
+    //   var payload = {
+    //     sale_code: this.sale_code.sale_code,
+    //     keyword: this.keyword_showalldoc
+    //   };
+    //   // v
 
-      api.searchinvoicelist(
-        payload,
-       result => {
-          for (var i = 0; i < result.data.length; i++) {
-
-              this.dataall.push(result.data[i]);
-
-          }
-          console.log(JSON.stringify(this.dataall));
-        },
-        error => {
-          console.log(JSON.stringify(error));
-          alertify.error("Data ข้อมูลผิดพลาด");
-          //  alertify.success('Error login');
-          // this.cload()
-        }
-      );
-    }
+    //   api.searchinvoicelist(
+    //     payload,
+    //     result => {
+    //       for (var i = 0; i < result.data.length; i++) {
+    //         this.dataall.push(result.data[i]);
+    //       }
+    //       console.log(JSON.stringify(this.dataall));
+    //     },
+    //     error => {
+    //       console.log(JSON.stringify(error));
+    //       alertify.error("Data ข้อมูลผิดพลาด");
+    //       //  alertify.success('Error login');
+    //       // this.cload()
+    //     }
+    //   );
+    // }
   },
   mounted() {
-    this.showalldoc();
+    // this.showalldoc();
     // console.log(JSON.stringify(this.payload))
   }
 };

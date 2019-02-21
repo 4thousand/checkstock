@@ -1170,7 +1170,7 @@
                           </div>
                           <div class="tax-bottom-part print-button col-4">
                             <form
-                              :action="php + '/vue_sale/report_pdf/report_deposit.php'"
+                              :action="php + '/report_pdf/report_deposit.php'"
                               method="post"
                               target="_blank"
                             >
@@ -1233,7 +1233,7 @@ export default {
       selectReserve: false,
       searchCustomerInput: "",
       searchReserveInput: "",
-      php: "http://" + document.domain,
+      php: "https://" + document.domain,
       reserveNo: "",
       customerDetail: [],
       reserveDetail: [],
