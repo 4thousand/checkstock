@@ -442,26 +442,28 @@ export default {
               return parseFloat(discountedPrice);
             }
           }
-          // if(discount_word.includes("%")==false){
-          //   bahtDiscount=parseInt(discount_word);
-          //   eachPrice=eachPrice-bahtDiscount;
-          //   return parseInt(eachPrice);
-          // }
         }
         if(discount_word.includes(",")==true){
           discountArray=discount_word.split(",")
+          console.log(JSON.stringify(discountArray))
           for(let i=0;i<(discountArray.length);i++){
-            if(discountArray[i].includes("%")==1){
-              for(let j=0;j<(discountArray[i].length);j++){
-                if(discountArray[i][j]=="%"){
-                  mixDiscount=parseInt(discountArray[i][j].replace("%",""))/100;
-                  mixPrice=mixPrice-mixDiscount;
-                }
+            let pToken=0;
+            for(let j=0;j<(discountArray[i].length);j++){
+              console.log(JSON.stringify(discountArray[i]))
+              let str=discountArray[i]
+              console.log(JSON.stringify(str[j]))
+              if(str[j]=="%"){
+                mixDiscount=parseFloat(str.replace("%",""))/100.00;
+                console.log(JSON.stringify(mixDiscount));
+                mixPrice=mixPrice-(mixPrice*mixDiscount);
+                console.log(JSON.stringify(mixPrice));
+                pToken++;
               }
             }
-            if(discount_word.includes("%")==0){
-              bahtDiscount=parseInt(discount_word);
+            if(pToken==0){
+              bahtDiscount=parseFloat(discountArray);
               mixPrice=mixPrice-bahtDiscount;
+              console.log(JSON.stringify(mixPrice));
             }
           }
           return parseInt(mixPrice);
