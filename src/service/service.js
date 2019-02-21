@@ -3,8 +3,8 @@ import axios from 'axios'
 import Vueaxios from 'vue-axios'
 
 Vue.use(Vueaxios, axios)
-//const URL = 'http://localhost:9999/'
-const URL = 'https://n9.nopadol.com/'
+const URL = 'http://localhost:9999/'
+//const URL = 'https://n9.nopadol.com/'
 const npsysURL = 'https://sys.nopadol.com/'
 const telURL = 'https://sheetdb.io'
 const smsURL = 'https://api.apitel.co/sms'
