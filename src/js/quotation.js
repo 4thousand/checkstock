@@ -28,7 +28,7 @@ export default {
   },
   data: () => ({
     msg: "",
-    docPage: "QT",
+    typepage: "quotation",
     selectedDate: null,
     date: "",
     search: [],

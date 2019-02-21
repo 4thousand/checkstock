@@ -29,7 +29,7 @@ const toLower = text => {
     data: () => ({
       itemtable: [],
       msg: "",
-      docPage:"SO",
+      typepage:"saleorder",
       selectedDate: null,
       date: "",
       search: [],

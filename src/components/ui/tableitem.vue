@@ -8,13 +8,8 @@
       <div class="tables" style="width:100%">
         <md-card-actions style="justify-content:end;">
           <md-button style="width:10%">{{val.item_code}}</md-button>
-          <md-button style="width:20%;    height: auto;
-      ">
-            <div
-              style="width:100%;white-space: normal;word-wrap:  text-align-last: left; break-word;      text-align: left;  text-indent: 20px;display: inline-block;height:auto;"
-            >{{val.item_name}}</div>
-          </md-button>
-          <md-button style="width:5%" @click="select_wh(val,index)">
+          <md-button style="width:24%;">{{val.item_name}}</md-button>
+          <md-button style="width:5%" v-if="typepage=='saleorder'" @click="select_wh(val,index)">
             <span>{{val.location}}</span>
           </md-button>
           <md-button style="width:5%">
@@ -64,8 +59,7 @@
                 <md-menu-item @click="removeitemtable(index)" style="min-width: 30px;">
                   <md-icon style="width:10px;float: right;">delete</md-icon>delete
                 </md-menu-item>
-
-                <md-button style="min-width: 5%" class="md-mini" @click="histable(val)">
+                <md-button style="min-width: 5%" class="md-mini" @click="histable(val,searchcus)">
                   <md-icon style="width:5%;float: right;">history</md-icon>
                 </md-button>
               </md-menu-content>
@@ -81,10 +75,7 @@
               <md-tabs id="none" md-dynamic-height>
                 <md-tab md-label>
                   <md-field>
-                    <label>ชื่อลูกค้า</label>
-                      <md-input
-                        v-model="searchcus"
-                      ></md-input>
+                    <h5><span>{{val.item_code}} {{searchcus}}</span></h5>
                   </md-field>
                   <div class="table-responsive" style="overflow-y: auto;">
                     <table class="table table-hover">
@@ -94,13 +85,11 @@
                           <th style="white-space: nowrap;">ลำดับ</th>
                           <th style="overflow:auto;white-space: nowrap;">วันที่เอกสาร</th>
                           <th style="white-space: nowrap;">เลขที่เอกสาร</th>
-                          <th style="white-space: nowrap;">รหัสสินค้า</th>
                           <th style="white-space: nowrap;">ชื่อสินค้า</th>
                           <th style="white-space: nowrap;">จำนวน</th>
                           <th style="white-space: nowrap;">หน่วยนับ</th>
                           <th style="white-space: nowrap;">ราคา/หน่วย</th>
                           <th style="white-space: nowrap;">ส่วนลด</th>
-                          <th style="overflow:auto;white-space: nowrap;">ลูกหนี้</th>
                         </tr>
                       </thead>
                       <tbody v-for="(val,index) in dataproductItem" :key="index" id>
@@ -108,33 +97,27 @@
                           <td>{{index+1}}</td>
                           <td v-if="typepage==='invoice'">{{val.doc_date}}</td>
                           <td v-if="typepage==='invoice'">{{val.doc_no}}</td>
-                          <td v-if="typepage==='invoice'">{{val.item_code}}</td>
                           <td v-if="typepage==='invoice'">{{val.item_name}}</td>
                           <td v-if="typepage==='invoice'">{{val.qty}}</td>
                           <td v-if="typepage==='invoice'">{{val.unit_code}}</td>
                           <td v-if="typepage==='invoice'">{{val.price}}</td>
                           <td v-if="typepage==='invoice'">{{val.discount_word}}</td>
-                          <td v-if="typepage==='invoice'">{{val.name}}</td>
 
                           <td v-if="typepage==='quotation'">{{val.DocDate}}</td>
                           <td v-if="typepage==='quotation'">{{val.DocNo}}</td>
-                          <td v-if="typepage==='quotation'">{{val.ItemCode}}</td>
                           <td v-if="typepage==='quotation'">{{val.ItemName}}</td>
                           <td v-if="typepage==='quotation'">{{val.Qty}}</td>
                           <td v-if="typepage==='quotation'">{{val.UnitCode}}</td>
                           <td v-if="typepage==='quotation'">{{val.Price}}</td>
                           <td v-if="typepage==='quotation'">{{val.DiscountWord}}</td>
-                          <td v-if="typepage==='quotation'">{{val.ArName}}</td>
 
                           <td v-if="typepage==='saleorder'">{{val.DocDate}}</td>
                           <td v-if="typepage==='saleorder'">{{val.DocNo}}</td>
-                          <td v-if="typepage==='saleorder'">{{val.ItemCode}}</td>
                           <td v-if="typepage==='saleorder'">{{val.ItemName}}</td>
                           <td v-if="typepage==='saleorder'">{{val.Qty}}</td>
                           <td v-if="typepage==='saleorder'">{{val.UnitCode}}</td>
                           <td v-if="typepage==='saleorder'">{{val.Price}}</td>
                           <td v-if="typepage==='saleorder'">{{val.DiscountWord}}</td>
-                          <td v-if="typepage==='saleorder'">{{val.ArName}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -195,9 +178,25 @@
         <md-tabs md-dynamic-height>
           <md-tab md-label>
             <div class="table-responsive" style="overflow-y: auto;">
-              <md-button class="md-primary" :md-ripple="false" @click="searchwarehousecode_m = false"> <md-icon style="width:5%;float: right;">add</md-icon></md-button>
-               <md-button class="md-primary" :md-ripple="false" @click="searchwarehousecode_m = false">1</md-button>
-              <md-button class="md-primary"  :md-ripple="false" @click="searchwarehousecode_m = false"><md-icon style="width:5%;float: right;">remove</md-icon></md-button>
+              <md-button
+                class="md-primary"
+                :md-ripple="false"
+                @click="searchwarehousecode_m = false"
+              >
+                <md-icon style="width:5%;float: right;">add</md-icon>
+              </md-button>
+              <md-button
+                class="md-primary"
+                :md-ripple="false"
+                @click="searchwarehousecode_m = false"
+              >1</md-button>
+              <md-button
+                class="md-primary"
+                :md-ripple="false"
+                @click="searchwarehousecode_m = false"
+              >
+                <md-icon style="width:5%;float: right;">remove</md-icon>
+              </md-button>
             </div>
           </md-tab>
         </md-tabs>
@@ -222,9 +221,8 @@ export default {
     stringProp: [],
     searched: Array,
     product: Array,
-    typepage:"",
-    searchcus: "",
-    getpage:"",
+    typepage: "",
+    searchcus: ""
   },
   data() {
     return {
@@ -330,34 +328,36 @@ export default {
     },
     seedetail() {},
     showalldoc() {},
-    histable(val,searchcus) {
-          console.log(JSON.stringify(val))
-          console.log(val.item_code)
-          console.log(this.searchcus)
-          console.log(this.typepage)
-          //console.log(this.detailcus)
-          //this.showDialogItem = true
-          let payload = {
-            name: this.searchcus,
-            item_code: val.item_code,
-            page: this.typepage
-          }
-          this.isLoading = true
-          console.log(payload)
-          api.searchSaleByItem(payload,
-              result => {
-                  this.isLoading = false
-                  console.log(result.data)
-                  console.log(result.data.length)
-                  this.showDialogItem = true
-                  this.dataproductItem = result.data
-              },
-              error => {
-                  this.isLoading = false
-                  console.log(JSON.stringify("มันเสียนะ",error))
-                  alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
-              })
-      },
+    histable(val, searchcus) {
+      console.log(JSON.stringify(val));
+      console.log(val.item_code);
+      console.log(searchcus);
+      console.log(this.typepage);
+      //console.log(this.detailcus)
+      //this.showDialogItem = true
+      let payload = {
+        name: this.searchcus,
+        item_code: val.item_code,
+        page: this.typepage
+      };
+      this.isLoading = true;
+      console.log(payload);
+      api.searchSaleByItem(
+        payload,
+        result => {
+          this.isLoading = false;
+          console.log(result.data);
+          console.log(result.data.length);
+          this.showDialogItem = true;
+          this.dataproductItem = result.data;
+        },
+        error => {
+          this.isLoading = false;
+          console.log(JSON.stringify("มันเสียนะ", error));
+          alertify.error("ข้อมูล สินค้าเกิดข้อผิดพลาด");
+        }
+      );
+    },
     showhisdetail(val) {
       console.log(JSON.stringify(val));
       var itemshow = {
@@ -386,8 +386,81 @@ export default {
       alertify.success("เพิ่มข้อมูลสินค้า " + val.item_name);
       //this.keywordproduct = ''
       //console.log(itemshow)
+    },
+    calEachPrice(val) {
+      console.log(val);
+      let eachPriceNoDiscount = val.qty * val.price;
+      for (let i = 0; i < val.discount_word.length; i++) {
+        if (val.discount_word[i] == "%" || val.discount_word[i] == ",") {
+          val.item_amount = this.calDiscountEachPrice(
+            eachPriceNoDiscount,
+            val.discount_word
+          );
+          return;
+        }
+      }
+      console.log(JSON.stringify(eachPriceNoDiscount));
+
+      if (val.discount_word == "") {
+        val.item_amount = eachPriceNoDiscount;
+        return eachPriceNoDiscount;
+      } else {
+        val.item_amount = eachPriceNoDiscount - parseInt(val.discount_word);
+        return;
+      }
+    },
+    calDiscountEachPrice(eachPrice, discount_word) {
+      //let discountCaled
+      console.log("test");
+      let percentDiscount;
+      let discountedPrice;
+      let bahtDiscount;
+      let discountArray;
+      let mixDiscount;
+      let mixPrice = eachPrice;
+      //
+      if (discount_word.includes(",") == false) {
+        for (let i = 0; i < discount_word.length; i++) {
+          if (discount_word[i] == "%") {
+            console.log(JSON.stringify(discount_word));
+            console.log(JSON.stringify(discount_word.replace("%", "")));
+            let floatPercent = parseFloat(discount_word.replace("%", ""));
+            percentDiscount = parseFloat(parseFloat(floatPercent / 100.0));
+            console.log(JSON.stringify(percentDiscount));
+            discountedPrice = eachPrice - eachPrice * percentDiscount;
+            return parseFloat(discountedPrice);
+          }
+        }
+      }
+      if (discount_word.includes(",") == true) {
+        discountArray = discount_word.split(",");
+        console.log(JSON.stringify(discountArray));
+        for (let i = 0; i < discountArray.length; i++) {
+          let pToken = [];
+          
+          for (let j = 0; j < discountArray[i].length; j++) {
+            console.log(JSON.stringify(discountArray[i]));
+            let str = discountArray[i];
+            console.log(JSON.stringify(str[j]));
+            if (str[j] == "%") {
+              mixDiscount = parseFloat(str.replace("%", "")) / 100.0;
+              console.log(JSON.stringify(mixDiscount));
+              mixPrice = mixPrice - mixPrice * mixDiscount;
+              console.log(JSON.stringify(mixPrice));
+              pToken[i]=1;
+            }
+          }
+          if (pToken[i] != 1) {
+            mixDiscount = parseFloat(discountArray[i]);
+            mixPrice = mixPrice - mixDiscount;
+            console.log(JSON.stringify(mixPrice));
+          }
+        }
+        return parseInt(mixPrice);
+      }
     }
   },
+  computed: {},
   mounted() {}
 };
 </script>
