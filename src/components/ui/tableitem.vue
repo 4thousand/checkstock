@@ -330,32 +330,34 @@ export default {
     },
     seedetail() {},
     showalldoc() {},
-    histable(val) {
-      console.log(JSON.stringify(val));
-      console.log(val.item_code);
-      this.showDialogItem = true;
-      let payload = {
-        item_code: val.item_code
-        //item_code: ""
-      };
-      this.isLoading = true;
-      console.log(payload);
-      api.searchSaleByItem(
-        payload,
-        result => {
-          this.isLoading = false;
-          console.log(result.data);
-          console.log(result.data.length);
-          this.showDialogItem = true;
-          this.dataproductItem = result.data;
-        },
-        error => {
-          this.isLoading = false;
-          console.log(JSON.stringify("มันเสียนะ", error));
-          alertify.error("ข้อมูล สินค้าเกิดข้อผิดพลาด");
-        }
-      );
-    },
+    histable(val,searchcus) {
+          console.log(JSON.stringify(val))
+          console.log(val.item_code)
+          console.log(this.searchcus)
+          console.log(this.typepage)
+          //console.log(this.detailcus)
+          //this.showDialogItem = true
+          let payload = {
+            name: this.searchcus,
+            item_code: val.item_code,
+            page: this.typepage
+          }
+          this.isLoading = true
+          console.log(payload)
+          api.searchSaleByItem(payload,
+              result => {
+                  this.isLoading = false
+                  console.log(result.data)
+                  console.log(result.data.length)
+                  this.showDialogItem = true
+                  this.dataproductItem = result.data
+              },
+              error => {
+                  this.isLoading = false
+                  console.log(JSON.stringify("มันเสียนะ",error))
+                  alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
+              })
+      },
     showhisdetail(val) {
       console.log(JSON.stringify(val));
       var itemshow = {
