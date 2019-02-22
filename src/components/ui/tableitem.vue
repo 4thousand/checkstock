@@ -19,7 +19,7 @@
             <span>{{val.qty}}</span>
           </md-button>
           <input
-            type="text"
+            type="number"
             style="width:5%"
             v-model="val.qty"
             v-show="isQtySelected==true"
@@ -136,7 +136,7 @@
                           <td v-if="typepage==='saleorder'">{{val.UnitCode}}</td>
                           <td v-if="typepage==='saleorder'">{{val.Price}}</td>
                           <td v-if="typepage==='saleorder'">{{val.DiscountWord}}</td>
-                        </tr>
+                        </tr>"val.qt
                       </tbody>
                     </table>
                   </div>
@@ -400,6 +400,7 @@ export default {
       //console.log(itemshow)
     },
     calEachPrice(val) {
+      val.qty = parseInt(val.qty)
       console.log(val);
       let eachPriceNoDiscount = val.qty * val.price;
       for (let i = 0; i < val.discount_word.length; i++) {

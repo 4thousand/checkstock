@@ -381,13 +381,14 @@ export default {
           datenow_datepicker: this.datenow_datepicker,
           dif_fee: this.dif_fee,
           //norecord
+          
           doc_type,
           ar_id: this.idcus,
           ar_code: this.searchcus,
           ar_name: this.detailcus,
           sale_id: this.sale_id,
           sale_code:this.salecode,
-          sale_name: sale_name.trim(),
+          sale_name: sale_name,
           bill_type: parseInt(this.billtype),
           tax_type: parseInt(this.taxtype),
           tax_rate: 7,
@@ -939,13 +940,14 @@ export default {
           console.log(datasubs)
           for (let x = 0; x < datasubs.length; x++) {
             console.log(datasubs[0].price)
+            console.log(datasubs[x].qty)
             data = {
               item_id: datasubs[x].id,
               item_code: datasubs[x].item_code,
               bar_code: datasubs[x].bar_code,
               item_name: datasubs[x].item_name,
               unit_code: datasubs[x].unit_code,
-              qty: datasubs[x].qty,
+              qty: parseFloat(datasubs[x].qty),
               price: datasubs[x].price,
               discount_word: datasubs[x].discount_word,
               discount_amount: datasubs[x].discount_amount,
@@ -959,8 +961,7 @@ export default {
             this.dproducts.push(data)
           }
           console.log(JSON.stringify(this.dproducts))
-          this.salecode = result.data.sale_code.trim() + ' / ' + result.data.sale_name
-          this.validity = result.data.validity
+          this.salecode = result.data.sale_code
           this.expire_date = result.data.expire_credit
           this.caldiscount = result.data.discount_amount
           // console.log(this.expire_date)
@@ -1069,6 +1070,10 @@ export default {
           alertify.error('Data ข้อมูล ค้นหาคลัง ผิดพลาด');
         })
       // alert('ทดสอบ')
+    },
+    callQTtoSO(){
+      this.$router.push({ name: "saleorder2", params: { id: 0 }, props: {payload:true} });
+      return;
     }
   },
   created() {

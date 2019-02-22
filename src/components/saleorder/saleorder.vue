@@ -23,7 +23,7 @@
                     class="md-layout-item md-size-10 md-small-size-100"
                     style="text-align:right;"
                   >
-                    <!-- <md-button style="position: relative;top: 50%;transform: translateY(-50%);" class="md-raised md-primary"><span>ค้นหา</span> </md-button> -->
+                    <md-button style="position: relative;top: 60%;left:-20%;transform: translateY(-50%);" class="md-raised md-primary"><span>เลือกใบเสนอราคา</span> </md-button>
                   </div>
                   <div class="md-layout-item md-size-20 md-small-size-100">
                     <span class="md-title sub">เลขที่ใบเสนอราคา</span>
@@ -87,9 +87,9 @@
                         id="country"
                         placeholder="ประเภทภาษี"
                       >
-                        <md-option value=0>ภาษีแยกนอก</md-option>
-                        <md-option value=1>ภาษีรวมใน</md-option>
-                        <md-option value=2>ภาษีอัตราศูนย์</md-option>
+                        <md-option value="0">ภาษีแยกนอก</md-option>
+                        <md-option value="1">ภาษีรวมใน</md-option>
+                        <md-option value="2">ภาษีอัตราศูนย์</md-option>
                       </md-select>
                     </md-field>
                   </div>
@@ -208,7 +208,11 @@
                       </md-card-actions>
                     </div>
                   </md-card>
-                  <itemtable :searched="searched" :removeitemtable="removeitemtable" :docPage="docPage"></itemtable>
+                  <itemtable
+                    :searched="searched"
+                    :removeitemtable="removeitemtable"
+                    :typepage="typepage"
+                  ></itemtable>
                 </div>
                 <!-- table  -->
                 <div style="margin-top:15px" class="md-layout md-gutter">
@@ -299,14 +303,12 @@
                   >
                     <span class="md-title subnotop">ภาษีมูลค่าเพิ่ม</span>
                   </div>
-
                   <div
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:right;"
                   >
                     <span class="md-title subnotop">{{ convertmoney(dif_fee) }}</span>
                   </div>
-
                   <div
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:center;"
@@ -322,14 +324,12 @@
                   >
                     <span class="md-title subnotop">มูลค่ารวมภาษี</span>
                   </div>
-
                   <div
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:right;"
                   >
                     <span class="md-title subnotop">{{ convertmoney(cal_totalprice) }}</span>
                   </div>
-
                   <div
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:center;"

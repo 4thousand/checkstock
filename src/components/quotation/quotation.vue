@@ -216,6 +216,12 @@
                     </div>
                   </md-card> 
                 </div>
+                <!-- confirm button -->
+                <div style="margin-top:15px" class="md-layout md-gutter" v-if="id!=0">
+                  <md-button class="md-raised md-primary">อนุมัติใบเสนอราคานี้</md-button>
+                  <md-button class="md-raised md-accent">ยกเลิกใบเสนอราคานี้</md-button>
+                  <md-button class="md-raised" @click="callQTtoSO()">นำใบเสนอราคานี้ไปทำใบสั่งขาย</md-button>
+                </div>
                 <!-- table  -->
                 <div style="margin-top:15px" class="md-layout md-gutter">
                   <div
