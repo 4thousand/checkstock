@@ -15,21 +15,39 @@
           <md-button style="width:5%">
             <span>{{val.unit_code}}</span>
           </md-button>
-          <md-button style="min-width:5.6%" @click="changevalue_qty(val,index)">
+          <md-button style="width:5%" v-show="isQtySelected==false" @click="isQtySelected=true">
             <span>{{val.qty}}</span>
           </md-button>
+          <input
+            type="text"
+            style="width:5%"
+            v-model="val.qty"
+            v-show="isQtySelected==true"
+            @keyup.enter="isQtySelected=false,calEachPrice(val)"
+            @blur="isQtySelected=false,calEachPrice(val)"
+          >
           <md-button style="width:5%">
-            <span>{{val.price}}</span>
+            <span>{{convertmoney(val.price)}}</span>
           </md-button>
-          <md-button style="min-width:5.5%">{{val.discount_word_sub}}</md-button>
-          <md-button style="width:5%">{{val.amount}} บาท</md-button>
-          <!-- <md-button style="min-width:5%;" @click="testtable(val)">
-            <md-icon style="width: 5%;float: right;">edit</md-icon>
-          </md-button>-->
-          <md-button style="min-width:5%;" class="md-mini" @click="removeitemtable(index)">
+          <md-button style="width:5%" 
+            v-show="isDiscountSelected==false"
+            @click="isDiscountSelected=true"
+          >
+            {{val.discount_word}}
+          </md-button>
+          <input
+            style="width:5%"
+            type="text"
+            v-model="val.discount_word"
+            v-show="isDiscountSelected==true"
+            @keyup.enter="isDiscountSelected=false,calEachPrice(val)"
+            @blur="isDiscountSelected=false,calEachPrice(val)"
+          >
+          <md-button style="width:5%">{{convertmoney(val.item_amount)}}</md-button>
+          <md-button style="width:5%;" class="md-mini" @click="removeitemtable(index)">
             <md-icon style="width:5%;float: right;">delete</md-icon>
           </md-button>
-          <md-button style="min-width: 5%" class="md-mini" @click="histable(val,searchcus)">
+          <md-button style="width: 5%" class="md-mini" @click="histable(val,searchcus)">
             <md-icon style="width:5%;float: right;">history</md-icon>
           </md-button>
         </md-card-actions>
@@ -233,6 +251,8 @@ export default {
       dproducts: [],
       edit_wh: [],
       searchwarehousecode_m: false,
+      isQtySelected: false,
+      isDiscountSelected: false
     };
   },
   methods: {
@@ -302,24 +322,16 @@ export default {
       console.log(this.typepage);
 
       this.searchwarehousecode_m = true;
-      // var data = new Array();
-      // data = [];
-      // val.stock_location.forEach(item => {
-      //   item.id = index;
-
-      //   data.push(item);
-      //   console.log(items);
-      // });
-      // console.log(data);
-      // this.edit_wh = data;
-      // console.log(this.edit_wh);
-      // this.searchwarehousecode_m = true;
     },
     selectwarehousecode(val) {
       this.product[val.id].location = val.wh_code;
       //  this.product[val.id].shelf_code = val.shelf_code
 
       this.searchwarehousecode_m = false;
+    },
+    convertmoney(val) {
+      var number = numeral(val).format("0,0.00");
+      return number;
     },
     removeitemtable(index) {
       console.log(this.product);
