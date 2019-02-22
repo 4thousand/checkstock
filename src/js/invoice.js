@@ -201,7 +201,8 @@ export default {
             isEditBank: false,
             isEditPromplay: false,
             showsucess: false,
-            itemtable: []
+            itemtable: [],
+            creditcardtype: [],
         }
     },
     methods: {
@@ -226,11 +227,27 @@ export default {
                 this.showpromplay = true
                 console.log(this.prompaly.price)
             }
-            else {
-                this.prompaly.price = this.balances
-                this.isEditPromplay = true
-                this.showpromplay = true
-                console.log(this.prompaly.price)
+            else if (val == 1) {
+                let payload = {
+                    keyword: this.Allocate
+                }
+                console.log(payload)
+                this.isLoading = true
+                api.searchcreditcard(payload,
+                    (result) => {
+                        this.isLoading = false
+                        console.log(JSON.stringify(result.data))
+                        // console.log(result.data.length)
+                        this.creditcardtype.push(result.data)
+                        console.log(JSON.stringify(this.creditcardtype))
+                    },
+                    (error) => {
+                        this.isLoading = false
+                        console.log(JSON.stringify(error))
+                        alertify.error('Data ข้อมูลการจัดสรรผิดพลาด');
+                    })
+                this.showCredit = true
+
             }
         },
         decrement() {
@@ -785,28 +802,28 @@ export default {
 
         },
         histable(val) {
-          console.log(JSON.stringify(val))
-          console.log(val.item_code)
-          // alert(this.billtype)
-          // alert('d')
-          let payload = {
-              item_code: item_code
-          }
-          this.isLoading = true
-          console.log(payload)
-          api.searchSaleByItem(payload,
-              (result) => {
-                  this.isLoading = false
-                  console.log(result.data)
-                  console.log(result.data.length)
-                  this.showDialogItem = true
-                  this.dataproductItem = result.data
-              },
-              (error) => {
-                  this.isLoading = false
-                  console.log(JSON.stringify(error))
-                  alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
-              })
+            console.log(JSON.stringify(val))
+            console.log(val.item_code)
+            // alert(this.billtype)
+            // alert('d')
+            let payload = {
+                item_code: item_code
+            }
+            this.isLoading = true
+            console.log(payload)
+            api.searchSaleByItem(payload,
+                (result) => {
+                    this.isLoading = false
+                    console.log(result.data)
+                    console.log(result.data.length)
+                    this.showDialogItem = true
+                    this.dataproductItem = result.data
+                },
+                (error) => {
+                    this.isLoading = false
+                    console.log(JSON.stringify(error))
+                    alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
+                })
         },
         addproduct() {
             console.log(this.keywordproduct)
@@ -1000,6 +1017,25 @@ export default {
 
         },
         showdetail(val) {
+            var i = 0
+      
+            this.dproducts.forEach(function(items, a) {
+                console.log(items)
+                if (items.item_code == val.item_code) {
+                    alertify.success('สินค้า ' + val.item_name + 'อยู่ในรายการแล้ว');
+                   
+                    i+=1
+                    return  
+                     
+                }
+          
+            });
+            console.log(val)
+            if(i>0){
+                return
+            }
+           
+            
             var data = new Array();
             console.log(JSON.stringify(val))
 
@@ -1022,8 +1058,8 @@ export default {
                     sale_price_1: val.sale_price_1,
                     sale_price_2: val.sale_price_2,
 
-                    stock_location:data,
-                    location:data[0].wh_code,
+                    stock_location: data,
+                    location: data[0].wh_code,
                     discount_word_sub: '0',
                     discount_word_sub: 0,
                     amount: val.sale_price_1 * 1,
@@ -1031,6 +1067,7 @@ export default {
                     packing_rate_1: parseInt(val.rate_1),
                     is_cancel: 0
                 }
+
                 console.log(datashow)
                 this.dproducts.push(datashow)
                 //close modal
@@ -1055,6 +1092,7 @@ export default {
                     packing_rate_1: parseInt(val.rate_1),
                     is_cancel: 0
                 }
+               
                 this.dproducts.push(datashow)
                 //close modal
                 this.showDialogproduct = false
@@ -1065,33 +1103,33 @@ export default {
             //console.log(datashow)
         },
         showhisdetail(val) {
-          console.log(JSON.stringify(val))
-              var itemshow = {
-                  item_id: val.id,
-                  item_code: val.item_code,
-                  bar_code: val.bar_code,
-                  item_name: val.item_name,
-                  unit_code: val.unit_code,
-                  doc_date: val.doc_date,
-                  qty: 1,
-                  name: val.name,
-                  prices: val.sale_price_1,
-                  sale_price_1: val.sale_price_1,
-                  sale_price_2: val.sale_price_2,
-                  discount_word: '0',
-                  discount_amount: 0,
-                  item_amounts: val.sale_price_1 * 1,
-                  item_description: "",
-                  packing_rate_1: parseInt(val.rate_1),
-                  is_cancel: 0
-              }
-              console.log(itemshow)
-              this.dproducts.push(itemshow)
-              //close modal
-              this.showDialogItem = false
-              alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
-          this.keywordproduct = ''
-          //console.log(itemshow)
+            console.log(JSON.stringify(val))
+            var itemshow = {
+                item_id: val.id,
+                item_code: val.item_code,
+                bar_code: val.bar_code,
+                item_name: val.item_name,
+                unit_code: val.unit_code,
+                doc_date: val.doc_date,
+                qty: 1,
+                name: val.name,
+                prices: val.sale_price_1,
+                sale_price_1: val.sale_price_1,
+                sale_price_2: val.sale_price_2,
+                discount_word: '0',
+                discount_amount: 0,
+                item_amounts: val.sale_price_1 * 1,
+                item_description: "",
+                packing_rate_1: parseInt(val.rate_1),
+                is_cancel: 0
+            }
+            console.log(itemshow)
+            this.dproducts.push(itemshow)
+            //close modal
+            this.showDialogItem = false
+            alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
+            this.keywordproduct = ''
+            //console.log(itemshow)
         },
         calculatedata(val) {
             val.discount_word = val.discount_word.toString()
@@ -1260,7 +1298,7 @@ export default {
                             unit_code: datasubs[x].unit_code,
                             qty: datasubs[x].qty,
 
-                            wh_id:datasubs[x].wh_id,
+                            wh_id: datasubs[x].wh_id,
                             discount_word_sub: datasubs[x].discount_word_sub,
                             discount_amount_sub: datasubs[x].discount_amount_sub,
                             item_amount: datasubs[x].amount,
@@ -1271,19 +1309,15 @@ export default {
                             is_cancel: datasubs[x].is_cancel
 
                         }
-                        if(data.wh_id == 1)
-                        {
+                        if (data.wh_id == 1) {
                             data.location = "S1-A"
-                        }else if(data.wh_id == 2)
-                        {
+                        } else if (data.wh_id == 2) {
                             data.location = "S1-B"
-                        }else if(data.wh_id == 2)
-                        {
+                        } else if (data.wh_id == 2) {
                             data.location = "S2-A"
-                        }else if(data.wh_id == 2)
-                        {
+                        } else if (data.wh_id == 2) {
                             data.location = "S2-B"
-                        }else{
+                        } else {
                             data.location = ""
                         }
                         console.log(data)

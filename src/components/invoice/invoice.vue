@@ -757,7 +757,7 @@
                                 <button
                                   id="add_cr"
                                   class="btn btn-primary"
-                                  @click="showCredit=true,resetCredit(),isEditCr=false"
+                                  @click="setbalance(1),resetCredit()"
                                   @keyup.up="getFocus('cash_pay')"
                                   @keyup.down="getFocus('add_chq')"
                                 >
