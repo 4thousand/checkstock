@@ -155,37 +155,12 @@
                                   padding-left: 16px;"
                     >
                       <md-card-header-text>
-                        <div class="md-toolbar-section-start">
-                          <div style="min-height:42px;position:relative" class="md-title">
-                            <div
-                              style="float:left;position:relative;top:13px;margin-right:10px"
-                            >ข้อมูลสินค้า</div>
-
-                            <div class="md-size-40 md-small-size-100" style="float:left;">
-                              <md-field>
-                                <label>เพิ่มสินค้า</label>
-                                <md-input
-                                  ref="addproduct"
-                                  v-model="keywordproduct"
-                                  @keyup.enter="addproduct"
-                                ></md-input>
-                              </md-field>
-                              <md-avatar style="position: absolute; top: 15px; left: 273px;">
-                                <md-icon style="color:grey">info</md-icon>
-                                <md-tooltip md-direction="top">
-                                  <md-icon style="color:white;">keyboard</md-icon>รหัสสินค้า หรือ ชื่อสินค้า + Enter
-                                </md-tooltip>
-                              </md-avatar>
-                            </div>
-
-                            <md-button
-                              @click="addproduct"
-                              class="md-icon-button md-raised md productadd"
-                            >
-                              <md-icon>add</md-icon>
-                            </md-button>
-                          </div>
-                        </div>
+                        <searchItem
+                          :product="dproducts"
+                          :billtype="billtype"
+                          ref="addproduct"
+                          :typepage="'invoice'"
+                        ></searchItem>
                       </md-card-header-text>
                     </md-card-header>
                     <div class="tables" style="width:100%;">
@@ -203,7 +178,6 @@
                   </md-card>
                   <itemtable
                     :searched="searched"
-                    :removeitemtable="removeitemtable"
                     :product="dproducts"
                     :typepage="'invoice'"
                     :searchcus="detailcus"
@@ -361,7 +335,7 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <button class="increment-button md-primary" @click="decrement()">−</button>
-
+                            
                             <input
                               class="form-control"
                               style="width:70%;float:left"
@@ -1903,7 +1877,7 @@
       <!-- showDialogcus -->
       <!-- -->
       <div>
-        <md-dialog :md-active.sync="showDialogproduct">
+        <!-- <md-dialog :md-active.sync="showDialogproduct">
           <md-dialog-title>ค้นหาสินค้า</md-dialog-title>
           <md-tabs id="none" md-dynamic-height>
             <md-tab md-label>
@@ -1919,7 +1893,7 @@
                 <table class="table table-hover">
                   <thead align="center">
                     <tr>
-                      <!--<th style=''>client_id</th>-->
+                 
                       <th style="white-space: nowrap;">ลำดับ</th>
                       <th style="white-space: nowrap;">รูป</th>
                       <th style="overflow:auto;white-space: nowrap;">รหัสสินค้า</th>
@@ -1961,12 +1935,7 @@
                         >{{ val.stk_qty }}</md-button>
                       </td>
                     </tr>
-                    <!-- <tr >
-                      <td  colspan="10" >
-                       <div :class="'hover'+index" style="text-align:right;visibility:hidden;height:0;transition:all 0.5s cubic-bezier(0.47, 0.46, 0, 1.02) 0s;"  v-for="(value,index2) in stockall" >
-                       คลังสินค้า : {{val.stk_location[index2].wh_code}} ชั้นเก็บ : {{val.stk_location[index2].shelf_code}} จำนวน : {{val.stk_location[index2].qty}} <br>
-                      </div></td>
-                    </tr>-->
+                   
                   </tbody>
                 </table>
               </div>
@@ -1975,9 +1944,9 @@
 
           <md-dialog-actions>
             <md-button class="md-primary" @click="showDialogproduct = false">Close</md-button>
-            <!-- <md-button class="md-primary" @click="showDialogcus = false">Save</md-button> -->
+       
           </md-dialog-actions>
-        </md-dialog>
+        </md-dialog>-->
       </div>
       <!-- -->
       <!--

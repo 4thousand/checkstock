@@ -24,6 +24,7 @@ import api from "../service/service.js"
 import VueStripePayment from "vue-stripe-payment";
 import { ModelSelect } from "vue-search-select";
 
+import searchItem from '@/components/ui/searchItem'
 import itemtable from '@/components/ui/tableitem'
 import VueQRCodeComponent from 'vue-qrcode-component'
 Vue.component('qr-code', VueQRCodeComponent) // component qrcode
@@ -40,7 +41,8 @@ export default {
         Loading,
         ModelSelect,
         Loading,
-        Money
+        Money,
+        searchItem
     },
     data() {
         return {
@@ -69,7 +71,7 @@ export default {
             prement_novat: 0,
             billtype: '',
             taxtype: 1,
-            mockdocno: '',
+            mockdocno: '', 
             docno: 'ไม่มีข้อมูล',
             keywordproduct: '',
             showDialogproduct: false,
@@ -684,16 +686,16 @@ export default {
                 console.log(payload.subs.length)
 
                 console.log(JSON.stringify(payload))
-                // api.saveInvoice(payload,
-                //     (result) => {
-                //         console.log(result.val())
-                //         alertify.success('บันทึกสำเร็จ ' + this.docno);
-                //     },
-                //     (error) => {
-                //         console.log(JSON.stringify(error))
-                //         //Customerall
-                //         alertify.error('เกิดข้อผิดพลาด');
-                //     })
+                api.saveInvoice(payload,
+                    (result) => {
+                        console.log(result.val())
+                        alertify.success('บันทึกสำเร็จ ' + this.docno);
+                    },
+                    (error) => {
+                        console.log(JSON.stringify(error))
+                        //Customerall
+                        alertify.error('เกิดข้อผิดพลาด');
+                    })
             }
             //บันทึก
 
@@ -825,87 +827,6 @@ export default {
                     alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
                 })
         },
-        addproduct() {
-            console.log(this.keywordproduct)
-            // alert(this.billtype)
-            // alert('d')
-            console.log(this.billtype)
-            if (this.billtype === '' && this.billtype !== 0 && this.billtype !== 1) {
-                if (this.attention == 'wobble-hor-bottom') {
-                    this.attention = 'wobble-hor-bottom2'
-                } else {
-                    this.attention = 'wobble-hor-bottom'
-                }
-                return
-            }
-
-            if (!this.keywordproduct) {
-                return
-            }
-
-            let payload = {
-                keyword: this.keywordproduct
-            }
-            this.isLoading = true
-            console.log(payload)
-            api.searchbykeyword(payload,
-                (result) => {
-                    this.isLoading = false
-                    console.log(result.data)
-                    console.log(result.data.length)
-                    this.showDialogproduct = true
-
-                    this.dataproductDialog = result.data
-                    this.stockall = result.data[0].stk_location
-                    console.log(this.stockall)
-                    console.log('billtype : ' + this.billtype)
-                    this.$refs.addproduct.$el.focus()
-                },
-                (error) => {
-                    this.isLoading = false
-                    console.log(JSON.stringify(error))
-                    alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
-                })
-        },
-        addproductrt() {
-            console.log(this.keywordproduct)
-            // alert(this.billtype)
-            // alert('d')
-            if (this.billtype === '' && this.billtype !== 0 && this.billtype !== 1) {
-                if (this.attention == 'wobble-hor-bottom') {
-                    this.attention = 'wobble-hor-bottom2'
-                } else {
-                    this.attention = 'wobble-hor-bottom'
-                }
-                return
-            }
-
-            if (!this.keywordproduct) {
-                return
-            }
-
-            let payload = {
-                keyword: this.keywordproduct
-            }
-            console.log(" " + payload)
-            api.searchbykeyword(payload,
-                (result) => {
-                    console.log(result.data)
-                    console.log(result.data.length)
-                    this.showDialogproduct = true
-
-                    this.dataproductDialog = result.data
-                    console.log(this.dataproductDialog)
-                    this.stockall = result.data[0].stk_location
-                    console.log(this.stockall)
-                    console.log('billtype : ' + this.billtype)
-                    this.$refs.addproduct.$el.focus()
-                },
-                (error) => {
-                    console.log(JSON.stringify(error))
-                    alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
-                })
-        },
         removeProduct(index) {
             console.log(JSON.stringify(index))
             // this.searchProductInObject(this.dproducts,index)
@@ -1016,92 +937,92 @@ export default {
                 })
 
         },
-        showdetail(val) {
-            var i = 0
-      
-            this.dproducts.forEach(function(items, a) {
-                console.log(items)
-                if (items.item_code == val.item_code) {
-                    alertify.success('สินค้า ' + val.item_name + 'อยู่ในรายการแล้ว');
-                   
-                    i+=1
-                    return  
-                     
-                }
-          
-            });
-            console.log(val)
-            if(i>0){
-                return
-            }
-           
-            
-            var data = new Array();
-            console.log(JSON.stringify(val))
+        // showdetail(val) {
+        //     var i = 0
 
-            val.stk_location.forEach(item => {
-                console.log(JSON.stringify(item))
-                data.push(item)
-            });
-            console.log(data)
-            if (this.billtype == 0) {
+        //     this.dproducts.forEach(function(items, a) {
+        //         console.log(items)
+        //         if (items.item_code == val.item_code) {
+        //             alertify.success('สินค้า ' + val.item_name + 'อยู่ในรายการแล้ว');
+
+        //             i+=1
+        //             return  
+
+        //         }
+
+        //     });
+        //     console.log(val)
+        //     if(i>0){
+        //         return
+        //     }
 
 
-                var datashow = {
-                    item_id: val.id,
-                    item_code: val.item_code,
-                    bar_code: val.bar_code,
-                    item_name: val.item_name,
-                    unit_code: val.unit_code,
-                    qty: 1,
-                    price: val.sale_price_1,
-                    sale_price_1: val.sale_price_1,
-                    sale_price_2: val.sale_price_2,
+        //     var data = new Array();
+        //     console.log(JSON.stringify(val))
 
-                    stock_location: data,
-                    location: data[0].wh_code,
-                    discount_word_sub: '0',
-                    discount_word_sub: 0,
-                    amount: val.sale_price_1 * 1,
-                    item_description: "",
-                    packing_rate_1: parseInt(val.rate_1),
-                    is_cancel: 0
-                }
+        //     val.stk_location.forEach(item => {
+        //         console.log(JSON.stringify(item))
+        //         data.push(item)
+        //     });
+        //     console.log(data)
+        //     if (this.billtype == 0) {
 
-                console.log(datashow)
-                this.dproducts.push(datashow)
-                //close modal
-                this.showDialogproduct = false
-                alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
-            } else if (this.billtype == 1) {
-                var datashow = {
-                    item_id: val.id,
-                    item_code: val.item_code,
-                    bar_code: val.bar_code,
-                    item_name: val.item_name,
-                    unit_code: val.unit_code,
-                    qty: 1,
-                    price: val.sale_price_2,
-                    sale_price_1: val.sale_price_1,
-                    sale_price_2: val.sale_price_2,
-                    stock_location: data,
-                    discount_word_sub: '0',
-                    discount_amount_sub: 0,
-                    amount: val.sale_price_2 * 1,
-                    item_description: "",
-                    packing_rate_1: parseInt(val.rate_1),
-                    is_cancel: 0
-                }
-               
-                this.dproducts.push(datashow)
-                //close modal
-                this.showDialogproduct = false
-                alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
-            }
-            this.keywordproduct = ''
 
-            //console.log(datashow)
-        },
+        //         var datashow = {
+        //             item_id: val.id,
+        //             item_code: val.item_code,
+        //             bar_code: val.bar_code,
+        //             item_name: val.item_name,
+        //             unit_code: val.unit_code,
+        //             qty: 1,
+        //             price: val.sale_price_1,
+        //             sale_price_1: val.sale_price_1,
+        //             sale_price_2: val.sale_price_2,
+
+        //             stock_location: data,
+        //             location: data[0].wh_code,
+        //             discount_word_sub: '0',
+        //             discount_word_sub: 0,
+        //             amount: val.sale_price_1 * 1,
+        //             item_description: "",
+        //             packing_rate_1: parseInt(val.rate_1),
+        //             is_cancel: 0
+        //         }
+
+        //         console.log(datashow)
+        //         this.dproducts.push(datashow)
+        //         //close modal
+        //         this.showDialogproduct = false
+        //         alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
+        //     } else if (this.billtype == 1) {
+        //         var datashow = {
+        //             item_id: val.id,
+        //             item_code: val.item_code,
+        //             bar_code: val.bar_code,
+        //             item_name: val.item_name,
+        //             unit_code: val.unit_code,
+        //             qty: 1,
+        //             price: val.sale_price_2,
+        //             sale_price_1: val.sale_price_1,
+        //             sale_price_2: val.sale_price_2,
+        //             stock_location: data,
+        //             discount_word_sub: '0',
+        //             discount_amount_sub: 0,
+        //             amount: val.sale_price_2 * 1,
+        //             item_description: "",
+        //             packing_rate_1: parseInt(val.rate_1),
+        //             is_cancel: 0
+        //         }
+
+        //         this.dproducts.push(datashow)
+        //         //close modal
+        //         this.showDialogproduct = false
+        //         alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
+        //     }
+        //     this.keywordproduct = ''
+
+        //     //console.log(datashow)
+        // },
         showhisdetail(val) {
             console.log(JSON.stringify(val))
             var itemshow = {
