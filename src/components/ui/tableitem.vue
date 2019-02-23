@@ -8,14 +8,27 @@
       <div class="tables" style="width:100%">
         <md-card-actions style="justify-content:end;">
           <md-button style="width:10%">{{val.item_code}}</md-button>
-          <md-button style="width:24%;">{{val.item_name}}</md-button>
-          <md-button style="width:5%" v-if="typepage=='saleorder'" @click="select_wh(val,index)">
+          <md-button style="width:20%;    height: auto;
+      ">
+            <div
+              style="width:100%;white-space: normal;word-wrap:  text-align-last: left; break-word;      text-align: left;  text-indent: 20px;display: inline-block;height:auto;"
+            >{{val.item_name}}</div>
+          </md-button>
+          <md-button
+            style="width:5%"
+            v-if="typepage=='saleorder' || typepage=='invoice'"
+            @click="select_wh(val,index)"
+          >
             <span>{{val.location}}</span>
           </md-button>
           <md-button style="width:5%">
             <span>{{val.unit_code}}</span>
           </md-button>
-          <md-button style="width:5%" v-show="isQtySelected==false" @click="isQtySelected=true">
+          <md-button
+            style="min-width:5.6%"
+            v-show="isQtySelected==false"
+            @click="isQtySelected=true"
+          >
             <span>{{val.qty}}</span>
           </md-button>
           <input
@@ -29,12 +42,11 @@
           <md-button style="width:5%">
             <span>{{convertmoney(val.price)}}</span>
           </md-button>
-          <md-button style="width:5%" 
+          <md-button
+            style="min-width:5.5%"
             v-show="isDiscountSelected==false"
             @click="isDiscountSelected=true"
-          >
-            {{val.discount_word}}
-          </md-button>
+          >{{val.discount_word}}</md-button>
           <input
             style="width:5%"
             type="text"
@@ -44,10 +56,10 @@
             @blur="isDiscountSelected=false,calEachPrice(val)"
           >
           <md-button style="width:5%">{{convertmoney(val.item_amount)}}</md-button>
-          <md-button style="width:5%;" class="md-mini" @click="removeitemtable(index)">
+          <md-button style="min-width:5%;" class="md-mini" @click="removeitemtable(index)">
             <md-icon style="width:5%;float: right;">delete</md-icon>
           </md-button>
-          <md-button style="width: 5%" class="md-mini" @click="histable(val,searchcus)">
+          <md-button style="min-width: 5%" class="md-mini" @click="histable(val,searchcus)">
             <md-icon style="width:5%;float: right;">history</md-icon>
           </md-button>
         </md-card-actions>
@@ -93,7 +105,9 @@
               <md-tabs id="none" md-dynamic-height>
                 <md-tab md-label>
                   <md-field>
-                    <h5><span>{{val.item_code}} {{searchcus}}</span></h5>
+                    <h5>
+                      <span>{{val.item_code}} {{searchcus}}</span>
+                    </h5>
                   </md-field>
                   <div class="table-responsive" style="overflow-y: auto;">
                     <table class="table table-hover">
@@ -400,7 +414,7 @@ export default {
       //console.log(itemshow)
     },
     calEachPrice(val) {
-      console.log(val);
+      console.log(val.discount_word);
       let eachPriceNoDiscount = val.qty * val.price;
       for (let i = 0; i < val.discount_word.length; i++) {
         if (val.discount_word[i] == "%" || val.discount_word[i] == ",") {
@@ -449,7 +463,7 @@ export default {
         console.log(JSON.stringify(discountArray));
         for (let i = 0; i < discountArray.length; i++) {
           let pToken = [];
-          
+
           for (let j = 0; j < discountArray[i].length; j++) {
             console.log(JSON.stringify(discountArray[i]));
             let str = discountArray[i];
@@ -459,7 +473,7 @@ export default {
               console.log(JSON.stringify(mixDiscount));
               mixPrice = mixPrice - mixPrice * mixDiscount;
               console.log(JSON.stringify(mixPrice));
-              pToken[i]=1;
+              pToken[i] = 1;
             }
           }
           if (pToken[i] != 1) {
