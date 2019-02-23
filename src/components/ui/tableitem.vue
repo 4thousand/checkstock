@@ -21,11 +21,11 @@
           >
             <span>{{val.location}}</span>
           </md-button>
-          <md-button style="width:5%">
+          <md-button style="width: 5%;">
             <span>{{val.unit_code}}</span>
           </md-button>
           <md-button
-            style="min-width:5.6%"
+            style="min-width: 5%"
             v-show="isQtySelected==false"
             @click="isQtySelected=true"
           >
@@ -33,7 +33,7 @@
           </md-button>
           <input
             type="text"
-            style="width:5%"
+            style="max-width:5"
             v-model="val.qty"
             v-show="isQtySelected==true"
             @keyup.enter="isQtySelected=false,calEachPrice(val)"
@@ -43,9 +43,10 @@
             <span>{{convertmoney(val.price)}}</span>
           </md-button>
           <md-button
-            style="min-width:5.5%"
+            style="min-width: 5%"
             v-show="isDiscountSelected==false"
             @click="isDiscountSelected=true"
+            v-if="typepage!='invoice'"
           >{{val.discount_word}}</md-button>
           <input
             style="width:5%"
@@ -54,8 +55,25 @@
             v-show="isDiscountSelected==true"
             @keyup.enter="isDiscountSelected=false,calEachPrice(val)"
             @blur="isDiscountSelected=false,calEachPrice(val)"
+            v-if="typepage!='invoice'"
           >
-          <md-button style="width:5%">{{convertmoney(val.item_amount)}}</md-button>
+          <md-button
+            style="min-width: 5%"
+            v-show="isDiscountSelected==false"
+            @click="isDiscountSelected=true"
+            v-if="typepage=='invoice'"
+          >{{val.discount_word_sub}}</md-button>
+          <input
+            style="width:5%"
+            type="text"
+            v-model="val.discount_word_sub"
+            v-show="isDiscountSelected==true"
+            @keyup.enter="isDiscountSelected=false,calEachPriceinvoice(val)"
+            @blur="isDiscountSelected=false,calEachPriceinvoice(val)"
+            v-if="typepage=='invoice'"
+          >
+          <md-button style="width:5%" v-if="typepage=='saleorder'">{{convertmoney(val.item_amount)}}</md-button>
+          <md-button style="width:5%" v-if="typepage=='invoice'">{{convertmoney(val.amount)}}</md-button>
           <md-button style="min-width:5%;" class="md-mini" @click="removeitemtable(index)">
             <md-icon style="width:5%;float: right;">delete</md-icon>
           </md-button>
@@ -432,6 +450,31 @@ export default {
         return eachPriceNoDiscount;
       } else {
         val.item_amount = eachPriceNoDiscount - parseInt(val.discount_word);
+        return;
+      }
+    },
+    calEachPriceinvoice(val) {
+      console.log(val.discount_word_sub);
+      let eachPriceNoDiscount = val.qty * val.price;
+      for (let i = 0; i < val.discount_word_sub.length; i++) {
+        if (
+          val.discount_word_sub[i] == "%" ||
+          val.discount_word_sub[i] == ","
+        ) {
+          val.amount = this.calDiscountEachPrice(
+            eachPriceNoDiscount,
+            val.discount_word_sub
+          );
+          return;
+        }
+      }
+      console.log(JSON.stringify(eachPriceNoDiscount));
+
+      if (val.discount_word_sub == "") {
+        val.amount = eachPriceNoDiscount;
+        return eachPriceNoDiscount;
+      } else {
+        val.amount = eachPriceNoDiscount - parseInt(val.discount_word_sub);
         return;
       }
     },
