@@ -29,7 +29,7 @@
           <md-button style="width:5%">
             <span>{{convertmoney(val.price)}}</span>
           </md-button>
-          <md-button style="width:5%" 
+          <md-button style="width:5%"
             v-show="isDiscountSelected==false"
             @click="isDiscountSelected=true"
           >
@@ -449,7 +449,7 @@ export default {
         console.log(JSON.stringify(discountArray));
         for (let i = 0; i < discountArray.length; i++) {
           let pToken = [];
-          
+
           for (let j = 0; j < discountArray[i].length; j++) {
             console.log(JSON.stringify(discountArray[i]));
             let str = discountArray[i];
