@@ -56,6 +56,8 @@ export default {
     keywordproduct: '',
     showDialogproduct: false,
     confirmDialog: false,
+    isConfirm: 0,
+    isCancel:0,
     dataproductDialog: [],
     disablebilltype: false,
     datenow_datepicker: Date.now(),
@@ -394,7 +396,7 @@ export default {
           tax_rate: 7,
           depart_code: '',
           ref_no: '',
-          is_confirm: 0,
+          is_confirm: parseInt(this.isConfirm),
           bill_status: 0,
           credit_day: this.bill_credit,
           due_date: this.convermonth_y_m_d(this.DueDate_cal),
@@ -403,7 +405,6 @@ export default {
           expire_date: this.convermonth_y_m_d(this.expiredate_cal),
           delivery_day: parseInt(this.Deliver_date),
           delivery_date: this.convermonth_y_m_d(this.DueDate_date),
-          assert_status: 0,
           is_condition_send: parseInt(this.is_condition_send),
           my_description: this.my_description,
           sum_of_item_amount: this.totalprice,
@@ -416,7 +417,7 @@ export default {
           depart_id: parseInt(this.iddepartment),
           project_id: parseInt(this.idprojectC),
           allocate_id: 0,
-          is_cancel: 0,
+          is_cancel: parseInt(this.isCancel),
           creator_by: this.creator_by,
           subs: this.dproducts
         }
@@ -854,7 +855,7 @@ export default {
       }
     },
     showcontent_step2() {
-      this.salecode = this.objuser.sale_code + ' / ' + this.objuser.username
+      this.salecode = this.objuser.sale_code
     },
     searchsale_step2() {
       let payload = {
@@ -872,7 +873,7 @@ export default {
             return
           }
           if (result.data.length == 1) {
-            this.salecode = result.data[0].sale_code + ' / ' + result.data[0].sale_name
+            this.salecode = result.data[0].sale_code
 
           } else if (result.data.length > 1) {
             this.searchsale = true
@@ -888,7 +889,7 @@ export default {
     selectcus_step2(val) {
       console.log(JSON.stringify(val))
       this.sale_id = val.employee_id
-      this.salecode = val.sale_code + ' / ' + val.sale_name
+      this.salecode = val.sale_code
       this.searchsale = false
     },
     focussearchcus() {
@@ -927,6 +928,7 @@ export default {
           this.tablecode = doc_type
           this.billtype = result.data.bill_type
           console.log(this.billtype)
+          this.sale_id=result.data.sale_id
           this.ar_bill_address = result.data.ar_bill_address
           this.ar_telephone = result.data.ar_telephone
           this.docno = result.data.doc_no
@@ -935,6 +937,8 @@ export default {
           this.idcus = result.data.ar_id
           this.searchcus = result.data.ar_code
           this.detailcus = result.data.ar_name
+          this.isConfirm=result.data.is_confirm
+          this.isCancel=result.data.is_cancel
           var datasubs = result.data.subs
           let data;
           console.log(datasubs)
@@ -947,7 +951,7 @@ export default {
               bar_code: datasubs[x].bar_code,
               item_name: datasubs[x].item_name,
               unit_code: datasubs[x].unit_code,
-              qty: parseFloat(datasubs[x].qty),
+              qty: datasubs[x].qty,
               price: datasubs[x].price,
               discount_word: datasubs[x].discount_word,
               discount_amount: datasubs[x].discount_amount,
@@ -964,7 +968,6 @@ export default {
           this.salecode = result.data.sale_code
           this.expire_date = result.data.expire_credit
           this.caldiscount = result.data.discount_amount
-          // console.log(this.expire_date)
           this.answer_cus = result.data.assert_status
           this.Deliver_date = result.data.delivery_day
           this.bill_credit = result.data.credit_day
@@ -1071,6 +1074,27 @@ export default {
         })
       // alert('ทดสอบ')
     },
+    confirmDoc(){
+      console.log(JSON.stringify('ss'))
+      let payload={
+        id: this.docnoid,
+        confirm_by: JSON.parse(localStorage.Datauser).username
+      }
+      console.log(JSON.stringify(payload))
+      api.confirmQuotation(payload,
+        (result) => {
+          showedit()
+          alertify.success('confirm เอกสารแล้ว'+result)
+        },
+        (error) => {
+          this.isLoading = false
+          console.log(JSON.stringify(error))
+          alertify.error('Data ข้อมูล ผิดพลาด');
+        })
+    },
+    cancelDoc(){
+
+    },
     callQTtoSO(){
       this.$router.push({ name: "saleorder2", params: { id: 0 }, props: {payload:true} });
       return;
@@ -1148,6 +1172,7 @@ export default {
     // if (this.docnoid == 0) {
     //   // location.reload()
     // }
+    console.log(JSON.stringify(localStorage))
     console.log(JSON.stringify(this.searched))
     this.showedit()
     this.creator_by = this.objuser.usercode

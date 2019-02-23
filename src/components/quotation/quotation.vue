@@ -217,10 +217,10 @@
                   </md-card> 
                 </div>
                 <!-- confirm button -->
-                <div style="margin-top:15px" class="md-layout md-gutter" v-if="id!=0">
-                  <md-button class="md-raised md-primary">อนุมัติใบเสนอราคานี้</md-button>
-                  <md-button class="md-raised md-accent">ยกเลิกใบเสนอราคานี้</md-button>
-                  <md-button class="md-raised" @click="callQTtoSO()">นำใบเสนอราคานี้ไปทำใบสั่งขาย</md-button>
+                <div style="margin-top:15px" class="md-layout md-gutter" v-if="docnoid>0">
+                  <md-button class="md-raised md-primary" v-if="isConfirm==0&&isCancel==0" @click="confirmDoc()">อนุมัติใบเสนอราคานี้</md-button>
+                  <md-button class="md-raised md-accent" v-if="isConfirm==0&&isCancel==0">ยกเลิกใบเสนอราคานี้</md-button>
+                  <md-button class="md-raised" v-if="isConfirm==1&&answer_cus==1" @click="callQTtoSO()">นำใบเสนอราคานี้ไปทำใบสั่งขาย</md-button>
                 </div>
                 <!-- table  -->
                 <div style="margin-top:15px" class="md-layout md-gutter">
@@ -697,9 +697,9 @@
                               name="condition_send"
                               id="condition_send"
                             >
-                              <md-option value="0">รอตอบกลับ</md-option>
-                              <md-option value="1">ตอบกลับแล้ว</md-option>
-                              <md-option value="2">ไม่รับในราคา</md-option>
+                              <md-option value=0>รอตอบกลับ</md-option>
+                              <md-option value=1>ตอบกลับแล้ว</md-option>
+                              <md-option value=2>ไม่รับในราคา</md-option>
                             </md-select>
                           </md-field>
                         </div>
