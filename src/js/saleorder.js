@@ -15,6 +15,7 @@ const toLower = text => {
   import * as lang from "vuejs-datepicker/src/locale";
   import api from "../service/service.js"
   import itemtable from '@/components/ui/tableitem';
+  import searchhiscustomer from '@/components/ui/searchhiscustomer';
   // import * as jsPDF from 'jspdf'
   import JQuery from 'jquery'
   let $ = JQuery
@@ -24,10 +25,12 @@ const toLower = text => {
     components: {
       Datepicker,
       itemtable,
-      Loading
+      Loading,
+      searchhiscustomer,
     },
     data: () => ({
       itemtable: [],
+      searchhiscustomer: [],
       msg: "",
       typepage:"saleorder",
       selectedDate: null,
@@ -773,16 +776,16 @@ const toLower = text => {
         if (!this.tablecode || !this.billtype) {
           return
         }
-  
+
         if (this.dproducts.length > 0) {
-  
+
           // var test;
           // for (let x = 0; x < this.dproducts.length; x++) {
           //   test +=  this.dproducts[x].bar_code
           // }
           // console.log(test)
         }
-  
+
         this.disablebilltype = true
         let payload = {
           branch_id: this.objuser.branch_id,
@@ -812,7 +815,7 @@ const toLower = text => {
             //  alertify.success('Error login');
             // this.cload()
           })
-  
+
       },
       showdetail(val,stock,indexstock) {
         console.log("----->"+JSON.stringify(val))

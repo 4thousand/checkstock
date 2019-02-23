@@ -150,6 +150,13 @@
                       <md-input disabled v-model="detailcus"></md-input>
                     </md-field>
                   </div>
+
+                  <searchhiscustomer
+                    :product="dproducts"
+                    :typepage="'saleorder'"
+                    :searchcus="searchcus"
+                  >
+                  </searchhiscustomer>
                 </div>
                 <!-- table -->
                 <div class="md-layout md-gutter">

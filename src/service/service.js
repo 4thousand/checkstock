@@ -112,6 +112,17 @@ export default {
       (response) => {
         error(response)
       })
+  }, searchcreditcard(payload, success, error) {
+    console.log(payload)
+    Vue.axios.post(URL + 'sales/v1/search/creditcard', JSON.stringify(payload)).then(
+      (response) => {
+        console.log(JSON.stringify(response.data))
+        console.log("บันทึก")
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
   },
   detailquoall(payload, success, error) {
     Vue.axios.post(URL + 'sales/v1/quo/search/id', JSON.stringify(payload)).then(
@@ -238,6 +249,15 @@ export default {
   },
   searchSaleByItem(payload, success, error) { //boss add
     Vue.axios.post(URL + 'sales/v1/sale/search/item', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
+  searchHisCustomer(payload, success, error) { //boss add
+    Vue.axios.post(URL + 'sales/v1/search/hiscustomer', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
       },
