@@ -15,11 +15,33 @@
               <md-card-content>
                 <div class="md-layout md-gutter">
                   <div
+                    class="md-layout-item"
+                    style="text-align:right;"
+                  >
+                    <!-- confirm button -->
+                    <div class="md-layout md-gutter" v-if="docnoid>0">
+                      <md-button class="md-raised md-primary" v-if="isConfirm==0&&isCancel!=1&&answer_cus==1" @click="confirmDoc()">อนุมัติใบเสนอราคานี้</md-button>
+                      <md-button class="md-raised md-accent" v-if="isConfirm!=1&&isCancel!=1" @click="cancelDoc()">ยกเลิกใบเสนอราคานี้</md-button>
+                      <md-button class="md-raised" v-if="isConfirm==1&&answer_cus==1" @click="callQTtoSO()">นำใบเสนอราคานี้ไปทำใบสั่งขาย</md-button>
+                    </div>
+                  </div>
+                  <div
+                    class="md-layout-item"
+                    style="text-align:right;"
+                  >
+                    <md-button class="md-raised" style="background-color:green;color:white" v-if="isConfirm==1" disabled>CF</md-button>
+                    <md-button class="md-raised" style="background-color:red;color:white" v-if="isCancel==1" disabled>CC</md-button>
+                    <md-button class="md-raised" style="background-color:#efefef;color:#fb0;border-color:#efefef;border: 2px solid;" v-if="isCancel==0&&isConfirm==0" disabled>CC</md-button>
+                  </div>
+                </div>
+                <div class="md-layout md-gutter">
+                  <div
                     class="md-layout-item md-size-10 md-small-size-100"
                     style="text-align:right;"
                   >
                     <!-- <md-button style="position: relative;top: 50%;transform: translateY(-50%);" class="md-raised md-primary"><span>ค้นหา</span> </md-button> -->
                   </div>
+                  
                   <div class="md-layout-item md-size-20 md-small-size-100">
                     <span class="md-title sub">เลขที่ใบเสนอราคา</span>
                     <md-field>
@@ -215,12 +237,6 @@
                       <itemtable :searched="searched" :removeitemtable="removeitemtable" :product="dproducts" :typepage="typepage" :searchcus="detailcus"></itemtable>
                     </div>
                   </md-card> 
-                </div>
-                <!-- confirm button -->
-                <div style="margin-top:15px" class="md-layout md-gutter" v-if="docnoid>0">
-                  <md-button class="md-raised md-primary" v-if="isConfirm==0&&isCancel==0" @click="confirmDoc()">อนุมัติใบเสนอราคานี้</md-button>
-                  <md-button class="md-raised md-accent" v-if="isConfirm==0&&isCancel==0">ยกเลิกใบเสนอราคานี้</md-button>
-                  <md-button class="md-raised" v-if="isConfirm==1&&answer_cus==1" @click="callQTtoSO()">นำใบเสนอราคานี้ไปทำใบสั่งขาย</md-button>
                 </div>
                 <!-- table  -->
                 <div style="margin-top:15px" class="md-layout md-gutter">

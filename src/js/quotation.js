@@ -937,6 +937,7 @@ export default {
           this.idcus = result.data.ar_id
           this.searchcus = result.data.ar_code
           this.detailcus = result.data.ar_name
+          console.log(JSON.stringify(result.data.is_confirm))
           this.isConfirm=result.data.is_confirm
           this.isCancel=result.data.is_cancel
           var datasubs = result.data.subs
@@ -979,6 +980,7 @@ export default {
           // console.log(this.DueDate_cal)
           this.my_description = result.data.my_description
           //  console.log(this.dproducts)
+          console.log(JSON.stringify(result.data))
           console.log(JSON.stringify(result.data.subs))
         },
         (error) => {
@@ -1075,30 +1077,51 @@ export default {
       // alert('ทดสอบ')
     },
     confirmDoc(){
-      console.log(JSON.stringify('ss'))
       let payload={
         id: this.docnoid,
-        confirm_by: JSON.parse(localStorage.Datauser).username
+        confirm_by: JSON.parse(localStorage.Datauser).username,
+        assert_status: this.answer_cus
       }
       console.log(JSON.stringify(payload))
+      // this.isLoading = true;
       api.confirmQuotation(payload,
         (result) => {
-          showedit()
-          alertify.success('confirm เอกสารแล้ว'+result)
+          alertify.success('confirm เอกสารแล้ว');
+          // this.isLoading = false;
         },
         (error) => {
-          this.isLoading = false
+          // this.isLoading = false
           console.log(JSON.stringify(error))
           alertify.error('Data ข้อมูล ผิดพลาด');
         })
+        location.reload()
     },
     cancelDoc(){
-
+      let payload={
+        id: this.docnoid,
+        cancel_by: JSON.parse(localStorage.Datauser).username
+      }
+      console.log(JSON.stringify(payload))
+      // this.isLoading = true;
+      api.cancelQuotation(payload,
+        (result) => {
+          alertify.success('cancel เอกสารแล้ว');
+          // setTimeout(() => {
+          //   this.isLoading = false
+          // },50000000)
+        },
+        (error) => {
+          console.log(JSON.stringify(error))
+          alertify.error('Data ข้อมูล ผิดพลาด');
+        })
+        // this.isLoading = false
+        location.reload()
     },
     callQTtoSO(){
       this.$router.push({ name: "saleorder2", params: { id: 0 }, props: {payload:true} });
       return;
-    }
+    },
+    
   },
   created() {
     console.log(JSON.stringify(this.searched))
@@ -1112,6 +1135,7 @@ export default {
         'ctrl+shift+2': this.changevaluetest2,
       }
     },
+    
     totalprice() {
       return this.dproducts.reduce(function (sum, item) {
         return (sum + item.item_amount)
