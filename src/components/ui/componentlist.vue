@@ -224,6 +224,9 @@ export default {
       }
     },
     showlistinvoice() {
+      api.callapi(res=>{
+        console.log(res)
+      })
       var payload = {
         sale_code: this.sale_code.sale_code,
         keyword: this.keyword_showalldoc

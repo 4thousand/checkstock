@@ -37,7 +37,17 @@
             v-model="val.qty"
             v-show="isQtySelected==true"
             @keyup.enter="isQtySelected=false,calEachPrice(val)"
+            v-if="typepage!='invoice'"
             @blur="isQtySelected=false,calEachPrice(val)"
+          >
+          <input
+            type="text"
+            style="max-width:5"
+            v-model="val.qty"
+            v-show="isQtySelected==true"
+            @keyup.enter="isQtySelected=false,calEachPriceinvoice(val)"
+            v-if="typepage=='invoice'"
+            @blur="isQtySelected=false,calEachPriceinvoice(val)"
           >
           <md-button style="width:5%">
             <span>{{convertmoney(val.price)}}</span>
@@ -432,6 +442,7 @@ export default {
       //console.log(itemshow)
     },
     calEachPrice(val) {
+      val.qty = parseInt(val.qty);
       console.log(val.discount_word);
       let eachPriceNoDiscount = val.qty * val.price;
       for (let i = 0; i < val.discount_word.length; i++) {
@@ -454,6 +465,8 @@ export default {
       }
     },
     calEachPriceinvoice(val) {
+      val.qty = parseInt(val.qty);
+      var discount_amount = val.amount;
       console.log(val.discount_word_sub);
       let eachPriceNoDiscount = val.qty * val.price;
       for (let i = 0; i < val.discount_word_sub.length; i++) {
@@ -465,6 +478,9 @@ export default {
             eachPriceNoDiscount,
             val.discount_word_sub
           );
+          console.log(eachPriceNoDiscount);
+          val.discount_amount_sub = eachPriceNoDiscount - val.amount;
+
           return;
         }
       }
@@ -474,6 +490,7 @@ export default {
         val.amount = eachPriceNoDiscount;
         return eachPriceNoDiscount;
       } else {
+        val.discount_amount_sub = parseInt(val.discount_word_sub);
         val.amount = eachPriceNoDiscount - parseInt(val.discount_word_sub);
         return;
       }

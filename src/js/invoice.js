@@ -50,9 +50,9 @@ export default {
             selectedDate: null,
             date: "",
             search: [],
-            search: '',
+            search: '', searchSO: "",
             uuid: "",
-            objuser: JSON.parse(localStorage.Datauser),
+            objuser: JSON.parse(localStorage.Datauser), sale_code: JSON.parse(localStorage.Datauser),
             dproducts: [],
             active: 'first',
             first: false,
@@ -71,7 +71,7 @@ export default {
             prement_novat: 0,
             billtype: '',
             taxtype: 1,
-            mockdocno: '', 
+            mockdocno: '',
             docno: 'ไม่มีข้อมูล',
             keywordproduct: '',
             showDialogproduct: false,
@@ -111,7 +111,7 @@ export default {
             ar_telephone: '',
             department: '',
             searchdepart: false,
-            objdepart: [],
+            objdepart: [], dataSOQTO: [],
             project: '',
             idprojectC: '',
             searchproject: false,
@@ -176,6 +176,8 @@ export default {
             showpromplay: false,
             showtable: false,
             confirm: false,
+            is_cancelbill: 0,
+            is_confirmbill: 0,
             active: "first",
             prompaly: {
                 id: 0, phone: "",
@@ -184,6 +186,7 @@ export default {
                 detailedit: ''
             },
             ///
+            keyword_showalldoc: "",
             money: {
                 decimal: ".",
                 thousands: ",",
@@ -202,13 +205,336 @@ export default {
             isEditChq: false,
             isEditBank: false,
             isEditPromplay: false,
-            showsucess: false,
+            showsucess: false, refdoctype: 0,
             itemtable: [],
-            creditcardtype: [],
+            creditcardtype: [], showSOQTO: false, refID: 0, refQTO: false, refSO: false, refDoc: "",
+
         }
     },
     methods: {
+        reftoSOQTO(index, val) {
+            if (index == 1) {
+                this.$router.push({ name: "quotation", params: { id: val } });
+                return;
+            } else {
+                this.$router.push({ name: "saleorder", params: { id: val } });
+                return;
+            }
 
+
+        },
+        serachQTOANDSO(val) {
+
+            var payload = {
+                sale_code: "",
+                keyword: this.keyword_showalldoc
+            };
+            // v
+            this.refdoctype = val
+            this.dataSOQTO = [];
+
+            this.isLoading = true
+            console.log(JSON.stringify(payload));
+            api.showdocall(
+                payload,
+                result => {
+                    console.log(JSON.stringify(result));
+                    this.isLoading = false
+                    for (var i = 0; i < result.data.length; i++) {
+                        if (val == 2) {
+                            if (
+                                result.data[i].module == "SaleOrder" || result.data[i].module == "Reserve"
+                            ) {
+
+                                this.dataSOQTO.push(result.data[i]);
+                            }
+                        } else {
+                            if (result.data[i].module == "BackOrder" || result.data[i].module == "Quotation") {
+
+                                this.dataSOQTO.push(result.data[i]);
+                            }
+                        }
+
+                        this.showSOQTO = true
+                    }
+                    console.log(JSON.stringify(this.dataSOQTO));
+                },
+                error => {
+                    this.isLoading = false
+                    console.log(JSON.stringify(error));
+                    alertify.error("Data ข้อมูลผิดพลาด");
+                    //  alertify.success('Error login');
+                    // this.cload()
+                }
+            );
+        }, showdetailSO(val, reftype) {
+            let payload = {
+                id: val.id
+            }
+            this.refID = val.id;
+            if (reftype == 1) {
+
+                this.refSO = false
+                this.refQTO = true
+                this.isLoading = true
+
+                console.log(JSON.stringify(payload))
+                api.detailquoall(payload,
+                    (result) => {
+                        this.isLoading = false
+                        console.log(JSON.stringify(result.data))
+                        console.log(result.data.bill_type)
+                        let doc_type
+                        let tax_type
+                        // let percent
+                        // let discount_amount
+
+                        doc_type = "IV"
+                        // this.dproducts = []
+                        this.disablebilltype = true
+                        this.tablecode = doc_type
+                        this.billtype = result.data.bill_type
+                        console.log(this.billtype)
+                        this.ar_bill_address = result.data.ar_bill_address
+                        this.ar_telephone = result.data.ar_telephone
+                        this.refDoc = result.data.doc_no
+                        this.taxtype = result.data.tax_type
+                        this.datenow_datepicker = result.data.doc_date
+                        this.idcus = result.data.ar_id
+                        this.searchcus = result.data.ar_code
+                        this.detailcus = result.data.ar_name
+                        var datasubs = result.data.subs
+                        console.log(this.dproducts)
+                        let data = [];
+                        if (this.dproducts.length > 0) {
+                            this.dproducts.forEach(item => {
+
+                                this.dproducts.pop();
+                            });
+                            this.dproducts.pop();
+                            console.log(this.dproducts)
+                        }
+                        console.log(this.dproducts)
+                        console.log(reftype)
+                        for (let x = 0; x < datasubs.length; x++) {
+                            console.log(datasubs[0].price)
+                            data = {
+                                item_id: datasubs[x].id,
+                                item_code: datasubs[x].item_code,
+                                bar_code: datasubs[x].bar_code,
+                                item_name: datasubs[x].item_name,
+                                unit_code: datasubs[x].unit_code,
+                                qty: datasubs[x].qty,
+                                wh_id: datasubs[x].wh_id,
+                                price: datasubs[x].price,
+                                discount_word_sub: datasubs[x].discount_word,
+                                discount_amount_sub: datasubs[x].discount_amount,
+                                amount: datasubs[x].item_amount,
+                                item_description: datasubs[x].item_description,
+                                packing_rate_1: datasubs[x].packing_rate_1,
+                                is_cancel: datasubs[x].is_cancel
+                            }
+                            console.log(JSON.stringify(data))
+
+
+
+                            if (data.wh_id == 1) {
+                                data.location = "S1-A"
+                            } else if (data.wh_id == 2) {
+                                data.location = "S1-B"
+                            } else if (data.wh_id == 2) {
+                                data.location = "S2-A"
+                            } else if (data.wh_id == 2) {
+                                data.location = "S2-B"
+                            } else {
+
+
+
+                                let payload = {
+                                    item_code: data.item_code
+                                };
+                                var datas = new Array();
+                                datas = [];
+                                // console.log(payload)
+                                api.searchunitcode(
+                                    payload,
+                                    result => {
+                                        console.log(result.data[0].stk_location);
+                                        data.location = result.data[0].stk_location[0].wh_code;
+
+                                    },
+                                    error => {
+                                        console.log(JSON.stringify(error));
+                                        alertify.error("Data ข้อมูล Unit code ผิดพลาด");
+                                    }
+                                );
+                            }
+                            console.log(this.dproducts)
+                            this.dproducts.push(data)
+                            console.log(this.dproducts)
+                        }
+                        console.log(JSON.stringify(this.dproducts))
+                        this.salecode = result.data.sale_code.trim() + ' / ' + result.data.sale_name
+                        this.validity = result.data.validity
+                        this.expire_date = result.data.expire_credit
+                        this.caldiscount = result.data.discount_amount
+                        // console.log(this.expire_date)
+                        this.answer_cus = result.data.assert_status
+                        this.Deliver_date = result.data.delivery_day
+                        this.bill_credit = result.data.credit_day
+                        this.taxRate = result.data.tax_type;
+                        this.is_cancelbill = result.data.is_cancel;
+                        this.is_confirmbill = result.data.is_confirm;
+                        this.is_condition_send = result.data.is_condition_send
+                        this.expiredate_cal = this.convertmonth_d_m_y(result.data.expire_date)
+                        // console.log(this.expiredate_cal)
+                        this.DueDate_date = this.convertmonth_d_m_y(result.data.delivery_date)
+                        this.DueDate_cal = this.convertmonth_d_m_y(result.data.due_date)
+                        // console.log(this.DueDate_cal)
+                        this.my_description = result.data.my_description
+                        //  console.log(this.dproducts)
+                        console.log(JSON.stringify(result.data.subs))
+
+
+                    },
+                    (error) => {
+                        this.isLoading = false
+                        console.log(JSON.stringify(error))
+                        alertify.error('ข้อมูลผิดพลาด detailquoall');
+                    })
+            } else if (reftype == 2) {
+                this.refSO = true
+                this.refQTO = false
+                this.isLoading = true
+                console.log(payload)
+                api.detailsaleall(payload,
+                    (result) => {
+                        this.isLoading = false
+                        console.log(JSON.stringify(result.data))
+                        console.log(result.data.bill_type)
+                        let doc_type
+                        let tax_type
+                        // let percent
+                        // let discount_amount
+                        var product = new Array();
+                        doc_type = "IV"
+                        // this.dproducts = []
+                        this.disablebilltype = true
+                        this.tablecode = doc_type
+                        this.billtype = result.data.bill_type
+                        console.log(this.billtype)
+                        this.ar_bill_address = result.data.ar_bill_address
+                        this.ar_telephone = result.data.ar_telephone
+                        this.refDoc = result.data.doc_no
+                        this.taxtype = result.data.tax_type
+                        this.datenow_datepicker = result.data.doc_date
+                        this.idcus = result.data.ar_id
+                        this.searchcus = result.data.ar_code
+                        this.detailcus = result.data.ar_name
+                        var datasubs = result.data.subs
+                        let data;
+                        if (this.dproducts.length > 0) {
+                            this.dproducts.forEach(item => {
+
+                                this.dproducts.pop();
+                            });
+                            this.dproducts.pop();
+                            console.log(this.dproducts)
+                        }
+                        console.log(datasubs.length)
+                        for (let x = 0; x < datasubs.length; x++) {
+                            data = {
+                                item_id: datasubs[x].id,
+                                item_code: datasubs[x].item_code,
+                                bar_code: datasubs[x].bar_code,
+                                item_name: datasubs[x].item_name,
+                                unit_code: datasubs[x].unit_code,
+                                qty: datasubs[x].qty,
+                                wh_id: datasubs[x].wh_id,
+                                price: datasubs[x].price,
+                                discount_word_sub: datasubs[x].discount_word,
+                                discount_amount_sub: datasubs[x].discount_amount,
+                                amount: datasubs[x].item_amount,
+                                item_description: datasubs[x].item_description,
+                                packing_rate_1: datasubs[x].packing_rate_1,
+                                warehouse: datasubs[x].warehouse,
+                                is_cancel: datasubs[x].is_cancel
+                            }
+
+                            if (data.wh_id == 1) {
+                                data.location = "S1-A"
+                            } else if (data.wh_id == 2) {
+                                data.location = "S1-B"
+                            } else if (data.wh_id == 2) {
+                                data.location = "S2-A"
+                            } else if (data.wh_id == 2) {
+                                data.location = "S2-B"
+                            } else {
+
+
+
+                                let payload = {
+                                    item_code: data.item_code
+                                };
+                                var datas = new Array();
+                                datas = [];
+                                // console.log(payload)
+                                api.searchunitcode(
+                                    payload,
+                                    result => {
+                                        console.log(result.data[0].stk_location);
+                                        result.data[0].stk_location.forEach(item => {
+
+                                            datas.push(item);
+                                        });
+                                        console.log(datas)
+                                        data.location = datas[0].wh_code;
+                                    },
+                                    error => {
+                                        console.log(JSON.stringify(error));
+                                        alertify.error("Data ข้อมูล Unit code ผิดพลาด");
+                                    }
+                                );
+                            }
+                            this.dproducts.push(data);
+
+                        }
+
+
+                        console.log(JSON.stringify(this.dproducts))
+
+
+                        this.salecode = result.data.sale_code.trim() + ' / ' + result.data.sale_name
+                        this.validity = result.data.validity
+
+
+
+                        this.expire_date = result.data.expire_credit
+                        this.caldiscount = result.data.discount_amount
+                        // console.log(this.expire_date)
+                        this.answer_cus = result.data.assert_status
+                        this.Deliver_date = result.data.delivery_day
+                        this.bill_credit = result.data.credit_day
+                        this.taxRate = result.data.tax_type;
+                        this.is_cancelbill = result.data.is_cancel;
+                        this.is_confirmbill = result.data.is_confirm;
+                        this.is_condition_send = result.data.is_condition_send
+                        this.expiredate_cal = this.convertmonth_d_m_y(result.data.expire_date)
+                        // console.log(this.expiredate_cal)
+                        this.DueDate_date = this.convertmonth_d_m_y(result.data.delivery_date)
+                        this.DueDate_cal = this.convertmonth_d_m_y(result.data.due_date)
+                        // console.log(this.DueDate_cal)
+                        this.my_description = result.data.my_description
+                        //  console.log(this.dproducts)
+                        console.log(JSON.stringify(result.data.subs))
+                    },
+                    (error) => {
+                        this.isLoading = false
+                        console.log(JSON.stringify(error))
+                        alertify.error('ข้อมูลผิดพลาด detailquoall');
+                    })
+            }
+        },
         setbalance(val) {
             console.log(val)
             if (val == 4) {
@@ -536,6 +862,30 @@ export default {
         },
         tests() {
             alert("ค้นหาข้อมูล Waiting ...");
+        }, cancelinvoice(val) {
+            var payload = {
+                id: parseInt(this.docnoid),
+                doc_no: this.docno,
+                is_cancel: this.is_cancelbill,
+                is_confirm: this.is_confirmbill,
+                cancel_by: this.creator_by
+            }
+            this.isLoading = true
+            api.cancelinvoice(payload,
+                (result) => {
+                    this.isLoading = false
+                    console.log(JSON.stringify(result.data))
+                    // console.log(result.data.length)
+                    alertify.success('ข้อมูลถูกยกเลิกเรียบร้อย');
+                },
+                (error) => {
+                    this.isLoading = false
+                    console.log(JSON.stringify(error))
+                    //Customerall
+                    alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
+                    //  alertify.success('Error login');
+                    // this.cload()
+                })
         },
         setDone(id, index) {
             if (id == 'first') {
@@ -1254,6 +1604,8 @@ export default {
                     this.bill_credit = result.data.credit_day
                     this.chqList = result.data.chq;
                     this.taxRate = result.data.tax_type;
+                    this.is_cancelbill = result.data.is_cancel;
+                    this.is_confirmbill = result.data.is_confirm;
                     this.creditCardList = result.data.credit_card;
                     this.bankTransList = result.data.bank;
                     this.payment = this.total_VAT;
@@ -1609,7 +1961,46 @@ export default {
         console.log(this.searched)
     },
     computed: {
+        listFilter() {
+            var dataall = this.dataSOQTO.filter(dataall => {
+                if (
+                    dataall.doc_no.toLowerCase().includes(this.searchSO.toLowerCase())
+                ) {
+                    return dataall.doc_no
+                        .toLowerCase()
+                        .includes(this.searchSO.toLowerCase());
+                } else if (
+                    dataall.ar_code.toLowerCase().includes(this.searchSO.toLowerCase())
+                ) {
+                    return dataall.ar_code
+                        .toLowerCase()
+                        .includes(this.searchSO.toLowerCase());
+                } else if (
+                    dataall.ar_name.toLowerCase().includes(this.searchSO.toLowerCase())
+                ) {
+                    return dataall.ar_name
+                        .toLowerCase()
+                        .includes(this.searchSO.toLowerCase());
+                } else if (
+                    dataall.sale_name.toLowerCase().includes(this.searchSO.toLowerCase())
+                ) {
+                    return dataall.sale_name
+                        .toLowerCase()
+                        .includes(this.searchSO.toLowerCase());
+                } else if (
+                    dataall.doc_date.toLowerCase().includes(this.searchSO.toLowerCase())
+                ) {
+                    return dataall.doc_date
+                        .toLowerCase()
+                        .includes(this.searchSO.toLowerCase());
+                }
+            });
 
+
+            return dataall.sort((a, b) => (a.doc_no < b.doc_no ? 0 : -1));
+
+
+        },
         keymap() {
             return {
                 'ctrl+shift+1': this.changevaluetest,

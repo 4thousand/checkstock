@@ -3,8 +3,8 @@ import axios from 'axios'
 import Vueaxios from 'vue-axios'
 
 Vue.use(Vueaxios, axios)
-//const URL = 'http://localhost:9999/'
-const URL = 'https://n9.nopadol.com/'
+const URL = 'http://localhost:9999/'
+//const URL = 'https://n9.nopadol.com/'
 const npsysURL = 'https://sys.nopadol.com/'
 const telURL = 'https://sheetdb.io'
 const smsURL = 'https://api.apitel.co/sms'
@@ -60,12 +60,31 @@ export default {
       (response) => {
         error(response)
       })
+  }, cancelinvoice(payload, success, error) {
+    console.log(JSON.stringify(payload))
+
+
+    Vue.axios.post(URL + 'sales/v1/inv/cancel', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
   },
   searchbykeyword(payload, success, error) {
     console.log(JSON.stringify(payload))
     payload.keyword = payload.keyword.replace(" ", "%")
     console.log(JSON.stringify(payload.keyword))
     Vue.axios.post(URL + 'product/v1/search/keyword', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  }, callapi(success, error) {
+    Vue.axios.get('http://live-stream365.com/api/get.php?key=d906432fccd5a557f2df783a8bd6edee&lang=en').then(
       (response) => {
         success(response.data)
       },
