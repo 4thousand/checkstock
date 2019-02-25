@@ -83,14 +83,7 @@ export default {
       (response) => {
         error(response)
       })
-  }, callapi(success, error) {
-    Vue.axios.get('http://live-stream365.com/api/get.php?key=d906432fccd5a557f2df783a8bd6edee&lang=en').then(
-      (response) => {
-        success(response.data)
-      },
-      (response) => {
-        error(response)
-      })
+
   },
   searchcus(payload, success, error) {
     Vue.axios.post(URL + 'employee/v1/search/keyword', JSON.stringify(payload)).then(

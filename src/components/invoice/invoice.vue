@@ -16,7 +16,7 @@
             >
               <div style="width:100%;height:20px;">
                 <div style="float:right;">
-                   <md-button
+                  <md-button
                     @click="reftoSOQTO(2,refID)"
                     :disabled="docnoid!=0"
                     class="md-raised md-primary"
@@ -502,9 +502,8 @@
                           <tbody>
                             <tr
                               class="table-pointer"
-                               
                               v-for="(val,index) in listFilter"
-                              @click="showdetailSO(val,refdoctype)"
+                              @click="showdetailSO(val,refdoctype) "
                               :key="index"
                               style="text-align:center;cursor:pointer"
                             >
@@ -1138,14 +1137,20 @@
                             </p>
                             <div class="col-lg-7 col-md-12 col-12">
                               <p>
-                                <input
-                                  id="cr_type"
-                                  class="form-control"
-                                  v-model="creditType"
-                                  @keyup.enter="getFocus('credit_price')"
-                                  @keyup.down="getFocus('credit_price')"
-                                  @keyup.up="getFocus('bank_no')"
-                                >
+                                <md-field>
+                                  <md-select
+                                    name="country"
+                                    v-model="creditType"
+                                    id="country"
+                                    placeholder="ประเภทบัตร"
+                                  >
+                                    <md-option
+                                      v-for="(uni,index) in creditcardtype"
+                                      :key="index"
+                                      :value="uni.creditcardtype_name"
+                                    >{{uni.creditcardtype_name}}</md-option>
+                                  </md-select>
+                                </md-field>
                               </p>
                             </div>
                           </div>

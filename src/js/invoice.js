@@ -294,6 +294,7 @@ export default {
                         this.disablebilltype = true
                         this.tablecode = doc_type
                         this.billtype = result.data.bill_type
+
                         console.log(this.billtype)
                         this.ar_bill_address = result.data.ar_bill_address
                         this.ar_telephone = result.data.ar_telephone
