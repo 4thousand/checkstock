@@ -11,11 +11,11 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-90 md-small-size-100">
               <md-field >
-                <label for="first-name"> <md-icon>home</md-icon> ที่อยู่ </label> 
+                <label for="first-name"> <md-icon>home</md-icon> ที่อยู่ </label>
                 <md-input name="first-name" id="first-name"  />
               </md-field>
             </div>
-          </div>  
+          </div>
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-90 md-small-size-100">
               <md-field >
@@ -76,7 +76,7 @@
                 <md-input name="first-name" id="first-name"  />
               </md-field>
             </div>
-          </div> 
+          </div>
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-90 md-small-size-100">
               <md-field >
@@ -121,7 +121,7 @@
               </md-field>
             </div>
           </div>
-       
+
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-90 md-small-size-100">
               <md-field >
@@ -139,7 +139,6 @@
         </md-card-actions>
       </md-card>
 
-       
       </form>
 
       </div>
@@ -151,5 +150,5 @@
   font-size: 20px !important;
  position: relative;
     top: -3px;
-} 
+}
 </style>

@@ -215,7 +215,13 @@
                       </md-card-actions>
                     </div>
                   </md-card>
-                  <itemtable :searched="searched" :removeitemtable="removeitemtable" :docPage="docPage"></itemtable>
+                  <itemtable
+                    :searched="searched"
+                    :product="dproducts"
+                    :typepage="'saleorder'"
+                    :searchcus="detailcus"
+                  >
+                  </itemtable>
                 </div>
                 <!-- table  -->
                 <div style="margin-top:15px" class="md-layout md-gutter">
