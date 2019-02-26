@@ -24,6 +24,7 @@ import api from "../service/service.js"
 import VueStripePayment from "vue-stripe-payment";
 import { ModelSelect } from "vue-search-select";
 
+import searchItem from '@/components/ui/searchItem'
 import itemtable from '@/components/ui/tableitem'
 import VueQRCodeComponent from 'vue-qrcode-component'
 Vue.component('qr-code', VueQRCodeComponent) // component qrcode
@@ -40,7 +41,8 @@ export default {
         Loading,
         ModelSelect,
         Loading,
-        Money
+        Money,
+        searchItem
     },
     data() {
         return {
@@ -48,9 +50,9 @@ export default {
             selectedDate: null,
             date: "",
             search: [],
-            search: '',
+            search: '', searchSO: "",
             uuid: "",
-            objuser: JSON.parse(localStorage.Datauser),
+            objuser: JSON.parse(localStorage.Datauser), sale_code: JSON.parse(localStorage.Datauser),
             dproducts: [],
             active: 'first',
             first: false,
@@ -109,7 +111,7 @@ export default {
             ar_telephone: '',
             department: '',
             searchdepart: false,
-            objdepart: [],
+            objdepart: [], dataSOQTO: [],
             project: '',
             idprojectC: '',
             searchproject: false,
@@ -174,6 +176,8 @@ export default {
             showpromplay: false,
             showtable: false,
             confirm: false,
+            is_cancelbill: 0,
+            is_confirmbill: 0,
             active: "first",
             prompaly: {
                 id: 0, phone: "",
@@ -182,6 +186,7 @@ export default {
                 detailedit: ''
             },
             ///
+            keyword_showalldoc: "",
             money: {
                 decimal: ".",
                 thousands: ",",
@@ -200,12 +205,337 @@ export default {
             isEditChq: false,
             isEditBank: false,
             isEditPromplay: false,
-            showsucess: false,
-            itemtable: []
+            showsucess: false, refdoctype: 0,
+            itemtable: [],
+            creditcardtype: [], showSOQTO: false, refID: 0, refQTO: false, refSO: false, refDoc: "",
+
         }
     },
     methods: {
+        reftoSOQTO(index, val) {
+            if (index == 1) {
+                this.$router.push({ name: "quotation", params: { id: val } });
+                return;
+            } else {
+                this.$router.push({ name: "saleorder", params: { id: val } });
+                return;
+            }
 
+
+        },
+        serachQTOANDSO(val) {
+
+            var payload = {
+                sale_code: "",
+                keyword: this.keyword_showalldoc
+            };
+            // v
+            this.refdoctype = val
+            this.dataSOQTO = [];
+
+            this.isLoading = true
+            console.log(JSON.stringify(payload));
+            api.showdocall(
+                payload,
+                result => {
+                    console.log(JSON.stringify(result));
+                    this.isLoading = false
+                    for (var i = 0; i < result.data.length; i++) {
+                        if (val == 2) {
+                            if (
+                                result.data[i].module == "SaleOrder" || result.data[i].module == "Reserve"
+                            ) {
+
+                                this.dataSOQTO.push(result.data[i]);
+                            }
+                        } else {
+                            if (result.data[i].module == "BackOrder" || result.data[i].module == "Quotation") {
+
+                                this.dataSOQTO.push(result.data[i]);
+                            }
+                        }
+
+                        this.showSOQTO = true
+                    }
+                    console.log(JSON.stringify(this.dataSOQTO));
+                },
+                error => {
+                    this.isLoading = false
+                    console.log(JSON.stringify(error));
+                    alertify.error("Data ข้อมูลผิดพลาด");
+                    //  alertify.success('Error login');
+                    // this.cload()
+                }
+            );
+        }, showdetailSO(val, reftype) {
+            let payload = {
+                id: val.id
+            }
+            this.refID = val.id;
+            if (reftype == 1) {
+
+                this.refSO = false
+                this.refQTO = true
+                this.isLoading = true
+
+                console.log(JSON.stringify(payload))
+                api.detailquoall(payload,
+                    (result) => {
+                        this.isLoading = false
+                        console.log(JSON.stringify(result.data))
+                        console.log(result.data.bill_type)
+                        let doc_type
+                        let tax_type
+                        // let percent
+                        // let discount_amount
+
+                        doc_type = "IV"
+                        // this.dproducts = []
+                        this.disablebilltype = true
+                        this.tablecode = doc_type
+                        this.billtype = result.data.bill_type
+
+                        console.log(this.billtype)
+                        this.ar_bill_address = result.data.ar_bill_address
+                        this.ar_telephone = result.data.ar_telephone
+                        this.refDoc = result.data.doc_no
+                        this.taxtype = result.data.tax_type
+                        this.datenow_datepicker = result.data.doc_date
+                        this.idcus = result.data.ar_id
+                        this.searchcus = result.data.ar_code
+                        this.detailcus = result.data.ar_name
+                        var datasubs = result.data.subs
+                        console.log(this.dproducts)
+                        let data = [];
+                        if (this.dproducts.length > 0) {
+                            this.dproducts.forEach(item => {
+
+                                this.dproducts.pop();
+                            });
+                            this.dproducts.pop();
+                            console.log(this.dproducts)
+                        }
+                        console.log(this.dproducts)
+                        console.log(reftype)
+                        for (let x = 0; x < datasubs.length; x++) {
+                            console.log(datasubs[0].price)
+                            data = {
+                                item_id: datasubs[x].id,
+                                item_code: datasubs[x].item_code,
+                                bar_code: datasubs[x].bar_code,
+                                item_name: datasubs[x].item_name,
+                                unit_code: datasubs[x].unit_code,
+                                qty: datasubs[x].qty,
+                                wh_id: datasubs[x].wh_id,
+                                price: datasubs[x].price,
+                                discount_word_sub: datasubs[x].discount_word,
+                                discount_amount_sub: datasubs[x].discount_amount,
+                                amount: datasubs[x].item_amount,
+                                item_description: datasubs[x].item_description,
+                                packing_rate_1: datasubs[x].packing_rate_1,
+                                is_cancel: datasubs[x].is_cancel
+                            }
+                            console.log(JSON.stringify(data))
+
+
+
+                            if (data.wh_id == 1) {
+                                data.location = "S1-A"
+                            } else if (data.wh_id == 2) {
+                                data.location = "S1-B"
+                            } else if (data.wh_id == 2) {
+                                data.location = "S2-A"
+                            } else if (data.wh_id == 2) {
+                                data.location = "S2-B"
+                            } else {
+
+
+
+                                let payload = {
+                                    item_code: data.item_code
+                                };
+                                var datas = new Array();
+                                datas = [];
+                                // console.log(payload)
+                                api.searchunitcode(
+                                    payload,
+                                    result => {
+                                        console.log(result.data[0].stk_location);
+                                        data.location = result.data[0].stk_location[0].wh_code;
+
+                                    },
+                                    error => {
+                                        console.log(JSON.stringify(error));
+                                        alertify.error("Data ข้อมูล Unit code ผิดพลาด");
+                                    }
+                                );
+                            }
+                            console.log(this.dproducts)
+                            this.dproducts.push(data)
+                            console.log(this.dproducts)
+                        }
+                        console.log(JSON.stringify(this.dproducts))
+                        this.salecode = result.data.sale_code.trim() + ' / ' + result.data.sale_name
+                        this.validity = result.data.validity
+                        this.expire_date = result.data.expire_credit
+                        this.caldiscount = result.data.discount_amount
+                        // console.log(this.expire_date)
+                        this.answer_cus = result.data.assert_status
+                        this.Deliver_date = result.data.delivery_day
+                        this.bill_credit = result.data.credit_day
+                        this.taxRate = result.data.tax_type;
+                        this.is_cancelbill = result.data.is_cancel;
+                        this.is_confirmbill = result.data.is_confirm;
+                        this.is_condition_send = result.data.is_condition_send
+                        this.expiredate_cal = this.convertmonth_d_m_y(result.data.expire_date)
+                        // console.log(this.expiredate_cal)
+                        this.DueDate_date = this.convertmonth_d_m_y(result.data.delivery_date)
+                        this.DueDate_cal = this.convertmonth_d_m_y(result.data.due_date)
+                        // console.log(this.DueDate_cal)
+                        this.my_description = result.data.my_description
+                        //  console.log(this.dproducts)
+                        console.log(JSON.stringify(result.data.subs))
+
+
+                    },
+                    (error) => {
+                        this.isLoading = false
+                        console.log(JSON.stringify(error))
+                        alertify.error('ข้อมูลผิดพลาด detailquoall');
+                    })
+            } else if (reftype == 2) {
+                this.refSO = true
+                this.refQTO = false
+                this.isLoading = true
+                console.log(payload)
+                api.detailsaleall(payload,
+                    (result) => {
+                        this.isLoading = false
+                        console.log(JSON.stringify(result.data))
+                        console.log(result.data.bill_type)
+                        let doc_type
+                        let tax_type
+                        // let percent
+                        // let discount_amount
+                        var product = new Array();
+                        doc_type = "IV"
+                        // this.dproducts = []
+                        this.disablebilltype = true
+                        this.tablecode = doc_type
+                        this.billtype = result.data.bill_type
+                        console.log(this.billtype)
+                        this.ar_bill_address = result.data.ar_bill_address
+                        this.ar_telephone = result.data.ar_telephone
+                        this.refDoc = result.data.doc_no
+                        this.taxtype = result.data.tax_type
+                        this.datenow_datepicker = result.data.doc_date
+                        this.idcus = result.data.ar_id
+                        this.searchcus = result.data.ar_code
+                        this.detailcus = result.data.ar_name
+                        var datasubs = result.data.subs
+                        let data;
+                        if (this.dproducts.length > 0) {
+                            this.dproducts.forEach(item => {
+
+                                this.dproducts.pop();
+                            });
+                            this.dproducts.pop();
+                            console.log(this.dproducts)
+                        }
+                        console.log(datasubs.length)
+                        for (let x = 0; x < datasubs.length; x++) {
+                            data = {
+                                item_id: datasubs[x].id,
+                                item_code: datasubs[x].item_code,
+                                bar_code: datasubs[x].bar_code,
+                                item_name: datasubs[x].item_name,
+                                unit_code: datasubs[x].unit_code,
+                                qty: datasubs[x].qty,
+                                wh_id: datasubs[x].wh_id,
+                                price: datasubs[x].price,
+                                discount_word_sub: datasubs[x].discount_word,
+                                discount_amount_sub: datasubs[x].discount_amount,
+                                amount: datasubs[x].item_amount,
+                                item_description: datasubs[x].item_description,
+                                packing_rate_1: datasubs[x].packing_rate_1,
+                                warehouse: datasubs[x].warehouse,
+                                is_cancel: datasubs[x].is_cancel
+                            }
+
+                            if (data.wh_id == 1) {
+                                data.location = "S1-A"
+                            } else if (data.wh_id == 2) {
+                                data.location = "S1-B"
+                            } else if (data.wh_id == 2) {
+                                data.location = "S2-A"
+                            } else if (data.wh_id == 2) {
+                                data.location = "S2-B"
+                            } else {
+
+
+
+                                let payload = {
+                                    item_code: data.item_code
+                                };
+                                var datas = new Array();
+                                datas = [];
+                                // console.log(payload)
+                                api.searchunitcode(
+                                    payload,
+                                    result => {
+                                        console.log(result.data[0].stk_location);
+                                        result.data[0].stk_location.forEach(item => {
+
+                                            datas.push(item);
+                                        });
+                                        console.log(datas)
+                                        data.location = datas[0].wh_code;
+                                    },
+                                    error => {
+                                        console.log(JSON.stringify(error));
+                                        alertify.error("Data ข้อมูล Unit code ผิดพลาด");
+                                    }
+                                );
+                            }
+                            this.dproducts.push(data);
+
+                        }
+
+
+                        console.log(JSON.stringify(this.dproducts))
+
+
+                        this.salecode = result.data.sale_code.trim() + ' / ' + result.data.sale_name
+                        this.validity = result.data.validity
+
+
+
+                        this.expire_date = result.data.expire_credit
+                        this.caldiscount = result.data.discount_amount
+                        // console.log(this.expire_date)
+                        this.answer_cus = result.data.assert_status
+                        this.Deliver_date = result.data.delivery_day
+                        this.bill_credit = result.data.credit_day
+                        this.taxRate = result.data.tax_type;
+                        this.is_cancelbill = result.data.is_cancel;
+                        this.is_confirmbill = result.data.is_confirm;
+                        this.is_condition_send = result.data.is_condition_send
+                        this.expiredate_cal = this.convertmonth_d_m_y(result.data.expire_date)
+                        // console.log(this.expiredate_cal)
+                        this.DueDate_date = this.convertmonth_d_m_y(result.data.delivery_date)
+                        this.DueDate_cal = this.convertmonth_d_m_y(result.data.due_date)
+                        // console.log(this.DueDate_cal)
+                        this.my_description = result.data.my_description
+                        //  console.log(this.dproducts)
+                        console.log(JSON.stringify(result.data.subs))
+                    },
+                    (error) => {
+                        this.isLoading = false
+                        console.log(JSON.stringify(error))
+                        alertify.error('ข้อมูลผิดพลาด detailquoall');
+                    })
+            }
+        },
         setbalance(val) {
             console.log(val)
             if (val == 4) {
@@ -226,11 +556,27 @@ export default {
                 this.showpromplay = true
                 console.log(this.prompaly.price)
             }
-            else {
-                this.prompaly.price = this.balances
-                this.isEditPromplay = true
-                this.showpromplay = true
-                console.log(this.prompaly.price)
+            else if (val == 1) {
+                let payload = {
+                    keyword: this.Allocate
+                }
+                console.log(payload)
+                this.isLoading = true
+                api.searchcreditcard(payload,
+                    (result) => {
+                        this.isLoading = false
+                        console.log(JSON.stringify(result.data))
+                        // console.log(result.data.length)
+                        this.creditcardtype.push(result.data)
+                        console.log(JSON.stringify(this.creditcardtype))
+                    },
+                    (error) => {
+                        this.isLoading = false
+                        console.log(JSON.stringify(error))
+                        alertify.error('Data ข้อมูลการจัดสรรผิดพลาด');
+                    })
+                this.showCredit = true
+
             }
         },
         decrement() {
@@ -517,6 +863,30 @@ export default {
         },
         tests() {
             alert("ค้นหาข้อมูล Waiting ...");
+        }, cancelinvoice(val) {
+            var payload = {
+                id: parseInt(this.docnoid),
+                doc_no: this.docno,
+                is_cancel: this.is_cancelbill,
+                is_confirm: this.is_confirmbill,
+                cancel_by: this.creator_by
+            }
+            this.isLoading = true
+            api.cancelinvoice(payload,
+                (result) => {
+                    this.isLoading = false
+                    console.log(JSON.stringify(result.data))
+                    // console.log(result.data.length)
+                    alertify.success('ข้อมูลถูกยกเลิกเรียบร้อย');
+                },
+                (error) => {
+                    this.isLoading = false
+                    console.log(JSON.stringify(error))
+                    //Customerall
+                    alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
+                    //  alertify.success('Error login');
+                    // this.cload()
+                })
         },
         setDone(id, index) {
             if (id == 'first') {
@@ -667,16 +1037,16 @@ export default {
                 console.log(payload.subs.length)
 
                 console.log(JSON.stringify(payload))
-                // api.saveInvoice(payload,
-                //     (result) => {
-                //         console.log(result.val())
-                //         alertify.success('บันทึกสำเร็จ ' + this.docno);
-                //     },
-                //     (error) => {
-                //         console.log(JSON.stringify(error))
-                //         //Customerall
-                //         alertify.error('เกิดข้อผิดพลาด');
-                //     })
+                api.saveInvoice(payload,
+                    (result) => {
+                        console.log(result.val())
+                        alertify.success('บันทึกสำเร็จ ' + this.docno);
+                    },
+                    (error) => {
+                        console.log(JSON.stringify(error))
+                        //Customerall
+                        alertify.error('เกิดข้อผิดพลาด');
+                    })
             }
             //บันทึก
 
@@ -785,106 +1155,25 @@ export default {
 
         },
         histable(val) {
-          console.log(JSON.stringify(val))
-          console.log(val.item_code)
-          // alert(this.billtype)
-          // alert('d')
-          let payload = {
-              item_code: item_code
-          }
-          this.isLoading = true
-          console.log(payload)
-          api.searchSaleByItem(payload,
-              (result) => {
-                  this.isLoading = false
-                  console.log(result.data)
-                  console.log(result.data.length)
-                  this.showDialogItem = true
-                  this.dataproductItem = result.data
-              },
-              (error) => {
-                  this.isLoading = false
-                  console.log(JSON.stringify(error))
-                  alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
-              })
-        },
-        addproduct() {
-            console.log(this.keywordproduct)
+            console.log(JSON.stringify(val))
+            console.log(val.item_code)
             // alert(this.billtype)
             // alert('d')
-            console.log(this.billtype)
-            if (this.billtype === '' && this.billtype !== 0 && this.billtype !== 1) {
-                if (this.attention == 'wobble-hor-bottom') {
-                    this.attention = 'wobble-hor-bottom2'
-                } else {
-                    this.attention = 'wobble-hor-bottom'
-                }
-                return
-            }
-
-            if (!this.keywordproduct) {
-                return
-            }
-
             let payload = {
-                keyword: this.keywordproduct
+                item_code: item_code
             }
             this.isLoading = true
             console.log(payload)
-            api.searchbykeyword(payload,
+            api.searchSaleByItem(payload,
                 (result) => {
                     this.isLoading = false
                     console.log(result.data)
                     console.log(result.data.length)
-                    this.showDialogproduct = true
-
-                    this.dataproductDialog = result.data
-                    this.stockall = result.data[0].stk_location
-                    console.log(this.stockall)
-                    console.log('billtype : ' + this.billtype)
-                    this.$refs.addproduct.$el.focus()
+                    this.showDialogItem = true
+                    this.dataproductItem = result.data
                 },
                 (error) => {
                     this.isLoading = false
-                    console.log(JSON.stringify(error))
-                    alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
-                })
-        },
-        addproductrt() {
-            console.log(this.keywordproduct)
-            // alert(this.billtype)
-            // alert('d')
-            if (this.billtype === '' && this.billtype !== 0 && this.billtype !== 1) {
-                if (this.attention == 'wobble-hor-bottom') {
-                    this.attention = 'wobble-hor-bottom2'
-                } else {
-                    this.attention = 'wobble-hor-bottom'
-                }
-                return
-            }
-
-            if (!this.keywordproduct) {
-                return
-            }
-
-            let payload = {
-                keyword: this.keywordproduct
-            }
-            console.log(" " + payload)
-            api.searchbykeyword(payload,
-                (result) => {
-                    console.log(result.data)
-                    console.log(result.data.length)
-                    this.showDialogproduct = true
-
-                    this.dataproductDialog = result.data
-                    console.log(this.dataproductDialog)
-                    this.stockall = result.data[0].stk_location
-                    console.log(this.stockall)
-                    console.log('billtype : ' + this.billtype)
-                    this.$refs.addproduct.$el.focus()
-                },
-                (error) => {
                     console.log(JSON.stringify(error))
                     alertify.error('ข้อมูล สินค้าเกิดข้อผิดพลาด');
                 })
@@ -999,99 +1288,120 @@ export default {
                 })
 
         },
-        showdetail(val) {
-            var data = new Array();
-            console.log(JSON.stringify(val))
+        // showdetail(val) {
+        //     var i = 0
 
-            val.stk_location.forEach(item => {
-                console.log(JSON.stringify(item))
-                data.push(item)
-            });
-            console.log(data)
-            if (this.billtype == 0) {
+        //     this.dproducts.forEach(function(items, a) {
+        //         console.log(items)
+        //         if (items.item_code == val.item_code) {
+        //             alertify.success('สินค้า ' + val.item_name + 'อยู่ในรายการแล้ว');
+
+        //             i+=1
+        //             return  
+
+        //         }
+
+        //     });
+        //     console.log(val)
+        //     if(i>0){
+        //         return
+        //     }
 
 
-                var datashow = {
-                    item_id: val.id,
-                    item_code: val.item_code,
-                    bar_code: val.bar_code,
-                    item_name: val.item_name,
-                    unit_code: val.unit_code,
-                    qty: 1,
-                    price: val.sale_price_1,
-                    sale_price_1: val.sale_price_1,
-                    sale_price_2: val.sale_price_2,
+        //     var data = new Array();
+        //     console.log(JSON.stringify(val))
 
-                    stock_location:data,
-                    location:data[0].wh_code,
-                    discount_word_sub: '0',
-                    discount_word_sub: 0,
-                    amount: val.sale_price_1 * 1,
-                    item_description: "",
-                    packing_rate_1: parseInt(val.rate_1),
-                    is_cancel: 0
-                }
-                console.log(datashow)
-                this.dproducts.push(datashow)
-                //close modal
-                this.showDialogproduct = false
-                alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
-            } else if (this.billtype == 1) {
-                var datashow = {
-                    item_id: val.id,
-                    item_code: val.item_code,
-                    bar_code: val.bar_code,
-                    item_name: val.item_name,
-                    unit_code: val.unit_code,
-                    qty: 1,
-                    price: val.sale_price_2,
-                    sale_price_1: val.sale_price_1,
-                    sale_price_2: val.sale_price_2,
-                    stock_location: data,
-                    discount_word_sub: '0',
-                    discount_amount_sub: 0,
-                    amount: val.sale_price_2 * 1,
-                    item_description: "",
-                    packing_rate_1: parseInt(val.rate_1),
-                    is_cancel: 0
-                }
-                this.dproducts.push(datashow)
-                //close modal
-                this.showDialogproduct = false
-                alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
-            }
-            this.keywordproduct = ''
+        //     val.stk_location.forEach(item => {
+        //         console.log(JSON.stringify(item))
+        //         data.push(item)
+        //     });
+        //     console.log(data)
+        //     if (this.billtype == 0) {
 
-            //console.log(datashow)
-        },
+
+        //         var datashow = {
+        //             item_id: val.id,
+        //             item_code: val.item_code,
+        //             bar_code: val.bar_code,
+        //             item_name: val.item_name,
+        //             unit_code: val.unit_code,
+        //             qty: 1,
+        //             price: val.sale_price_1,
+        //             sale_price_1: val.sale_price_1,
+        //             sale_price_2: val.sale_price_2,
+
+        //             stock_location: data,
+        //             location: data[0].wh_code,
+        //             discount_word_sub: '0',
+        //             discount_word_sub: 0,
+        //             amount: val.sale_price_1 * 1,
+        //             item_description: "",
+        //             packing_rate_1: parseInt(val.rate_1),
+        //             is_cancel: 0
+        //         }
+
+        //         console.log(datashow)
+        //         this.dproducts.push(datashow)
+        //         //close modal
+        //         this.showDialogproduct = false
+        //         alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
+        //     } else if (this.billtype == 1) {
+        //         var datashow = {
+        //             item_id: val.id,
+        //             item_code: val.item_code,
+        //             bar_code: val.bar_code,
+        //             item_name: val.item_name,
+        //             unit_code: val.unit_code,
+        //             qty: 1,
+        //             price: val.sale_price_2,
+        //             sale_price_1: val.sale_price_1,
+        //             sale_price_2: val.sale_price_2,
+        //             stock_location: data,
+        //             discount_word_sub: '0',
+        //             discount_amount_sub: 0,
+        //             amount: val.sale_price_2 * 1,
+        //             item_description: "",
+        //             packing_rate_1: parseInt(val.rate_1),
+        //             is_cancel: 0
+        //         }
+
+        //         this.dproducts.push(datashow)
+        //         //close modal
+        //         this.showDialogproduct = false
+        //         alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
+        //     }
+        //     this.keywordproduct = ''
+
+        //     //console.log(datashow)
+        // },
         showhisdetail(val) {
-          console.log(JSON.stringify(val))
-              var itemshow = {
-                  item_id: val.id,
-                  item_code: val.item_code,
-                  bar_code: val.bar_code,
-                  item_name: val.item_name,
-                  unit_code: val.unit_code,
-                  doc_date: val.doc_date,
-                  qty: 1,
-                  name: val.name,
-                  prices: val.sale_price_1,
-                  sale_price_1: val.sale_price_1,
-                  sale_price_2: val.sale_price_2,
-                  discount_word: '0',
-                  discount_amount: 0,
-                  item_amounts: val.sale_price_1 * 1,
-                  item_description: "",
-                  packing_rate_1: parseInt(val.rate_1),
-                  is_cancel: 0
-              }
-              console.log(itemshow)
-              this.dproducts.push(itemshow)
-              //close modal
-              this.showDialogItem = false
-              alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
-          this.keywordproduct = ''
-          //console.log(itemshow)
+            console.log(JSON.stringify(val))
+            var itemshow = {
+                item_id: val.id,
+                item_code: val.item_code,
+                bar_code: val.bar_code,
+                item_name: val.item_name,
+                unit_code: val.unit_code,
+                doc_date: val.doc_date,
+                qty: 1,
+                name: val.name,
+                prices: val.sale_price_1,
+                sale_price_1: val.sale_price_1,
+                sale_price_2: val.sale_price_2,
+                discount_word: '0',
+                discount_amount: 0,
+                item_amounts: val.sale_price_1 * 1,
+                item_description: "",
+                packing_rate_1: parseInt(val.rate_1),
+                is_cancel: 0
+            }
+            console.log(itemshow)
+            this.dproducts.push(itemshow)
+            //close modal
+            this.showDialogItem = false
+            alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
+            this.keywordproduct = ''
+            //console.log(itemshow)
         },
         calculatedata(val) {
             val.discount_word = val.discount_word.toString()
@@ -1260,7 +1570,7 @@ export default {
                             unit_code: datasubs[x].unit_code,
                             qty: datasubs[x].qty,
 
-                            wh_id:datasubs[x].wh_id,
+                            wh_id: datasubs[x].wh_id,
                             discount_word_sub: datasubs[x].discount_word_sub,
                             discount_amount_sub: datasubs[x].discount_amount_sub,
                             item_amount: datasubs[x].amount,
@@ -1271,19 +1581,15 @@ export default {
                             is_cancel: datasubs[x].is_cancel
 
                         }
-                        if(data.wh_id == 1)
-                        {
+                        if (data.wh_id == 1) {
                             data.location = "S1-A"
-                        }else if(data.wh_id == 2)
-                        {
+                        } else if (data.wh_id == 2) {
                             data.location = "S1-B"
-                        }else if(data.wh_id == 2)
-                        {
+                        } else if (data.wh_id == 2) {
                             data.location = "S2-A"
-                        }else if(data.wh_id == 2)
-                        {
+                        } else if (data.wh_id == 2) {
                             data.location = "S2-B"
-                        }else{
+                        } else {
                             data.location = ""
                         }
                         console.log(data)
@@ -1299,6 +1605,8 @@ export default {
                     this.bill_credit = result.data.credit_day
                     this.chqList = result.data.chq;
                     this.taxRate = result.data.tax_type;
+                    this.is_cancelbill = result.data.is_cancel;
+                    this.is_confirmbill = result.data.is_confirm;
                     this.creditCardList = result.data.credit_card;
                     this.bankTransList = result.data.bank;
                     this.payment = this.total_VAT;
@@ -1654,7 +1962,46 @@ export default {
         console.log(this.searched)
     },
     computed: {
+        listFilter() {
+            var dataall = this.dataSOQTO.filter(dataall => {
+                if (
+                    dataall.doc_no.toLowerCase().includes(this.searchSO.toLowerCase())
+                ) {
+                    return dataall.doc_no
+                        .toLowerCase()
+                        .includes(this.searchSO.toLowerCase());
+                } else if (
+                    dataall.ar_code.toLowerCase().includes(this.searchSO.toLowerCase())
+                ) {
+                    return dataall.ar_code
+                        .toLowerCase()
+                        .includes(this.searchSO.toLowerCase());
+                } else if (
+                    dataall.ar_name.toLowerCase().includes(this.searchSO.toLowerCase())
+                ) {
+                    return dataall.ar_name
+                        .toLowerCase()
+                        .includes(this.searchSO.toLowerCase());
+                } else if (
+                    dataall.sale_name.toLowerCase().includes(this.searchSO.toLowerCase())
+                ) {
+                    return dataall.sale_name
+                        .toLowerCase()
+                        .includes(this.searchSO.toLowerCase());
+                } else if (
+                    dataall.doc_date.toLowerCase().includes(this.searchSO.toLowerCase())
+                ) {
+                    return dataall.doc_date
+                        .toLowerCase()
+                        .includes(this.searchSO.toLowerCase());
+                }
+            });
 
+
+            return dataall.sort((a, b) => (a.doc_no < b.doc_no ? 0 : -1));
+
+
+        },
         keymap() {
             return {
                 'ctrl+shift+1': this.changevaluetest,

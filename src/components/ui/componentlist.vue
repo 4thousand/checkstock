@@ -7,6 +7,16 @@
           <md-icon>search</md-icon>
           <label>ค้นหา</label>
           <md-input v-model="searched"></md-input>
+          <md-menu md-direction="bottom-end">
+            <md-button
+              class="md-icon-button"
+              style="border-radius:0px;  height: 50%;"
+              md-menu-trigger
+              @click="changefilter=true"
+            >
+              <md-icon style="width: 50px;float: right;">more_horiz</md-icon>
+            </md-button>
+          </md-menu>
         </md-field>
       </div>
 
@@ -26,7 +36,7 @@
               <div
                 class="md-layout-item md-xlarge-size-5 md-large-size-5 md-xsmall-size-15 md-small-size-10 md-medium-size-5"
               >
-                <md-avatar class="md-avatar-icon md-primary" :class="'active'" style="margin:0;"></md-avatar>
+                <md-avatar class="md-avatar-icon md-primary" :class="'active'" style="margin:0;">IV</md-avatar>
               </div>
 
               <div
@@ -73,6 +83,36 @@
           </md-toolbar>
         </div>
       </div>
+      <div>
+        <md-dialog :md-active.sync="changefilter">
+          <md-dialog-title>ตัวเลือกการค้นหา</md-dialog-title>
+          <md-tabs md-dynamic-height>
+            <md-tab md-label>
+              <div class="table-responsive" style="overflow-y: auto;">
+                <div>ค้นหาจาก
+                  <br>
+                  <md-radio v-model="fillter" value="doc_no">
+                    เลขเอกสาร
+                    <small>(Default)</small>
+                  </md-radio>
+                  <md-radio v-model="fillter" value="doc_date" class="md-primary">วันที่</md-radio>
+                </div>
+                <div>เรียง
+                  <br>
+                  <md-radio v-model="filterby" value="DSEC">
+                    มากไปหาน้อย
+                    <small>(Default)</small>
+                  </md-radio>
+                  <md-radio v-model="filterby" value="ASC" class="md-primary">น้อยไปหามาก</md-radio>
+                </div>
+              </div>
+            </md-tab>
+          </md-tabs>
+          <md-dialog-actions>
+            <md-button class="md-primary" @click="changefilter = false">Close</md-button>
+          </md-dialog-actions>
+        </md-dialog>
+      </div>
       <!-- ข้อมูลใบเสนอราคา -->
     </div>
     <md-speed-dial class="md-bottom-right">
@@ -97,46 +137,64 @@ export default {
       msg: "",
       star: true,
       Search: "",
+      fillter: "doc_no",
+      filterby: "DSEC",
       searched: "",
       sale_code: JSON.parse(localStorage.Datauser),
       dataall: [],
-      keyword_showalldoc: ""
+      keyword_showalldoc: "",
+      changefilter: false
     };
   },
   computed: {
     listFilter() {
-      return this.dataall.filter(post => {
-        if (post.doc_no.toLowerCase().includes(this.searched.toLowerCase())) {
-          return post.doc_no
+      var dataall = this.dataall.filter(dataall => {
+        if (
+          dataall.doc_no.toLowerCase().includes(this.searched.toLowerCase())
+        ) {
+          return dataall.doc_no
             .toLowerCase()
             .includes(this.searched.toLowerCase());
         } else if (
-          post.ar_code.toLowerCase().includes(this.searched.toLowerCase())
+          dataall.ar_code.toLowerCase().includes(this.searched.toLowerCase())
         ) {
-          return post.ar_code
-            .toLowerCase()
-            .includes(this.searched.toLowerCase());
-          sale_name;
-        } else if (
-          post.ar_name.toLowerCase().includes(this.searched.toLowerCase())
-        ) {
-          return post.ar_name
+          return dataall.ar_code
             .toLowerCase()
             .includes(this.searched.toLowerCase());
         } else if (
-          post.sale_name.toLowerCase().includes(this.searched.toLowerCase())
+          dataall.ar_name.toLowerCase().includes(this.searched.toLowerCase())
         ) {
-          return post.sale_name
+          return dataall.ar_name
             .toLowerCase()
             .includes(this.searched.toLowerCase());
-        }else if (
-          post.doc_date.toLowerCase().includes(this.searched.toLowerCase())
+        } else if (
+          dataall.sale_name.toLowerCase().includes(this.searched.toLowerCase())
         ) {
-          return post.doc_date
+          return dataall.sale_name
+            .toLowerCase()
+            .includes(this.searched.toLowerCase());
+        } else if (
+          dataall.doc_date.toLowerCase().includes(this.searched.toLowerCase())
+        ) {
+          return dataall.doc_date
             .toLowerCase()
             .includes(this.searched.toLowerCase());
         }
       });
+
+      if (this.fillter == "doc_date") {
+        if (this.filterby == "ASC") {
+          return dataall.sort((a, b) => (a.doc_date > b.doc_date ? 0 : -1));
+        } else {
+          return dataall.sort((a, b) => (a.doc_date < b.doc_date ? 0 : -1));
+        }
+      } else {
+        if (this.filterby == "ASC") {
+          return dataall.sort((a, b) => (a.doc_no > b.doc_no ? 0 : -1));
+        } else {
+          return dataall.sort((a, b) => (a.doc_no < b.doc_no ? 0 : -1));
+        }
+      }
     }
   },
   methods: {
@@ -145,6 +203,7 @@ export default {
       // console.log(typeof result)
       return result;
     },
+
     goindex() {
       // localStorage.iddocno = 0
       this.showNavigation = false;
@@ -176,10 +235,8 @@ export default {
           for (var i = 0; i < result.data.length; i++) {
             this.dataall.push(result.data[i]);
           }
-          console.log(JSON.stringify(this.dataall));
         },
         error => {
-          console.log(JSON.stringify(error));
           alertify.error("Data ข้อมูลผิดพลาด");
           //  alertify.success('Error login');
           // this.cload()

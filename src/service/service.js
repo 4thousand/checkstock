@@ -3,7 +3,7 @@ import axios from 'axios'
 import Vueaxios from 'vue-axios'
 
 Vue.use(Vueaxios, axios)
-//const URL = 'http://localhost:9999/'
+// const URL = 'http://localhost:9999/'
 const URL = 'https://n9.nopadol.com/'
 const npsysURL = 'https://sys.nopadol.com/'
 const telURL = 'https://sheetdb.io'
@@ -60,6 +60,17 @@ export default {
       (response) => {
         error(response)
       })
+  }, cancelinvoice(payload, success, error) {
+    console.log(JSON.stringify(payload))
+
+
+    Vue.axios.post(URL + 'sales/v1/inv/cancel', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
   },
   searchbykeyword(payload, success, error) {
     console.log(JSON.stringify(payload))
@@ -72,6 +83,7 @@ export default {
       (response) => {
         error(response)
       })
+
   },
   searchcus(payload, success, error) {
     Vue.axios.post(URL + 'employee/v1/search/keyword', JSON.stringify(payload)).then(
@@ -106,6 +118,17 @@ export default {
   }, searchinvoicelist(payload, success, error) {
     Vue.axios.post(URL + 'sales/v1/inv/list', payload).then(
       (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  }, searchcreditcard(payload, success, error) {
+    console.log(payload)
+    Vue.axios.post(URL + 'sales/v1/search/creditcard', JSON.stringify(payload)).then(
+      (response) => {
+        console.log(JSON.stringify(response.data))
+        console.log("บันทึก")
         success(response.data)
       },
       (response) => {

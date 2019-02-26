@@ -8,14 +8,27 @@
       <div class="tables" style="width:100%">
         <md-card-actions style="justify-content:end;">
           <md-button style="width:10%">{{val.item_code}}</md-button>
-          <md-button style="width:24%;">{{val.item_name}}</md-button>
-          <md-button style="width:5%" v-if="typepage=='saleorder'" @click="select_wh(val,index)">
+          <md-button style="width:20%;    height: auto;
+      ">
+            <div
+              style="width:100%;white-space: normal;word-wrap:  text-align-last: left; break-word;      text-align: left;  text-indent: 20px;display: inline-block;height:auto;"
+            >{{val.item_name}}</div>
+          </md-button>
+          <md-button
+            style="width:5%"
+            v-if="typepage=='saleorder' || typepage=='invoice'"
+            @click="select_wh(val,index)"
+          >
             <span>{{val.location}}</span>
           </md-button>
-          <md-button style="width:5%">
+          <md-button style="width: 5%;">
             <span>{{val.unit_code}}</span>
           </md-button>
-          <md-button style="width:5%" v-show="isQtySelected==false" @click="isQtySelected=true">
+          <md-button
+            style="min-width: 5%"
+            v-show="isQtySelected==false"
+            @click="isQtySelected=true"
+          >
             <span>{{val.qty}}</span>
           </md-button>
           <input
@@ -24,17 +37,27 @@
             v-model="val.qty"
             v-show="isQtySelected==true"
             @keyup.enter="isQtySelected=false,calEachPrice(val)"
+            v-if="typepage!='invoice'"
             @blur="isQtySelected=false,calEachPrice(val)"
+          >
+          <input
+            type="text"
+            style="max-width:5"
+            v-model="val.qty"
+            v-show="isQtySelected==true"
+            @keyup.enter="isQtySelected=false,calEachPriceinvoice(val)"
+            v-if="typepage=='invoice'"
+            @blur="isQtySelected=false,calEachPriceinvoice(val)"
           >
           <md-button style="width:5%">
             <span>{{convertmoney(val.price)}}</span>
           </md-button>
-          <md-button style="width:5%" 
+          <md-button
+            style="min-width: 5%"
             v-show="isDiscountSelected==false"
             @click="isDiscountSelected=true"
-          >
-            {{val.discount_word}}
-          </md-button>
+            v-if="typepage!='invoice'"
+          >{{val.discount_word}}</md-button>
           <input
             style="width:5%"
             type="text"
@@ -42,12 +65,29 @@
             v-show="isDiscountSelected==true"
             @keyup.enter="isDiscountSelected=false,calEachPrice(val)"
             @blur="isDiscountSelected=false,calEachPrice(val)"
+            v-if="typepage!='invoice'"
           >
-          <md-button style="width:5%">{{convertmoney(val.item_amount)}}</md-button>
-          <md-button style="width:5%;" class="md-mini" @click="removeitemtable(index)">
+          <md-button
+            style="min-width: 5%"
+            v-show="isDiscountSelected==false"
+            @click="isDiscountSelected=true"
+            v-if="typepage=='invoice'"
+          >{{val.discount_word_sub}}</md-button>
+          <input
+            style="width:5%"
+            type="text"
+            v-model="val.discount_word_sub"
+            v-show="isDiscountSelected==true"
+            @keyup.enter="isDiscountSelected=false,calEachPriceinvoice(val)"
+            @blur="isDiscountSelected=false,calEachPriceinvoice(val)"
+            v-if="typepage=='invoice'"
+          >
+          <md-button style="width:5%" v-if="typepage=='saleorder'">{{convertmoney(val.item_amount)}}</md-button>
+          <md-button style="width:5%" v-if="typepage=='invoice'">{{convertmoney(val.amount)}}</md-button>
+          <md-button style="min-width:5%;" class="md-mini" @click="removeitemtable(index)">
             <md-icon style="width:5%;float: right;">delete</md-icon>
           </md-button>
-          <md-button style="width: 5%" class="md-mini" @click="histable(val,searchcus)">
+          <md-button style="min-width: 5%" class="md-mini" @click="histable(val,searchcus)">
             <md-icon style="width:5%;float: right;">history</md-icon>
           </md-button>
         </md-card-actions>
@@ -93,7 +133,9 @@
               <md-tabs id="none" md-dynamic-height>
                 <md-tab md-label>
                   <md-field>
-                    <h5><span>{{val.item_code}} {{searchcus}}</span></h5>
+                    <h5>
+                      <span>{{val.item_code}} {{searchcus}}</span>
+                    </h5>
                   </md-field>
                   <div class="table-responsive" style="overflow-y: auto;">
                     <table class="table table-hover">
@@ -422,6 +464,37 @@ export default {
         return;
       }
     },
+    calEachPriceinvoice(val) {
+      val.qty = parseInt(val.qty);
+      var discount_amount = val.amount;
+      console.log(val.discount_word_sub);
+      let eachPriceNoDiscount = val.qty * val.price;
+      for (let i = 0; i < val.discount_word_sub.length; i++) {
+        if (
+          val.discount_word_sub[i] == "%" ||
+          val.discount_word_sub[i] == ","
+        ) {
+          val.amount = this.calDiscountEachPrice(
+            eachPriceNoDiscount,
+            val.discount_word_sub
+          );
+          console.log(eachPriceNoDiscount);
+          val.discount_amount_sub = eachPriceNoDiscount - val.amount;
+
+          return;
+        }
+      }
+      console.log(JSON.stringify(eachPriceNoDiscount));
+
+      if (val.discount_word_sub == "") {
+        val.amount = eachPriceNoDiscount;
+        return eachPriceNoDiscount;
+      } else {
+        val.discount_amount_sub = parseInt(val.discount_word_sub);
+        val.amount = eachPriceNoDiscount - parseInt(val.discount_word_sub);
+        return;
+      }
+    },
     calDiscountEachPrice(eachPrice, discount_word) {
       //let discountCaled
       console.log("test");
@@ -450,7 +523,7 @@ export default {
         console.log(JSON.stringify(discountArray));
         for (let i = 0; i < discountArray.length; i++) {
           let pToken = [];
-          
+
           for (let j = 0; j < discountArray[i].length; j++) {
             console.log(JSON.stringify(discountArray[i]));
             let str = discountArray[i];
@@ -460,7 +533,7 @@ export default {
               console.log(JSON.stringify(mixDiscount));
               mixPrice = mixPrice - mixPrice * mixDiscount;
               console.log(JSON.stringify(mixPrice));
-              pToken[i]=1;
+              pToken[i] = 1;
             }
           }
           if (pToken[i] != 1) {
