@@ -196,7 +196,7 @@
                     <div class="tables">
                       <md-card-actions style="width=100%">
                         <md-button style="width:10%">รหัสสินค้า</md-button>
-                        <md-button style="width:24%">ชื่อสินค้า</md-button>
+                        <md-button style="width:25%">ชื่อสินค้า</md-button>
                         <md-button style="width:5%">คลังสินค้า</md-button>
                         <md-button style="width:5%">หน่วยนับ</md-button>
                         <md-button style="width:5%">จำนวน</md-button>
@@ -233,7 +233,7 @@
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:center;"
                   >
-                    <span class="md-title subnotop" style="left:10px">บาท</span>
+                    <span class="md-title subnotop" style="left:2px">บาท</span>
                   </div>
                 </div>
                 <div class="md-layout md-gutter">
@@ -254,7 +254,7 @@
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:center;"
                   >
-                    <span class="md-title subnotop" style="left:10px">บาท</span>
+                    <span class="md-title subnotop" style="left:2px">บาท</span>
                   </div>
                 </div>
 
@@ -313,7 +313,7 @@
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:center;"
                   >
-                    <span class="md-title subnotop" style="left:10px">บาท</span>
+                    <span class="md-title subnotop" style="left:2px">บาท</span>
                   </div>
                 </div>
 
@@ -334,7 +334,7 @@
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:center;"
                   >
-                    <span class="md-title subnotop" style="left:10px">บาท</span>
+                    <span class="md-title subnotop" style="left:2px">บาท</span>
                   </div>
                 </div>
 
@@ -357,7 +357,7 @@
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:center;"
                   >
-                    <span class="md-title subnotop" style="left:10px">บาท</span>
+                    <span class="md-title subnotop" style="left:2px">บาท</span>
                   </div>
                 </div>
               </md-card-content>

@@ -1118,7 +1118,31 @@ export default {
         location.reload()
     },
     callQTtoSO(){
-      this.$router.push({ name: "saleorder2", params: { id: 0 }, props: {payload:true} });
+      let payload={
+        id:parseInt(this.docnoid)
+      }
+      let sodocno
+      let soid
+      api.transferQTtoSO(payload,
+        (result)=>{
+          console.log(JSON.stringify(result))
+          sodocno=result.data.doc_no
+          console.log(JSON.stringify("docno "+sodocno))
+        },
+        (error)=>{
+          console.log(JSON.stringify(error))
+          alertify.error('เกิดข้อผิดพลาด ไม่สามารถโอนใบเสนอราคาได้')
+        })
+      api.searchSaleOrderByKeyword(sodocno,
+        (result)=>{
+          console.log(JSON.stringify(result.data.id))
+          soid=parseInt(result.data.id)
+        },
+        (error)=>{
+          console.log(JSON.stringify(error))
+          alertify.error('เกิดข้อผิดพลาด ไม่สามารถโอนใบเสนอราคาได้')
+        })
+      this.$router.push({ name: "saleorder2", params: { id:soid }});
       return;
     },
     

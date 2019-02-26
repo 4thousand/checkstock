@@ -10,7 +10,7 @@
       </thead>
       <tbody id="valuetable">
         <tr
-          @click="C_customer(val)"
+          @click="selecct_doclist(val)"
           v-for="(val,index) in detailcusall"
           :key="index"
           style="text-align:center;cursor:pointer"
@@ -30,7 +30,10 @@ import api from "../../service/service.js";
 export default {
     name: "transferQT",
     props:{
-        
+        keyword:""
+    },
+    methods:{
+      
     }
 };
 </script>
