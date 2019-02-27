@@ -15,11 +15,33 @@
               <md-card-content>
                 <div class="md-layout md-gutter">
                   <div
+                    class="md-layout-item"
+                    style="text-align:right;"
+                  >
+                    <!-- confirm button -->
+                    <div class="md-layout md-gutter" v-if="docnoid>0">
+                      <md-button class="md-raised md-primary" v-if="isConfirm==0&&isCancel!=1&&answer_cus==1" @click="confirmDoc()">อนุมัติใบเสนอราคานี้</md-button>
+                      <md-button class="md-raised md-accent" v-if="isConfirm!=1&&isCancel!=1" @click="cancelDoc()">ยกเลิกใบเสนอราคานี้</md-button>
+                      <md-button class="md-raised" v-if="isConfirm==1&&answer_cus==1" @click="callQTtoSO()">นำใบเสนอราคานี้ไปทำใบสั่งขาย</md-button>
+                    </div>
+                  </div>
+                  <div
+                    class="md-layout-item"
+                    style="text-align:right;"
+                  >
+                    <md-button class="md-raised" style="background-color:green;color:white" v-if="isConfirm==1" disabled>CF</md-button>
+                    <md-button class="md-raised" style="background-color:red;color:white" v-if="isCancel==1" disabled>CC</md-button>
+                    <md-button class="md-raised" style="background-color:#efefef;color:#fb0;border-color:#efefef;border: 2px solid;" v-if="isCancel==0&&isConfirm==0" disabled>CC</md-button>
+                  </div>
+                </div>
+                <div class="md-layout md-gutter">
+                  <div
                     class="md-layout-item md-size-10 md-small-size-100"
                     style="text-align:right;"
                   >
                     <!-- <md-button style="position: relative;top: 50%;transform: translateY(-50%);" class="md-raised md-primary"><span>ค้นหา</span> </md-button> -->
                   </div>
+                  
                   <div class="md-layout-item md-size-20 md-small-size-100">
                     <span class="md-title sub">เลขที่ใบเสนอราคา</span>
                     <md-field>
@@ -203,7 +225,7 @@
                     <div class="tables">
                       <md-card-actions style="width=100%">
                         <md-button style="width:10%">รหัสสินค้า</md-button>
-                        <md-button style="width:24%">ชื่อสินค้า</md-button>
+                        <md-button style="width:25%">ชื่อสินค้า</md-button>
                         <md-button style="width:5%">หน่วยนับ</md-button>
                         <md-button style="width:5%">จำนวน</md-button>
                         <md-button style="width:5%">ราคา/หน่วย</md-button>
@@ -235,10 +257,10 @@
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:center;"
                   >
-                    <span class="md-title subnotop" style="left:10px">บาท</span>
+                    <span class="md-title subnotop" style="left:2px">บาท</span>
                   </div>
                 </div>
-                <div class="md-layout md-gutter">
+                <!-- <div class="md-layout md-gutter">
                   <div
                     class="md-layout-item md-size-80 md-xsmall-size-100"
                     style="text-align:right;"
@@ -258,7 +280,7 @@
                   >
                     <span class="md-title subnotop" style="left:10px">บาท</span>
                   </div>
-                </div>
+                </div> -->
 
                 <div class="md-layout md-gutter">
                   <div
@@ -317,7 +339,7 @@
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:center;"
                   >
-                    <span class="md-title subnotop" style="left:10px">บาท</span>
+                    <span class="md-title subnotop" style="left:2px">บาท</span>
                   </div>
                 </div>
 
@@ -340,7 +362,7 @@
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:center;"
                   >
-                    <span class="md-title subnotop" style="left:10px">บาท</span>
+                    <span class="md-title subnotop" style="left:2px">บาท</span>
                   </div>
                 </div>
 
@@ -363,7 +385,7 @@
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:center;"
                   >
-                    <span class="md-title subnotop" style="left:10px">บาท</span>
+                    <span class="md-title subnotop" style="left:2px">บาท</span>
                   </div>
                 </div>
               </md-card-content>
@@ -691,9 +713,9 @@
                               name="condition_send"
                               id="condition_send"
                             >
-                              <md-option value="0">รอตอบกลับ</md-option>
-                              <md-option value="1">ตอบกลับแล้ว</md-option>
-                              <md-option value="2">ไม่รับในราคา</md-option>
+                              <md-option value=0>รอตอบกลับ</md-option>
+                              <md-option value=1>ตอบกลับแล้ว</md-option>
+                              <md-option value=2>ไม่รับในราคา</md-option>
                             </md-select>
                           </md-field>
                         </div>

@@ -3,8 +3,8 @@ import axios from 'axios'
 import Vueaxios from 'vue-axios'
 
 Vue.use(Vueaxios, axios)
-const URL = 'http://localhost:9999/'
-//const URL = 'https://n9.nopadol.com/'
+// const URL = 'http://localhost:9999/'
+const URL = 'https://n9.nopadol.com/'
 const npsysURL = 'https://sys.nopadol.com/'
 const telURL = 'https://sheetdb.io'
 const smsURL = 'https://api.apitel.co/sms'
@@ -61,6 +61,17 @@ export default {
       (response) => {
         error(response)
       })
+  }, cancelinvoice(payload, success, error) {
+    console.log(JSON.stringify(payload))
+
+
+    Vue.axios.post(URL + 'sales/v1/inv/cancel', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
   },
   searchbykeyword(payload, success, error) {
     console.log(JSON.stringify(payload))
@@ -73,6 +84,7 @@ export default {
       (response) => {
         error(response)
       })
+
   },
   searchcus(payload, success, error) {
     Vue.axios.post(URL + 'employee/v1/search/keyword', JSON.stringify(payload)).then(
@@ -135,6 +147,24 @@ export default {
   },
   detailsaleall(payload, success, error) {
     Vue.axios.post(URL + 'sales/v1/sale/search/id', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
+  searchQuotationByKeyword(payload, success, error){
+    Vue.axios.post(URL + 'sales/v1/quo/search/keyword', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
+  searchSaleOrderByKeyword(payload, success, error){
+    Vue.axios.post(URL + 'sales/v1/sale/search/keyword', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
       },
@@ -301,6 +331,36 @@ export default {
       (response) => {
         error(response)
       })
+  },
+  confirmQuotation(payload, success, error){
+    Vue.axios.post(URL + 'sales/v1/quo/confirm', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      }
+    )
+  },
+  cancelQuotation(payload, success, error){
+    Vue.axios.post(URL + 'sales/v1/quo/cancel', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      }
+    )
+  },
+  transferQTtoSO(payload, success, error){
+    Vue.axios.post(URL + 'sales/v1/quo/gen/saleorder', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      }
+    )
   },
   callTel(success, error) {
     Vue.axios.get(telURL + '/api/v1/x6r5jxmu9otla').then(

@@ -89,16 +89,15 @@
           <md-tabs md-dynamic-height>
             <md-tab md-label>
               <div class="table-responsive" style="overflow-y: auto;">
-                <div>
-                  ค้นหาจาก<br>
+                <div>ค้นหาจาก
+                  <br>
                   <md-radio v-model="fillter" value="doc_no">
                     เลขเอกสาร
                     <small>(Default)</small>
                   </md-radio>
                   <md-radio v-model="fillter" value="doc_date" class="md-primary">วันที่</md-radio>
                 </div>
-                <div>
-                  เรียง
+                <div>เรียง
                   <br>
                   <md-radio v-model="filterby" value="DSEC">
                     มากไปหาน้อย

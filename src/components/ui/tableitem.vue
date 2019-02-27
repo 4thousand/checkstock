@@ -8,10 +8,9 @@
       <div class="tables" style="width:100%">
         <md-card-actions style="justify-content:end;">
           <md-button style="width:10%">{{val.item_code}}</md-button>
-          <md-button style="width:20%;    height: auto;
+          <md-button style="width:25%;
       ">
             <div
-              style="width:100%;white-space: normal;word-wrap:  text-align-last: left; break-word;      text-align: left;  text-indent: 20px;display: inline-block;height:auto;"
             >{{val.item_name}}</div>
           </md-button>
           <md-button
@@ -25,25 +24,35 @@
             <span>{{val.unit_code}}</span>
           </md-button>
           <md-button
-            style="min-width: 5%"
+            style="width: 5%"
             v-show="isQtySelected==false"
             @click="isQtySelected=true"
           >
             <span>{{val.qty}}</span>
           </md-button>
           <input
-            type="text"
-            style="max-width:5"
+            type="number"
+            style="width:5%"
             v-model="val.qty"
             v-show="isQtySelected==true"
             @keyup.enter="isQtySelected=false,calEachPrice(val)"
+            v-if="typepage!='invoice'"
             @blur="isQtySelected=false,calEachPrice(val)"
+          >
+          <input
+            type="text"
+            style="width:5"
+            v-model="val.qty"
+            v-show="isQtySelected==true"
+            @keyup.enter="isQtySelected=false,calEachPriceinvoice(val)"
+            v-if="typepage=='invoice'"
+            @blur="isQtySelected=false,calEachPriceinvoice(val)"
           >
           <md-button style="width:5%">
             <span>{{convertmoney(val.price)}}</span>
           </md-button>
           <md-button
-            style="min-width: 5%"
+            style="width: 5%"
             v-show="isDiscountSelected==false"
             @click="isDiscountSelected=true"
             v-if="typepage!='invoice'"
@@ -58,7 +67,7 @@
             v-if="typepage!='invoice'"
           >
           <md-button
-            style="min-width: 5%"
+            style="width: 5%"
             v-show="isDiscountSelected==false"
             @click="isDiscountSelected=true"
             v-if="typepage=='invoice'"
@@ -72,12 +81,12 @@
             @blur="isDiscountSelected=false,calEachPriceinvoice(val)"
             v-if="typepage=='invoice'"
           >
-          <md-button style="width:5%" v-if="typepage=='saleorder'">{{convertmoney(val.item_amount)}}</md-button>
+          <md-button style="width:5%" v-if="typepage=='saleorder'||'quotation'">{{convertmoney(val.item_amount)}}</md-button>
           <md-button style="width:5%" v-if="typepage=='invoice'">{{convertmoney(val.amount)}}</md-button>
-          <md-button style="min-width:5%;" class="md-mini" @click="removeitemtable(index)">
+          <md-button style="width:5%;" class="md-mini" @click="removeitemtable(index)">
             <md-icon style="width:5%;float: right;">delete</md-icon>
           </md-button>
-          <md-button style="min-width: 5%" class="md-mini" @click="histable(val,searchcus)">
+          <md-button style="width: 5%" class="md-mini" @click="histable(val,searchcus)">
             <md-icon style="width:5%;float: right;">history</md-icon>
           </md-button>
         </md-card-actions>
@@ -168,7 +177,7 @@
                           <td v-if="typepage==='saleorder'">{{val.UnitCode}}</td>
                           <td v-if="typepage==='saleorder'">{{val.Price}}</td>
                           <td v-if="typepage==='saleorder'">{{val.DiscountWord}}</td>
-                        </tr>
+                        </tr>"val.qt
                       </tbody>
                     </table>
                   </div>
@@ -432,28 +441,43 @@ export default {
       //console.log(itemshow)
     },
     calEachPrice(val) {
-      console.log(val.discount_word);
-      let eachPriceNoDiscount = val.qty * val.price;
-      for (let i = 0; i < val.discount_word.length; i++) {
-        if (val.discount_word[i] == "%" || val.discount_word[i] == ",") {
-          val.item_amount = this.calDiscountEachPrice(
-            eachPriceNoDiscount,
-            val.discount_word
-          );
-          return;
+      val.qty = parseInt(val.qty)
+      console.log(val);
+      let eachPriceNoDiscount = val.price;
+        for (let i = 0; i < val.discount_word.length; i++) {
+          if (val.discount_word[i] == "%" || val.discount_word[i] == ",") {
+            val.item_amount = this.calDiscountEachPrice(
+              eachPriceNoDiscount,
+              val.discount_word
+            );
+            // val.discount_amount=parseInt((eachPriceNoDiscount*val.qty)-val.item_amount);
+            // console.log(JSON.stringify(eachPriceNoDiscount));
+            // console.log(JSON.stringify(val.item_amount));
+            // console.log(JSON.stringify(val.discount_amount));
+            // return;
+            console.log(JSON.stringify(val.item_amount));
+            val.item_amount=parseFloat(val.item_amount*val.qty);
+            val.item_amount=parseFloat(val.item_amount.toFixed(2));
+            console.log(JSON.stringify(val.item_amount));
+            val.discount_amount=parseFloat((eachPriceNoDiscount*val.qty)-val.item_amount);
+            val.discount_amount=parseFloat(val.discount_amount.toFixed(2));
+            console.log(JSON.stringify("ส่วนลด"+val.discount_amount));
+            console.log(JSON.stringify(eachPriceNoDiscount));
+            return;
+          }
         }
-      }
-      console.log(JSON.stringify(eachPriceNoDiscount));
 
       if (val.discount_word == "") {
-        val.item_amount = eachPriceNoDiscount;
+        val.item_amount = (eachPriceNoDiscount*val.qty);
         return eachPriceNoDiscount;
       } else {
-        val.item_amount = eachPriceNoDiscount - parseInt(val.discount_word);
+        val.item_amount = (eachPriceNoDiscount - parseInt(val.discount_word))*val.qty;
         return;
       }
     },
     calEachPriceinvoice(val) {
+      val.qty = parseInt(val.qty);
+      var discount_amount = val.amount;
       console.log(val.discount_word_sub);
       let eachPriceNoDiscount = val.qty * val.price;
       for (let i = 0; i < val.discount_word_sub.length; i++) {
@@ -465,6 +489,9 @@ export default {
             eachPriceNoDiscount,
             val.discount_word_sub
           );
+          console.log(eachPriceNoDiscount);
+          val.discount_amount_sub = eachPriceNoDiscount - val.amount;
+
           return;
         }
       }
@@ -474,6 +501,7 @@ export default {
         val.amount = eachPriceNoDiscount;
         return eachPriceNoDiscount;
       } else {
+        val.discount_amount_sub = parseInt(val.discount_word_sub);
         val.amount = eachPriceNoDiscount - parseInt(val.discount_word_sub);
         return;
       }
@@ -496,7 +524,8 @@ export default {
             let floatPercent = parseFloat(discount_word.replace("%", ""));
             percentDiscount = parseFloat(parseFloat(floatPercent / 100.0));
             console.log(JSON.stringify(percentDiscount));
-            discountedPrice = eachPrice - eachPrice * percentDiscount;
+            discountedPrice = eachPrice - (eachPrice * percentDiscount);
+            console.log(JSON.stringify(discountedPrice))
             return parseFloat(discountedPrice);
           }
         }
@@ -525,7 +554,7 @@ export default {
             console.log(JSON.stringify(mixPrice));
           }
         }
-        return parseInt(mixPrice);
+        return parseFloat(mixPrice);
       }
     }
   },

@@ -23,7 +23,7 @@
                     class="md-layout-item md-size-10 md-small-size-100"
                     style="text-align:right;"
                   >
-                    <!-- <md-button style="position: relative;top: 50%;transform: translateY(-50%);" class="md-raised md-primary"><span>ค้นหา</span> </md-button> -->
+                    <md-button style="position: relative;top: 60%;left:-20%;transform: translateY(-50%);" class="md-raised md-primary" @click="selectQTdialog=true"><span>เลือกใบเสนอราคา</span> </md-button>
                   </div>
                   <div class="md-layout-item md-size-20 md-small-size-100">
                     <span class="md-title sub">เลขที่ใบเสนอราคา</span>
@@ -87,9 +87,9 @@
                         id="country"
                         placeholder="ประเภทภาษี"
                       >
-                        <md-option value=0>ภาษีแยกนอก</md-option>
-                        <md-option value=1>ภาษีรวมใน</md-option>
-                        <md-option value=2>ภาษีอัตราศูนย์</md-option>
+                        <md-option value="0">ภาษีแยกนอก</md-option>
+                        <md-option value="1">ภาษีรวมใน</md-option>
+                        <md-option value="2">ภาษีอัตราศูนย์</md-option>
                       </md-select>
                     </md-field>
                   </div>
@@ -153,7 +153,7 @@
 
                   <searchhiscustomer
                     :product="dproducts"
-                    :typepage="'saleorder'"
+                    :typepage="typepage"
                     :searchcus="searchcus"
                   >
                   </searchhiscustomer>
@@ -203,7 +203,7 @@
                     <div class="tables">
                       <md-card-actions style="width=100%">
                         <md-button style="width:10%">รหัสสินค้า</md-button>
-                        <md-button style="width:24%">ชื่อสินค้า</md-button>
+                        <md-button style="width:25%">ชื่อสินค้า</md-button>
                         <md-button style="width:5%">คลังสินค้า</md-button>
                         <md-button style="width:5%">หน่วยนับ</md-button>
                         <md-button style="width:5%">จำนวน</md-button>
@@ -218,8 +218,9 @@
                   <itemtable
                     :searched="searched"
                     :product="dproducts"
-                    :typepage="'saleorder'"
                     :searchcus="detailcus"
+                    :removeitemtable="removeitemtable"
+                    :typepage="typepage"
                   >
                   </itemtable>
                 </div>
@@ -242,7 +243,7 @@
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:center;"
                   >
-                    <span class="md-title subnotop" style="left:10px">บาท</span>
+                    <span class="md-title subnotop" style="left:2px">บาท</span>
                   </div>
                 </div>
                 <div class="md-layout md-gutter">
@@ -263,7 +264,7 @@
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:center;"
                   >
-                    <span class="md-title subnotop" style="left:10px">บาท</span>
+                    <span class="md-title subnotop" style="left:2px">บาท</span>
                   </div>
                 </div>
 
@@ -312,19 +313,17 @@
                   >
                     <span class="md-title subnotop">ภาษีมูลค่าเพิ่ม</span>
                   </div>
-
                   <div
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:right;"
                   >
                     <span class="md-title subnotop">{{ convertmoney(dif_fee) }}</span>
                   </div>
-
                   <div
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:center;"
                   >
-                    <span class="md-title subnotop" style="left:10px">บาท</span>
+                    <span class="md-title subnotop" style="left:2px">บาท</span>
                   </div>
                 </div>
 
@@ -335,19 +334,17 @@
                   >
                     <span class="md-title subnotop">มูลค่ารวมภาษี</span>
                   </div>
-
                   <div
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:right;"
                   >
                     <span class="md-title subnotop">{{ convertmoney(cal_totalprice) }}</span>
                   </div>
-
                   <div
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:center;"
                   >
-                    <span class="md-title subnotop" style="left:10px">บาท</span>
+                    <span class="md-title subnotop" style="left:2px">บาท</span>
                   </div>
                 </div>
 
@@ -370,7 +367,7 @@
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:center;"
                   >
-                    <span class="md-title subnotop" style="left:10px">บาท</span>
+                    <span class="md-title subnotop" style="left:2px">บาท</span>
                   </div>
                 </div>
               </md-card-content>
@@ -1120,6 +1117,28 @@
           </md-steppers>
         </div>
       </div>
+
+    <div>
+      <md-dialog :md-active.sync="selectQTdialog">
+        <md-dialog-title>เลือกเลขที่ใบเสนอราคา</md-dialog-title>
+          <md-tabs md-dynamic-height>
+            <md-tab md-label>
+              <md-field>
+                <md-input
+                  v-model="searchcus"
+                  @keyup="searchCustomerRT"
+                  @keydown="searchCustomerRT"
+                  @input="searchCustomerRT"
+                ></md-input>
+              </md-field>
+              <transferQT></transferQT>
+            </md-tab>
+          </md-tabs>
+          <md-dialog-actions>
+            <md-button class="md-primary" @click="selectQTdialog = false">Close</md-button>
+          </md-dialog-actions>
+      </md-dialog>
+    </div>
 
       <div>
         <md-dialog :md-active.sync="confirmDialog">
