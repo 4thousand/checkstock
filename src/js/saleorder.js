@@ -13,10 +13,9 @@ const toLower = text => {
   import 'vue-loading-overlay/dist/vue-loading.css';
   import Datepicker from 'vuejs-datepicker';
   import * as lang from "vuejs-datepicker/src/locale";
-  import api from "../service/service.js";
+  import api from "../service/service.js"
   import itemtable from '@/components/ui/tableitem';
   import searchhiscustomer from '@/components/ui/searchhiscustomer';
-  import transferQT from '@/components/ui/transferQTtoSO';
   // import * as jsPDF from 'jspdf'
   import JQuery from 'jquery'
   let $ = JQuery
@@ -28,7 +27,6 @@ const toLower = text => {
       itemtable,
       Loading,
       searchhiscustomer,
-      transferQT,
     },
     data: () => ({
       itemtable: [],
@@ -60,7 +58,6 @@ const toLower = text => {
       keywordproduct: '',
       showDialogproduct: false,
       confirmDialog:false,
-      selectQTdialog:false,
       dataproductDialog: [],
       disablebilltype: false,
       datenow_datepicker: Date.now(),

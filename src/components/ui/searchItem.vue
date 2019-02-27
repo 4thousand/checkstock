@@ -103,7 +103,7 @@ export default {
     // removeitemtable: Function,
     parentData: [],
     stringProp: [],
-    ref: "addproduct",
+    ref:"addproduct",
     product: Array,
 
     typepage: "",
@@ -218,7 +218,7 @@ export default {
                   stock_location: data,
                   location: data[0].wh_code,
                   discount_word_sub: "0",
-                  discount_amount_sub: 0,
+                  discount_word_sub: 0,
                   amount: result.data[0].sale_price_1 * 1,
                   item_description: "",
                   packing_rate_1: parseInt(result.data[0].rate_1),

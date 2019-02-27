@@ -12,40 +12,7 @@
               md-label="ข้อมูลสินค้า"
               md-description="Optional"
               :md-done.sync="first"
-              style="padding: 4px 4px;"
             >
-              <div style="width:100%;height:20px;">
-                <div style="float:right;">
-                  <md-button
-                    @click="reftoSOQTO(2,refID)"
-                    :disabled="docnoid!=0"
-                    class="md-raised md-primary"
-                    v-show="refSO"
-                  >กลับ: {{refDoc}}</md-button>
-                  <md-button
-                    @click="reftoSOQTO(1,refID)"
-                    :disabled="docnoid!=0"
-                    class="md-raised md-primary"
-                    v-show="refQTO"
-                  >กลับ: {{refDoc}}</md-button>
-                  <md-button
-                    @click="serachQTOANDSO(1)"
-                    :disabled="docnoid!=0"
-                    class="md-raised md-primary"
-                  >ดึงข้อมูลจากใบเสนอราคา</md-button>
-                  <md-button
-                    @click="serachQTOANDSO(2)"
-                    :disabled="docnoid!=0"
-                    class="md-raised md-primary"
-                  >ดึงข้อมูลจากใบสั่งขาย</md-button>
-                  <md-button
-                    :disabled="docnoid==0||is_cancelbill==1"
-                    class="md-raised md-accent"
-                    @click="cancelinvoice(docnoid)"
-                  >ยกเลิก บิลขาย</md-button>
-                </div>
-              </div>
-              <br>
               <md-card-content>
                 <div class="md-layout md-gutter">
                   <div
@@ -472,53 +439,6 @@
                         @keyup.up="getFocus('cr_notice')"
                         @keyup.left="getFocus('submit_cr')"
                       >ยกเลิก</button>
-                    </div>
-                  </md-dialog-content>
-                </md-dialog>
-                <md-dialog :md-active.sync="showSOQTO" :md-fullscreen="false">
-                  <md-dialog-content class="modal-content">
-                    <div class="modal-header">
-                      <h4>ค้นหาใบสั่งจอง</h4>
-                      <button type="button" class="close" @click="showSOQTO = false">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                      <label>ใบสั่งจอง</label>
-                      <input
-                        id="searchRS"
-                        class="form-control"
-                        v-autofocus
-                        @keyup.enter="searchSO"
-                        v-model="searchSO"
-                      >
-                      <div class="table-responsive">
-                        <table class="table table-hover">
-                          <thead align="center">
-                            <tr>
-                              <th>ลำดับ</th>
-                              <th class="md-xsmall-hide">เลขใบสั่งจอง</th>
-                              <th>ชื่อลูกค้า</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr
-                              class="table-pointer"
-                              v-for="(val,index) in listFilter"
-                              @click="showdetailSO(val,refdoctype) "
-                              :key="index"
-                              style="text-align:center;cursor:pointer"
-                            >
-                              <td>{{index+1}}</td>
-                              <td class="md-xsmall-hide">{{val.doc_no}}</td>
-                              <td>{{val.ar_name}}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <md-dialog-actions>
-                        <md-button class="md-primary" @click="showSOQTO = false">Close</md-button>
-                      </md-dialog-actions>
                     </div>
                   </md-dialog-content>
                 </md-dialog>
@@ -1137,20 +1057,14 @@
                             </p>
                             <div class="col-lg-7 col-md-12 col-12">
                               <p>
-                                <md-field>
-                                  <md-select
-                                    name="country"
-                                    v-model="creditType"
-                                    id="country"
-                                    placeholder="ประเภทบัตร"
-                                  >
-                                    <md-option
-                                      v-for="(uni,index) in creditcardtype"
-                                      :key="index"
-                                      :value="uni.creditcardtype_name"
-                                    >{{uni.creditcardtype_name}}</md-option>
-                                  </md-select>
-                                </md-field>
+                                <input
+                                  id="cr_type"
+                                  class="form-control"
+                                  v-model="creditType"
+                                  @keyup.enter="getFocus('credit_price')"
+                                  @keyup.down="getFocus('credit_price')"
+                                  @keyup.up="getFocus('bank_no')"
+                                >
                               </p>
                             </div>
                           </div>

@@ -62,6 +62,8 @@
                       class="starhover"
                     >
                       <md-button @click="seedetail(val)" class="md-raised md-primary"><md-icon>edit</md-icon></md-button>
+                      <md-button v-show="val.is_confirm == 0" @click="pullAppeoved(val),appeovedStatus()" style="background-color: green" class="md-raised md-primary"><md-icon>check_circle_outline</md-icon></md-button>
+                      <md-button v-show="val.is_confirm == 1" @click="pullAppeoved(val),appeovedStatus()" style="background-color: yellow" class="md-raised md-primary"><md-icon>warning</md-icon></md-button>
                     </div>
                   </div>
                 </div>

@@ -77,15 +77,7 @@ export default new Router({
       path: '/saleorder/:id',
       name: 'saleorder',
       component: saleorder
-    },
-    {
-      path: '/saleorder/:id',
-      name: 'saleorder2',
-      component: saleorder,
-      props: {
-        payload: Object
-      }
-    },
+    },//newquotation
     {
       path: '/newquotation/:id',
       name: 'newquo',

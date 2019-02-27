@@ -56,8 +56,6 @@ export default {
     keywordproduct: '',
     showDialogproduct: false,
     confirmDialog: false,
-    isConfirm: 0,
-    isCancel:0,
     dataproductDialog: [],
     disablebilltype: false,
     datenow_datepicker: Date.now(),
@@ -383,20 +381,19 @@ export default {
           datenow_datepicker: this.datenow_datepicker,
           dif_fee: this.dif_fee,
           //norecord
-          
           doc_type,
           ar_id: this.idcus,
           ar_code: this.searchcus,
           ar_name: this.detailcus,
           sale_id: this.sale_id,
           sale_code:this.salecode,
-          sale_name: sale_name,
+          sale_name: sale_name.trim(),
           bill_type: parseInt(this.billtype),
           tax_type: parseInt(this.taxtype),
           tax_rate: 7,
           depart_code: '',
           ref_no: '',
-          is_confirm: parseInt(this.isConfirm),
+          is_confirm: 0,
           bill_status: 0,
           credit_day: this.bill_credit,
           due_date: this.convermonth_y_m_d(this.DueDate_cal),
@@ -405,6 +402,7 @@ export default {
           expire_date: this.convermonth_y_m_d(this.expiredate_cal),
           delivery_day: parseInt(this.Deliver_date),
           delivery_date: this.convermonth_y_m_d(this.DueDate_date),
+          assert_status: 0,
           is_condition_send: parseInt(this.is_condition_send),
           my_description: this.my_description,
           sum_of_item_amount: this.totalprice,
@@ -417,7 +415,7 @@ export default {
           depart_id: parseInt(this.iddepartment),
           project_id: parseInt(this.idprojectC),
           allocate_id: 0,
-          is_cancel: parseInt(this.isCancel),
+          is_cancel: 0,
           creator_by: this.creator_by,
           subs: this.dproducts
         }
@@ -855,7 +853,7 @@ export default {
       }
     },
     showcontent_step2() {
-      this.salecode = this.objuser.sale_code
+      this.salecode = this.objuser.sale_code + ' / ' + this.objuser.username
     },
     searchsale_step2() {
       let payload = {
@@ -873,7 +871,7 @@ export default {
             return
           }
           if (result.data.length == 1) {
-            this.salecode = result.data[0].sale_code
+            this.salecode = result.data[0].sale_code + ' / ' + result.data[0].sale_name
 
           } else if (result.data.length > 1) {
             this.searchsale = true
@@ -889,7 +887,7 @@ export default {
     selectcus_step2(val) {
       console.log(JSON.stringify(val))
       this.sale_id = val.employee_id
-      this.salecode = val.sale_code
+      this.salecode = val.sale_code + ' / ' + val.sale_name
       this.searchsale = false
     },
     focussearchcus() {
@@ -928,7 +926,6 @@ export default {
           this.tablecode = doc_type
           this.billtype = result.data.bill_type
           console.log(this.billtype)
-          this.sale_id=result.data.sale_id
           this.ar_bill_address = result.data.ar_bill_address
           this.ar_telephone = result.data.ar_telephone
           this.docno = result.data.doc_no
@@ -937,15 +934,11 @@ export default {
           this.idcus = result.data.ar_id
           this.searchcus = result.data.ar_code
           this.detailcus = result.data.ar_name
-          console.log(JSON.stringify(result.data.is_confirm))
-          this.isConfirm=result.data.is_confirm
-          this.isCancel=result.data.is_cancel
           var datasubs = result.data.subs
           let data;
           console.log(datasubs)
           for (let x = 0; x < datasubs.length; x++) {
             console.log(datasubs[0].price)
-            console.log(datasubs[x].qty)
             data = {
               item_id: datasubs[x].id,
               item_code: datasubs[x].item_code,
@@ -966,9 +959,11 @@ export default {
             this.dproducts.push(data)
           }
           console.log(JSON.stringify(this.dproducts))
-          this.salecode = result.data.sale_code
+          this.salecode = result.data.sale_code.trim() + ' / ' + result.data.sale_name
+          this.validity = result.data.validity
           this.expire_date = result.data.expire_credit
           this.caldiscount = result.data.discount_amount
+          // console.log(this.expire_date)
           this.answer_cus = result.data.assert_status
           this.Deliver_date = result.data.delivery_day
           this.bill_credit = result.data.credit_day
@@ -980,7 +975,6 @@ export default {
           // console.log(this.DueDate_cal)
           this.my_description = result.data.my_description
           //  console.log(this.dproducts)
-          console.log(JSON.stringify(result.data))
           console.log(JSON.stringify(result.data.subs))
         },
         (error) => {
@@ -1075,77 +1069,7 @@ export default {
           alertify.error('Data ข้อมูล ค้นหาคลัง ผิดพลาด');
         })
       // alert('ทดสอบ')
-    },
-    confirmDoc(){
-      let payload={
-        id: this.docnoid,
-        confirm_by: JSON.parse(localStorage.Datauser).username,
-        assert_status: this.answer_cus
-      }
-      console.log(JSON.stringify(payload))
-      // this.isLoading = true;
-      api.confirmQuotation(payload,
-        (result) => {
-          alertify.success('confirm เอกสารแล้ว');
-          // this.isLoading = false;
-        },
-        (error) => {
-          // this.isLoading = false
-          console.log(JSON.stringify(error))
-          alertify.error('Data ข้อมูล ผิดพลาด');
-        })
-        location.reload()
-    },
-    cancelDoc(){
-      let payload={
-        id: this.docnoid,
-        cancel_by: JSON.parse(localStorage.Datauser).username
-      }
-      console.log(JSON.stringify(payload))
-      // this.isLoading = true;
-      api.cancelQuotation(payload,
-        (result) => {
-          alertify.success('cancel เอกสารแล้ว');
-          // setTimeout(() => {
-          //   this.isLoading = false
-          // },50000000)
-        },
-        (error) => {
-          console.log(JSON.stringify(error))
-          alertify.error('Data ข้อมูล ผิดพลาด');
-        })
-        // this.isLoading = false
-        location.reload()
-    },
-    callQTtoSO(){
-      let payload={
-        id:parseInt(this.docnoid)
-      }
-      let sodocno
-      let soid
-      api.transferQTtoSO(payload,
-        (result)=>{
-          console.log(JSON.stringify(result))
-          sodocno=result.data.doc_no
-          console.log(JSON.stringify("docno "+sodocno))
-        },
-        (error)=>{
-          console.log(JSON.stringify(error))
-          alertify.error('เกิดข้อผิดพลาด ไม่สามารถโอนใบเสนอราคาได้')
-        })
-      api.searchSaleOrderByKeyword(sodocno,
-        (result)=>{
-          console.log(JSON.stringify(result.data.id))
-          soid=parseInt(result.data.id)
-        },
-        (error)=>{
-          console.log(JSON.stringify(error))
-          alertify.error('เกิดข้อผิดพลาด ไม่สามารถโอนใบเสนอราคาได้')
-        })
-      this.$router.push({ name: "saleorder2", params: { id:soid }});
-      return;
-    },
-    
+    }
   },
   created() {
     console.log(JSON.stringify(this.searched))
@@ -1159,7 +1083,6 @@ export default {
         'ctrl+shift+2': this.changevaluetest2,
       }
     },
-    
     totalprice() {
       return this.dproducts.reduce(function (sum, item) {
         return (sum + item.item_amount)
@@ -1220,7 +1143,6 @@ export default {
     // if (this.docnoid == 0) {
     //   // location.reload()
     // }
-    console.log(JSON.stringify(localStorage))
     console.log(JSON.stringify(this.searched))
     this.showedit()
     this.creator_by = this.objuser.usercode
