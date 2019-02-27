@@ -2,23 +2,22 @@
   <div>
     <table class="table table-hover">
       <thead align="center">
-        <tr>
-          <th>ลำดับ</th>
-          <th>เลขที่เอกสาร</th>
-          <th>ชื่อลูกค้า</th>
+        <tr style="text-align:center;cursor:pointer">
+          <td>ลำดับ</td>
+          <td>เลขที่เอกสาร</td>
+          <td>ชื่อลูกค้า</td>
         </tr>
       </thead>
       <tbody id="valuetable">
         <tr
-          @click="selecct_doclist(val)"
-          v-for="(val,index) in detailcusall"
+          @click="check(),$emit('selectQTdialogP','selectQTdialog')"
+          v-for="(val,index) in collectQT"
           :key="index"
           style="text-align:center;cursor:pointer"
         >
           <td>{{index+1}}</td>
-          <td>{{val.code}}</td>
-          <td>{{val.name}}</td>
-          <td>{{val.address}}</td>
+          <td>{{val.doc_no}}</td>
+          <td>{{val.ar_name}}</td>
         </tr>
       </tbody>
     </table>
@@ -30,10 +29,18 @@ import api from "../../service/service.js";
 export default {
     name: "transferQT",
     props:{
-        keyword:""
+      collectQT:[],
+      callQTtoSO:Function,
+      selectQTdialogP:''
     },
     methods:{
-      
+      check(){
+        console.log(JSON.stringify(this.selectQTdialogP))
+      }
+    },
+    mounted(){
+      this.check()
+      this.selectQTdialogP=false
     }
 };
 </script>

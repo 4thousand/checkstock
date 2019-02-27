@@ -135,15 +135,12 @@ export default {
   methods: {
     convertToBaht(val) {
       var result = numeral(val).format("0,0.00");
-      // console.log(typeof result)
       return result;
     },
     goindex(val) {
-      // localStorage.iddocno = 0
       this.showNavigation = false;
 
       if (val == "/saleorder") {
-        // this.topicmenu = 'ใบเสนอราคา'
         this.$router.push({ name: "saleorder", params: { id: 0 } });
         return;
       }
@@ -178,15 +175,12 @@ export default {
         error => {
           console.log(JSON.stringify(error));
           alertify.error("Data ข้อมูลผิดพลาด");
-          //  alertify.success('Error login');
-          // this.cload()
         }
       );
     }
   },
   mounted() {
     this.showalldoc();
-    // console.log(JSON.stringify(this.payload))
   }
 };
 </script>

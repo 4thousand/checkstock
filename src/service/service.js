@@ -9,7 +9,6 @@ const npsysURL = 'https://sys.nopadol.com/'
 const telURL = 'https://sheetdb.io'
 const smsURL = 'https://api.apitel.co/sms'
 const test = 'http://192.168.0.83:8080/v2/atm/auth'
-//const URL = 'http://localhost:9999/'
 
 export default {
   signin(user, pass, success, error) {

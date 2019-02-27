@@ -15,7 +15,6 @@ import Datepicker from 'vuejs-datepicker';
 import * as lang from "vuejs-datepicker/src/locale";
 import api from "../service/service.js";
 import itemtable from '@/components/ui/tableitem';
-// import * as jsPDF from 'jspdf'
 import JQuery from 'jquery'
 let $ = JQuery
 
@@ -66,11 +65,11 @@ export default {
     caldiscount: 0,
     keywordemp: '',
     // page 2
-    bill_credit: 0,
+    bill_credit: '',
     DueDate_cal: '',
-    Deliver_date: 0,
+    Deliver_date: 1,
     DueDate_date: '',
-    expire_date: 0,
+    expire_date: 1,
     expiredate_cal: '',
     isshowdocument: false,
     docheight: '72px',
@@ -78,7 +77,7 @@ export default {
     sale_id: JSON.parse(localStorage.userid),
     salecode: '',
     searchsaleobj: [],
-    validity: 0,
+    validity: 1,
     is_condition_send: 0,
     my_description: '',
     creator_by: '',
@@ -122,8 +121,6 @@ export default {
       console.log(val)
     },
     searchunticode(val) {
-      // console.log(index)
-      // console.log(this.selectunitcode_step2())
       console.log(JSON.stringify(val))
       let payload = {
         item_code: val.item_code
@@ -1227,5 +1224,7 @@ export default {
     this.branch_id = this.objuser.branch_id
     this.showcontent_step2()
     // console.log(this.objuser)
+    this.calexpiredate()
+    this.calDeliverdate()
   }
 };

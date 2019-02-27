@@ -180,15 +180,12 @@ export default {
   methods: {
     convertToBaht(val) {
       var result = numeral(val).format("0,0.00");
-      // console.log(typeof result)
       return result;
     },
     goindex(val) {
-      // localStorage.iddocno = 0
       this.showNavigation = false;
 
       if (val == "/quotation") {
-        // this.topicmenu = 'ใบเสนอราคา'
         this.$router.push({ name: "quotation", params: { id: 0 } });
         return;
       }
@@ -357,14 +354,12 @@ export default {
           },
           (error) => {
             console.log(JSON.stringify(error))
-            //Customerall
             alertify.error('เกิดข้อผิดพลาด');
           })
     },
   },
   mounted() {
     this.showalldoc();
-    // console.log(JSON.stringify(this.payload))
   }
 };
 </script>
