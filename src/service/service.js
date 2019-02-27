@@ -265,6 +265,24 @@ export default {
         error(response)
       })
   },
+  showSetting(payload, success, error) { //boss add
+    Vue.axios.post(URL + 'settingconfig/v1/config/search/id', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
+  createSetting(payload, success, error) { //boss add
+    Vue.axios.post(URL + 'settingconfig/v1/config/new', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
   searchReserveByKeyword(payload, success, error) {
     payload.keyword = payload.keyword.replace(" ", "%")
     Vue.axios.post(URL + 'sales/v1/dep/reserve/search', JSON.stringify(payload)).then(
