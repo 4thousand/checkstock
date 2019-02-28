@@ -160,15 +160,11 @@ export default {
       // v
 
       console.log(JSON.stringify(payload));
-      api.showdocall(
+      api.searchSaleOrderByKeyword(
         payload,
         result => {
           for (var i = 0; i < result.data.length; i++) {
-            if (
-              result.data[i].module == "SaleOrder" ||result.data[i].module == "Reserve"
-            ) {
               this.dataall.push(result.data[i]);
-            }
           }
           console.log(JSON.stringify(this.dataall));
         },

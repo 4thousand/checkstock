@@ -128,6 +128,7 @@ const toLower = text => {
       cus_tel:'',
       qtkeyword:'',
       collectQT:[],
+      permission: JSON.parse(localStorage.Datauser).menu
     }),
 
     methods: {
@@ -941,7 +942,7 @@ const toLower = text => {
           })
       },
       changePriceType(){
-        if(docnoid==0){
+        if(this.docnoid==0){
           for(var i=0;i<this.dproducts.length;i++){
             if(this.billtype==0){
               this.dproducts[i].price=this.dproducts[i].sale_price_1
@@ -1142,25 +1143,14 @@ const toLower = text => {
       api.transferQTtoSO(payload,
         (result)=>{
           console.log(JSON.stringify(result))
-          sodocno={keyword:result.data.doc_no}
-          console.log(JSON.stringify("docno "+sodocno))
+          sodocno={id:result.data.id}
+          console.log(JSON.stringify(sodocno))
+          this.$router.push({ name: "saleorder2", params: { id:sodocno.id }});
         },
         (error)=>{
           console.log(JSON.stringify(error))
           alertify.error('เกิดข้อผิดพลาด ไม่สามารถโอนใบเสนอราคาได้')
         })
-        console.log(JSON.stringify("docno "+sodocno))
-      api.searchSaleOrderByKeyword(sodocno,
-        (result)=>{
-          console.log(JSON.stringify(result.data.id))
-          soid=parseInt(result.data.id)
-          this.$router.push({ name: "saleorder2", params: { id:0 }});
-        },
-        (error)=>{
-          console.log(JSON.stringify(error))
-          alertify.error('เกิดข้อผิดพลาด ไม่สามารถโอนใบเสนอราคาได้')
-        })
-      
       return;
     },
     },

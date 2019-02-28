@@ -107,6 +107,7 @@ export default {
     stockall: [],
     isLoading: false,
     fullPage: true,
+    permission: JSON.parse(localStorage.Datauser).menu
     //itemtable: [],
   }),
   methods: {
@@ -1119,27 +1120,18 @@ export default {
         id:parseInt(this.docnoid)
       }
       let sodocno
-      let soid
       api.transferQTtoSO(payload,
         (result)=>{
           console.log(JSON.stringify(result))
-          sodocno=result.data.doc_no
-          console.log(JSON.stringify("docno "+sodocno))
+          sodocno={id:result.data.id}
+          console.log(JSON.stringify(sodocno))
+          this.$router.push({ name: "saleorder2", params: { id:sodocno.id }});
         },
         (error)=>{
           console.log(JSON.stringify(error))
           alertify.error('เกิดข้อผิดพลาด ไม่สามารถโอนใบเสนอราคาได้')
         })
-      api.searchSaleOrderByKeyword(sodocno,
-        (result)=>{
-          console.log(JSON.stringify(result.data.id))
-          soid=parseInt(result.data.id)
-        },
-        (error)=>{
-          console.log(JSON.stringify(error))
-          alertify.error('เกิดข้อผิดพลาด ไม่สามารถโอนใบเสนอราคาได้')
-        })
-      this.$router.push({ name: "saleorder2", params: { id:soid }});
+      
       return;
     },
     
@@ -1217,8 +1209,9 @@ export default {
     // if (this.docnoid == 0) {
     //   // location.reload()
     // }
-    console.log(JSON.stringify(localStorage))
+    console.log(JSON.stringify(JSON.parse(localStorage.Datauser)))
     console.log(JSON.stringify(this.searched))
+    console.log(JSON.stringify(this.permission))
     this.showedit()
     this.creator_by = this.objuser.usercode
     this.branch_id = this.objuser.branch_id

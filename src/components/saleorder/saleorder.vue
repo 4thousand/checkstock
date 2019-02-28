@@ -22,7 +22,7 @@
                     class="md-layout-item md-size-10 md-small-size-100"
                     style="text-align:right;"
                   >
-                    <md-button style="position: relative;top: 60%;left:-20%;transform: translateY(-50%);" class="md-raised md-primary" @click="selectQTdialog=true"><span>เลือกใบเสนอราคา</span> </md-button>
+                    <md-button style="position: relative;top: 60%;left:-20%;transform: translateY(-50%);" class="md-raised md-primary" @click="selectQTdialog=true" v-if="docnoid==0"><span>เลือกใบเสนอราคา</span> </md-button>
                   </div>
                   <div class="md-layout-item md-size-20 md-small-size-100">
                     <span class="md-title sub">เลขที่ใบเสนอราคา</span>
@@ -85,6 +85,7 @@
                         v-model="taxtype"
                         id="country"
                         placeholder="ประเภทภาษี"
+                        :disabled="permission[1].is_edit==1"
                       >
                         <md-option value="0">ภาษีแยกนอก</md-option>
                         <md-option value="1">ภาษีรวมใน</md-option>
@@ -207,11 +208,13 @@
                       </md-card-actions>
                     </div>
                   </md-card>
-                  <itemtable
-                    :searched="searched"
-                    :removeitemtable="removeitemtable"
-                    :typepage="typepage"
-                  ></itemtable>
+                  <md-card class="md-layout-item md-size-100 md-small-size-100 tablesale">
+                    <itemtable
+                      :searched="searched"
+                      :removeitemtable="removeitemtable"
+                      :typepage="typepage"
+                    ></itemtable>
+                  </md-card>
                 </div>
                 <!-- table  -->
                 <div style="margin-top:15px" class="md-layout md-gutter">
