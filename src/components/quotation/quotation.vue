@@ -31,7 +31,7 @@
                   >
                     <md-button class="md-raised" style="background-color:green;color:white" v-if="isConfirm==1" disabled>CF</md-button>
                     <md-button class="md-raised" style="background-color:red;color:white" v-if="isCancel==1" disabled>CC</md-button>
-                    <md-button class="md-raised" style="background-color:#efefef;color:#fb0;border-color:#efefef;border: 2px solid;" v-if="isCancel==0&&isConfirm==0" disabled>CC</md-button>
+                    <md-button class="md-raised" style="background-color:#efefef;color:#fb0;border-color:#efefef;border: 2px solid;" v-if="isCancel==0&&isConfirm==0&&docnoid>0" disabled>New</md-button>
                   </div>
                 </div>
                 <div class="md-layout md-gutter">
