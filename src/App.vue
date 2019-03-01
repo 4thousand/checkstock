@@ -78,7 +78,7 @@
                 </md-list>
                   </md-list-item>
 
-              <md-list-item md-expand v-if="userPermission.menu[4].is_read==1||serPermission.menu[7].is_read==1">
+              <md-list-item md-expand v-if="userPermission.menu[4].is_read==1||userPermission.menu[7].is_read==1">
                 <md-icon>store</md-icon>
                 <span class="md-list-item-text">Cashier</span>
 
@@ -140,7 +140,7 @@
                 <span class="md-list-item-text">Setting</span>
               </md-list-item>
               <md-divider></md-divider>
-              <md-list-item to="/" v-if="userPermission.menu[6].is_create==1">
+              <md-list-item to="/">
                 <md-icon>exit_to_app</md-icon>
                 <span class="md-list-item-text">Logout</span>
               </md-list-item>
