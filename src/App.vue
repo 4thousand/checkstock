@@ -17,17 +17,10 @@
             >{{icon}}</md-icon>
             <span style="margin-left: 14px;" class="md-title">{{topicmenu}}</span>
 
-            <!-- <md-autocomplete style="margin-left:30px;width: 45vw;"
-      v-model="selectedEmployee"
-      :md-options="employees"
-      md-layout="box"
-      md-dense>
-      <label>Employees</label>
-            </md-autocomplete>-->
             <div class="md-toolbar-section-end">
               <md-button @click="showSidepanel = true">
                 <md-icon class="md-size-1x md-xsmall-hide" style="margin-right:10px">account_balance</md-icon>
-                <span class="md-xsmall-hide" style="margin-right:20px">{{ company_name }}</span>
+                <span class="md-xsmall-hide" style="margin-right:20px">{{ branchname }}</span>
                 <md-icon class="md-size-1x">account_circle</md-icon>
                 <span class="md-xsmall-hide" style="margin-right:10px"></span>
                 <span class="md-xsmall-hide">{{ name }}</span>
@@ -77,19 +70,15 @@
                    <md-list-item
                     @click="goindex('/salehistory')"
                     class="md-inset"
-                    v-if="userPermission.menu[2].is_read==1"
+                    v-if="userPermission.menu[1].is_read==1"
                   >
                     <md-icon style="position:absolute;  left: 16px;">move_to_inbox</md-icon>
                     <span class="md-list-item-text">ประวัติการขาย</span>
                   </md-list-item>
-               <!--   <md-list-item @click="goindex('/invoice')" class="md-inset">
-                    <md-icon style="position:absolute;  left: 16px;">send</md-icon>
-                    <span class="md-list-item-text">ใบวางบิล</span>
-                  </md-list-item>-->
                 </md-list>
                   </md-list-item>
 
-              <md-list-item md-expand v-if="userPermission.menu[4].is_read==1">
+              <md-list-item md-expand v-if="userPermission.menu[4].is_read==1||serPermission.menu[7].is_read==1">
                 <md-icon>store</md-icon>
                 <span class="md-list-item-text">Cashier</span>
 
@@ -102,14 +91,14 @@
                     <md-icon style="position:absolute;  left: 16px;">assignment</md-icon>
                     <span class="md-list-item-text">ใบรับเงินมัดจำ</span>
                   </md-list-item>
-                  <md-list-item @click="goindex('/invoicelist')" class="md-inset">
+                  <md-list-item @click="goindex('/invoicelist')" class="md-inset" v-if="userPermission.menu[7].is_read==1">
                     <md-icon style="position:absolute;  left: 16px;">payment</md-icon>
                     <span class="md-list-item-text">ออกบิลขาย</span>
                   </md-list-item>
-                  <md-list-item @click="goindex('/index')" class="md-inset">
+                  <!-- <md-list-item @click="goindex('/index')" class="md-inset">
                     <md-icon style="position:absolute;  left: 16px;">receipt</md-icon>
                     <span class="md-list-item-text">ระบบขายหน้าร้าน</span>
-                  </md-list-item>
+                  </md-list-item> -->
                 </md-list>
               </md-list-item>
 
@@ -125,7 +114,7 @@
                 </md-list>
               </md-list-item>
 
-              <md-list-item md-expand>
+              <md-list-item md-expand v-if="userPermission.menu[6].is_create==1">
                 <md-icon>how_to_reg</md-icon>
                 <span class="md-list-item-text">ระบบทะเบียน</span>
 
@@ -141,26 +130,17 @@
                 </md-list>
               </md-list-item>
 
-              <md-list-item @click="goindex('/dashboard')">
-                <md-icon>send</md-icon>
-                <span class="md-list-item-text">Dashboard</span>
-              </md-list-item>
-
-              <md-list-item @click="goindex('/utility')">
+              <md-list-item @click="goindex('/utility')" v-if="userPermission.menu[6].is_create==1">
                 <md-icon>build</md-icon>
                 <span class="md-list-item-text">Utility</span>
               </md-list-item>
 
-              <!-- <md-list-item>
-                <md-icon>delete</md-icon>
-                <span class="md-list-item-text">ใบ BackOrder</span>
-              </md-list-item>-->
-              <md-list-item @click="goindex('/setting')">
+              <md-list-item @click="goindex('/setting')" v-if="userPermission.menu[6].is_create==1">
                 <md-icon>settings</md-icon>
                 <span class="md-list-item-text">Setting</span>
               </md-list-item>
               <md-divider></md-divider>
-              <md-list-item to="/">
+              <md-list-item to="/" v-if="userPermission.menu[6].is_create==1">
                 <md-icon>exit_to_app</md-icon>
                 <span class="md-list-item-text">Logout</span>
               </md-list-item>
@@ -282,23 +262,7 @@ export default {
     sale_code: "",
     company_name: "",
     permission: "",
-    selectedEmployee: null,
-    employees: [
-      "Jim Halpert",
-      "Dwight Schrute",
-      "Michael Scott",
-      "Pam Beesly",
-      "Angela Martin",
-      "Kelly Kapoor",
-      "Ryan Howard",
-      "Kevin Malone",
-      "Creed Bratton",
-      "Oscar Nunez",
-      "Toby Flenderson",
-      "Stanley Hudson",
-      "Meredith Palmer",
-      "Phyllis Lapin-Vance"
-    ]
+    selectedEmployee: null
   }),
   created() {
     this.changetopicmenu();
@@ -448,7 +412,7 @@ export default {
       }.bind(this),
       1000
     );
-
+    console.log(JSON.parse(localStorage.Datauser))
     /*     if (val == "/quotation") {
       // this.topicmenu = 'ใบเสนอราคา'
       this.$router.push({ name: "newquo", params: { id: 0 } });

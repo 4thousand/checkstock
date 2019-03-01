@@ -3,7 +3,7 @@
     <div class="container">
       <div class="col-12">
         <md-field>
-          <md-tooltip md-direction="bottom">ค้นหาใบเสนอราคา ใบสั่งขาย Black Order</md-tooltip>
+          <md-tooltip md-direction="bottom">ค้นหาใบสั่งขาย ใบสั่งจองล่วงหน้า</md-tooltip>
           <md-icon>search</md-icon>
           <label>ค้นหา</label>
           <md-input v-model="searched"></md-input>
@@ -60,7 +60,6 @@
                       style="float:right;"
                       class="starhover"
                     >
-                      <md-icon>star_border</md-icon>
                     </div>
                     <div
                       class="starhover"
@@ -68,7 +67,6 @@
                       v-show="val.total_amount == false"
                       style="float:right;color:red;"
                     >
-                      <md-icon>star</md-icon>
                     </div>
                   </div>
                 </div>
@@ -164,7 +162,7 @@ export default {
         payload,
         result => {
           for (var i = 0; i < result.data.length; i++) {
-              this.dataall.push(result.data[i]);
+            this.dataall.push(result.data[i]);
           }
           console.log(JSON.stringify(this.dataall));
         },
