@@ -142,7 +142,7 @@ export default {
             creditBank: "",
             creditPrice: "",
             cardCharge: "",
-            cardChargePrice: "",
+            cardChargePrice: "", selectindex: 0,
             creditNotice: "",
             creditCardList: [],
             checkBankId: "",
@@ -174,7 +174,7 @@ export default {
             showChq: false,
             showBank: false,
             showpromplay: false,
-            showtable: false,
+            showtable: false, producttemp: [],
             confirm: false,
             is_cancelbill: 0,
             is_confirmbill: 0,
@@ -212,6 +212,22 @@ export default {
         }
     },
     methods: {
+        theAction(event) {
+            console.log(event)
+            switch (event.srcKey) {
+                case 'up':
+                    console.log(event)
+                    if (this.selectindex >= 0) {
+                        this.selectindex -= 1;
+                    }
+                    break
+                case 'down':
+
+                    this.selectindex -= 1;
+
+                    break
+            }
+        },
         reftoSOQTO(index, val) {
             if (index == 1) {
                 this.$router.push({ name: "quotation", params: { id: val } });
@@ -282,7 +298,7 @@ export default {
                 api.detailquoall(payload,
                     (result) => {
                         this.isLoading = false
-                        console.log(JSON.stringify(result.data))
+                        console.log(result.data)
                         console.log(result.data.bill_type)
                         let doc_type
                         let tax_type
@@ -318,61 +334,60 @@ export default {
                         console.log(this.dproducts)
                         console.log(reftype)
                         for (let x = 0; x < datasubs.length; x++) {
-                            console.log(datasubs[0].price)
-                            data = {
-                                item_id: datasubs[x].id,
-                                item_code: datasubs[x].item_code,
-                                bar_code: datasubs[x].bar_code,
-                                item_name: datasubs[x].item_name,
-                                unit_code: datasubs[x].unit_code,
-                                qty: datasubs[x].qty,
-                                wh_id: datasubs[x].wh_id,
-                                price: datasubs[x].price,
-                                discount_word_sub: datasubs[x].discount_word,
-                                discount_amount_sub: datasubs[x].discount_amount,
-                                amount: datasubs[x].item_amount,
-                                item_description: datasubs[x].item_description,
-                                packing_rate_1: datasubs[x].packing_rate_1,
-                                is_cancel: datasubs[x].is_cancel
-                            }
-                            console.log(JSON.stringify(data))
+                            let payloads = {
+                                item_code: datasubs[x].item_code
+                            };
+                            api.searchunitcode(
+                                payloads,
+                                results => {
 
 
-
-                            if (data.wh_id == 1) {
-                                data.location = "S1-A"
-                            } else if (data.wh_id == 2) {
-                                data.location = "S1-B"
-                            } else if (data.wh_id == 2) {
-                                data.location = "S2-A"
-                            } else if (data.wh_id == 2) {
-                                data.location = "S2-B"
-                            } else {
-
-
-
-                                let payload = {
-                                    item_code: data.item_code
-                                };
-                                var datas = new Array();
-                                datas = [];
-                                // console.log(payload)
-                                api.searchunitcode(
-                                    payload,
-                                    result => {
-                                        console.log(result.data[0].stk_location);
-                                        data.location = result.data[0].stk_location[0].wh_code;
-
-                                    },
-                                    error => {
-                                        console.log(JSON.stringify(error));
-                                        alertify.error("Data ข้อมูล Unit code ผิดพลาด");
+                                    console.log(datasubs[0].price)
+                                    data = {
+                                        item_id: datasubs[x].id,
+                                        item_code: datasubs[x].item_code,
+                                        bar_code: datasubs[x].bar_code,
+                                        item_name: datasubs[x].item_name,
+                                        unit_code: datasubs[x].unit_code,
+                                        qty: datasubs[x].qty,
+                                        location: datasubs[x].wh_code,
+                                        wh_id: datasubs[x].wh_id,
+                                        price: datasubs[x].price,
+                                        discount_word_sub: datasubs[x].discount_word,
+                                        discount_amount_sub: datasubs[x].discount_amount,
+                                        amount: datasubs[x].item_amount,
+                                        item_description: datasubs[x].item_description,
+                                        packing_rate_1: datasubs[x].packing_rate_1,
+                                        warehouse: datasubs[x].warehouse,
+                                        is_cancel: datasubs[x].is_cancel
                                     }
-                                );
-                            }
-                            console.log(this.dproducts)
-                            this.dproducts.push(data)
-                            console.log(this.dproducts)
+                                    console.log(JSON.stringify(data))
+                                    if (data.location == "" || data.location == undefined) {
+                                        if (data.wh_id == 1) {
+                                            data.location = "S1-A"
+                                            data.wh_code = "S1-A"
+                                        } else if (data.wh_id == 2) {
+                                            data.location = "S1-B"
+                                            data.wh_code = "S1-b"
+                                        } else if (data.wh_id == 3) {
+                                            data.location = "S2-A"
+                                            data.wh_code = "S2-A"
+                                        } else if (data.wh_id == 4) {
+                                            data.location = "S2-B"
+                                            data.wh_code = "S2-B"
+                                        } else {
+
+                                            data.location = results.data[0].stk_location[0].wh_code;
+                                            data.wh_code = results.data[0].stk_location[0].wh_code;
+                                            data.wh_id = results.data[0].stk_location[0].wh_id;
+
+                                        }
+                                        console.log(data)
+                                    }
+
+                                    this.dproducts.push(data)
+
+                                })
                         }
                         console.log(JSON.stringify(this.dproducts))
                         this.salecode = result.data.sale_code.trim() + ' / ' + result.data.sale_name
@@ -396,7 +411,7 @@ export default {
                         //  console.log(this.dproducts)
                         console.log(JSON.stringify(result.data.subs))
 
-
+                        this.showSOQTO = false
                     },
                     (error) => {
                         this.isLoading = false
@@ -444,6 +459,15 @@ export default {
                         }
                         console.log(datasubs.length)
                         for (let x = 0; x < datasubs.length; x++) {
+                            let payload = {
+                                item_code: datasubs[x].item_code
+                            };
+                            api.searchunitcode(
+                                payload,
+                                results => {
+
+                              
+                            //#endregion
                             data = {
                                 item_id: datasubs[x].id,
                                 item_code: datasubs[x].item_code,
@@ -451,6 +475,7 @@ export default {
                                 item_name: datasubs[x].item_name,
                                 unit_code: datasubs[x].unit_code,
                                 qty: datasubs[x].qty,
+                                location: datasubs[x].wh_code,
                                 wh_id: datasubs[x].wh_id,
                                 price: datasubs[x].price,
                                 discount_word_sub: datasubs[x].discount_word,
@@ -461,48 +486,37 @@ export default {
                                 warehouse: datasubs[x].warehouse,
                                 is_cancel: datasubs[x].is_cancel
                             }
+                            if (data.location == "" || data.location == undefined) {
+                                if (data.wh_id == 1) {
+                                    data.location = "S1-A"
+                                    data.wh_code = "S1-A"
+                                } else if (data.wh_id == 2) {
+                                    data.location = "S1-B"
+                                    data.wh_code = "S1-b"
+                                } else if (data.wh_id == 3) {
+                                    data.location = "S2-A"
+                                    data.wh_code = "S2-A"
+                                } else if (data.wh_id == 4) {
+                                    data.location = "S2-B"
+                                    data.wh_code = "S2-B"
+                                } else {
 
-                            if (data.wh_id == 1) {
-                                data.location = "S1-A"
-                            } else if (data.wh_id == 2) {
-                                data.location = "S1-B"
-                            } else if (data.wh_id == 2) {
-                                data.location = "S2-A"
-                            } else if (data.wh_id == 2) {
-                                data.location = "S2-B"
-                            } else {
+                                    data.location = results.data[0].stk_location[0].wh_code;
+                                    data.wh_code = results.data[0].stk_location[0].wh_code;
+                                    data.wh_id = results.data[0].stk_location[0].wh_id;
 
-
-
-                                let payload = {
-                                    item_code: data.item_code
-                                };
-                                var datas = new Array();
-                                datas = [];
-                                // console.log(payload)
-                                api.searchunitcode(
-                                    payload,
-                                    result => {
-                                        console.log(result.data[0].stk_location);
-                                        result.data[0].stk_location.forEach(item => {
-
-                                            datas.push(item);
-                                        });
-                                        console.log(datas)
-                                        data.location = datas[0].wh_code;
-                                    },
-                                    error => {
-                                        console.log(JSON.stringify(error));
-                                        alertify.error("Data ข้อมูล Unit code ผิดพลาด");
-                                    }
-                                );
+                                }
+                                console.log(data)
                             }
+                            console.log(datas)
                             this.dproducts.push(data);
+                            console.log(data)
+                        });
 
                         }
 
 
-                        console.log(JSON.stringify(this.dproducts))
+                        console.log(JSON.stringify(data))
 
 
                         this.salecode = result.data.sale_code.trim() + ' / ' + result.data.sale_name
@@ -528,12 +542,15 @@ export default {
                         this.my_description = result.data.my_description
                         //  console.log(this.dproducts)
                         console.log(JSON.stringify(result.data.subs))
+                        this.showSOQTO = false
+                        this.showSOQTO = false;
                     },
                     (error) => {
                         this.isLoading = false
                         console.log(JSON.stringify(error))
                         alertify.error('ข้อมูลผิดพลาด detailquoall');
                     })
+                this.showSOQTO = false;
             }
         },
         setbalance(val) {
@@ -1194,6 +1211,7 @@ export default {
             return null;
         },
         mockDocNo() {
+            this.billtype = this.billtype.toString();
             console.log(this.billtype)
             if (!this.billtype) {
                 console.log(this.billtype, 1234)
@@ -1229,7 +1247,10 @@ export default {
                         this.mockdocno += result.charAt(i);
                     }
                     this.mockdocno += "XXXX";
-                    this.docno = result
+                    if (this.docnoid == 0) {
+                        this.docno = result;
+                    }
+
                     console.log(this.docno)
                 },
                 (error) => {
@@ -1560,40 +1581,62 @@ export default {
                         console.log(data)
                     });
                     for (let x = 0; x < datasubs.length; x++) {
-                        var data = {
-                            item_id: datasubs[x].id,
-                            item_code: datasubs[x].item_code,
+                        let payloads = {
+                            item_code: datasubs[x].item_code
+                        };
+                        api.searchunitcode(
+                            payloads,
+                            results => {
 
-                            item_name: datasubs[x].item_name,
-                            bar_code: datasubs[x].bar_code,
-                            price: datasubs[x].price,
-                            unit_code: datasubs[x].unit_code,
-                            qty: datasubs[x].qty,
 
-                            wh_id: datasubs[x].wh_id,
-                            discount_word_sub: datasubs[x].discount_word_sub,
-                            discount_amount_sub: datasubs[x].discount_amount_sub,
-                            item_amount: datasubs[x].amount,
-                            amount: datasubs[x].amount,
-                            item_amounts: datasubs[x].amount,
-                            item_description: datasubs[x].item_description,
-                            packing_rate_1: datasubs[x].packing_rate_1,
-                            is_cancel: datasubs[x].is_cancel
+                                var data = {
+                                    item_id: datasubs[x].id,
+                                    item_code: datasubs[x].item_code,
 
-                        }
-                        if (data.wh_id == 1) {
-                            data.location = "S1-A"
-                        } else if (data.wh_id == 2) {
-                            data.location = "S1-B"
-                        } else if (data.wh_id == 2) {
-                            data.location = "S2-A"
-                        } else if (data.wh_id == 2) {
-                            data.location = "S2-B"
-                        } else {
-                            data.location = ""
-                        }
-                        console.log(data)
-                        this.dproducts.push(data)
+                                    item_name: datasubs[x].item_name,
+                                    bar_code: datasubs[x].bar_code,
+                                    price: datasubs[x].price,
+                                    unit_code: datasubs[x].unit_code,
+                                    qty: datasubs[x].qty,
+                                    wh_code: datasubs[x].wh_code,
+                                    location:datasubs[x].wh_code,
+                                    wh_id: datasubs[x].wh_id,
+                                    discount_word_sub: datasubs[x].discount_word_sub,
+                                    discount_amount_sub: datasubs[x].discount_amount_sub,
+                                    item_amount: datasubs[x].amount,
+                                    amount: datasubs[x].amount,
+                                    item_amounts: datasubs[x].amount,
+                                    item_description: datasubs[x].item_description,
+                                    packing_rate_1: datasubs[x].packing_rate_1,
+                                    is_cancel: datasubs[x].is_cancel
+
+                                }
+
+                                if (data.location == "" || data.location == undefined) {
+                                    if (data.wh_id == 1) {
+                                        data.location = "S1-A"
+                                        data.wh_code = "S1-A"
+                                    } else if (data.wh_id == 2) {
+                                        data.location = "S1-B"
+                                        data.wh_code = "S1-b"
+                                    } else if (data.wh_id == 3) {
+                                        data.location = "S2-A"
+                                        data.wh_code = "S2-A"
+                                    } else if (data.wh_id == 4) {
+                                        data.location = "S2-B"
+                                        data.wh_code = "S2-B"
+                                    } else {
+
+                                        data.location = results.data[0].stk_location[0].wh_code;
+                                        data.wh_code = results.data[0].stk_location[0].wh_code;
+                                        data.wh_id = results.data[0].stk_location[0].wh_id;
+
+                                    }
+                                   
+                                }
+                                console.log(data)
+                                this.dproducts.push(data)
+                            });
                     }
                     this.salecode = result.data.sale_code.trim() + ' / ' + result.data.sale_name
                     this.validity = result.data.validity
@@ -1723,6 +1766,8 @@ export default {
             //         alertify.error('ข้อมูลผิดพลาด detailquoall');
             //     })
 
+        }, golist() {
+            this.$router.push({ name: "invoicelist", params: { id: 0 } });
         }, convertmoney(val) {
             // console.log(val)
             var number = numeral(val).format('0,0.00');

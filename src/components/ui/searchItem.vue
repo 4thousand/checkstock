@@ -216,10 +216,14 @@ export default {
                   sale_price_2: result.data[0].sale_price_2,
 
                   stock_location: data,
+
                   location: data[0].wh_code,
                   discount_word_sub: "0",
+                  discount_word: "0",
                   discount_amount_sub: 0,
-                  amount: result.data[0].sale_price_1 * 1,
+                  discount_amount: 0,
+                  item_amount: val.sale_price_1 * 1,
+                  amount: val.sale_price_1 * 1,
                   item_description: "",
                   packing_rate_1: parseInt(result.data[0].rate_1),
                   is_cancel: 0
@@ -242,10 +246,13 @@ export default {
                   qty: 1,
                   price: result.data[0].sale_price_2,
                   sale_price_1: result.data[0].sale_price_1,
-                  sale_price_2: result.data[0].sale_price_2,
                   stock_location: data,
+                  location: data[0].wh_code,
                   discount_word_sub: "0",
+                  discount_word: "0",
                   discount_amount_sub: 0,
+                  discount_amount: 0,
+                  item_amount: result.data[0].sale_price_2 * 1,
                   amount: result.data[0].sale_price_2 * 1,
                   item_description: "",
                   packing_rate_1: parseInt(result.data[0].rate_1),
@@ -352,7 +359,10 @@ export default {
           stock_location: data,
           location: data[0].wh_code,
           discount_word_sub: "0",
-          discount_word_sub: 0,
+          discount_word: "0",
+          discount_amount_sub: 0,
+          discount_amount: 0,
+          item_amount: val.sale_price_1 * 1,
           amount: val.sale_price_1 * 1,
           item_description: "",
           packing_rate_1: parseInt(val.rate_1),
@@ -376,9 +386,13 @@ export default {
           sale_price_1: val.sale_price_1,
           sale_price_2: val.sale_price_2,
           stock_location: data,
+          location: data[0].wh_code,
           discount_word_sub: "0",
+          discount_word: "0",
           discount_amount_sub: 0,
+          discount_amount: 0,
           amount: val.sale_price_2 * 1,
+          item_amount: val.sale_price_2 * 1,
           item_description: "",
           packing_rate_1: parseInt(val.rate_1),
           is_cancel: 0
@@ -386,7 +400,7 @@ export default {
 
         this.product.push(datashow);
         //close modal
-
+        this.showDialogproduct = false;
         alertify.success("เพิ่มข้อมูลสินค้า " + val.item_name);
       }
       this.keywordproduct = "";

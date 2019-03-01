@@ -25,7 +25,7 @@ export default {
             // this.cload()
             localStorage.test = this.login.password
             //console.log(localStorage.test)
-            if (result.status == 'success') {
+            if (result.status === 'success') {
               //console.log(JSON.stringify(result.data))
               //console.log(result.data)
               localStorage.Datauser = JSON.stringify(result.data)
@@ -37,6 +37,8 @@ export default {
               this.loading = false;
               this.$router.push("/index");
               alertify.success('Login Success');
+            } else {
+              alertify.error('เกิดข้อผิดพลาด')
             }
           },
           (error) => {

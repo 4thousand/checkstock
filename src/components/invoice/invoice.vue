@@ -14,7 +14,10 @@
               :md-done.sync="first"
               style="padding: 4px 4px;"
             >
-              <div style="width:100%;height:20px;">
+               <div style="width:100%;height:20px;">
+                <div style="float:left;">
+                  <md-button @click="golist()" class="md-raised md-primary">กลับ</md-button>
+                </div>
                 <div style="float:right;">
                   <md-button
                     @click="reftoSOQTO(2,refID)"
@@ -202,9 +205,9 @@
                         <md-button style="width:20%">ชื่อสินค้า</md-button>
                         <md-button style="width: 5%;">คลัง</md-button>
                         <md-button style="width: 5%;">หน่วยนับ</md-button>
-                        <md-button style="min-width: 5%;">จำนวน</md-button>
+                        <md-button style="min-width:5.6%;">จำนวน</md-button>
                         <md-button style="width: 5%;">ราคา/หน่วย</md-button>
-                        <md-button style="min-width: 5%;">ส่วนลด</md-button>
+                        <md-button style="width:5%;">ส่วนลด</md-button>
                         <md-button style="width: 5%;">จำนวนเงิน</md-button>
                       </md-card-actions>
                     </div>
@@ -368,7 +371,7 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <button class="increment-button md-primary" @click="decrement()">−</button>
-
+                            
                             <input
                               class="form-control"
                               style="width:70%;float:left"
@@ -1022,7 +1025,7 @@
                               <div class="tax-bottom-part tax-button">
                                 <button
                                   id="add_doc"
-                                  :disabled="balance!=0||payment==null"
+                                  :disabled="balance!=0||payment==null||is_cancelbill==1"
                                   @keyup.left="getFocus('bank_pay')"
                                   @keyup.up="getFocus('bank_pay')"
                                   @click="setDone('second', 'third'),showdocno"
