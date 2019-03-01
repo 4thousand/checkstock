@@ -10,6 +10,7 @@ const telURL = 'https://sheetdb.io'
 const smsURL = 'https://api.apitel.co/sms'
 const test = 'http://192.168.0.83:8080/v2/atm/auth'
 
+
 export default {
   signin(user, pass, success, error) {
     Vue.axios.get(npsysURL + 'login?access_token=aaaa&usercode=' + user + '&password=' + pass + '&appid=1').then(
@@ -277,6 +278,33 @@ export default {
   },
   searchSaleByItem(payload, success, error) { //boss add
     Vue.axios.post(URL + 'sales/v1/sale/search/item', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
+  searchHisCustomer(payload, success, error) { //boss add
+    Vue.axios.post(URL + 'sales/v1/search/hiscustomer', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
+  showSetting(payload, success, error) { //boss add
+    Vue.axios.post(URL + 'settingconfig/v1/config/search/id', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
+  createSetting(payload, success, error) { //boss add
+    Vue.axios.post(URL + 'settingconfig/v1/config/new', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
       },

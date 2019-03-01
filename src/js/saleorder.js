@@ -27,6 +27,7 @@ const toLower = text => {
     },
     data: () => ({
       itemtable: [],
+      searchhiscustomer: [],
       msg: "",
       typepage:"saleorder",
       selectedDate: null,
@@ -731,10 +732,10 @@ const toLower = text => {
         if (!this.tablecode || !this.billtype) {
           return
         }
-  
+
         if (this.dproducts.length > 0) {
         }
-  
+
         this.disablebilltype = true
         let payload = {
           branch_id: this.objuser.branch_id,
@@ -761,7 +762,7 @@ const toLower = text => {
             console.log(JSON.stringify(error))
             alertify.error('ข้อมูล ประเภทเสนอราคาเกิดข้อผิดพลาด');
           })
-  
+
       },
       showdetail(val,stock,indexstock) {
         console.log("----->"+JSON.stringify(val))

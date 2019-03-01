@@ -177,7 +177,7 @@
                           <td v-if="typepage==='saleorder'">{{val.UnitCode}}</td>
                           <td v-if="typepage==='saleorder'">{{val.Price}}</td>
                           <td v-if="typepage==='saleorder'">{{val.DiscountWord}}</td>
-                        </tr>"val.qt
+                        </tr>
                       </tbody>
                     </table>
                   </div>
