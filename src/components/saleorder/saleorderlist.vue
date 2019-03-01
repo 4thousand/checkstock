@@ -3,7 +3,7 @@
     <div class="container">
       <div class="col-12">
         <md-field>
-          <md-tooltip md-direction="bottom">ค้นหาใบเสนอราคา ใบสั่งขาย Black Order</md-tooltip>
+          <md-tooltip md-direction="bottom">ค้นหาใบสั่งขาย ใบสั่งจองล่วงหน้า</md-tooltip>
           <md-icon>search</md-icon>
           <label>ค้นหา</label>
           <md-input v-model="searched"></md-input>
