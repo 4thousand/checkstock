@@ -60,7 +60,6 @@
                       style="float:right;"
                       class="starhover"
                     >
-                      <md-icon>star_border</md-icon>
                     </div>
                     <div
                       class="starhover"
@@ -68,7 +67,6 @@
                       v-show="val.total_amount == false"
                       style="float:right;color:red;"
                     >
-                      <md-icon>star</md-icon>
                     </div>
                   </div>
                 </div>
@@ -164,7 +162,7 @@ export default {
         payload,
         result => {
           for (var i = 0; i < result.data.length; i++) {
-              this.dataall.push(result.data[i]);
+            this.dataall.push(result.data[i]);
           }
           console.log(JSON.stringify(this.dataall));
         },
