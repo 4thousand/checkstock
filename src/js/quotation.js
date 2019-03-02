@@ -108,7 +108,6 @@ export default {
     isLoading: false,
     fullPage: true,
     permission: JSON.parse(localStorage.Datauser).menu[0]
-    //itemtable: [],
   }),
   methods: {
     removeitemtable(index) {

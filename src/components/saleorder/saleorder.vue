@@ -214,6 +214,7 @@
                       :searched="searched"
                       :removeitemtable="removeitemtable"
                       :typepage="typepage"
+                      :permission="permission"
                     ></itemtable>
                   </md-card>
                 </div>
