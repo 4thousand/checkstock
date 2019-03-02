@@ -129,7 +129,7 @@ const toLower = text => {
       cus_tel:'',
       qtkeyword:'',
       collectQT:[],
-      permission: JSON.parse(localStorage.Datauser).menu
+      permission: JSON.parse(localStorage.Datauser).menu[1]
     }),
 
     methods: {

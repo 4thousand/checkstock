@@ -20,8 +20,8 @@
                   >
                     <!-- confirm button -->
                     <div class="md-layout md-gutter" v-if="docnoid>0">
-                      <md-button class="md-raised md-primary" v-if="isConfirm==0&&isCancel!=1&&answer_cus==1&&permission[6].is_create==1" @click="confirmDoc()">อนุมัติใบเสนอราคานี้</md-button>
-                      <md-button class="md-raised md-accent" v-if="isConfirm!=1&&isCancel!=1&&permission[6].is_create==1" @click="cancelDoc()">ยกเลิกใบเสนอราคานี้</md-button>
+                      <md-button class="md-raised md-primary" v-if="isConfirm==0&&isCancel!=1&&answer_cus==1&&permission.is_update==1" @click="confirmDoc()">อนุมัติใบเสนอราคานี้</md-button>
+                      <md-button class="md-raised md-accent" v-if="isConfirm!=1&&isCancel!=1&&permission.is_update==1" @click="cancelDoc()">ยกเลิกใบเสนอราคานี้</md-button>
                       <md-button class="md-raised" v-if="isConfirm==1&&answer_cus==1" @click="callQTtoSO()">นำใบเสนอราคานี้ไปทำใบสั่งขาย</md-button>
                     </div>
                   </div>
@@ -237,7 +237,7 @@
                     </div>
                   </md-card> 
                   <md-card class="md-layout-item md-size-100 md-small-size-100 tablesale">
-                    <itemtable :searched="searched" :removeitemtable="removeitemtable" :product="dproducts" :typepage="typepage" :searchcus="detailcus"></itemtable>
+                    <itemtable :searched="searched" :removeitemtable="removeitemtable" :product="dproducts" :typepage="typepage" :searchcus="detailcus" :permission="permission"></itemtable>
                   </md-card>
                 </div>
                 <!-- table  -->
@@ -262,28 +262,6 @@
                     <span class="md-title subnotop" style="left:2px">บาท</span>
                   </div>
                 </div>
-                <!-- <div class="md-layout md-gutter">
-                  <div
-                    class="md-layout-item md-size-80 md-xsmall-size-100"
-                    style="text-align:right;"
-                  >
-                    <span class="md-title subnotop">มูลค่าสินค้ายกเว้นภาษี</span>
-                  </div>
-
-                  <div
-                    class="md-layout-item md-size-10 md-xsmall-size-100"
-                    style="text-align:right;"
-                  >
-                    <span class="md-title subnotop">0</span>
-                  </div>
-                  <div
-                    class="md-layout-item md-size-10 md-xsmall-size-100"
-                    style="text-align:center;"
-                  >
-                    <span class="md-title subnotop" style="left:10px">บาท</span>
-                  </div>
-                </div> -->
-
                 <div class="md-layout md-gutter">
                   <div
                     class="md-layout-item md-size-80 md-xsmall-size-100"
@@ -302,6 +280,7 @@
                         v-model.number="caldiscount"
                         style="width:100%;text-align:right;"
                         type="text"
+                        :disabled="permission.is_update==0"
                       >
                     </span>
                   </div>
@@ -437,9 +416,6 @@
                               <md-icon style="color:white;">keyboard</md-icon>รหัสพนักงาน หรือ ชื่อพนักงาน + Enter
                             </md-tooltip>
                           </md-avatar>
-                          <!-- <md-button style="min-width: 50px;" class="buttonemp" @click="focussearchcus">
-                            <md-icon>clear</md-icon>
-                          </md-button>-->
                         </div>
                         <div class="md-layout-item md-size-50 md-small-size-100">
                           <md-field>
@@ -788,48 +764,6 @@
                     </md-card-content>
                     <md-card-actions></md-card-actions>
                   </md-card>
-
-                  <!-- <md-card class="md-layout-item md-size-90 md-small-size-100">
-                    <md-card-header>
-                      <div class="md-title ">เรื่อง</div>
-                    </md-card-header>
-                    <md-card-content>
-                      <div class="md-layout md-gutter">
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="first-name subnotop">เรื่อง</label>
-                            <md-input name="first-name" id="first-name" autocomplete="given-name" />
-                          </md-field>
-                        </div>
-                      </div>
-                      <div class="md-layout md-gutter">
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="last-name subnotop">สิ่งที่ส่งมาด้วย</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name" />
-                          </md-field>
-                        </div>
-                      </div>
-                      <div class="md-layout md-gutter">
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="last-name">หมายเหตุ1</label>
-                            <md-input name="last-name" v-model="my_description" id="last-name" autocomplete="family-name" />
-                          </md-field>
-                        </div>
-                      </div>
-                      <div class="md-layout md-gutter">
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="last-name">หมายเหตุ2</label>
-                            <md-input name="last-name" id="last-name" autocomplete="family-name" />
-                          </md-field>
-                        </div>
-                      </div>
-                    </md-card-content>
-                    <md-card-actions>
-                    </md-card-actions>
-                  </md-card>-->
                 </form>
               </div>
               <md-button
@@ -986,7 +920,6 @@
                   style="float: right; position: relative; top: -37px;"
                   class="md-raised md-primary"
                 >Print</md-button>
-                <!-- <button type="submit">กด</button> -->
               </form>
               <form
                 :action="php + '/report_pdf/report_quotationpdf.php'"
@@ -999,7 +932,6 @@
                   style="float: right; position: relative; top: -37px;right: 10px;"
                   class="md-raised md-primary"
                 >PDF</md-button>
-                <!-- <button type="submit">กด</button> -->
               </form>
               <!-- testprint -->
             </md-step>
@@ -1032,7 +964,6 @@
                 <table class="table table-hover">
                   <thead align="center">
                     <tr>
-                      <!--                                <th style=''>client_id</th>-->
                       <th>ลำดับ</th>
                       <th id="colorselectorder">รหัสลูกค้า</th>
                       <th id="colorselectgroup">ชื่อลูกค้า</th>
@@ -1059,7 +990,6 @@
 
           <md-dialog-actions>
             <md-button class="md-primary" @click="showDialogcus = false">Close</md-button>
-            <!-- <md-button class="md-primary" @click="showDialogcus = false">Save</md-button> -->
           </md-dialog-actions>
         </md-dialog>
       </div>
@@ -1082,7 +1012,6 @@
                 <table class="table table-hover">
                   <thead align="center">
                     <tr>
-                      <!--<th style=''>client_id</th>-->
                       <th style="white-space: nowrap;">ลำดับ</th>
                       <th style="white-space: nowrap;">รูป</th>
                       <th style="overflow:auto;white-space: nowrap;">รหัสสินค้า</th>
@@ -1124,12 +1053,6 @@
                         >{{ val.stk_qty }}</md-button>
                       </td>
                     </tr>
-                    <!-- <tr >
-                      <td  colspan="10" >
-                       <div :class="'hover'+index" style="text-align:right;visibility:hidden;height:0;transition:all 0.5s cubic-bezier(0.47, 0.46, 0, 1.02) 0s;"  v-for="(value,index2) in stockall" >
-                       คลังสินค้า : {{val.stk_location[index2].wh_code}} ชั้นเก็บ : {{val.stk_location[index2].shelf_code}} จำนวน : {{val.stk_location[index2].qty}} <br>
-                      </div></td>
-                    </tr>-->
                   </tbody>
                 </table>
               </div>
@@ -1138,11 +1061,9 @@
 
           <md-dialog-actions>
             <md-button class="md-primary" @click="showDialogproduct = false">Close</md-button>
-            <!-- <md-button class="md-primary" @click="showDialogcus = false">Save</md-button> -->
           </md-dialog-actions>
         </md-dialog>
       </div>
-      <!-- -->
       <!-- search sale-->
       <div>
         <md-dialog :md-active.sync="searchsale">

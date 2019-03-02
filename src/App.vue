@@ -39,10 +39,6 @@
                 <span class="md-list-item-text">หน้าหลัก</span>
               </md-list-item>
               <md-divider></md-divider>
-              <!-- <md-list-item @click="goindex('/quotation')">
-                <md-icon>move_to_inbox</md-icon>
-                <span class="md-list-item-text">ใบเสนอราคา</span>
-              </md-list-item>-->
               <md-list-item
                 md-expand
                 v-if="userPermission.menu[0].is_read==1||userPermission.menu[1].is_read==1||userPermission.menu[2].is_read==1||userPermission.menu[3].is_read==1"
@@ -413,13 +409,6 @@ export default {
       1000
     );
     console.log(JSON.parse(localStorage.Datauser))
-    /*     if (val == "/quotation") {
-      // this.topicmenu = 'ใบเสนอราคา'
-      this.$router.push({ name: "newquo", params: { id: 0 } });
-      return;
-    }
- */
-    //this.$router.push(val);
   }
 };
 </script>
@@ -504,10 +493,6 @@ tr th {
   "default",
   (
     primary: md-get-palette-color(blue, A200),
-    // The primary color of your application accent: md-get-palette-color(orange, A200),
-
-      // The accent or secondary color theme: dark / / This can be dark or light
-
   )
 );
 @import "~vue-material/dist/theme/all";
