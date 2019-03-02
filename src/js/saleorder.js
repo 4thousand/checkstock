@@ -1223,9 +1223,6 @@ const toLower = text => {
     },
     mounted () {
       this.docnoid = this.$route.params.id
-      // if (this.docnoid == 0) {
-      //   // location.reload()
-      // }
       this.showedit()
       this.creator_by = this.objuser.usercode
       this.branch_id = this.objuser.branch_id
