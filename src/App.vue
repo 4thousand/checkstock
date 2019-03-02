@@ -272,17 +272,12 @@ export default {
       if (this.$route.fullPath.search("quolist") == 1) {
         this.topicmenucolor = "green";
         this.topicmenu = "ใบเสนอราคา";
-        this.icon = "bookmark";
-      }
-      if (this.$route.fullPath.search("quotation") == 1) {
-        this.topicmenucolor = "green";
-        this.topicmenu = "ใบเสนอราคา";
-        this.icon = "bookmark";
+        this.icon = "move_to_inbox";
       }
       if (this.$route.fullPath.search("index") == 1) {
         this.topicmenucolor = "#448aff";
         this.topicmenu = "หน้าหลัก";
-        this.icon = "bookmarks";
+        this.icon = "home";
       }
       if (this.$route.fullPath.search("setting") == 1) {
         this.topicmenucolor = "#ff9100";
@@ -292,7 +287,7 @@ export default {
       if (this.$route.fullPath.search("solist") == 1) {
         this.topicmenucolor = "#795548";
         this.topicmenu = "ใบสั่งขาย";
-        this.icon = "bookmark_border";
+        this.icon = "send";
       }
       if (this.$route.fullPath.search("saleorder") == 1) {
         this.topicmenucolor = "#795548";
