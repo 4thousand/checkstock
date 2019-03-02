@@ -79,7 +79,7 @@
                         v-model="taxtype"
                         id="country"
                         placeholder="ประเภทภาษี"
-                        :disabled="permission[1].is_edit==1"
+                        :disabled="permission.is_update==1"
                       >
                         <md-option value="0">ภาษีแยกนอก</md-option>
                         <md-option value="1">ภาษีรวมใน</md-option>
