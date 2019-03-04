@@ -239,14 +239,11 @@
                         <md-button style="width:5%">จำนวนเงิน</md-button>
                         <md-button style="width:5%"></md-button>
                         <md-button style="width:5%"></md-button>
-                      </md-card-actions> 
+                      </md-card-actions>
                     </div>
-<<<<<<< HEAD
-=======
-                  </md-card> 
+                  </md-card>
                   <md-card class="md-layout-item md-size-100 md-small-size-100 tablesale">
                     <itemtable :searched="searched" :removeitemtable="removeitemtable" :product="dproducts" :typepage="typepage" :searchcus="detailcus"></itemtable>
->>>>>>> fbfa884a2bb00ee5917ab55eb496279fa4e58f04
                   </md-card>
                 </div>
                 <!-- table  -->

@@ -19,32 +19,6 @@ export default {
     auth() {
       this.loading = true;
       let { id, password } = this.login
-<<<<<<< HEAD
-      setTimeout(() => {
-        api.signin(id, password,
-          (result) => {
-            // this.cload()
-            localStorage.test = this.login.password
-            //console.log(localStorage.test)
-            if (result.status == 'success') {
-              console.log(JSON.stringify(result.data))
-              console.log(result.data)
-              localStorage.Datauser = JSON.stringify(result.data)
-              // var userid =
-              // localStorage.branchid = result.data.branch_id
-              localStorage.userid = result.data.id
-              localStorage.company_id = result.data.company_id
-              // localStorage.user = result.data.usercode
-              this.loading = false;
-              this.$router.push("/index");
-              alertify.success('Login Success');
-            }
-          },
-          (error) => {
-            this.login = {}
-=======
->>>>>>> fbfa884a2bb00ee5917ab55eb496279fa4e58f04
-
       api.signin(id, password,
         (result) => {
           // this.cload()
@@ -54,7 +28,7 @@ export default {
             //console.log(JSON.stringify(result.data))
             //console.log(result.data)
             localStorage.Datauser = JSON.stringify(result.data)
-            // var userid = 
+            // var userid =
             // localStorage.branchid = result.data.branch_id
             localStorage.userid = result.data.id
             localStorage.company_id = result.data.company_id

@@ -15,11 +15,8 @@ import Datepicker from 'vuejs-datepicker';
 import * as lang from "vuejs-datepicker/src/locale";
 import api from "../service/service.js";
 import itemtable from '@/components/ui/tableitem';
-<<<<<<< HEAD
 import searchhiscustomer from '@/components/ui/searchhiscustomer';
 // import * as jsPDF from 'jspdf'
-=======
->>>>>>> fbfa884a2bb00ee5917ab55eb496279fa4e58f04
 import JQuery from 'jquery'
 let $ = JQuery
 
@@ -1138,7 +1135,7 @@ export default {
           console.log(JSON.stringify(error))
           alertify.error('เกิดข้อผิดพลาด ไม่สามารถโอนใบเสนอราคาได้')
         })
-      
+
       return;
     },
 
