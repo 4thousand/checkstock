@@ -15,8 +15,11 @@ import Datepicker from 'vuejs-datepicker';
 import * as lang from "vuejs-datepicker/src/locale";
 import api from "../service/service.js";
 import itemtable from '@/components/ui/tableitem';
+<<<<<<< HEAD
 import searchhiscustomer from '@/components/ui/searchhiscustomer';
 // import * as jsPDF from 'jspdf'
+=======
+>>>>>>> fbfa884a2bb00ee5917ab55eb496279fa4e58f04
 import JQuery from 'jquery'
 let $ = JQuery
 
@@ -69,11 +72,11 @@ export default {
     caldiscount: 0,
     keywordemp: '',
     // page 2
-    bill_credit: 0,
+    bill_credit: '',
     DueDate_cal: '',
-    Deliver_date: 0,
+    Deliver_date: 1,
     DueDate_date: '',
-    expire_date: 0,
+    expire_date: 1,
     expiredate_cal: '',
     isshowdocument: false,
     docheight: '72px',
@@ -81,7 +84,7 @@ export default {
     sale_id: JSON.parse(localStorage.userid),
     salecode: '',
     searchsaleobj: [],
-    validity: 0,
+    validity: 1,
     is_condition_send: 0,
     my_description: '',
     creator_by: '',
@@ -111,6 +114,7 @@ export default {
     stockall: [],
     isLoading: false,
     fullPage: true,
+    permission: JSON.parse(localStorage.Datauser).menu
     //itemtable: [],
   }),
   methods: {
@@ -125,8 +129,6 @@ export default {
       console.log(val)
     },
     searchunticode(val) {
-      // console.log(index)
-      // console.log(this.selectunitcode_step2())
       console.log(JSON.stringify(val))
       let payload = {
         item_code: val.item_code
@@ -1125,27 +1127,18 @@ export default {
         id:parseInt(this.docnoid)
       }
       let sodocno
-      let soid
       api.transferQTtoSO(payload,
         (result)=>{
           console.log(JSON.stringify(result))
-          sodocno=result.data.doc_no
-          console.log(JSON.stringify("docno "+sodocno))
+          sodocno={id:result.data.id}
+          console.log(JSON.stringify(sodocno))
+          this.$router.push({ name: "saleorder2", params: { id:sodocno.id }});
         },
         (error)=>{
           console.log(JSON.stringify(error))
           alertify.error('เกิดข้อผิดพลาด ไม่สามารถโอนใบเสนอราคาได้')
         })
-      api.searchSaleOrderByKeyword(sodocno,
-        (result)=>{
-          console.log(JSON.stringify(result.data.id))
-          soid=parseInt(result.data.id)
-        },
-        (error)=>{
-          console.log(JSON.stringify(error))
-          alertify.error('เกิดข้อผิดพลาด ไม่สามารถโอนใบเสนอราคาได้')
-        })
-      this.$router.push({ name: "saleorder2", params: { id:soid }});
+      
       return;
     },
 
@@ -1223,12 +1216,15 @@ export default {
     // if (this.docnoid == 0) {
     //   // location.reload()
     // }
-    console.log(JSON.stringify(localStorage))
+    console.log(JSON.stringify(JSON.parse(localStorage.Datauser)))
     console.log(JSON.stringify(this.searched))
+    console.log(JSON.stringify(this.permission))
     this.showedit()
     this.creator_by = this.objuser.usercode
     this.branch_id = this.objuser.branch_id
     this.showcontent_step2()
     // console.log(this.objuser)
+    this.calexpiredate()
+    this.calDeliverdate()
   }
 };

@@ -15,9 +15,6 @@ const toLower = text => {
   import * as lang from "vuejs-datepicker/src/locale";
   import api from "../service/service.js";
   import itemtable from '@/components/ui/tableitem';
-  import searchhiscustomer from '@/components/ui/searchhiscustomer';
-  import transferQT from '@/components/ui/transferQTtoSO';
-  // import * as jsPDF from 'jspdf'
   import JQuery from 'jquery'
   let $ = JQuery
 
@@ -26,9 +23,7 @@ const toLower = text => {
     components: {
       Datepicker,
       itemtable,
-      Loading,
-      searchhiscustomer,
-      transferQT,
+      Loading
     },
     data: () => ({
       itemtable: [],
@@ -72,9 +67,9 @@ const toLower = text => {
       // page 2
       bill_credit: '',
       DueDate_cal: '',
-      Deliver_date: 0,
+      Deliver_date: 1,
       DueDate_date: '',
-      expire_date: 0,
+      expire_date: 1,
       expiredate_cal: '',
       isshowdocument: false,
       docheight: '72px',
@@ -82,7 +77,7 @@ const toLower = text => {
       sale_id: JSON.parse(localStorage.userid),
       salecode: '',
       searchsaleobj: [],
-      validity: 0,
+      validity: 1,
       is_condition_send: 0,
       my_description: '',
       creator_by: '',
@@ -132,19 +127,17 @@ const toLower = text => {
       cus_province:'',
       cus_post:'',
       cus_tel:'',
+      qtkeyword:'',
+      collectQT:[],
+      permission: JSON.parse(localStorage.Datauser).menu
     }),
 
     methods: {
       removeitemtable(index) {
-        // console.log(JSON.stringify(this.dproducts.length))
-        // this.searchProductInObject(this.dproducts,index)
         console.log(JSON.stringify(this.searchProductInObject(this.dproducts, index)))
         this.dproducts.splice(this.searchProductInObject(this.dproducts, index), 1)
       },
       searchstorecode(val){
-
-        // console.log(index)
-        // console.log(this.selectunitcode_step2())
         console.log("*********>"+JSON.stringify(val))
         let payload = {
           item_code: val.item_code
@@ -196,7 +189,6 @@ const toLower = text => {
       selectunitcode_step2(val){
         console.log(JSON.stringify(val))
         this.searchunitcode_m = false
-        // console.log(this.dproducts)
         console.log(this.stock_index)
           var index = this.stock_index
           console.log('index  :  '+index)
@@ -240,7 +232,6 @@ const toLower = text => {
           (result) => {
             this.isLoading = false
             console.log(JSON.stringify(result.data))
-            // console.log(result.data.length)
             if (result.data.length == 0) {
               alertify.error('ไม่มีการจัดสรร');
               return
@@ -418,24 +409,13 @@ const toLower = text => {
             var sale_name = res[1]
           }
 
-          // if (this.taxtype == 'ภาษีแยกนอก') {
-          //   tax_type = 0
-          // } else if (this.taxtype == 'ภาษีรวมใน') {
-          //   tax_type = 1
-          // } else if (this.taxtype == 'ภาษีอัตราศูนย์') {
-          //   tax_type = 2
-          // }
-
           if (this.percal) {
             percent = '%'
             discount_amount = this.totalprice - (this.totalprice - (this.totalprice * this.caldiscount / 100))
-            //   alert('dsa')
           } else if (!this.percal) {
             percent = ''
             discount_amount = this.caldiscount
           }
-          // console.log(this.datenow_datepicker)
-          // console.log(this.docnoid)
           let payload = {
             id: parseInt(this.docnoid),// 0 แก้ไข,update ตามไอดี
             branch_id: this.branch_id,
@@ -475,7 +455,6 @@ const toLower = text => {
             discount_amount: parseInt(discount_amount),
             after_discount_amount: this.totalprice - this.caldiscount,
             company_id: parseInt(this.company_id),
-            //  before_tax_amount: '',
             assert_status: parseInt(this.answer_cus),
             depart_id: parseInt(this.iddepartment),
             project_id: parseInt(this.idprojectC),
@@ -483,18 +462,6 @@ const toLower = text => {
             allocate_id: 0,
             is_cancel: 0,
             creator_by: this.creator_by,
-            // ข้อมูล cus ยังไม่มีฟิลรับ จาก database
-            // cus_name:this.cus_name,
-            // cus_timetorecive:this.cus_timetorecive,
-            // cus_regis:this.cus_regis,
-            // cus_transport:this.cus_transport,
-            // cus_etc:this.cus_etc,
-            // cus_address:this.cus_address,
-            // cus_district:this.cus_district,
-            // cus_canton:this.cus_canton,
-            // cus_province:this.cus_province,
-            // cus_post:this.cus_post,
-            // cus_tel:this.cus_tel,
             subs: this.dproducts,
           }
 
@@ -515,7 +482,6 @@ const toLower = text => {
             (error) => {
               this.isLoading = false
               console.log(JSON.stringify(error))
-              //Customerall
               alertify.error('เกิดข้อผิดพลาด');
            })
         }
@@ -551,7 +517,6 @@ const toLower = text => {
           (result) => {
             this.isLoading = false;
             console.log(JSON.stringify(result.data))
-            // console.log(result.data.length)
             if (result.data.length == 0) {
               alertify.error('ไม่มีข้อมูลลูกค้านี้');
               return
@@ -570,10 +535,7 @@ const toLower = text => {
           (error) => {
             this.isLoading = false
             console.log(JSON.stringify(error))
-            //Customerall
             alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
-            //  alertify.success('Error login');
-            // this.cload()
           })
       },
       searchCustomerRT() {
@@ -584,7 +546,6 @@ const toLower = text => {
         api.Customerall(payload,
           (result) => {
             console.log(JSON.stringify(result.data))
-            // console.log(result.data.length)
             if (result.data.length == 0) {
               alertify.error('ไม่มีข้อมูลลูกค้านี้');
               return
@@ -602,10 +563,7 @@ const toLower = text => {
           (error) => {
             this.isLoading = false
             console.log(JSON.stringify(error))
-            //Customerall
             alertify.error('Data ข้อมูลค้นหาลูกค้าผิดพลาด');
-            //  alertify.success('Error login');
-            // this.cload()
           })
       },
       C_customer(val) {
@@ -629,8 +587,6 @@ const toLower = text => {
       addproduct() {
         this.isLoading = true
         console.log(this.keywordproduct)
-        // alert(this.billtype)
-        // alert('d')
         if (this.billtype === '' && this.billtype !== 0 && this.billtype !== 1) {
           if (this.attention == 'wobble-hor-bottom') {
             this.attention = 'wobble-hor-bottom2'
@@ -671,8 +627,6 @@ const toLower = text => {
       },
       addproductrt(){
         console.log(this.keywordproduct)
-        // alert(this.billtype)
-        // alert('d')
         if (this.billtype === '' && this.billtype !== 0 && this.billtype !== 1) {
           if (this.attention == 'wobble-hor-bottom') {
             this.attention = 'wobble-hor-bottom2'
@@ -741,7 +695,6 @@ const toLower = text => {
       },
       showdocno() {
         if (this.docnoid != 0) {
-          // alert('หน้าแก้ไข')
           return
         }
         if (!this.tablecode || !this.billtype) {
@@ -781,12 +734,6 @@ const toLower = text => {
         }
 
         if (this.dproducts.length > 0) {
-
-          // var test;
-          // for (let x = 0; x < this.dproducts.length; x++) {
-          //   test +=  this.dproducts[x].bar_code
-          // }
-          // console.log(test)
         }
 
         this.disablebilltype = true
@@ -813,10 +760,7 @@ const toLower = text => {
           (error) => {
             this.isLoading = false
             console.log(JSON.stringify(error))
-            //Customerall
             alertify.error('ข้อมูล ประเภทเสนอราคาเกิดข้อผิดพลาด');
-            //  alertify.success('Error login');
-            // this.cload()
           })
 
       },
@@ -999,7 +943,7 @@ const toLower = text => {
           })
       },
       changePriceType(){
-        if(docnoid==0){
+        if(this.docnoid==0){
           for(var i=0;i<this.dproducts.length;i++){
             if(this.billtype==0){
               this.dproducts[i].price=this.dproducts[i].sale_price_1
@@ -1158,36 +1102,58 @@ const toLower = text => {
           document.getElementsByClassName('trshow'+index)[i].style.display = 'table-cell';
         }
         return
-
-
-      // this.namestock = ''
-      // this.stockobj = []
-      // console.log(val.item_code)
-      // var payload = {
-      //   item_code : val.item_code
-      //  }
-
-      // api.searchunitcode(payload,
-      //   (result) => {
-      //     console.log(result)
-      //     console.log(JSON.stringify(result.data))
-      //     console.log(JSON.stringify(result.data.stock))
-      //     this.namestock = result.data[0].item_name
-      //     this.stockobj = result.data[0].stk_location
-      //     console.log(result.data[0].stk_location.length)
-      //   },
-      //   (error) => {
-      //     console.log(JSON.stringify(error))
-      //     alertify.error('Data ข้อมูล ค้นหาคลัง ผิดพลาด');
-      //   })
-      // alert('ทดสอบ')
+    },
+    searchConfirmedQT(){
+      let word={
+        keyword:this.qtkeyword
+      }
+      this.collectQT=[]
+      api.searchQuotationByKeyword(
+        word,
+        result => {
+          console.log(JSON.stringify(result))
+          for (var i = 0; i < result.data.length; i++) {
+            if (
+              result.data[i].is_confirm == 1&&result.data[i].is_cancel==0
+            ) {
+              this.collectQT.push(result.data[i]);
+            }
+          }
+          console.log(JSON.stringify(this.collectQT));
+        },
+        error => {
+          console.log(JSON.stringify(error));
+          alertify.error("Data ข้อมูลผิดพลาด");
+          //  alertify.success('Error login');
+          // this.cload()
+        }
+      );
     },
     selectstock(val){
       alert(JSON.stringify(val))
     },
     checkval(){
       this.datenow_datepicker = ''
-    }
+    },
+    callQTtoSO(i){
+      let payload={
+        id:parseInt(i)
+      }
+      let sodocno
+      let soid
+      api.transferQTtoSO(payload,
+        (result)=>{
+          console.log(JSON.stringify(result))
+          sodocno={id:result.data.id}
+          console.log(JSON.stringify(sodocno))
+          this.$router.push({ name: "saleorder2", params: { id:sodocno.id }});
+        },
+        (error)=>{
+          console.log(JSON.stringify(error))
+          alertify.error('เกิดข้อผิดพลาด ไม่สามารถโอนใบเสนอราคาได้')
+        })
+      return;
+    },
     },
     created() {
       this.searched = this.dproducts;
@@ -1265,5 +1231,7 @@ const toLower = text => {
       this.branch_id = this.objuser.branch_id
       this.showcontent_step2()
       // console.log(this.objuser)
+      this.calexpiredate()
+      this.calDeliverdate()
     }
   };

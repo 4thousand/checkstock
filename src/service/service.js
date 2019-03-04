@@ -9,13 +9,13 @@ const npsysURL = 'https://sys.nopadol.com/'
 const telURL = 'https://sheetdb.io'
 const smsURL = 'https://api.apitel.co/sms'
 const test = 'http://192.168.0.83:8080/v2/atm/auth'
-//const URL = 'http://localhost:9999/'
 
 
 export default {
   signin(user, pass, success, error) {
     Vue.axios.get(npsysURL + 'login?access_token=aaaa&usercode=' + user + '&password=' + pass + '&appid=1').then(
       (response) => {
+        console.log(response.data)
         success(response.data)
       },
       (response) => {
@@ -154,7 +154,7 @@ export default {
         error(response)
       })
   },
-  searchQuotationByKeyword(payload, success, error){
+  searchQuotationByKeyword(payload, success, error) {
     Vue.axios.post(URL + 'sales/v1/quo/search/keyword', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
@@ -163,7 +163,7 @@ export default {
         error(response)
       })
   },
-  searchSaleOrderByKeyword(payload, success, error){
+  searchSaleOrderByKeyword(payload, success, error) {
     Vue.axios.post(URL + 'sales/v1/sale/search/keyword', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
@@ -342,7 +342,7 @@ export default {
         error(response)
       })
   },
-  confirmQuotation(payload, success, error){
+  confirmQuotation(payload, success, error) {
     Vue.axios.post(URL + 'sales/v1/quo/confirm', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
@@ -352,7 +352,7 @@ export default {
       }
     )
   },
-  cancelQuotation(payload, success, error){
+  cancelQuotation(payload, success, error) {
     Vue.axios.post(URL + 'sales/v1/quo/cancel', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)
@@ -362,7 +362,7 @@ export default {
       }
     )
   },
-  transferQTtoSO(payload, success, error){
+  transferQTtoSO(payload, success, error) {
     Vue.axios.post(URL + 'sales/v1/quo/gen/saleorder', JSON.stringify(payload)).then(
       (response) => {
         success(response.data)

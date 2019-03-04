@@ -116,7 +116,14 @@
       <!-- ข้อมูลใบเสนอราคา -->
     </div>
     <md-speed-dial class="md-bottom-right">
-      <md-speed-dial-target @click="goindex()">
+      <md-speed-dial-target
+        @click="goindex()"
+        v-shortkey="['ctrl', 'alt', 'n']"
+        @shortkey="goindex()"
+      >
+        <md-tooltip md-direction="top">
+          <md-icon style="color:white;">keyboard</md-icon>คีย์ลัด ctrl + alt + n เพื่อสร้างหน้าไหม่
+        </md-tooltip>
         <md-icon>add</md-icon>
       </md-speed-dial-target>
     </md-speed-dial>
@@ -124,8 +131,10 @@
 </template>
 <script>
 import Vue from "vue";
+
 import api from "../../service/service.js";
 import { Money } from "v-money";
+Vue.use(require("vue-shortkey"));
 export default {
   name: "itemtable",
   props: {
@@ -232,6 +241,7 @@ export default {
       api.searchinvoicelist(
         payload,
         result => {
+          console.log(result);
           for (var i = 0; i < result.data.length; i++) {
             this.dataall.push(result.data[i]);
           }

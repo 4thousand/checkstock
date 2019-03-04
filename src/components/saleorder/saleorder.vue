@@ -3,7 +3,6 @@
     <loading
       :active.sync="isLoading"
       :can-cancel="true"
-      :on-cancel="onCancel"
       :is-full-page="fullPage"
     ></loading>
     <div ref="testDiv" class="fluid-container">
@@ -23,7 +22,7 @@
                     class="md-layout-item md-size-10 md-small-size-100"
                     style="text-align:right;"
                   >
-                    <md-button style="position: relative;top: 60%;left:-20%;transform: translateY(-50%);" class="md-raised md-primary" @click="selectQTdialog=true"><span>เลือกใบเสนอราคา</span> </md-button>
+                    <md-button style="position: relative;top: 60%;left:-20%;transform: translateY(-50%);" class="md-raised md-primary" @click="selectQTdialog=true" v-if="docnoid==0"><span>เลือกใบเสนอราคา</span> </md-button>
                   </div>
                   <div class="md-layout-item md-size-20 md-small-size-100">
                     <span class="md-title sub">เลขที่ใบเสนอราคา</span>
@@ -86,6 +85,7 @@
                         v-model="taxtype"
                         id="country"
                         placeholder="ประเภทภาษี"
+                        :disabled="permission[1].is_edit==1"
                       >
                         <md-option value="0">ภาษีแยกนอก</md-option>
                         <md-option value="1">ภาษีรวมใน</md-option>
@@ -215,14 +215,13 @@
                       </md-card-actions>
                     </div>
                   </md-card>
-                  <itemtable
-                    :searched="searched"
-                    :product="dproducts"
-                    :searchcus="detailcus"
-                    :removeitemtable="removeitemtable"
-                    :typepage="typepage"
-                  >
-                  </itemtable>
+                  <md-card class="md-layout-item md-size-100 md-small-size-100 tablesale">
+                    <itemtable
+                      :searched="searched"
+                      :removeitemtable="removeitemtable"
+                      :typepage="typepage"
+                    ></itemtable>
+                  </md-card>
                 </div>
                 <!-- table  -->
                 <div style="margin-top:15px" class="md-layout md-gutter">
@@ -727,56 +726,6 @@
                     </md-card-content>
                     <md-card-actions></md-card-actions>
                   </md-card>
-
-                  <!-- <md-card class="md-layout-item md-size-90 md-small-size-100" :style="{height: docheight}" style="transition:all 0.5s;margin-bottom:8px;">
-                    <md-card-header>
-                      <div class="md-title ">กลุ่มเอกสาร
-                        <md-switch @change="isshowdoc_fuc" style="position:absolute;right:0;" v-model="isshowdocument">{{ convertshowdoc(isshowdocument) }}</md-switch>
-                      </div>
-                    </md-card-header>
-                    <md-card-content v-if="isshowdocument">
-                      <div class="md-layout md-gutter">
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="groupdoc_name subnotop">เอกสาร</label>
-                            <md-input name="groupdoc_name" id="groupdoc_name" v-model="groupdoc_name" autocomplete="given-name" />
-                          </md-field>
-                        </div>
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="groupdoc_currency subnotop">รหัสสกุลเงิน</label>
-                            <md-input name="groupdoc_currency" id="groupdoc_currency" v-model="groupdoc_currency" autocomplete="family-name" />
-                          </md-field>
-                        </div>
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="groupdoc_exchange">อัตราแลกเปลี่ยน</label>
-                            <md-input name="groupdoc_exchange" id="groupdoc_exchange" v-model="groupdoc_exchange" autocomplete="family-name" />
-                          </md-field>
-                        </div>
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="groupdoc_vatrate">อัตราภาษีมูลค่าเพิ่ม</label>
-                            <md-input name="groupdoc_vatrate" id="groupdoc_vatrate" v-model="groupdoc_vatrate" autocomplete="family-name" />
-                          </md-field>
-                        </div>
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="groupdoc_moneytotal">ยอดเงินบาทสุทธิ</label>
-                            <md-input name="groupdoc_moneytotal" id="groupdoc_moneytotal" v-model="groupdoc_moneytotal" autocomplete="family-name" />
-                          </md-field>
-                        </div>
-                        <div class="md-layout-item md-small-size-100">
-                          <md-field>
-                            <label for="groupdoc_delivery">ค่าขนส่ง</label>
-                            <md-input name="groupdoc_delivery" id="groupdoc_delivery" v-model="groupdoc_delivery" autocomplete="family-name" />
-                          </md-field>
-                        </div>
-                      </div>
-                    </md-card-content>
-                    <md-card-actions>
-                    </md-card-actions>
-                  </md-card>-->
                   <md-card
                     class="md-layout-item md-size-90 md-small-size-100"
                     style="margin-bottom:8px"
@@ -1125,13 +1074,33 @@
             <md-tab md-label>
               <md-field>
                 <md-input
-                  v-model="searchcus"
-                  @keyup="searchCustomerRT"
-                  @keydown="searchCustomerRT"
-                  @input="searchCustomerRT"
-                ></md-input>
+                  v-model="qtkeyword"
+                  @keyup="searchConfirmedQT"
+                  @keydown="searchConfirmedQT"
+                  @input="searchConfirmedQT"
+                ></md-input>  
               </md-field>
-              <transferQT></transferQT>
+              <table class="table table-hover">
+                <thead align="center">
+                  <tr style="text-align:center;cursor:pointer">
+                    <td>ลำดับ</td>
+                    <td>เลขที่เอกสาร</td>
+                    <td>ชื่อลูกค้า</td>
+                  </tr>
+                </thead>
+                <tbody id="valuetable">
+                  <tr
+                    @click="callQTtoSO(val.id),selectQTdialog=false"
+                    v-for="(val,index) in collectQT"
+                    :key="index"
+                    style="text-align:center;cursor:pointer"
+                  >
+                    <td>{{index+1}}</td>
+                    <td>{{val.doc_no}}</td>
+                    <td>{{val.ar_name}}</td>
+                  </tr>
+                </tbody>
+              </table>
             </md-tab>
           </md-tabs>
           <md-dialog-actions>

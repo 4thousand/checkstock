@@ -135,15 +135,12 @@ export default {
   methods: {
     convertToBaht(val) {
       var result = numeral(val).format("0,0.00");
-      // console.log(typeof result)
       return result;
     },
     goindex(val) {
-      // localStorage.iddocno = 0
       this.showNavigation = false;
 
       if (val == "/saleorder") {
-        // this.topicmenu = 'ใบเสนอราคา'
         this.$router.push({ name: "saleorder", params: { id: 0 } });
         return;
       }
@@ -163,30 +160,23 @@ export default {
       // v
 
       console.log(JSON.stringify(payload));
-      api.showdocall(
+      api.searchSaleOrderByKeyword(
         payload,
         result => {
           for (var i = 0; i < result.data.length; i++) {
-            if (
-              result.data[i].module == "SaleOrder" ||result.data[i].module == "Reserve"
-            ) {
               this.dataall.push(result.data[i]);
-            }
           }
           console.log(JSON.stringify(this.dataall));
         },
         error => {
           console.log(JSON.stringify(error));
           alertify.error("Data ข้อมูลผิดพลาด");
-          //  alertify.success('Error login');
-          // this.cload()
         }
       );
     }
   },
   mounted() {
     this.showalldoc();
-    // console.log(JSON.stringify(this.payload))
   }
 };
 </script>

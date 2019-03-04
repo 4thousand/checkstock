@@ -20,8 +20,8 @@
                   >
                     <!-- confirm button -->
                     <div class="md-layout md-gutter" v-if="docnoid>0">
-                      <md-button class="md-raised md-primary" v-if="isConfirm==0&&isCancel!=1&&answer_cus==1" @click="confirmDoc()">อนุมัติใบเสนอราคานี้</md-button>
-                      <md-button class="md-raised md-accent" v-if="isConfirm!=1&&isCancel!=1" @click="cancelDoc()">ยกเลิกใบเสนอราคานี้</md-button>
+                      <md-button class="md-raised md-primary" v-if="isConfirm==0&&isCancel!=1&&answer_cus==1&&permission[6].is_create==1" @click="confirmDoc()">อนุมัติใบเสนอราคานี้</md-button>
+                      <md-button class="md-raised md-accent" v-if="isConfirm!=1&&isCancel!=1&&permission[6].is_create==1" @click="cancelDoc()">ยกเลิกใบเสนอราคานี้</md-button>
                       <md-button class="md-raised" v-if="isConfirm==1&&answer_cus==1" @click="callQTtoSO()">นำใบเสนอราคานี้ไปทำใบสั่งขาย</md-button>
                     </div>
                   </div>
@@ -239,9 +239,14 @@
                         <md-button style="width:5%">จำนวนเงิน</md-button>
                         <md-button style="width:5%"></md-button>
                         <md-button style="width:5%"></md-button>
-                      </md-card-actions>
-                      <itemtable :searched="searched" :removeitemtable="removeitemtable" :product="dproducts" :typepage="typepage" :searchcus="detailcus"></itemtable>
+                      </md-card-actions> 
                     </div>
+<<<<<<< HEAD
+=======
+                  </md-card> 
+                  <md-card class="md-layout-item md-size-100 md-small-size-100 tablesale">
+                    <itemtable :searched="searched" :removeitemtable="removeitemtable" :product="dproducts" :typepage="typepage" :searchcus="detailcus"></itemtable>
+>>>>>>> fbfa884a2bb00ee5917ab55eb496279fa4e58f04
                   </md-card>
                 </div>
                 <!-- table  -->
