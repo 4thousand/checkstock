@@ -739,6 +739,8 @@ export default {
           is_cancel: 0
         }
         this.dproducts.push(datashow)
+        console.log(JSON.stringify(this.dproducts))
+        console.log(JSON.stringify(this.dproducts.length))
         //close modal
         this.showDialogproduct = false
         alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
@@ -764,6 +766,8 @@ export default {
         //close modal
         this.showDialogproduct = false
         alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
+        console.log(JSON.stringify(this.dproducts))
+        console.log(JSON.stringify(this.dproducts.length))
       }
       this.keywordproduct = ''
 
