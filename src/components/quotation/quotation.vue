@@ -101,6 +101,7 @@
                     <span class="md-title sub">ประเภทภาษี</span>
                     <md-field>
                       <md-select
+                        :disabled="docnoid>0"
                         name="country"
                         v-model="taxtype"
                         id="country"
@@ -375,6 +376,7 @@
                 style="float:right;"
                 @click="setDone('first', 'second')"
                 class="md-raised md-primary"
+                :disabled="tablecode==''||billtype==''||taxtype==''||idcus==''||dproducts.length<=0"
               >
                 <span>ถัดไป</span>
               </md-button>
@@ -964,10 +966,10 @@
                 <table class="table table-hover">
                   <thead align="center">
                     <tr>
-                      <th>ลำดับ</th>
-                      <th id="colorselectorder">รหัสลูกค้า</th>
-                      <th id="colorselectgroup">ชื่อลูกค้า</th>
-                      <th>ที่อยู่</th>
+                      <td>ลำดับ</td>
+                      <td id="colorselectorder">รหัสลูกค้า</td>
+                      <td id="colorselectgroup">ชื่อลูกค้า</td>
+                      <td>ที่อยู่</td>
                     </tr>
                   </thead>
                   <tbody id="valuetable">
@@ -1012,14 +1014,14 @@
                 <table class="table table-hover">
                   <thead align="center">
                     <tr>
-                      <th style="white-space: nowrap;">ลำดับ</th>
-                      <th style="white-space: nowrap;">รูป</th>
-                      <th style="overflow:auto;white-space: nowrap;">รหัสสินค้า</th>
-                      <th style="white-space: nowrap;">ชื่อสินค้า</th>
-                      <th style="white-space: nowrap;">หน่วยนับ</th>
-                      <th style="white-space: nowrap;" v-show="billtype == 0">ราคา(เงินสด)</th>
-                      <th style="white-space: nowrap;" v-show="billtype == 1">ราคา(เงินเชื่อ)</th>
-                      <th style="white-space: nowrap;">คงเหลือ</th>
+                      <td style="white-space: nowrap;">ลำดับ</td>
+                      <td style="white-space: nowrap;">รูป</td>
+                      <td style="overflow:auto;white-space: nowrap;">รหัสสินค้า</td>
+                      <td style="white-space: nowrap;">ชื่อสินค้า</td>
+                      <td style="white-space: nowrap;">หน่วยนับ</td>
+                      <td style="white-space: nowrap;" v-show="billtype == 0">ราคา(เงินสด)</td>
+                      <td style="white-space: nowrap;" v-show="billtype == 1">ราคา(เงินเชื่อ)</td>
+                      <td style="white-space: nowrap;">คงเหลือ</td>
                     </tr>
                   </thead>
                   <tbody v-for="(val,index) in dataproductDialog" :key="index" id="valuetable">
@@ -1040,7 +1042,7 @@
                           alt
                         >
                       </td>
-                      <td @click="showdetail(val)">{{val.bar_code}}</td>
+                      <td @click="showdetail(val)">{{val.item_code}}</td>
                       <td @click="showdetail(val)">{{val.item_name}}</td>
                       <td @click="showdetail(val)">{{val.unit_code}}</td>
                       <td @click="showdetail(val)" v-show="billtype == 0">{{val.sale_price_1}}</td>
