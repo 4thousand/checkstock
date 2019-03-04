@@ -15,6 +15,18 @@
               style="padding: 4px 4px;"
             >
               <div style="width:100%;height:20px;">
+                <div style="float:left;">
+                  <md-button
+                    @click="golist()"
+                    class="md-raised md-primary"
+                    v-shortkey="['ctrl', 'shift', 'f']"
+                    @shortkey="golist()"
+                  >
+                    <md-tooltip md-direction="top">
+                      <md-icon style="color:white;">keyboard</md-icon>คีย์ลัด ctrl + shift + f กลับหน้า invoicelist
+                    </md-tooltip>กลับ
+                  </md-button>
+                </div>
                 <div style="float:right;">
                   <md-button
                     @click="reftoSOQTO(2,refID)"
@@ -37,12 +49,24 @@
                     @click="serachQTOANDSO(2)"
                     :disabled="docnoid!=0"
                     class="md-raised md-primary"
-                  >ดึงข้อมูลจากใบสั่งขาย</md-button>
+                    v-shortkey="['ctrl', 'shift', 's']"
+                    @shortkey="serachQTOANDSO(2)"
+                  >
+                    <md-tooltip md-direction="top">
+                      <md-icon style="color:white;">keyboard</md-icon>คีย์ลัด ctrl + shift + s ดึงข้อมูลจากหน้าใบสั่งขาย
+                    </md-tooltip>ดึงข้อมูลจากใบสั่งขาย
+                  </md-button>
                   <md-button
                     :disabled="docnoid==0||is_cancelbill==1"
                     class="md-raised md-accent"
                     @click="cancelinvoice(docnoid)"
-                  >ยกเลิก บิลขาย</md-button>
+                    v-shortkey="['ctrl', 'shift', 'del']"
+                    @shortkey="cancelinvoice(docnoid)"
+                  >
+                    <md-tooltip md-direction="top">
+                      <md-icon style="color:white;">keyboard</md-icon>คีย์ลัด ctrl + shift + del ยกเลิกบิลขาย
+                    </md-tooltip>ยกเลิก บิลขาย
+                  </md-button>
                 </div>
               </div>
               <br>
@@ -62,7 +86,7 @@
                         @input="mockDocNo(),changePriceType()"
                         v-model="billtype"
                         name="country"
-                        id="country"
+                        id="country1"
                         placeholder="กรุณาเลือก"
                       >
                         <md-option value="0">สินค้าเงินสด</md-option>
@@ -116,13 +140,11 @@
                   <div
                     id="changetop_mobile"
                     style="position:relative"
-                    class="md-layout-item md-size-50 md-small-size-100"
+                    class="md-layout-item md-size-20 md-small-size-100"
                   >
                     <span class="md-title sub">วันที่ออก</span>
                     <div style="position:relative;height:100%;">
-                      <md-icon
-                        style="float:left;position:relative;top:28px;margin-right:10px;"
-                      >calendar_today</md-icon>
+                     
                       <datepicker
                         v-model="datenow_datepicker"
                         input-class="form-control tc"
@@ -130,6 +152,26 @@
                         :language="languages[language]"
                         format="d MMMM yyyy"
                         :disabled="docnoid>0"
+                      ></datepicker>
+                    </div>
+                  </div>
+                  <div
+                    id="changetop_mobile"
+                    style="position:relative"
+                    class="md-layout-item md-size-20 md-small-size-100"
+                    v-show="billtype==1"
+                  >
+                    <span class="md-title sub">วันที่กำหนดวันชำระเงิน</span>
+                    <div style="position:relative;height:100%;">
+                      <md-icon
+                        style="float:left;position:relative;top:28px;margin-right:10px;"
+                      >calendar_today</md-icon>
+                      <datepicker
+                        v-model="DueDate_cal"
+                        input-class="form-control"
+                        style="position:relative;top:15px;width: 80%;"
+                        :language="languages[language]"
+                        format="d MMMM yyyy"
                       ></datepicker>
                     </div>
                   </div>
@@ -177,6 +219,11 @@
                       <md-input disabled v-model="detailcus"></md-input>
                     </md-field>
                   </div>
+                  <searchhiscustomer
+                    :product="dproducts"
+                    :typepage="typepage"
+                    :searchcus="searchcus"
+                    ></searchhiscustomer>
                 </div>
                 <!-- table -->
                 <div class="md-layout md-gutter">
@@ -202,9 +249,9 @@
                         <md-button style="width:20%">ชื่อสินค้า</md-button>
                         <md-button style="width: 5%;">คลัง</md-button>
                         <md-button style="width: 5%;">หน่วยนับ</md-button>
-                        <md-button style="min-width: 5%;">จำนวน</md-button>
+                        <md-button style="min-width:5.6%;">จำนวน</md-button>
                         <md-button style="width: 5%;">ราคา/หน่วย</md-button>
-                        <md-button style="min-width: 5%;">ส่วนลด</md-button>
+                        <md-button style="width:5%;">ส่วนลด</md-button>
                         <md-button style="width: 5%;">จำนวนเงิน</md-button>
                       </md-card-actions>
                     </div>
@@ -368,7 +415,7 @@
                           </p>
                           <div class="col-lg-7 col-md-12 col-12">
                             <button class="increment-button md-primary" @click="decrement()">−</button>
-
+                            
                             <input
                               class="form-control"
                               style="width:70%;float:left"
@@ -572,7 +619,6 @@
                   >
                     <span class="md-title subnotop">ส่วนลด</span>
                   </div>
-
                   <div
                     class="md-layout-item md-size-10 md-xsmall-size-100"
                     style="text-align:right;"
@@ -580,14 +626,25 @@
                     <span class="md-title subnotop">
                       <input
                         ref="discount"
-                        v-model.number="caldiscount"
+                        v-model="listpayment.discount_word"
+                        @keyup.enter="calEachPriceinvoice(listpayment)"
                         style="width:100%;text-align:right;"
                         type="text"
                       >
                     </span>
                   </div>
 
-                  <div class="md-layout-item md-size-10 md-xsmall-size-100">
+                  <div
+                    class="md-layout-item md-size-10 md-xsmall-size-100"
+                    style="text-align:center;"
+                  >
+                    <span
+                      class="md-title subnotop"
+                      style="    left: 0px;"
+                    >{{listpayment.discount_amount}} บาท</span>
+                  </div>
+
+                  <!-- <div class="md-layout-item md-size-10 md-xsmall-size-100">
                     <md-button
                       style="width:5% !important"
                       @click="calbathordiscount"
@@ -600,7 +657,7 @@
                       v-show="!percal"
                       class="md-raised md-primary"
                     >บาท</md-button>
-                  </div>
+                  </div>-->
                 </div>
 
                 <div class="md-layout md-gutter">
@@ -1022,7 +1079,7 @@
                               <div class="tax-bottom-part tax-button">
                                 <button
                                   id="add_doc"
-                                  :disabled="balance!=0||payment==null"
+                                  :disabled="balance!=0||payment==null||is_cancelbill==1"
                                   @keyup.left="getFocus('bank_pay')"
                                   @keyup.up="getFocus('bank_pay')"
                                   @click="setDone('second', 'third'),showdocno"
@@ -1880,11 +1937,11 @@
               <!-- testprint -->
               <form
                 id="tax_report"
-                :action="php + '/report_pdf/report_quotation.php'"
+                :action="php + '/report_pdf/report_invoice_credis.php'"
                 method="post"
                 target="_blank"
               >
-                <input type="hidden" name="dataquotation">
+                <input type="hidden" name="invoice">
                 <md-button
                   type="submit"
                   style="float: right; position: relative; top: -37px;"
@@ -1897,7 +1954,7 @@
                 method="post"
                 target="_blank"
               >
-                <input type="hidden" name="dataquotation">
+                <input type="hidden" name="invoice">
                 <md-button
                   type="submit"
                   style="float: right; position: relative; top: -37px;right: 10px;"

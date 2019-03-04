@@ -8,9 +8,10 @@
       <div class="tables" style="width:100%">
         <md-card-actions style="justify-content:end;">
           <md-button style="width:10%">{{val.item_code}}</md-button>
-          <md-button style="width:25%;
+          <md-button style="width:20%;    height: auto;
       ">
             <div
+              style="width:100%;white-space: normal;word-wrap:  text-align-last: left; break-word;      text-align: left;  text-indent: 20px;display: inline-block;height:auto;"
             >{{val.item_name}}</div>
           </md-button>
           <md-button
@@ -24,7 +25,7 @@
             <span>{{val.unit_code}}</span>
           </md-button>
           <md-button
-            style="width: 5%"
+            style="min-width:5.6%;"
             v-show="isQtySelected==false"
             @click="isQtySelected=true"
           >
@@ -32,7 +33,7 @@
           </md-button>
           <input
             type="number"
-            style="width:5%"
+            style="min-width:5.6%;"
             v-model="val.qty"
             v-show="isQtySelected==true"
             @keyup.enter="isQtySelected=false,calEachPrice(val)"
@@ -41,7 +42,7 @@
           >
           <input
             type="text"
-            style="width:5"
+            style="width:5%;"
             v-model="val.qty"
             v-show="isQtySelected==true"
             @keyup.enter="isQtySelected=false,calEachPriceinvoice(val)"
@@ -82,12 +83,15 @@
             @blur="isDiscountSelected=false,calEachPriceinvoice(val)"
             v-if="typepage=='invoice'"
           >
-          <md-button style="width:5%" v-if="typepage=='saleorder'||'quotation'">{{convertmoney(val.item_amount)}}</md-button>
+          <md-button
+            style="width:5%"
+            v-if="typepage=='saleorder'||typepage=='quotation'"
+          >{{convertmoney(val.item_amount)}}</md-button>
           <md-button style="width:5%" v-if="typepage=='invoice'">{{convertmoney(val.amount)}}</md-button>
-          <md-button style="width:5%;" class="md-mini" @click="removeitemtable(index)">
+          <md-button style="min-width:5%;" class="md-mini" @click="removeitemtable(index)">
             <md-icon style="width:5%;float: right;">delete</md-icon>
           </md-button>
-          <md-button style="width: 5%" class="md-mini" @click="histable(val,searchcus)">
+          <md-button style="min-width: 5%" class="md-mini" @click="histable(val,searchcus)">
             <md-icon style="width:5%;float: right;">history</md-icon>
           </md-button>
         </md-card-actions>
@@ -161,7 +165,7 @@
                           <td v-if="typepage==='invoice'">{{val.qty}}</td>
                           <td v-if="typepage==='invoice'">{{val.unit_code}}</td>
                           <td v-if="typepage==='invoice'">{{val.price}}</td>
-                          <td v-if="typepage==='invoice'">{{val.discount_word}}</td>
+                          <td v-if="typepage==='invoice'">{{val.discount_word_sub}}</td>
 
                           <td v-if="typepage==='quotation'">{{val.DocDate}}</td>
                           <td v-if="typepage==='quotation'">{{val.DocNo}}</td>
@@ -420,7 +424,7 @@ export default {
       //console.log(itemshow)
     },
     calEachPrice(val) {
-      val.qty = parseInt(val.qty)
+      val.qty = parseInt(val.qty);
       console.log(val);
       let eachPriceNoDiscount = val.price;
         for (let i = 0; i < val.discount_word.length; i++) {
@@ -440,12 +444,12 @@ export default {
             return;
           }
         }
-
       if (val.discount_word == "") {
-        val.item_amount = (eachPriceNoDiscount*val.qty);
+        val.item_amount = eachPriceNoDiscount * val.qty;
         return eachPriceNoDiscount;
       } else {
-        val.item_amount = (eachPriceNoDiscount - parseInt(val.discount_word))*val.qty;
+        val.item_amount =
+          (eachPriceNoDiscount - parseInt(val.discount_word)) * val.qty;
         return;
       }
     },
@@ -498,8 +502,8 @@ export default {
             let floatPercent = parseFloat(discount_word.replace("%", ""));
             percentDiscount = parseFloat(parseFloat(floatPercent / 100.0));
             console.log(JSON.stringify(percentDiscount));
-            discountedPrice = eachPrice - (eachPrice * percentDiscount);
-            console.log(JSON.stringify(discountedPrice))
+            discountedPrice = eachPrice - eachPrice * percentDiscount;
+            console.log(JSON.stringify(discountedPrice));
             return parseFloat(discountedPrice);
           }
         }

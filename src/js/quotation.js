@@ -15,12 +15,15 @@ import Datepicker from 'vuejs-datepicker';
 import * as lang from "vuejs-datepicker/src/locale";
 import api from "../service/service.js";
 import itemtable from '@/components/ui/tableitem';
+import searchhiscustomer from '@/components/ui/searchhiscustomer';
+// import * as jsPDF from 'jspdf'
 import JQuery from 'jquery'
 let $ = JQuery
 
 export default {
   name: "quotation",
   components: {
+    searchhiscustomer,
     Datepicker,
     Loading,
     itemtable,
@@ -29,6 +32,7 @@ export default {
     msg: "",
     typepage: "quotation",
     selectedDate: null,
+    searchhiscustomer: [],
     date: "",
     search: [],
     searched: '',
@@ -372,7 +376,7 @@ export default {
           datenow_datepicker: this.datenow_datepicker,
           dif_fee: this.dif_fee,
           //norecord
-          
+
           doc_type,
           ar_id: this.idcus,
           ar_code: this.searchcus,
@@ -889,92 +893,94 @@ export default {
         return
       }
       // alert('แก้ไข')
-      let payload = {
-        id: parseInt(this.docnoid)
-      }
-      this.isLoading = true
-      console.log(JSON.stringify(payload))
-      api.detailquoall(payload,
-        (result) => {
-          this.isLoading = false
-          console.log(JSON.stringify(result.data))
-          console.log(result.data.bill_type)
-          let doc_type
-          let tax_type
-          // let percent
-          // let discount_amount
-
-          if (result.data.doc_type == 0) {
-            doc_type = 'BO'
-          } else if (result.data.doc_type == 1) {
-            doc_type = 'QT'
-          }
-          // this.dproducts = []
-          this.disablebilltype = true
-          this.tablecode = doc_type
-          this.billtype = result.data.bill_type
-          console.log(this.billtype)
-          this.sale_id=result.data.sale_id
-          this.ar_bill_address = result.data.ar_bill_address
-          this.ar_telephone = result.data.ar_telephone
-          this.docno = result.data.doc_no
-          this.taxtype = result.data.tax_type
-          this.datenow_datepicker = result.data.doc_date
-          this.idcus = result.data.ar_id
-          this.searchcus = result.data.ar_code
-          this.detailcus = result.data.ar_name
-          console.log(JSON.stringify(result.data.is_confirm))
-          this.isConfirm=result.data.is_confirm
-          this.isCancel=result.data.is_cancel
-          var datasubs = result.data.subs
-          let data;
-          console.log(datasubs)
-          for (let x = 0; x < datasubs.length; x++) {
-            console.log(datasubs[0].price)
-            console.log(datasubs[x].qty)
-            data = {
-              item_id: datasubs[x].id,
-              item_code: datasubs[x].item_code,
-              bar_code: datasubs[x].bar_code,
-              item_name: datasubs[x].item_name,
-              unit_code: datasubs[x].unit_code,
-              qty: datasubs[x].qty,
-              price: datasubs[x].price,
-              discount_word: datasubs[x].discount_word,
-              discount_amount: datasubs[x].discount_amount,
-              item_amount: datasubs[x].item_amount,
-              item_description: datasubs[x].item_description,
-              packing_rate_1: datasubs[x].packing_rate_1,
-              is_cancel: datasubs[x].is_cancel
+      else{
+          let payload = {
+          id: parseInt(this.docnoid)
+        }
+        this.isLoading = true
+        console.log(JSON.stringify(payload))
+        api.detailquoall(payload,
+          (result) => {
+            this.isLoading = false
+            console.log(JSON.stringify(result.data))
+            console.log(result.data.bill_type)
+            let doc_type
+            let tax_type
+            if (result.data.doc_type == 0) {
+              doc_type = 'BO'
+            } else if (result.data.doc_type == 1) {
+              doc_type = 'QT'
             }
-            console.log(JSON.stringify(data))
-            console.log(data.item_amount)
-            this.dproducts.push(data)
-          }
-          console.log(JSON.stringify(this.dproducts))
-          this.salecode = result.data.sale_code
-          this.expire_date = result.data.expire_credit
-          this.caldiscount = result.data.discount_amount
-          this.answer_cus = result.data.assert_status
-          this.Deliver_date = result.data.delivery_day
-          this.bill_credit = result.data.credit_day
-          this.is_condition_send = result.data.is_condition_send
-          this.expiredate_cal = this.convertmonth_d_m_y(result.data.expire_date)
-          // console.log(this.expiredate_cal)
-          this.DueDate_date = this.convertmonth_d_m_y(result.data.delivery_date)
-          this.DueDate_cal = this.convertmonth_d_m_y(result.data.due_date)
-          // console.log(this.DueDate_cal)
-          this.my_description = result.data.my_description
-          //  console.log(this.dproducts)
-          console.log(JSON.stringify(result.data))
-          console.log(JSON.stringify(result.data.subs))
-        },
-        (error) => {
-          this.isLoading = false
-          console.log(JSON.stringify(error))
-          alertify.error('ข้อมูลผิดพลาด detailquoall');
-        })
-
+            // this.dproducts = []
+            this.disablebilltype = true
+            this.tablecode = doc_type
+            console.log("tableccode :"+this.tablecode)
+            this.billtype = result.data.bill_type
+            console.log("billtype :"+this.billtype)
+            this.sale_id=result.data.sale_id
+            this.ar_bill_address = result.data.ar_bill_address
+            this.ar_telephone = result.data.ar_telephone
+            this.docno = result.data.doc_no
+            this.taxtype = result.data.tax_type
+            console.log("taxtype :"+this.taxtype)
+            this.datenow_datepicker = result.data.doc_date
+            this.idcus = result.data.ar_id
+            console.log("idcus :"+this.idcus)
+            this.searchcus = result.data.ar_code
+            this.detailcus = result.data.ar_name
+            console.log(JSON.stringify(result.data.is_confirm))
+            this.isConfirm=result.data.is_confirm
+            this.isCancel=result.data.is_cancel
+            var datasubs = result.data.subs
+            let data;
+            console.log(datasubs)
+            for (let x = 0; x < datasubs.length; x++) {
+              console.log(datasubs[0].price)
+              console.log(datasubs[x].qty)
+              data = {
+                item_id: datasubs[x].id,
+                item_code: datasubs[x].item_code,
+                bar_code: datasubs[x].bar_code,
+                item_name: datasubs[x].item_name,
+                unit_code: datasubs[x].unit_code,
+                qty: datasubs[x].qty,
+                price: datasubs[x].price,
+                discount_word: datasubs[x].discount_word,
+                discount_amount: datasubs[x].discount_amount,
+                item_amount: datasubs[x].item_amount,
+                item_description: datasubs[x].item_description,
+                packing_rate_1: datasubs[x].packing_rate_1,
+                is_cancel: datasubs[x].is_cancel
+              }
+              console.log(JSON.stringify(data))
+              console.log(data.item_amount)
+              this.dproducts.push(data)
+              console.log("dproducts :"+this.dproducts.length)
+            }
+            console.log(JSON.stringify(this.dproducts))
+            this.salecode = result.data.sale_code
+            this.expire_date = result.data.expire_credit
+            this.caldiscount = result.data.discount_amount
+            this.answer_cus = result.data.assert_status
+            this.Deliver_date = result.data.delivery_day
+            this.bill_credit = result.data.credit_day
+            this.is_condition_send = result.data.is_condition_send
+            this.expiredate_cal = this.convertmonth_d_m_y(result.data.expire_date)
+            // console.log(this.expiredate_cal)
+            this.DueDate_date = this.convertmonth_d_m_y(result.data.delivery_date)
+            this.DueDate_cal = this.convertmonth_d_m_y(result.data.due_date)
+            // console.log(this.DueDate_cal)
+            this.my_description = result.data.my_description
+            //  console.log(this.dproducts)
+            console.log(JSON.stringify(result.data))
+            console.log(JSON.stringify(result.data.subs))
+          },
+          (error) => {
+            this.isLoading = false
+            console.log(JSON.stringify(error))
+            alertify.error('ข้อมูลผิดพลาด detailquoall');
+          })
+        }
     },
     convertmonth_preview(val) {
       if (val.length === undefined) {
@@ -996,7 +1002,7 @@ export default {
       }
     },
     changePriceType() {
-      if (docnoid == 0) {
+      if (this.docnoid == 0) {
         for (var i = 0; i < this.dproducts.length; i++) {
           if (this.billtype == 0) {
             this.dproducts[i].price = this.dproducts[i].sale_price_1
@@ -1104,10 +1110,10 @@ export default {
           console.log(JSON.stringify(error))
           alertify.error('เกิดข้อผิดพลาด ไม่สามารถโอนใบเสนอราคาได้')
         })
-      
+
       return;
     },
-    
+
   },
   created() {
     console.log(JSON.stringify(this.searched))
@@ -1121,7 +1127,7 @@ export default {
         'ctrl+shift+2': this.changevaluetest2,
       }
     },
-    
+
     totalprice() {
       return this.dproducts.reduce(function (sum, item) {
         return (sum + item.item_amount)

@@ -4,6 +4,8 @@ import index from '@/components/index'
 import login from '@/components/login'
 import quotation from '@/components/quotation/quotation'
 import sale from '@/components/quotation/quotation'
+import settinglist from '@/components/setting/settinglist'
+//import setting from '@/components/setting/setting'
 import setting from '@/components/setting'
 import newquo from '@/components/quotation/newquo'
 import newsale from '@/components/sale/newsale'
@@ -54,10 +56,20 @@ export default new Router({
       component: quotation
     },
     {
-      path: '/setting',
+      path: '/settinglist',
+      name: 'settinglist',
+      component: settinglist
+    },
+    {
+      path: '/setting/:id',
       name: 'setting',
       component: setting
     },
+    /*{
+      path: '/setting',
+      name: 'setting',
+      component: setting
+    },*/
     {
       path: '/sale/:id',
       name: 'sale',

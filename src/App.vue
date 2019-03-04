@@ -87,14 +87,10 @@
                     <md-icon style="position:absolute;  left: 16px;">assignment</md-icon>
                     <span class="md-list-item-text">ใบรับเงินมัดจำ</span>
                   </md-list-item>
-                  <md-list-item @click="goindex('/invoicelist')" class="md-inset" v-if="userPermission.menu[7].is_read==1">
+                  <md-list-item @click="goindex('/invoicelist')" class="md-inset" v-if="userPermission.menu[8].is_read==1">
                     <md-icon style="position:absolute;  left: 16px;">payment</md-icon>
                     <span class="md-list-item-text">ออกบิลขาย</span>
                   </md-list-item>
-                  <!-- <md-list-item @click="goindex('/index')" class="md-inset">
-                    <md-icon style="position:absolute;  left: 16px;">receipt</md-icon>
-                    <span class="md-list-item-text">ระบบขายหน้าร้าน</span>
-                  </md-list-item> -->
                 </md-list>
               </md-list-item>
 
@@ -278,6 +274,11 @@ export default {
         this.topicmenucolor = "#448aff";
         this.topicmenu = "หน้าหลัก";
         this.icon = "home";
+      }
+      if (this.$route.fullPath.search("settinglist") == 1) {
+        this.topicmenucolor = "#ff9100";
+        this.topicmenu = "Setting";
+        this.icon = "build";
       }
       if (this.$route.fullPath.search("setting") == 1) {
         this.topicmenucolor = "#ff9100";

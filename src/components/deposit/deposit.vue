@@ -128,7 +128,7 @@
                               <button
                                 class="btn btn-primary icon-margin search-icon"
                                 :disabled="customerName==''"
-                                @click="showReserve = true"
+                                @click="showReserve = true,searchReserveKeyApi()"
                               >
                                 <md-icon class="search-icon">search</md-icon>
                               </button>
@@ -277,7 +277,7 @@
                     class="form-control"
                     v-autofocus
                     @keyup.enter="searchReserveKeyApi"
-                    v-model="searchReserveInput"
+                    v-model="customerName"
                   >
                   <div class="table-responsive">
                     <table class="table table-hover">
@@ -1327,6 +1327,7 @@ export default {
           this.uuid = result.data.uuid;
           this.serialNo = result.data.doc_no;
           this.taxNo = result.data.doc_no;
+          this.reserveNo = result.data.doc_no;
           console.log(this.serialNo);
           this.feeType = result.data.tax_type;
           this.branchId = result.data.branch_id;
@@ -1497,7 +1498,7 @@ export default {
     searchReserveKeyApi() {
       var payload = {
         ar_id: this.customerID,
-        keyword: this.searchReserveInput
+        keyword: this.customerName
       };
 
       api.searchReserveByKeyword(
@@ -1786,6 +1787,7 @@ export default {
     }
   },
   mounted() {
+
     // this.setDone("first", "second");
     // this.setDone('second', 'third');
     this.id = this.$route.params.id;
