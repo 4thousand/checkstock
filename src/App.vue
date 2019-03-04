@@ -155,7 +155,7 @@
                 <md-icon>delete</md-icon>
                 <span class="md-list-item-text">ใบ BackOrder</span>
               </md-list-item>-->
-              <md-list-item @click="goindex('/setting')">
+              <md-list-item v-if="role == 'Admin' " @click="goindex('/settinglist')">
                 <md-icon>settings</md-icon>
                 <span class="md-list-item-text">Setting</span>
               </md-list-item>
@@ -323,6 +323,11 @@ export default {
         this.topicmenucolor = "#448aff";
         this.topicmenu = "หน้าหลัก";
         this.icon = "bookmarks";
+      }
+      if (this.$route.fullPath.search("settinglist") == 1) {
+        this.topicmenucolor = "#ff9100";
+        this.topicmenu = "Setting";
+        this.icon = "build";
       }
       if (this.$route.fullPath.search("setting") == 1) {
         this.topicmenucolor = "#ff9100";

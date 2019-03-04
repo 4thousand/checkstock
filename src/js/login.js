@@ -26,10 +26,10 @@ export default {
             localStorage.test = this.login.password
             //console.log(localStorage.test)
             if (result.status == 'success') {
-              //console.log(JSON.stringify(result.data))
-              //console.log(result.data)
+              console.log(JSON.stringify(result.data))
+              console.log(result.data)
               localStorage.Datauser = JSON.stringify(result.data)
-              // var userid = 
+              // var userid =
               // localStorage.branchid = result.data.branch_id
               localStorage.userid = result.data.id
               localStorage.company_id = result.data.company_id

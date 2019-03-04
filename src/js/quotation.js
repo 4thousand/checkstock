@@ -15,6 +15,7 @@ import Datepicker from 'vuejs-datepicker';
 import * as lang from "vuejs-datepicker/src/locale";
 import api from "../service/service.js";
 import itemtable from '@/components/ui/tableitem';
+import searchhiscustomer from '@/components/ui/searchhiscustomer';
 // import * as jsPDF from 'jspdf'
 import JQuery from 'jquery'
 let $ = JQuery
@@ -22,6 +23,7 @@ let $ = JQuery
 export default {
   name: "quotation",
   components: {
+    searchhiscustomer,
     Datepicker,
     Loading,
     itemtable,
@@ -30,6 +32,7 @@ export default {
     msg: "",
     typepage: "quotation",
     selectedDate: null,
+    searchhiscustomer: [],
     date: "",
     search: [],
     searched: '',
@@ -383,7 +386,7 @@ export default {
           datenow_datepicker: this.datenow_datepicker,
           dif_fee: this.dif_fee,
           //norecord
-          
+
           doc_type,
           ar_id: this.idcus,
           ar_code: this.searchcus,
@@ -1145,7 +1148,7 @@ export default {
       this.$router.push({ name: "saleorder2", params: { id:soid }});
       return;
     },
-    
+
   },
   created() {
     console.log(JSON.stringify(this.searched))
@@ -1159,7 +1162,7 @@ export default {
         'ctrl+shift+2': this.changevaluetest2,
       }
     },
-    
+
     totalprice() {
       return this.dproducts.reduce(function (sum, item) {
         return (sum + item.item_amount)

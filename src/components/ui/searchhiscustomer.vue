@@ -2,7 +2,7 @@
   <div>
     <div class="md-size-5 md-small-size-5" style="margin-left:-15px;margin-right:35px">
       <md-button @click="HisCustomer(searchcus)" class="md-icon-button md-raised md productadd">
-        <md-icon>add</md-icon>
+        <md-icon>history</md-icon>
       </md-button>
     </div>
     <div>
@@ -31,8 +31,8 @@
                     <td>{{index+1}}</td>
                     <td v-if="typepage==='invoice'">{{val.doc_date}}</td>
                     <td v-if="typepage==='invoice'">{{val.doc_no}}</td>
-                    <td v-if="typepage==='invoice'">{{val.SaleName}}</td>
-                    <td v-if="typepage==='invoice'">{{val.TotalAmount}}</td>
+                    <td v-if="typepage==='invoice'">{{val.sale_name}}</td>
+                    <td v-if="typepage==='invoice'">{{val.total_amount}}</td>
 
                     <td v-if="typepage==='quotation'">{{val.DocDate}}</td>
                     <td v-if="typepage==='quotation'">{{val.DocNo}}</td>

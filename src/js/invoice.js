@@ -23,7 +23,7 @@ import * as lang from "vuejs-datepicker/src/locale";
 import api from "../service/service.js"
 import VueStripePayment from "vue-stripe-payment";
 import { ModelSelect } from "vue-search-select";
-
+import searchhiscustomer from '@/components/ui/searchhiscustomer';
 import searchItem from '@/components/ui/searchItem'
 import itemtable from '@/components/ui/tableitem'
 import VueQRCodeComponent from 'vue-qrcode-component'
@@ -36,6 +36,7 @@ export default {
     name: "Invoice",
     components: {
         Datepicker,
+        searchhiscustomer,
         VueCtkDateTimePicker,
         itemtable,
         Loading,
@@ -47,8 +48,10 @@ export default {
     data() {
         return {
             msg: "",
+            typepage: "invoice",
             selectedDate: null,
             date: "",
+            searchhiscustomer: [],
             search: [],
             search: '', searchSO: "",
             uuid: "",
@@ -932,7 +935,7 @@ export default {
                 }
 
                 // console.log(this.datenow_datepicker)
-                // console.log(this.docnoid)
+                 console.log(this.ar_bill_address)
                 let payload = {
                     // id: parseInt(this.docnoid),// 0 แก้ไข,update ตามไอดี
                     // uuid: this.uuid,//
@@ -940,8 +943,8 @@ export default {
                     // doc_no: this.docno,//
                     // //norecord
                     // tax_type:this.taxtype,
-                    // // ar_bill_address: this.ar_bill_address,
-                    // // ar_telephone: this.ar_telephone,
+                    // ar_bill_address: this.ar_bill_address,
+                    // ar_telephone: this.ar_telephone,
                     // datenow_datepicker: this.datenow_datepicker,
                     // dif_fee: this.dif_fee,
                     // //norecord
@@ -986,15 +989,14 @@ export default {
                     doc_no: this.docno,
                     tax_no: this.docno,
                     bill_type: parseInt(this.billtype),
-
+                    ar_bill_address: this.ar_bill_address,
+                    ar_telephone: this.ar_telephone,
                     ar_id: this.idcus,
                     ar_code: this.searchcus,
                     ar_name: this.detailcus,
                     sale_id: this.sale_id,
-                    sale_code,
+                    sale_code: sale_code,
                     sale_name: sale_name.trim(),
-                    // ar_bill_address: this.customerAddress,
-                    // ar_telephone: this.customerPhone,
 
                     tax_type: tax_type,
                     tax_rate: 7,
@@ -1002,7 +1004,13 @@ export default {
                     depart_id: "0",
                     allocate_id: 0,
                     credit_day: 0,//this.customerCreditDay,
+                    //credit_day: this.bill_credit,
                     due_date: this.convermonth_y_m_d(this.DueDate_cal),
+                    validity: parseInt(this.validity),
+                    expire_credit: parseInt(this.expire_date),
+                    expire_date: this.convermonth_y_m_d(this.expiredate_cal),
+                    delivery_day: parseInt(this.Deliver_date),
+                    delivery_date: this.convermonth_y_m_d(this.DueDate_date),
                     is_cancel: 0,
                     so_ref_no: '',
 
@@ -1014,7 +1022,7 @@ export default {
                     coupon_amount: this.caldiscount,
                     my_description: this.my_description,
                     sum_of_item_amount: this.totalprice,
-
+                    cal_tax: this.dif_fee,
 
                     discount_word: this.caldiscount + percent,
                     discount_amount: parseInt(discount_amount),
@@ -1035,7 +1043,13 @@ export default {
                 }
 
                 console.log(payload.subs.length)
+                document.getElementsByName('invoice')[0].value = JSON.stringify(
+                  payload
+                )
 
+                document.getElementsByName('invoice')[1].value = JSON.stringify(
+                  payload
+                )
                 console.log(JSON.stringify(payload))
                 api.saveInvoice(payload,
                     (result) => {
@@ -1297,7 +1311,7 @@ export default {
         //             alertify.success('สินค้า ' + val.item_name + 'อยู่ในรายการแล้ว');
 
         //             i+=1
-        //             return  
+        //             return
 
         //         }
 

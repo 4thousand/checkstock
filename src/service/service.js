@@ -313,6 +313,16 @@ export default {
         error(response)
       })
   },
+  searchSetByKeyword(payload, success, error) { //boss add
+    payload.keyword = payload.keyword.replace(" ", "%")
+    Vue.axios.post(URL + 'settingconfig/v1/config/search/keyword', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
+  },
   searchReserveByKeyword(payload, success, error) {
     payload.keyword = payload.keyword.replace(" ", "%")
     Vue.axios.post(URL + 'sales/v1/dep/reserve/search', JSON.stringify(payload)).then(

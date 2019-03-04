@@ -160,7 +160,7 @@
                           <td v-if="typepage==='invoice'">{{val.qty}}</td>
                           <td v-if="typepage==='invoice'">{{val.unit_code}}</td>
                           <td v-if="typepage==='invoice'">{{val.price}}</td>
-                          <td v-if="typepage==='invoice'">{{val.discount_word}}</td>
+                          <td v-if="typepage==='invoice'">{{val.discount_word_sub}}</td>
 
                           <td v-if="typepage==='quotation'">{{val.DocDate}}</td>
                           <td v-if="typepage==='quotation'">{{val.DocNo}}</td>

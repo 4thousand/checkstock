@@ -41,7 +41,7 @@
                   >
                     <!-- <md-button style="position: relative;top: 50%;transform: translateY(-50%);" class="md-raised md-primary"><span>ค้นหา</span> </md-button> -->
                   </div>
-                  
+
                   <div class="md-layout-item md-size-20 md-small-size-100">
                     <span class="md-title sub">เลขที่ใบเสนอราคา</span>
                     <md-field>
@@ -179,6 +179,12 @@
                       <md-input disabled v-model="detailcus"></md-input>
                     </md-field>
                   </div>
+                  <searchhiscustomer
+                    :product="dproducts"
+                    :typepage="typepage"
+                    :searchcus="searchcus"
+                  >
+                  </searchhiscustomer>
                 </div>
                 <!-- table -->
                 <div class="md-layout md-gutter">
@@ -236,7 +242,7 @@
                       </md-card-actions>
                       <itemtable :searched="searched" :removeitemtable="removeitemtable" :product="dproducts" :typepage="typepage" :searchcus="detailcus"></itemtable>
                     </div>
-                  </md-card> 
+                  </md-card>
                 </div>
                 <!-- table  -->
                 <div style="margin-top:15px" class="md-layout md-gutter">
@@ -1008,7 +1014,7 @@
       <div>
         <md-dialog :md-active.sync="confirmDialog">
           <md-dialog-title>เลือกลูกค้า</md-dialog-title>
-          <span>ยืนยันการทำใบเสนอราคา</span>
+            <span>ยืนยันการตั้งค่า</span>
           <md-button @click="setDone('second', 'third'),confirmDialog=false">ยืนยัน</md-button>
         </md-dialog>
       </div>

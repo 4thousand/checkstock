@@ -177,6 +177,11 @@
                       <md-input disabled v-model="detailcus"></md-input>
                     </md-field>
                   </div>
+                  <searchhiscustomer
+                    :product="dproducts"
+                    :typepage="typepage"
+                    :searchcus="searchcus"
+                    ></searchhiscustomer>
                 </div>
                 <!-- table -->
                 <div class="md-layout md-gutter">
@@ -1880,11 +1885,11 @@
               <!-- testprint -->
               <form
                 id="tax_report"
-                :action="php + '/report_pdf/report_quotation.php'"
+                :action="php + '/report_pdf/report_invoice_credis.php'"
                 method="post"
                 target="_blank"
               >
-                <input type="hidden" name="dataquotation">
+                <input type="hidden" name="invoice">
                 <md-button
                   type="submit"
                   style="float: right; position: relative; top: -37px;"
@@ -1897,7 +1902,7 @@
                 method="post"
                 target="_blank"
               >
-                <input type="hidden" name="dataquotation">
+                <input type="hidden" name="invoice">
                 <md-button
                   type="submit"
                   style="float: right; position: relative; top: -37px;right: 10px;"
