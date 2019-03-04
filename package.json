@@ -18,6 +18,7 @@
     "jquery": "^3.3.1",
     "jspdf": "^1.4.1",
     "jspdf-customfonts": "0.0.4-rc.4",
+    "long": "^4.0.0",
     "toastr": "^2.1.4",
     "v-hotkey": "^0.2.3",
     "v-money": "^0.8.1",

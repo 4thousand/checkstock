@@ -444,8 +444,6 @@ export default {
             return;
           }
         }
-      }
-
       if (val.discount_word == "") {
         val.item_amount = eachPriceNoDiscount * val.qty;
         return eachPriceNoDiscount;

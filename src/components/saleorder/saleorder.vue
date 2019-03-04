@@ -197,7 +197,7 @@
                     <div class="tables">
                       <md-card-actions style="width=100%">
                         <md-button style="width:10%">รหัสสินค้า</md-button>
-                        <md-button style="width:25%">ชื่อสินค้า</md-button>
+                        <md-button style="width:20%">ชื่อสินค้า</md-button>
                         <md-button style="width:5%">คลังสินค้า</md-button>
                         <md-button style="width:5%">หน่วยนับ</md-button>
                         <md-button style="width:5%">จำนวน</md-button>
@@ -210,12 +210,7 @@
                     </div>
                   </md-card>
                   <md-card class="md-layout-item md-size-100 md-small-size-100 tablesale">
-                    <itemtable
-                      :searched="searched"
-                      :removeitemtable="removeitemtable"
-                      :typepage="typepage"
-                      :permission="permission"
-                    ></itemtable>
+                    <itemtable :searched="searched" :removeitemtable="removeitemtable" :product="dproducts" :typepage="typepage" :searchcus="detailcus" :permission="permission"></itemtable>
                   </md-card>
                 </div>
                 <!-- table  -->
@@ -367,9 +362,20 @@
               </md-card-content>
 
               <md-button
+                v-if="docnoid==0"
                 style="float:right;"
                 @click="setDone('first', 'second')"
                 class="md-raised md-primary"
+                :disabled="(tablecode==''||billtype==''||taxtype==''||idcus==''||dproducts.length<=0)&&docnoid<=0"
+              >
+                <span>ถัดไป</span>
+              </md-button>
+              <md-button
+                v-if="docnoid>0"
+                style="float:right;"
+                @click="setDone('first', 'second')"
+                class="md-raised md-primary"
+                :disabled="(dproducts.length<=0)"
               >
                 <span>ถัดไป</span>
               </md-button>

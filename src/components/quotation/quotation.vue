@@ -232,7 +232,7 @@
                     <div class="tables">
                       <md-card-actions style="width=100%">
                         <md-button style="width:10%">รหัสสินค้า</md-button>
-                        <md-button style="width:25%">ชื่อสินค้า</md-button>
+                        <md-button style="width:20%">ชื่อสินค้า</md-button>
                         <md-button style="width:5%">หน่วยนับ</md-button>
                         <md-button style="width:5%">จำนวน</md-button>
                         <md-button style="width:5%">ราคา/หน่วย</md-button>
@@ -379,10 +379,20 @@
               </md-card-content>
 
               <md-button
+                v-if="docnoid==0"
                 style="float:right;"
                 @click="setDone('first', 'second')"
                 class="md-raised md-primary"
-                :disabled="tablecode==''||billtype==''||taxtype==''||idcus==''||dproducts.length<=0"
+                :disabled="(tablecode==''||billtype==''||taxtype==''||idcus==''||dproducts.length<=0)&&docnoid<=0"
+              >
+                <span>ถัดไป</span>
+              </md-button>
+              <md-button
+                v-if="docnoid>0"
+                style="float:right;"
+                @click="setDone('first', 'second')"
+                class="md-raised md-primary"
+                :disabled="(dproducts.length<=0)"
               >
                 <span>ถัดไป</span>
               </md-button>

@@ -144,9 +144,7 @@
                   >
                     <span class="md-title sub">วันที่ออก</span>
                     <div style="position:relative;height:100%;">
-                      <md-icon
-                        style="float:left;position:relative;top:28px;margin-right:5px;"
-                      >calendar_today</md-icon>
+                     
                       <datepicker
                         v-model="datenow_datepicker"
                         input-class="form-control tc"

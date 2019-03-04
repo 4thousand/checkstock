@@ -15,6 +15,7 @@ const toLower = text => {
   import * as lang from "vuejs-datepicker/src/locale";
   import api from "../service/service.js";
   import itemtable from '@/components/ui/tableitem';
+  import searchhiscustomer from '@/components/ui/searchhiscustomer';
   import JQuery from 'jquery'
   let $ = JQuery
 
@@ -23,6 +24,7 @@ const toLower = text => {
     components: {
       Datepicker,
       itemtable,
+      searchhiscustomer,
       Loading
     },
     data: () => ({
@@ -129,7 +131,7 @@ const toLower = text => {
       cus_tel:'',
       qtkeyword:'',
       collectQT:[],
-      permission: JSON.parse(localStorage.Datauser).menu[1]
+      permission: JSON.parse(localStorage.Datauser).menu
     }),
 
     methods: {
