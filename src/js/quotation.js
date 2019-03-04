@@ -111,8 +111,7 @@ export default {
     stockall: [],
     isLoading: false,
     fullPage: true,
-    permission: JSON.parse(localStorage.Datauser).menu
-    //itemtable: [],
+    permission: JSON.parse(localStorage.Datauser).menu[0]
   }),
   methods: {
     removeitemtable(index) {
@@ -356,14 +355,6 @@ export default {
           var sale_code = res[0]
           var sale_name = res[1]
         }
-
-        // if (this.taxtype == 'ภาษีแยกนอก') {
-        //   tax_type = 0
-        // } else if (this.taxtype == 'ภาษีรวมใน') {
-        //   tax_type = 1
-        // } else if (this.taxtype == 'ภาษีอัตราศูนย์') {
-        //   tax_type = 2
-        // }
 
         if (this.percal) {
           percent = '%'
@@ -698,12 +689,6 @@ export default {
       }
 
       if (this.dproducts.length > 0) {
-
-        // var test;
-        // for (let x = 0; x < this.dproducts.length; x++) {
-        //   test +=  this.dproducts[x].bar_code
-        // }
-        // console.log(test)
       }
 
       this.disablebilltype = true
@@ -758,6 +743,8 @@ export default {
           is_cancel: 0
         }
         this.dproducts.push(datashow)
+        console.log(JSON.stringify(this.dproducts))
+        console.log(JSON.stringify(this.dproducts.length))
         //close modal
         this.showDialogproduct = false
         alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
@@ -783,6 +770,8 @@ export default {
         //close modal
         this.showDialogproduct = false
         alertify.success('เพิ่มข้อมูลสินค้า ' + val.item_name);
+        console.log(JSON.stringify(this.dproducts))
+        console.log(JSON.stringify(this.dproducts.length))
       }
       this.keywordproduct = ''
 
@@ -904,7 +893,6 @@ export default {
         return
       }
       // alert('แก้ไข')
-      // แก้ไข
       let payload = {
         id: parseInt(this.docnoid)
       }
@@ -993,8 +981,6 @@ export default {
 
     },
     convertmonth_preview(val) {
-      // console.log(val)
-      // console.log(val.length)
       if (val.length === undefined) {
         var today = new Date();
         var dd = today.getDate();
@@ -1038,14 +1024,6 @@ export default {
     findstock(val, index) {
 
       console.log(index)
-      // console.log(this.stockall.length)
-      // for (let i = 0; i < this.stockall.length ; i++) {
-      //   if(index != i){
-      //     console.log(index+':'+i)
-      //   document.getElementsByClassName('hover'+i)[i].style.display = 'none';
-      //   document.getElementsByClassName('hover'+i)[i].style.height = '0px';
-      //  }
-      // }
 
       for (let i = 0; i < this.stockall.length; i++) {
         document.getElementsByClassName('hover' + index)[i].style.visibility = 'visible';
@@ -1104,19 +1082,14 @@ export default {
         cancel_by: JSON.parse(localStorage.Datauser).username
       }
       console.log(JSON.stringify(payload))
-      // this.isLoading = true;
       api.cancelQuotation(payload,
         (result) => {
           alertify.success('cancel เอกสารแล้ว');
-          // setTimeout(() => {
-          //   this.isLoading = false
-          // },50000000)
         },
         (error) => {
           console.log(JSON.stringify(error))
           alertify.error('Data ข้อมูล ผิดพลาด');
         })
-        // this.isLoading = false
         location.reload()
     },
     callQTtoSO(){
@@ -1210,9 +1183,6 @@ export default {
   },
   mounted() {
     this.docnoid = this.$route.params.id
-    // if (this.docnoid == 0) {
-    //   // location.reload()
-    // }
     console.log(JSON.stringify(JSON.parse(localStorage.Datauser)))
     console.log(JSON.stringify(this.searched))
     console.log(JSON.stringify(this.permission))

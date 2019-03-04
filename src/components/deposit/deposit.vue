@@ -177,21 +177,6 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="row">
-                    <div class="col-md-12 col-12">
-                      <div class="form-group row">
-                        <p class="article-set col-md-3 col-12">โครงการ :</p>
-                        <div class="col-md-8 col-12">
-                          <select v-model="project" class="form-control">
-                            <option value="1">ม.ราชภัฎเชียงมใหม่ สะลวง-ขี้เหล็ก</option>
-                            <option value="2">มาสด้า มหิดล</option>
-                            <option value="3">อาคารพาณิชย์ซอยร้องขุ่นแยกหลุยส์</option>
-                            <option value="4">มบ.กาญจน์สิริหลังม.พายัพ</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  </div>-->
                   <div class="row">
                     <div class="col-md-12 col-12">
                       <div class="form-group row">

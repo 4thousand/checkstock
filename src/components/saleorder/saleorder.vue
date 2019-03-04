@@ -38,16 +38,12 @@
                       >
                         <md-option value="RO">ใบสั่งจอง</md-option>
                         <md-option value="SO">ใบสั่งขาย</md-option>
-                        <!-- <md-option value="BO">BackOrder</md-option> -->
                       </md-select>
                     </md-field>
                   </div>
                   <div :class="attention" class="md-layout-item md-size-25 md-small-size-100">
-                    <!-- :class="disablebilltype+'0'" -->
                     <span ref="focustype" class="md-title sub">ประเภทเสนอราคา</span>
-                    <!-- v-show="disablebilltype"   -->
                     <md-field>
-                      <!-- :disabled="disablebilltype" -->
                       <md-select
                         @input="mockDocNo(),changePriceType()"
                         v-model="billtype"
@@ -61,8 +57,6 @@
                       </md-select>
                     </md-field>
                   </div>
-                  <!-- <div class="md-layout-item md-size-5 md-xsmall-size-100">
-                  </div>-->
                   <div
                     id="notop_mobile"
                     style="position: relative; top: 25px;"
@@ -85,7 +79,7 @@
                         v-model="taxtype"
                         id="country"
                         placeholder="ประเภทภาษี"
-                        :disabled="permission[1].is_edit==1"
+                        :disabled="permission.is_update==1"
                       >
                         <md-option value="0">ภาษีแยกนอก</md-option>
                         <md-option value="1">ภาษีรวมใน</md-option>
@@ -220,6 +214,7 @@
                       :searched="searched"
                       :removeitemtable="removeitemtable"
                       :typepage="typepage"
+                      :permission="permission"
                     ></itemtable>
                   </md-card>
                 </div>
@@ -416,9 +411,6 @@
                               <md-icon style="color:white;">keyboard</md-icon>รหัสพนักงาน หรือ ชื่อพนักงาน + Enter
                             </md-tooltip>
                           </md-avatar>
-                          <!-- <md-button style="min-width: 50px;" class="buttonemp" @click="focussearchcus">
-                            <md-icon>clear</md-icon>
-                          </md-button>-->
                         </div>
                         <div class="md-layout-item md-size-50 md-small-size-100">
                           <md-field>
@@ -721,7 +713,6 @@
                             />
                           </md-field>
                         </div>
-                        <!--  -->
                       </div>
                     </md-card-content>
                     <md-card-actions></md-card-actions>
@@ -1135,7 +1126,6 @@
                 <table class="table table-hover">
                   <thead align="center">
                     <tr>
-                      <!--                                <th style=''>client_id</th>-->
                       <th>ลำดับ</th>
                       <th id="colorselectorder">รหัสลูกค้า</th>
                       <th id="colorselectgroup">ชื่อลูกค้า</th>
@@ -1162,12 +1152,10 @@
 
           <md-dialog-actions>
             <md-button class="md-primary" @click="showDialogcus = false">Close</md-button>
-            <!-- <md-button class="md-primary" @click="showDialogcus = false">Save</md-button> -->
           </md-dialog-actions>
         </md-dialog>
       </div>
       <!-- showDialogcus -->
-      <!-- -->
       <div>
         <md-dialog :md-active.sync="showDialogproduct">
           <md-dialog-title>ค้นหาสินค้า</md-dialog-title>
@@ -1185,7 +1173,6 @@
                 <table class="table table-hover">
                   <thead align="center">
                     <tr>
-                      <!--<th style=''>client_id</th>-->
                       <th style="white-space: nowrap;">ลำดับ</th>
                       <th style="white-space: nowrap;">รูป</th>
                       <th style="overflow:auto;white-space: nowrap;">รหัสสินค้า</th>
@@ -1254,11 +1241,9 @@
 
           <md-dialog-actions>
             <md-button class="md-primary" @click="showDialogproduct = false">Close</md-button>
-            <!-- <md-button class="md-primary" @click="showDialogcus = false">Save</md-button> -->
           </md-dialog-actions>
         </md-dialog>
       </div>
-      <!-- -->
       <!-- search sale-->
       <div>
         <md-dialog :md-active.sync="searchsale">

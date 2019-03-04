@@ -57,6 +57,7 @@
             v-show="isDiscountSelected==false"
             @click="isDiscountSelected=true"
             v-if="typepage!='invoice'"
+            :disabled="permission.is_update==0"
           >{{val.discount_word}}</md-button>
           <input
             style="width:5%"
@@ -279,13 +280,13 @@ import { Money } from "v-money";
 export default {
   name: "itemtable",
   props: {
-    // removeitemtable: Function,
     parentData: [],
     stringProp: [],
     searched: Array,
     product: Array,
     typepage: "",
-    searchcus: ""
+    searchcus: "",
+    permission:""
   },
   data() {
     return {
@@ -310,28 +311,6 @@ export default {
         wh_code: ""
       };
       this.changeqty = true;
-      // let payload = {
-      //   item_code: val.item_code
-      // };
-      // var data = new Array();
-      // data = [];
-      // // console.log(payload)
-      // api.searchunitcode(
-      //   payload,
-      //   result => {
-      //     console.log(result.data[0].stk_location);
-      //     result.data[0].stk_location.forEach(item => {
-      //       item.id = index;
-      //       data.push(item);
-      //     });
-
-      //     this.edit_wh = data;
-      //   },
-      //   error => {
-      //     console.log(JSON.stringify(error));
-      //     alertify.error("Data ข้อมูล Unit code ผิดพลาด");
-      //   }
-      // );
     },
     select_wh(val, index) {
       var items = {
@@ -448,28 +427,22 @@ export default {
       val.qty = parseInt(val.qty);
       console.log(val);
       let eachPriceNoDiscount = val.price;
-      for (let i = 0; i < val.discount_word.length; i++) {
-        if (val.discount_word[i] == "%" || val.discount_word[i] == ",") {
-          val.item_amount = this.calDiscountEachPrice(
-            eachPriceNoDiscount,
-            val.discount_word
-          );
-          // val.discount_amount=parseInt((eachPriceNoDiscount*val.qty)-val.item_amount);
-          // console.log(JSON.stringify(eachPriceNoDiscount));
-          // console.log(JSON.stringify(val.item_amount));
-          // console.log(JSON.stringify(val.discount_amount));
-          // return;
-          console.log(JSON.stringify(val.item_amount));
-          val.item_amount = parseFloat(val.item_amount * val.qty);
-          val.item_amount = parseFloat(val.item_amount.toFixed(2));
-          console.log(JSON.stringify(val.item_amount));
-          val.discount_amount = parseFloat(
-            eachPriceNoDiscount * val.qty - val.item_amount
-          );
-          val.discount_amount = parseFloat(val.discount_amount.toFixed(2));
-          console.log(JSON.stringify("ส่วนลด" + val.discount_amount));
-          console.log(JSON.stringify(eachPriceNoDiscount));
-          return;
+        for (let i = 0; i < val.discount_word.length; i++) {
+          if (val.discount_word[i] == "%" || val.discount_word[i] == ",") {
+            val.item_amount = this.calDiscountEachPrice(
+              eachPriceNoDiscount,
+              val.discount_word
+            );
+            console.log(JSON.stringify(val.item_amount));
+            val.item_amount=parseFloat(val.item_amount*val.qty);
+            val.item_amount=parseFloat(val.item_amount.toFixed(2));
+            console.log(JSON.stringify(val.item_amount));
+            val.discount_amount=parseFloat((eachPriceNoDiscount*val.qty)-val.item_amount);
+            val.discount_amount=parseFloat(val.discount_amount.toFixed(2));
+            console.log(JSON.stringify("ส่วนลด"+val.discount_amount));
+            console.log(JSON.stringify(eachPriceNoDiscount));
+            return;
+          }
         }
       }
 

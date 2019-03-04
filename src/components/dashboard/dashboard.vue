@@ -7,56 +7,6 @@
           <div class="col-md-12 col-12">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">ยอดขาย</h4>
-                <p class="card-text">เปรียบเทียบยอดขายสินค้ารายปี</p>
-                <div id="wrapper">
-                  <div id="chart-line">
-                    <apexchart
-                      type="line"
-                      height="160"
-                      :options="chartOptionsLine1"
-                      :series="series1"
-                    />
-                  </div>
-
-                  <div id="chart-line2">
-                    <apexchart
-                      type="line"
-                      height="160"
-                      :options="chartOptionsLine2"
-                      :series="series2"
-                    />
-                  </div>
-
-                  <div id="chart-area">
-                    <apexchart
-                      type="area"
-                      height="160"
-                      :options="chartOptionsArea"
-                      :series="series3"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-12 col-12">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">ยอดขาย</h4>
-                <p class="card-text">Some example text.</p>
-                <div>
-                  <apexchart type="radialBar" height="250" :options="chartOptions" :series="sere"/>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-4 col-lg-12 col-md-12 col-12">
-          <div class="col-md-12 col-12">
-            <div class="card">
-              <div class="card-body">
                 <h4 class="card-title">รายการ Backlog</h4>
                 <div v-for="(val, index) in dataall" :key="index">
                   <div
@@ -112,14 +62,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-12">
-                            <!-- <div @click="val.total_amount = !val.total_amount" v-show="val.total_amount" style="float:right;" class=" starhover">
-                                <md-icon>star_border</md-icon>
-                              </div>
-                              <div class="starhover" @click="val.total_amount = !val.total_amount" v-show="val.total_amount == false" style="float:right;color:red;">
-                                <md-icon>star</md-icon>
-                            </div>-->
-                          </div>
+                          <div class="col-12"></div>
                         </div>
                       </div>
                     </md-toolbar>
@@ -129,30 +72,57 @@
             </div>
           </div>
         </div>
+        <div class="col-xl-4 col-lg-12 col-md-12 col-12">
+          <div class="col-md-12 col-12">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">ยอดขาย</h4>
+                <p class="card-text">เปรียบเทียบยอดขายสินค้ารายปี</p>
+                <div id="wrapper">
+                  <div id="chart-line">
+                    <apexchart
+                      type="line"
+                      height="160"
+                      :options="chartOptionsLine1"
+                      :series="series1"
+                    />
+                  </div>
+
+                  <div id="chart-line2">
+                    <apexchart
+                      type="line"
+                      height="160"
+                      :options="chartOptionsLine2"
+                      :series="series2"
+                    />
+                  </div>
+
+                  <div id="chart-area">
+                    <apexchart
+                      type="area"
+                      height="160"
+                      :options="chartOptionsArea"
+                      :series="series3"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 col-12">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">ยอดขาย</h4>
+                <p class="card-text">Some example text.</p>
+                <div>
+                  <apexchart type="radialBar" height="250" :options="chartOptions" :series="sere"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <!-- ข้อมูลใบเสนอราคา -->
     </div>
-    <md-speed-dial class="md-bottom-right">
-      <md-speed-dial-target>
-        <md-icon>add</md-icon>
-      </md-speed-dial-target>
-
-      <md-speed-dial-content>
-        <md-button class="md-icon-button">
-          <md-icon>folder</md-icon>
-        </md-button>
-        <md-button class="md-icon-button">
-          <md-icon>folder</md-icon>
-        </md-button>
-        <md-button class="md-icon-button">
-          <md-icon>event</md-icon>
-        </md-button>
-
-        <md-button class="md-icon-button">
-          <md-icon>note</md-icon>
-        </md-button>
-      </md-speed-dial-content>
-    </md-speed-dial>
   </div>
 </template>
 <script>

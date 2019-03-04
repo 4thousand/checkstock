@@ -63,8 +63,6 @@ export default {
         (error) => {
           console.log(JSON.stringify(error))
           alertify.error('Data ข้อมูลผิดพลาด');
-          //  alertify.success('Error login');
-          // this.cload()
         })
     },
   },
