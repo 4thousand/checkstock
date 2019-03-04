@@ -118,11 +118,11 @@
     <md-speed-dial class="md-bottom-right">
       <md-speed-dial-target
         @click="goindex()"
-        v-shortkey="['ctrl', 'shift', 'f']"
+        v-shortkey="['ctrl', 'alt', 'n']"
         @shortkey="goindex()"
       >
         <md-tooltip md-direction="top">
-          <md-icon style="color:white;">keyboard</md-icon>คีย์ลัด ctrl + Shift + f เพื่อสร้างหน้าไหม่
+          <md-icon style="color:white;">keyboard</md-icon>คีย์ลัด ctrl + alt + n เพื่อสร้างหน้าไหม่
         </md-tooltip>
         <md-icon>add</md-icon>
       </md-speed-dial-target>
@@ -241,6 +241,7 @@ export default {
       api.searchinvoicelist(
         payload,
         result => {
+          console.log(result);
           for (var i = 0; i < result.data.length; i++) {
             this.dataall.push(result.data[i]);
           }

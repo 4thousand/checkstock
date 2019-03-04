@@ -222,8 +222,8 @@ export default {
                   discount_word: "0",
                   discount_amount_sub: 0,
                   discount_amount: 0,
-                  item_amount: val.sale_price_1 * 1,
-                  amount: val.sale_price_1 * 1,
+                  item_amount: result.data[0].sale_price_1 * 1,
+                  amount: result.data[0].sale_price_1 * 1,
                   item_description: "",
                   packing_rate_1: parseInt(result.data[0].rate_1),
                   is_cancel: 0

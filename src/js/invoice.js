@@ -23,7 +23,7 @@ import * as lang from "vuejs-datepicker/src/locale";
 import api from "../service/service.js"
 import VueStripePayment from "vue-stripe-payment";
 import { ModelSelect } from "vue-search-select";
-
+Vue.use(require("vue-shortkey"));
 import searchItem from '@/components/ui/searchItem'
 import itemtable from '@/components/ui/tableitem'
 import VueQRCodeComponent from 'vue-qrcode-component'
@@ -80,6 +80,7 @@ export default {
             dataproductItem: [],
             disablebilltype: false,
             datenow_datepicker: Date.now(),
+
             attention: '',
             percal: false, //true == % , false == บาท
             caldiscount: 0,
@@ -124,7 +125,7 @@ export default {
             unitcode_obj: [],
             thisunticode: [],
             stockobj: [],
-            taxrate: setting.data().setting_taxRate,
+            taxrate: 7,
             namestock: '',
             stockall: [],
             isLoading: false,
@@ -178,6 +179,13 @@ export default {
             confirm: false,
             is_cancelbill: 0,
             is_confirmbill: 0,
+            listpayment: {
+                total_itemprice: 0,
+                discount_word: "0",
+                discount_amount:    "",
+                dif_fee: 0,
+                total_price: 0,
+            },
             active: "first",
             prompaly: {
                 id: 0, phone: "",
@@ -212,6 +220,89 @@ export default {
         }
     },
     methods: {
+        calEachPriceinvoice(val) {
+
+            var discount_amount = val.discount_amount;
+            let eachPriceNoDiscount = this.totalprice;
+
+            console.log(val);
+            for (let i = 0; i < this.listpayment.discount_word.length; i++) {
+                if (
+                    val.discount_word[i] == "%" ||
+                    val.discount_word[i] == ","
+                ) {
+                    val.amount = this.calDiscountEachPrice(
+                        eachPriceNoDiscount,
+                        val.discount_word
+                    );
+                    console.log(eachPriceNoDiscount);
+                    val.discount_amount = eachPriceNoDiscount - val.amount;
+
+                    return;
+                }
+            }
+            console.log(JSON.stringify(eachPriceNoDiscount));
+
+            if (val.discount_word_sub == "") {
+                val.amount = eachPriceNoDiscount;
+                return eachPriceNoDiscount;
+            } else {
+                val.discount_amount = parseInt(val.discount_word);
+                val.amount = eachPriceNoDiscount - parseInt(val.discount_word);
+                return;
+            }
+        },
+        calDiscountEachPrice(eachPrice, discount_word) {
+            //let discountCaled
+            console.log("test");
+            let percentDiscount;
+            let discountedPrice;
+            let bahtDiscount;
+            let discountArray;
+            let mixDiscount;
+            let mixPrice = eachPrice;
+            //
+            if (discount_word.includes(",") == false) {
+                for (let i = 0; i < discount_word.length; i++) {
+                    if (discount_word[i] == "%") {
+                        console.log(JSON.stringify(discount_word));
+                        console.log(JSON.stringify(discount_word.replace("%", "")));
+                        let floatPercent = parseFloat(discount_word.replace("%", ""));
+                        percentDiscount = parseFloat(parseFloat(floatPercent / 100.0));
+                        console.log(JSON.stringify(percentDiscount));
+                        discountedPrice = eachPrice - eachPrice * percentDiscount;
+                        console.log(JSON.stringify(discountedPrice));
+                        return parseFloat(discountedPrice);
+                    }
+                }
+            }
+            if (discount_word.includes(",") == true) {
+                discountArray = discount_word.split(",");
+                console.log(JSON.stringify(discountArray));
+                for (let i = 0; i < discountArray.length; i++) {
+                    let pToken = [];
+
+                    for (let j = 0; j < discountArray[i].length; j++) {
+                        console.log(JSON.stringify(discountArray[i]));
+                        let str = discountArray[i];
+                        console.log(JSON.stringify(str[j]));
+                        if (str[j] == "%") {
+                            mixDiscount = parseFloat(str.replace("%", "")) / 100.0;
+                            console.log(JSON.stringify(mixDiscount));
+                            mixPrice = mixPrice - mixPrice * mixDiscount;
+                            console.log(JSON.stringify(mixPrice));
+                            pToken[i] = 1;
+                        }
+                    }
+                    if (pToken[i] != 1) {
+                        mixDiscount = parseFloat(discountArray[i]);
+                        mixPrice = mixPrice - mixDiscount;
+                        console.log(JSON.stringify(mixPrice));
+                    }
+                }
+                return parseFloat(mixPrice);
+            }
+        },
         theAction(event) {
             console.log(event)
             switch (event.srcKey) {
@@ -393,7 +484,8 @@ export default {
                         this.salecode = result.data.sale_code.trim() + ' / ' + result.data.sale_name
                         this.validity = result.data.validity
                         this.expire_date = result.data.expire_credit
-                        this.caldiscount = result.data.discount_amount
+                        this.listpayment.discount_amount = result.data.discount_amount;
+                        this.listpayment.discount_word = result.data.discount_word;
                         // console.log(this.expire_date)
                         this.answer_cus = result.data.assert_status
                         this.Deliver_date = result.data.delivery_day
@@ -466,52 +558,52 @@ export default {
                                 payload,
                                 results => {
 
-                              
-                            //#endregion
-                            data = {
-                                item_id: datasubs[x].id,
-                                item_code: datasubs[x].item_code,
-                                bar_code: datasubs[x].bar_code,
-                                item_name: datasubs[x].item_name,
-                                unit_code: datasubs[x].unit_code,
-                                qty: datasubs[x].qty,
-                                location: datasubs[x].wh_code,
-                                wh_id: datasubs[x].wh_id,
-                                price: datasubs[x].price,
-                                discount_word_sub: datasubs[x].discount_word,
-                                discount_amount_sub: datasubs[x].discount_amount,
-                                amount: datasubs[x].item_amount,
-                                item_description: datasubs[x].item_description,
-                                packing_rate_1: datasubs[x].packing_rate_1,
-                                warehouse: datasubs[x].warehouse,
-                                is_cancel: datasubs[x].is_cancel
-                            }
-                            if (data.location == "" || data.location == undefined) {
-                                if (data.wh_id == 1) {
-                                    data.location = "S1-A"
-                                    data.wh_code = "S1-A"
-                                } else if (data.wh_id == 2) {
-                                    data.location = "S1-B"
-                                    data.wh_code = "S1-b"
-                                } else if (data.wh_id == 3) {
-                                    data.location = "S2-A"
-                                    data.wh_code = "S2-A"
-                                } else if (data.wh_id == 4) {
-                                    data.location = "S2-B"
-                                    data.wh_code = "S2-B"
-                                } else {
 
-                                    data.location = results.data[0].stk_location[0].wh_code;
-                                    data.wh_code = results.data[0].stk_location[0].wh_code;
-                                    data.wh_id = results.data[0].stk_location[0].wh_id;
+                                    //#endregion
+                                    data = {
+                                        item_id: datasubs[x].id,
+                                        item_code: datasubs[x].item_code,
+                                        bar_code: datasubs[x].bar_code,
+                                        item_name: datasubs[x].item_name,
+                                        unit_code: datasubs[x].unit_code,
+                                        qty: datasubs[x].qty,
+                                        location: datasubs[x].wh_code,
+                                        wh_id: datasubs[x].wh_id,
+                                        price: datasubs[x].price,
+                                        discount_word_sub: datasubs[x].discount_word,
+                                        discount_amount_sub: datasubs[x].discount_amount,
+                                        amount: datasubs[x].item_amount,
+                                        item_description: datasubs[x].item_description,
+                                        packing_rate_1: datasubs[x].packing_rate_1,
+                                        warehouse: datasubs[x].warehouse,
+                                        is_cancel: datasubs[x].is_cancel
+                                    }
+                                    if (data.location == "" || data.location == undefined) {
+                                        if (data.wh_id == 1) {
+                                            data.location = "S1-A"
+                                            data.wh_code = "S1-A"
+                                        } else if (data.wh_id == 2) {
+                                            data.location = "S1-B"
+                                            data.wh_code = "S1-b"
+                                        } else if (data.wh_id == 3) {
+                                            data.location = "S2-A"
+                                            data.wh_code = "S2-A"
+                                        } else if (data.wh_id == 4) {
+                                            data.location = "S2-B"
+                                            data.wh_code = "S2-B"
+                                        } else {
 
-                                }
-                                console.log(data)
-                            }
-                            console.log(datas)
-                            this.dproducts.push(data);
-                            console.log(data)
-                        });
+                                            data.location = results.data[0].stk_location[0].wh_code;
+                                            data.wh_code = results.data[0].stk_location[0].wh_code;
+                                            data.wh_id = results.data[0].stk_location[0].wh_id;
+
+                                        }
+                                        console.log(data)
+                                    }
+
+                                    this.dproducts.push(data);
+                                    console.log(data)
+                                });
 
                         }
 
@@ -844,6 +936,7 @@ export default {
             var timeDiff = Math.abs(date2.getTime() - date1.getTime());
             var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
             this.expire_date = diffDays
+            console.log(this.expire_date)
         },
         calexpiredate() {
             console.log(this.expire_date)
@@ -895,6 +988,7 @@ export default {
                     console.log(JSON.stringify(result.data))
                     // console.log(result.data.length)
                     alertify.success('ข้อมูลถูกยกเลิกเรียบร้อย');
+                    this.$router.push({ name: "invoicelist", params: { id: 0 } });
                 },
                 (error) => {
                     this.isLoading = false
@@ -907,18 +1001,23 @@ export default {
         },
         setDone(id, index) {
             if (id == 'first') {
-                this.payment = this.cal_totalprice
+                this.listpayment.totalprice = this.cal_totalprice;
+                this.listpayment.dif_fee = this.dif_fee;
+                this.listpayment.total_itemprice = this.totalprice;
+                this.payment = this.cal_totalprice;
                 console.log(this.total_VAT)
             }
             if (id == 'third') {
                 this.$router.push("/invoicelist");
                 return
             }
+            console.log(this.taxrate)
             //
             this[id] = true
             this.secondStepError = null
             //
 
+            console.log(this.salecode, JSON.parse(localStorage.userid))
             if (index == 'third') { //บันทึก
                 let doc_type
                 let tax_type
@@ -931,6 +1030,7 @@ export default {
                 else if (this.taxtype == "1") {
                     tax_type = 1
                 }
+
                 if (this.salecode) {
                     var str = this.salecode;
                     var res = str.split("/");
@@ -939,15 +1039,12 @@ export default {
                     var sale_name = res[1]
                 }
 
-                if (this.percal) {
-                    percent = '%'
-                    discount_amount = this.totalprice - (this.totalprice - (this.totalprice * this.caldiscount / 100))
-                    //   alert('dsa')
-                } else if (!this.percal) {
-                    percent = ''
-                    discount_amount = this.caldiscount
-                }
 
+                var creditdays = 0;
+                // if (this.billtype == 0) {
+                //     creditdays = this.expire_date;
+                // }
+                // this.calexpire_Date();
                 // console.log(this.datenow_datepicker)
                 // console.log(this.docnoid)
                 let payload = {
@@ -1018,7 +1115,7 @@ export default {
 
                     depart_id: "0",
                     allocate_id: 0,
-                    credit_day: 0,//this.customerCreditDay,
+                    credit_day: this.bill_credit,
                     due_date: this.convermonth_y_m_d(this.DueDate_cal),
                     is_cancel: 0,
                     so_ref_no: '',
@@ -1028,14 +1125,14 @@ export default {
                     sum_chq_amount: this.totalChqPayment,
                     sum_bank_amount: this.totalBankPayment,
                     sum_of_deoosit: this.totalPromplay,
-                    coupon_amount: this.caldiscount,
+                    coupon_amount: parseFloat(this.listpayment.discount_amount),
                     my_description: this.my_description,
-                    sum_of_item_amount: this.totalprice,
+                    sum_of_item_amount: this.totalprice - parseFloat(this.listpayment.discount_amount),
 
 
-                    discount_word: this.caldiscount + percent,
-                    discount_amount: parseInt(discount_amount),
-                    after_discount_amount: this.totalprice - this.caldiscount,
+                    discount_word: this.listpayment.discount_word,
+                    discount_amount: parseFloat(this.listpayment.discount_amount),
+                    after_discount_amount: this.totalprice - parseFloat(this.listpayment.discount_amount),
                     total_amount: this.payment,
                     // bank_amount: this.transferPayment,
 
@@ -1084,6 +1181,7 @@ export default {
         },
         convertmonth_d_m_y(val) {
             var date = val.substring(0, 10);
+            console.log(val)
             var cut = date.split("-");
             var result = cut[1] + '/' + cut[2] + '/' + cut[0];
             return result;
@@ -1152,6 +1250,9 @@ export default {
                     //  alertify.success('Error login');
                     // this.cload()
                 })
+        }, convertdate(val) {
+
+            return ("0" + val.getDate()).slice(-2) + '-' + ("0" + val.getMonth()).slice(-2) + '-' + val.getFullYear();
         },
         C_customer(val) {
             console.log(JSON.stringify(val))
@@ -1164,7 +1265,7 @@ export default {
             this.bill_credit = val.bill_credit
             //
             var date = new Date();
-            console.log(date)
+            console.log(this.bill_credit)
             date.setDate(date.getDate() + this.bill_credit);
             this.DueDate_cal = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
             console.log(this.DueDate_cal)
@@ -1248,7 +1349,12 @@ export default {
                     }
                     this.mockdocno += "XXXX";
                     if (this.docnoid == 0) {
+                        console.log(this.billType)
                         this.docno = result;
+                        if (parseInt(this.billtype) == 1) {
+                            console.log("222")
+                            this.calexpiredate();
+                        }
                     }
 
                     console.log(this.docno)
@@ -1599,7 +1705,7 @@ export default {
                                     unit_code: datasubs[x].unit_code,
                                     qty: datasubs[x].qty,
                                     wh_code: datasubs[x].wh_code,
-                                    location:datasubs[x].wh_code,
+                                    location: datasubs[x].wh_code,
                                     wh_id: datasubs[x].wh_id,
                                     discount_word_sub: datasubs[x].discount_word_sub,
                                     discount_amount_sub: datasubs[x].discount_amount_sub,
@@ -1632,7 +1738,7 @@ export default {
                                         data.wh_id = results.data[0].stk_location[0].wh_id;
 
                                     }
-                                   
+
                                 }
                                 console.log(data)
                                 this.dproducts.push(data)
@@ -1642,6 +1748,8 @@ export default {
                     this.validity = result.data.validity
                     this.expire_date = result.data.expire_credit
                     this.caldiscount = result.data.discount_amount
+                    this.listpayment.discount_amount = result.data.discount_amount;
+                    this.listpayment.discount_word = result.data.discount_word;
                     // console.log(this.expire_date)
                     this.answer_cus = result.data.assert_status
                     this.Deliver_date = result.data.delivery_day
@@ -2055,17 +2163,19 @@ export default {
         },
         totalprice() {
             return this.dproducts.reduce(function (sum, item) {
-                console.log(item)
+                let totalitem = (sum + item.amount * item.qty)
+                console.log(totalitem)
+
                 return (sum + item.amount * item.qty)
             }, 0)
         },
         dif_fee() {
             if (this.taxtype == 0 || this.taxtype == 1) {
                 if (!this.percal) {
-                    return (this.totalprice - this.caldiscount) - (((this.totalprice - this.caldiscount) * 100) / 107)
+                    return (this.totalprice - this.listpayment.discount_amount) - (((this.totalprice - this.listpayment.discount_amount) * 100) / 107)
 
                 } else if (this.percal) {
-                    let percent = this.totalprice - (this.totalprice * this.caldiscount / 100)
+                    let percent = this.totalprice - (this.totalprice * this.listpayment.discount_amount / 100)
                     console.log(percent)
                     return percent - ((percent * 100) / 107)
                 }
@@ -2078,11 +2188,11 @@ export default {
             if (this.taxtype == 1) {
                 if (!this.percal) {
 
-                    return this.totalprice - this.caldiscount
+                    return this.totalprice - this.listpayment.discount_amount
                 }
                 if (this.percal) {
 
-                    return this.totalprice - (this.totalprice * this.caldiscount / 100)
+                    return this.totalprice - (this.totalprice * this.listpayment.discount_amount / 100)
                 }
             }
             if (this.taxtype == 0) {
@@ -2209,13 +2319,13 @@ export default {
         payment_type() {
 
             if (this.taxtype == "0") {
-                return this.totalprice;
+                return this.totalprice - this.listpayment.discount_amount;
             }
             if (this.taxtype == "1") {
-                return this.totalprice * (100 / (100 + this.taxrate));
+                return (this.totalprice - this.listpayment.discount_amount) * (100 / (100 + this.taxrate));
             }
             if (this.taxtype == "2") {
-                return this.totalprice;
+                return this.totalprice - this.listpayment.discount_amount;
             }
         },
         cal_VAT() {
@@ -2231,13 +2341,13 @@ export default {
         },
         total_VAT() {
             if (this.taxtype == "0") {
-                return this.totalprice + this.cal_VAT;
+                return this.totalprice - this.listpayment.discount_amount + this.cal_VAT;
             }
             if (this.taxtype == "1") {
-                return this.totalprice;
+                return this.totalprice - this.listpayment.discount_amount;
             }
             if (this.taxtype == "2") {
-                return this.totalprice;
+                return this.totalprice - this.listpayment.discount_amount;
             }
         },
         balances() {
@@ -2268,6 +2378,7 @@ export default {
         // if (this.docnoid == 0) {
         //   // location.reload()
         // }
+        document.getElementById("country1").focus();
         this.showedit()
         this.creator_by = this.objuser.usercode
         this.branch_id = this.objuser.branch_id
