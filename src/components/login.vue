@@ -1,41 +1,32 @@
 <template>
   <div class="login">
     <div class="centered-container">
-      <md-content class="md-elevation-3">
+    <md-content class="md-elevation-3">
         <div class="title">
-          <img style="width:300px;height:100px;" src="../assets/nopadol.jpg">
-          <div class="md-title">Nopadol</div>
-          <div class="md-body-1">© 2014 Nopadol Panich Co., Ltd. All Rights Reserved</div>
+ 
+          <div class="md-title">ค้นหาสินค้า</div>
+        
         </div>
         <div class="form">
-          <md-field>
-            <label>Username</label>
-            <md-input @keyup.enter="focuspass" v-model="login.id" autofocus></md-input>
-          </md-field>
+         
+             <div class="carddiscount"><md-icon>search</md-icon></div>
+            <input @keyup.enter="focuspass" autofocus>
+          
   
-          <md-field md-has-password>
-            <label>Password</label>
-            <md-input ref="pass" @keyup.enter="auth" v-model="login.password" type="password"></md-input>
-          </md-field>
+         
         </div>
-  
-        <div class="actions md-layout md-alignment-center-space-between">
-          <a href="/resetpassword">Reset password</a>
+       <!-- <div class="actions md-layout md-alignment-center-space-between">
+          
           <md-button class="md-raised md-primary" @click="auth">Log in</md-button>
+        </div> -->
+        <div class="title">
+ 
+          <div class="md-title"><md-button style="background:#ececec;">ค้นหาสินค้า</md-button></div>
+        
         </div>
-  
-        <div class="loading-overlay" v-if="loading">
-          <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
-        </div>
-  
+        
       </md-content>
-      <div class="background" />
-       <!-- <facebook-login class="button"
-      appId="326022817735322"
-      @login="getUserData"
-      @logout="onLogout"
-      @get-initial-status="getUserData">
-    </facebook-login> -->
+    
     </div>
   </div>
 </template>
@@ -43,6 +34,7 @@
 <script src="../js/login.js"></script>
 
 <style lang="scss" scoped>
+ 
   .centered-container {
     display: flex !important;
     align-items: center !important;
@@ -63,8 +55,50 @@
       }
     }
     .form {
-      margin-bottom: 60px !important;
-    }
+     margin-bottom: 10px !important;
+  
+      input{
+          width: 100%;
+    //border: 1px solid #b4b0b0;
+    box-shadow: 0 3px 8px 0 rgba(132, 132, 132, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.13);
+   //box-shadow: 0 3px 3px -2px rgba(0,0,0,.2), 0 3px 4px 0 rgba(0,0,0,.14), 0 1px 8px 0 rgba(0,0,0,.12);
+            width: 100%;
+      padding: 9px 12px;
+      border-radius: 15px;
+    border:0px;
+      }
+      input:focus{
+            width: 100%;
+      padding: 9px 12px;
+      border-radius: 15px; 
+          box-shadow: 0 3px 3px -2px rgba(0,0,0,.2), 0 3px 4px 0 rgba(0,0,0,.14), 0 1px 8px 0 rgba(0,0,0,.12);
+         //box-shadow: 0px 0px 1px rgb(151, 150, 150), 0 3px 6px rgba(151, 151, 151, 0.23);
+         // box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
+ 
+      }
+       .carddiscount {
+  
+    color: #fff;
+    font-size: 14px;
+    padding: 7.7px 10px;
+    position: absolute;
+    top: 65px;
+    right: 2.6%;
+    /* border-radius: 50%; */
+    border-radius: 0 15px 15px 0;
+    /* border-right: 15px; */
+    /* border-bottom-right-radius: 20px; */
+    /* border-bottom-left-radius: 20px; */
+    /* opacity: 0.7; */
+    -webkit-transition: opacity 0.25s ease-in-out;
+    transition: opacity 0.25s ease-in-out;
+  }
+  
+  }
+  .form:focus{
+     border:0px;
+  }
+   
     .background {
       position: absolute !important;
       height: 100% !important;
@@ -77,14 +111,17 @@
     }
     .md-content {
       z-index: 1 !important;
-      padding: 40px !important;
+      padding: 10px !important;
       width: 100% !important;
       max-width: 400px !important;
-      max-height: 510px !important;
+      max-height: 400px !important;
       position: relative !important;
       margin-left: 10px !important;
       margin-right: 10px !important;
     }
+    .md-elevation-3 {
+    box-shadow: 0 0px 0px 0px rgba(0,0,0,.2), 0 0px 0px 0 rgba(0,0,0,.14), 0 0px 0px 0 rgba(0,0,0,.12);
+}
     .loading-overlay {
       z-index: 10 !important;
       top: 0 !important;
@@ -99,4 +136,5 @@
       justify-content: center !important;
     }
   }
+ 
 </style>

@@ -22,6 +22,7 @@ import invoice from '@/components/invoice/invoice'
 import invoicelist from '@/components/invoice/invoicelist'
 import salehistory from '@/components/saleorder/salehistory'
 import salehistorydetail from '@/components/saleorder/salehistorydetail'
+import showstock from '@/components/showstock/showstock'
 Vue.use(Router)
 
 export default new Router({
@@ -51,9 +52,9 @@ export default new Router({
       component: invoice
     },
     {
-      path: '/quotation/:id',
-      name: 'quotation',
-      component: quotation
+      path: '/showstock',
+      name: 'showstock',
+      component: showstock
     },
     {
       path: '/settinglist',
