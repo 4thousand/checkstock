@@ -1,6 +1,6 @@
 <template>
   <div class="index" style="background: #f4f5f7;">
-    <div style="padding-top:130px;">
+    <div class="body">
       <div class="header">
         <div class="headcontent">
           <div class="headtitle">ค้นหาข้อมูลสินค้า</div>
