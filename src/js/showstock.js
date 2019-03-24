@@ -4,7 +4,7 @@ export default {
   name: "showstock",
   data() {
     return {
-      
+
       fax: "",
     };
   },
@@ -12,11 +12,26 @@ export default {
     Loading,
   },
   methods: {
-  
-    
+    testcallapi() {
+      let payload = {
+        id: 11
+      }
+      api.testcallapi(payload,
+        (result) => {
+          this.isLoading = false
+          console.log(JSON.stringify(result))
+
+        },
+        (error) => {
+          this.isLoading = false
+          console.log(JSON.stringify(error))
+          alertify.error('Data ข้อมูลการจัดสรรผิดพลาด');
+        })
+    }
+
   },
   mounted() {
     this.id = this.$route.params.id;
-    this.showedit();
+    this.testcallapi();
   },
 };

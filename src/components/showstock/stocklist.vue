@@ -1,3 +1,24 @@
+<template>
+  <div class="index" style="background: #f4f5f7;">
+    <div style="padding-top:130px;">
+      <div class="header">
+        <div class="headcontent">
+          <div class="headtitle">ค้นหาข้อมูลสินค้า</div>
+          <div class="form">
+            <div class="carddiscount">
+              <md-icon>search</md-icon>
+            </div>
+            <input @keyup.enter="focuspass" autofocus>
+          </div>
+        </div>
+      </div>
+      <div class="content"></div>
+    </div>
+  </div>
+</template>
+ 
+
+<style lang="scss" scoped>
 .index {
   height: 100vh !important;
 }
@@ -10,7 +31,8 @@
 
   display: table;
 
-  box-shadow: 0px 0px 1px rgb(236, 236, 236), 0 3px 6px rgba(151, 151, 151, 0.23);
+  box-shadow: 0px 0px 1px rgb(236, 236, 236),
+    0 3px 6px rgba(151, 151, 151, 0.23);
   padding: 10px;
   .detailcontent {
     width: 100%;
@@ -36,14 +58,16 @@
 
     padding: 10px;
     float: right;
-    box-shadow: 0px 0px 1px rgb(236, 236, 236), 0 3px 6px rgba(151, 151, 151, 0.23);
+    box-shadow: 0px 0px 1px rgb(236, 236, 236),
+      0 3px 6px rgba(151, 151, 151, 0.23);
   }
 }
 .header {
   background-color: hsl(0, 0%, 100%);
-  height: 120px;
+  height: 100px;
 
-  box-shadow: 0px 0px 1px rgb(236, 236, 236), 0 3px 6px rgba(151, 151, 151, 0.23);
+  box-shadow: 0px 0px 1px rgb(236, 236, 236),
+    0 3px 6px rgba(151, 151, 151, 0.23);
 
   color: #000000;
   box-sizing: border-box;
@@ -55,7 +79,7 @@
   z-index: 1;
 }
 .headcontent {
-  width: 70%;
+  width: 100%;
   height: 100%;
   margin: 0 auto;
   padding: 30px;
@@ -74,7 +98,8 @@
     input {
       width: 100%;
       //border: 1px solid #b4b0b0;
-      box-shadow: 0 3px 8px 0 rgba(132, 132, 132, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.13);
+      box-shadow: 0 3px 8px 0 rgba(132, 132, 132, 0.2),
+        0 0 0 1px rgba(0, 0, 0, 0.13);
       //box-shadow: 0 3px 3px -2px rgba(0,0,0,.2), 0 3px 4px 0 rgba(0,0,0,.14), 0 1px 8px 0 rgba(0,0,0,.12);
       width: 100%;
       padding: 9px 12px;
@@ -85,7 +110,8 @@
       width: 100%;
       padding: 9px 12px;
       border-radius: 15px;
-      box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12);
+      box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.2),
+        0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12);
       //box-shadow: 0px 0px 1px rgb(151, 150, 150), 0 3px 6px rgba(151, 151, 151, 0.23);
       // box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
     }
@@ -130,7 +156,8 @@
       input {
         width: 100%;
         //border: 1px solid #b4b0b0;
-        box-shadow: 0 3px 8px 0 rgba(132, 132, 132, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.13);
+        box-shadow: 0 3px 8px 0 rgba(132, 132, 132, 0.2),
+          0 0 0 1px rgba(0, 0, 0, 0.13);
         //box-shadow: 0 3px 3px -2px rgba(0,0,0,.2), 0 3px 4px 0 rgba(0,0,0,.14), 0 1px 8px 0 rgba(0,0,0,.12);
         width: 100%;
         padding: 9px 12px;
@@ -141,7 +168,8 @@
         width: 100%;
         padding: 9px 12px;
         border-radius: 15px;
-        box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12);
+        box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.2),
+          0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12);
         //box-shadow: 0px 0px 1px rgb(151, 150, 150), 0 3px 6px rgba(151, 151, 151, 0.23);
         // box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
       }
@@ -165,3 +193,4 @@
     }
   }
 }
+</style>

@@ -431,5 +431,21 @@ export default {
       (response) => {
         error(response)
       })
+  }, testcallapi(data, success, error) {
+    data.id = 1000063
+    console.log("ส่ง JSON payment" + JSON.stringify("https://test.paybox.work/item/v1/quickpay"))
+    Vue.axios.post('https://test.paybox.work/item/v1/menu/items', JSON.stringify(data), {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Access-Token': '942be569a799418c9b4249dc964e7930',
+      }
+    },
+    ).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      })
   },
 }

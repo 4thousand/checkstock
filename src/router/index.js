@@ -23,6 +23,7 @@ import invoicelist from '@/components/invoice/invoicelist'
 import salehistory from '@/components/saleorder/salehistory'
 import salehistorydetail from '@/components/saleorder/salehistorydetail'
 import showstock from '@/components/showstock/showstock'
+import stocklist from '@/components/showstock/stocklist'
 Vue.use(Router)
 
 export default new Router({
@@ -57,9 +58,9 @@ export default new Router({
       component: showstock
     },
     {
-      path: '/settinglist',
-      name: 'settinglist',
-      component: settinglist
+      path: '/stocklist',
+      name: 'stocklist',
+      component: stocklist
     },
     {
       path: '/setting/:id',
