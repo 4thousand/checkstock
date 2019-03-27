@@ -18,8 +18,12 @@ import autofocus from 'vue-autofocus-directive';
 import Vuesax from 'vuesax'
 
 import VueSweetalert2 from 'vue-sweetalert2';
-
+import Vuetify from 'vuetify'
+// index.js or main.js
+import 'vuetify/dist/vuetify.min.css' 
+Vue.use(Vuetify)
 Vue.use(VueSweetalert2);
+
 import 'vuesax/dist/vuesax.css' //Vuesax styles
 Vue.use(Vuesax)
 Vue.use(GSignInButton)

@@ -58,7 +58,16 @@ export default new Router({
       component: showstock
     },
     {
+      path: '/showstock/:id',
+      name: 'showstock',
+      component: showstock
+    },
+    {
       path: '/stocklist',
+      name: 'stocklist',
+      component: stocklist
+    }, {
+      path: '/stocklist/:id',
       name: 'stocklist',
       component: stocklist
     },

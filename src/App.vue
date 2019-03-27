@@ -2,11 +2,7 @@
   <div id="app">
     <transition name="slide-fade">
       <div v-if="this.$route.path != '/'">
-        
-              <router-view/>
-           
-          
-        
+        <router-view/>
       </div>
     </transition>
     <!-- login -->
@@ -83,7 +79,8 @@ export default {
         this.topicmenucolor = "#795548";
         this.topicmenu = "ใบสั่งขาย";
         this.icon = "bookmark_border";
-      }if (this.$route.fullPath.search("salehistory") == 1) {
+      }
+      if (this.$route.fullPath.search("salehistory") == 1) {
         this.topicmenucolor = "#795548";
         this.topicmenu = "ประวัติการขาย";
         this.icon = "bookmark_border";
@@ -193,7 +190,7 @@ export default {
       }.bind(this),
       1000
     );
-    console.log(JSON.parse(localStorage.Datauser))
+    console.log(JSON.parse(localStorage.Datauser));
   }
 };
 </script>
@@ -243,10 +240,10 @@ h1 {
 </style>
 
 <style>
-.md-content {
+/* .md-content {
   height: calc(100vh - 50px);
   overflow: auto;
-}
+} */
 .container {
   background-color: white;
   box-shadow: 0 15px 35px rgba(50, 50, 93, 0.03), 0 5px 15px rgba(0, 0, 0, 0.06);
@@ -277,7 +274,7 @@ tr th {
 @include md-register-theme(
   "default",
   (
-    primary: md-get-palette-color(blue, A200),
+    primary: md-get-palette-color(blue, A200)
   )
 );
 @import "~vue-material/dist/theme/all";

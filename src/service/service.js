@@ -3,7 +3,7 @@ import axios from 'axios'
 import Vueaxios from 'vue-axios'
 
 Vue.use(Vueaxios, axios)
-// const URL = 'http://localhost:9999/'
+const localhost = 'http://localhost:8079'
 const URL = 'https://n9.nopadol.com/'
 const npsysURL = 'https://sys.nopadol.com/'
 const telURL = 'https://sheetdb.io'
@@ -447,5 +447,24 @@ export default {
       (response) => {
         error(response)
       })
-  },
+  }, showstocklist(payload, success, error) {
+    Vue.axios.post(localhost + '/npinven/v1/findstock', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      }
+    )
+  }
+  , showstockbyItemCode(payload, success, error) {
+    Vue.axios.post(localhost + '/npinven/v1/findstockid', JSON.stringify(payload)).then(
+      (response) => {
+        success(response.data)
+      },
+      (response) => {
+        error(response)
+      }
+    )
+  }
 }
