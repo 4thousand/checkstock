@@ -35,6 +35,7 @@
 .table td,
 .table th {
   font-size: large;
+  font-weight: 500;
   padding: 0.75rem;
   vertical-align: top;
   border-top: 1px solid #dee2e6;
@@ -60,7 +61,7 @@
   width: 100%;
 
   height: auto;
-  background-color: hsl(0, 0%, 100%);
+  background-color:#f1f1f1;
 
   display: table;
 
@@ -68,29 +69,44 @@
   padding: 0 10px;
   .detailcontent {
     width: 100%;
-    justify-content: flex-end;
+    justify-content: center;
     min-height: 100%;
     max-height: 100%;
     display: flex;
+    margin: 0 auto;
   }
   .title {
     padding: 10px;
     font-size: 1.4em;
     width: 100%;
-    background-color: hsl(0, 0%, 100%);
+  
   }
   .detial {
     width: 48%;
-    // box-shadow:0px 0px 1px rgb(236, 236, 236), 0 3px 6px rgba(151, 151, 151, 0.23);
+   box-shadow:0px 0px 1px rgb(236, 236, 236), 0 3px 6px rgba(151, 151, 151, 0.23);
     float: left;
     height: auto;
+    background-color: hsl(0, 0%, 100%);
   }
   .priceitem {
     width: 40%;
-
+    background-color: hsl(0, 0%, 100%);
     padding: 10px;
     float: right;
     box-shadow: 0px 0px 1px rgb(236, 236, 236), 0 3px 6px rgba(151, 151, 151, 0.23);
+    .boxmoney{
+    padding: 20px;
+    width: 100%;
+    height: 30%;
+    margin-top: 10px;
+    box-shadow: 1px 0 0 #d6d6d6, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    background-color: rgb(234, 234, 234);
+      .price{
+        text-align: center;
+        font-size:3.5em;
+      }
+  }
+  
   }
 }
 .header {
@@ -129,7 +145,7 @@
   float: left;
   input {
     width: 470px;
-    background-color: rgb(139, 138, 138);
+    background-color:#cacaca;
     //border: 1px solid #b4b0b0;
     box-shadow: 0 3px 8px 0 rgba(132, 132, 132, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.13);
     //box-shadow: 0 3px 3px -2px rgba(0,0,0,.2), 0 3px 4px 0 rgba(0,0,0,.14), 0 1px 8px 0 rgba(0,0,0,.12);
@@ -169,20 +185,54 @@
   }
   .content {
     .detial {
-      width: 48%;
+      width: 100%;
       // box-shadow:0px 0px 1px rgb(236, 236, 236), 0 3px 6px rgba(151, 151, 151, 0.23);
-
+      box-shadow: 0px 0px 1px #ececec, 0 3px 6px rgba(151, 151, 151, 0.23);
+      background-color: hsl(0, 0%, 100%);
+      margin: 0 auto;
       padding: 10px;
       float: none;
       height: auto;
     }
+    .detailcontent {
+      width: 100%;
+      justify-content: flex-end;
+     
+      min-height: 100%;
+      max-height: 100%;
+      display: block;
+    }
     .priceitem {
-      width: 80%;
-
+      width: 100%;
+      margin: 0 auto;
       padding: 10px;
       float: none;
       box-shadow: 0px 0px 1px rgb(236, 236, 236), 0 3px 6px rgba(151, 151, 151, 0.23);
+      background-color: hsl(0, 0%, 100%);
+      .boxmoney{
+        padding: 20px;
+        width: 100%;
+        height: 30%;
+        margin-top: 10px;
+        box-shadow: 1px 0 0 #d6d6d6, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+        background-color: rgb(234, 234, 234);
+          .price{
+            text-align: center;
+            font-size:3.5em;
+          }
+      }
+      
     }
+  }
+  .sumofitem {
+    width: 100%;
+    font-size: 20px;
+    padding: 10px;
+    margin-bottom: 1px;
+    background-color: rgb(191, 190, 190);
+    float: none;
+    box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60, 64, 67, 0.3),
+      0 1px 3px 1px rgba(60, 64, 67, 0.15);
   }
   .headcontent {
     width: 60%;
@@ -239,4 +289,113 @@
       }
     }
   }
+}
+
+@media (max-width: 600px) {
+  .table td,
+.table th {
+  font-size: 15px;
+  font-weight: 500;
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+  .content {
+    .detial {
+      width: 100%;
+      // box-shadow:0px 0px 1px rgb(236, 236, 236), 0 3px 6px rgba(151, 151, 151, 0.23);
+      box-shadow: 0px 0px 1px #ececec, 0 3px 6px rgba(151, 151, 151, 0.23);
+      background-color: hsl(0, 0%, 100%);
+      margin: 0 auto;
+      padding: 10px;
+      float: none;
+      height: auto;
+    }
+    .detailcontent {
+      width: 100%;
+      justify-content: flex-end;
+     
+      min-height: 100%;
+      max-height: 100%;
+      display: block;
+    }
+    .priceitem {
+      width: 100%;
+      margin: 0 auto;
+      padding: 10px;
+      float: none;
+      box-shadow: 0px 0px 1px rgb(236, 236, 236), 0 3px 6px rgba(151, 151, 151, 0.23);
+      background-color: hsl(0, 0%, 100%);
+      .boxmoney{
+        padding: 20px;
+        width: 100%;
+        height: 30%;
+        margin-top: 10px;
+        box-shadow: 1px 0 0 #d6d6d6, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+        background-color: rgb(234, 234, 234);
+          .price{
+            margin-top: 10px;
+            text-align: left;
+            font-size:3.5em;
+          }
+      }
+      
+    }
+  }
+  .headcontent {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    padding: 10px;
+    .headtitle {
+      text-align: center;
+      font-size: 2em;
+      width: 100%;
+      padding: 10px;
+      float: none;
+    }
+    .form {
+      margin-top: 10px;
+      margin-bottom: 10px !important;
+      width: 100%;
+      float: none;
+
+      input {
+        width: 100%;
+        //border: 1px solid #b4b0b0;
+        box-shadow: 0 3px 8px 0 rgba(132, 132, 132, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.13);
+        //box-shadow: 0 3px 3px -2px rgba(0,0,0,.2), 0 3px 4px 0 rgba(0,0,0,.14), 0 1px 8px 0 rgba(0,0,0,.12);
+        width: 100%;
+        padding: 9px 12px;
+        border-radius: 15px;
+        border: 0px;
+      }
+      input:focus {
+        width: 100%;
+        padding: 9px 12px;
+        border-radius: 15px;
+        box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12);
+        //box-shadow: 0px 0px 1px rgb(151, 150, 150), 0 3px 6px rgba(151, 151, 151, 0.23);
+        // box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
+      }
+      .carddiscount {
+        color: #fff;
+        font-size: 14px;
+        padding: 7.5px 10px;
+        position: absolute;
+        background: #fff;
+        top: -2%;
+        right: 0%;
+        /* border-radius: 50%; */
+        border-radius: 0 15px 15px 0;
+        /* border-right: 15px; */
+        /* border-bottom-right-radius: 20px; */
+        /* border-bottom-left-radius: 20px; */
+        /* opacity: 0.7; */
+        -webkit-transition: opacity 0.25s ease-in-out;
+        transition: opacity 0.25s ease-in-out;
+      }
+    }
+  }
+
 }

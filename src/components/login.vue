@@ -6,7 +6,7 @@
           <div class="md-title">ค้นหาสินค้า</div>
         </div>
         <div class="form">
-          <div class="carddiscount">
+          <div class="carddiscount" @click="seedetail">
             <md-icon>search</md-icon>
           </div>
           <input id="serach" @keyup.enter="seedetail" autofocus v-model="search">
@@ -16,7 +16,7 @@
           <md-button class="md-raised md-primary" @click="auth">Log in</md-button>
         </div>-->
         <div class="title">
-          <div class="md-title">
+          <div class="md-title"  @click="seedetail">
             <md-button style="background:#ececec;">ค้นหาสินค้า</md-button>
           </div>
         </div>

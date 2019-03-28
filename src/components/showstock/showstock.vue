@@ -1,9 +1,9 @@
 <template>
   <div class="index" style="background: #f4f5f7;">
-    <div class="body">
+    <div class="body"  style="overflow-y: auto;">
       <div class="header">
         <div class="headcontent">
-          <div class="headtitle">ค้นหาข้อมูลสินค้า</div>
+          <div class="headtitle" @click="back">ค้นหาข้อมูลสินค้า</div>
           <div class="form">
             <div class="carddiscount" @click="showstock">
               <md-icon>search</md-icon>
@@ -63,7 +63,7 @@
                 <label style="float:right;font-size:1em;">{{sumofs.s02}} {{sumofs.u02}}</label>
               </div>
               <div class="sumofitem">
-                <label>รวมสินค้าคงเหลือทั้งหมด</label>
+                <label>รวมทั้งหมด</label>
 
                 <label style="float:right;font-size:1em;">{{sumofs.sum}} {{sumofs.u01}}</label>
               </div>
@@ -72,35 +72,21 @@
           <div class="priceitem">
             <div class="md-title" style="padding:10px;">ราคาสินค้า</div>
             <div
-              style="
-    padding: 20px;
-    width: 100%;
-    height: 30%;
-    margin-top: 10px;
-    box-shadow: 1px 0 0 #d6d6d6, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
-    background-color: rgb(234, 234, 234);"
-            >
+              class="boxmoney">
               <label style="font-size: 20px;
     margin-top: 10px;">ราคาเงินสด</label>
               <br>
-              <div style="margin-left:50%;font-size:3.5em;">
+              <div class="price">
                 <label>{{price.price1}} บาท</label>
               </div>
             </div>
             <div
-              style="
-    padding: 20px;
-    width: 100%;
-    height: 30%;
-    margin-top: 10px;
-    box-shadow: 1px 0 0 #d6d6d6, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
-    background-color: rgb(234, 234, 234);"
-            >
+             class="boxmoney">
               <label style="font-size: 20px;
     margin-top: 10px;">ราคาเงินเชื่อ</label>
 
               <br>
-              <div style="margin-left:50%;font-size:3.5em;">
+              <div  class="price">
                 <label>{{price.price2}} บาท</label>
               </div>
             </div>
@@ -152,7 +138,10 @@ export default {
   components: {
     Loading
   },
-  methods: {
+  methods: {back(){
+    this.$router.push({ name: "login" });
+        return;
+  },
     showstock() {
       let i = 0;
       let payload = {

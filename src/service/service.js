@@ -3,7 +3,7 @@ import axios from 'axios'
 import Vueaxios from 'vue-axios'
 
 Vue.use(Vueaxios, axios)
-const localhost = 'http://localhost:8079'
+const localhost = 'http://192.168.1.38:8079'
 const URL = 'https://n9.nopadol.com/'
 const npsysURL = 'https://sys.nopadol.com/'
 const telURL = 'https://sheetdb.io'

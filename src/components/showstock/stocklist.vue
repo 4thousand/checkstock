@@ -3,15 +3,15 @@
     <div class="body">
       <div class="header">
         <div class="headcontent">
-          <div class="headtitle">ค้นหาข้อมูลสินค้า</div>
+          <div class="headtitle" @click="back">ค้นหาข้อมูลสินค้า</div>
           <div class="form">
             <input @keyup.enter="showstocklist" v-model="search" autofocus>
-            <div class="carddiscount">
+            <div class="carddiscount"  @click="showstocklist">
               <md-icon>search</md-icon>
             </div>
           </div>
         </div>
-        <div class="box" style="padding-left:20px">
+        <div class="box boxhidden" style="padding-left:20px">
           <div class="boxid">ลำดับ</div>
           <div class="boxtitle">รหัสสินค้า</div>
           <div class="boxname">ชื่อสินค้า</div>
@@ -26,19 +26,24 @@
           v-for="(val,index) in dataall"
           :key="index"
           @click="seedetail(val)"
-          v-if="index >=pagesleft && index <=pagesright"
+          v-if="index >=pagesleft && index <pagesright"
         >
           <div class="boxid">{{index+1}}</div>
-          <div class="boxtitle">{{val.itemcode}}</div>
-          <div class="boxname">&nbsp;&nbsp;&nbsp;&nbsp;{{val.itemname}}</div>
-          <div class="boxunit">{{val.UnitCode}}</div>
-          <div class="boxgrade">{{val.Mygrade}}</div>
+          <div class="boxcontent">
+            <div class="boxcontentleft">
+              <div class="boxtitle">{{val.itemcode}}</div>
+              <div class="boxname">{{val.itemname}}</div>
+            </div>
+            <div class="boxcontentright">
+              <div class="boxunit">{{val.UnitCode}}</div>
+              <div class="boxgrade">{{val.Mygrade}}</div>
+              
+            </div>
+          </div>
           <div class="boxstatus">{{val.itemstatus}}</div>
         </div>
         <div
-          class="text-xs-center"
-          style="    width: 80%;
-    margin: 0 auto;"
+          class="text-xs-center md-layout-item md-size-100 md-small-size-100"
           v-if="dataall.length != 0"
         >
           <v-pagination v-model="pagination.page" :length="pages" class="para"></v-pagination>
@@ -112,6 +117,10 @@ export default {
     // }
   },
   methods: {
+    back(){
+this.$router.push({ name: "login" });
+        return;
+    },
     seedetail(val) {
       this.$router.push({ name: "showstock", params: { id: val.itemcode } });
     },
@@ -128,8 +137,18 @@ export default {
         payload,
         result => {
           this.isLoading = false;
+              if (result.data[0].findstatus == 0) {
+              this.dataall = result.data;
+            return;
+          } else {
+             this.$router.push({
+              name: "showstock",
+              params: { id: result.data[0].itemcode }
+            });
+          
+          }
           console.log(JSON.stringify(result));
-          this.dataall = result.data;
+     
         },
         error => {
           this.isLoading = false;
@@ -156,9 +175,27 @@ export default {
     api.showstocklist(
       payload,
       result => {
+        
+        if (result.data.length == 0) {
+            alertify.error("ไม่พบข้อมูลสินค้าที่ค้นหา");
+            this.$router.push({ name: "login" });
+            return;
+          }
+          console.log(JSON.stringify(result));
+          if (result.data[0].findstatus == 0) {
+             this.dataall = result.data;
+           
+            return;
+          } else {
+             this.$router.push({
+              name: "showstock",
+              params: { id: result.data[0].itemcode }
+            });
+          
+          }
         this.isLoading = false;
         console.log(JSON.stringify(result));
-        this.dataall = result.data;
+       
       },
       error => {
         this.isLoading = false;
@@ -352,6 +389,124 @@ export default {
   }
   .headcontent {
     width: 60%;
+    height: 100%;
+    margin: 0 auto;
+    padding: 10px;
+    .headtitle {
+      text-align: center;
+      font-size: 2em;
+      width: 100%;
+      padding: 10px;
+      float: none;
+    }
+    .form {
+      margin-top: 10px;
+      margin-bottom: 10px !important;
+      width: 100%;
+      float: none;
+
+      input {
+        width: 100%;
+        //border: 1px solid #b4b0b0;
+        box-shadow: 0 3px 8px 0 rgba(132, 132, 132, 0.2),
+          0 0 0 1px rgba(0, 0, 0, 0.13);
+        //box-shadow: 0 3px 3px -2px rgba(0,0,0,.2), 0 3px 4px 0 rgba(0,0,0,.14), 0 1px 8px 0 rgba(0,0,0,.12);
+        width: 100%;
+        padding: 9px 12px;
+        border-radius: 15px;
+        border: 0px;
+      }
+      input:focus {
+        width: 100%;
+        padding: 9px 12px;
+        border-radius: 15px;
+        box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.2),
+          0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12);
+        //box-shadow: 0px 0px 1px rgb(151, 150, 150), 0 3px 6px rgba(151, 151, 151, 0.23);
+        // box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
+      }
+      .carddiscount {
+        color: #fff;
+        font-size: 14px;
+        padding: 7.5px 10px;
+        position: absolute;
+        background: #fff;
+        top: -1.4%;
+        right: 0%;
+        /* border-radius: 50%; */
+        border-radius: 0 15px 15px 0;
+        /* border-right: 15px; */
+        /* border-bottom-right-radius: 20px; */
+        /* border-bottom-left-radius: 20px; */
+        /* opacity: 0.7; */
+        -webkit-transition: opacity 0.25s ease-in-out;
+        transition: opacity 0.25s ease-in-out;
+      }
+    }
+  }
+}
+@media (max-width: 600px) {
+  .body {
+     padding-top: 100px;
+  }
+     
+  .box {
+    .boxcontent {
+      float: left;
+      width: 90%;
+      .boxcontentleft {
+         float: left;
+         width: 80%;
+        .boxname {
+          width: 100%;
+          float: left;
+          font-size: 15px;
+        }
+        .boxtitle {
+          width: 100%;
+ font-weight: 500;
+          text-align: left;
+        }
+      }
+      .boxcontentright {
+         float: left;
+         width: 20%;
+        .boxunit {
+           width: 100%;
+          float: left;
+          text-align: center;
+        }
+        .boxgrade {
+       
+          float: left;
+          text-align: center;
+          width: 100%;
+    
+        }
+       
+      }
+    }
+     .boxstatus {
+          width: 80%;
+          float: right;
+        font-size: 15px;
+          text-align: right;
+        }
+    .boxid {
+      width: 10%;
+    height: 100%;
+    float: left;
+    /* padding-top: 15px; */
+    text-align: left;
+    font-size: 12px;
+    }
+  }
+
+  .boxhidden {
+    display: none;
+  }
+  .headcontent {
+    width: 80%;
     height: 100%;
     margin: 0 auto;
     padding: 10px;
